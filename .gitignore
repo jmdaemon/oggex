@@ -3,3 +3,11 @@ tags
 
 # Ignore bazel output
 bazel-*
+
+# Ignore cmake, meson build output
+build
+
+# Ignore meson subproject build files, but not wrap configs
+subprojects/
+!subprojects/*.wrap
+
