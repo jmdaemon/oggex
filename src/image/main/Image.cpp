@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <iostream>
 
 using namespace cv;
 class Image {
@@ -29,5 +30,4 @@ class Image {
 
       return 0;
   }
-} image;
-
+}; 
