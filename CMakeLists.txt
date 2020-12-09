@@ -14,8 +14,10 @@ add_executable(Image src/image/main/Image.cpp)
 target_link_libraries(Image ${OpenCV_LIBS} ) 
 
 add_executable(ogg-encoder src/encoder/main/ogg-encoder.cpp)
+configure_file(src/encoder/main/ogg-encoder.hpp.in src/encoder/main/ogg/ogg-encoder.hpp)
+include_directories(${PROJECT_BINARY_BIN})
 #configure_file(src/encoder/main/ogg-encoder.hpp.in src/encoder/main/ogg-encoder.hpp)
-configure_file(src/encoder/main/ogg-encoder.hpp.in ogg-encoder.hpp)
+
 
 include(FetchContent)
 FetchContent_Declare(
