@@ -7,8 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 set( OGGEX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
 set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
-set( SRC_LIBS   ${OpenCV_INCLUDE_DIRS} )
-set( TEST_LIBS  ${DOCTEST_INCLUDE_DIR} )
+set ( TEST_INCLUDE_DIR ${DOCTEST_INCLUDE_DIR} )
 
 set ( ${OGGEX_DEFINITIONS} -Wno-dev )
 add_definitions( ${OGGEX_DEFINITIONS} )
@@ -22,7 +21,7 @@ configure_file (
 find_package(OpenCV 4.5.0 REQUIRED)
 include(FetchContent)
 #include_directories( include ${OpenCV_INCLUDE_DIRS} ${DOCTEST_INCLUDE_DIR} )
-include_directories( include ${LIBS} )
+include_directories( include ${OpenCV_INCLUDE_DIRS} )
 
 #FetchContent_Declare( 
     #opencv 
@@ -46,9 +45,17 @@ set ( OGGEX_SOURCES
     src/image/main/Image.cpp
     )
 
-add_executable( ${PROJECT_NAME} ${OGGEX_SOURCES} )
+set ( OGGEX_SOURCES_TEST
+    test/encoder/main/ogg-encoder-tests.cpp
+    #test/decoder/main/
+    test/image/main/image-tests.cpp
+    )
 
-target_link_libraries( ${PROJECT_NAME} ${LIBS} )
+add_executable( ${PROJECT_NAME} ${OGGEX_SOURCES} )
+add_executable( test ${OGGEX_SOURCES_TEST} )
+
+target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" )
 
 target_include_directories( ${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR} )
+#target_include_directories( test PUBLIC ${TEST_INCLUDE_DIR} )
