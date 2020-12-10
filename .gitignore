@@ -4,6 +4,8 @@ tags
 # Ignore bazel output
 bazel-*
 
+.idea/*
+
 # Ignore cmake, meson build output
 build
 
