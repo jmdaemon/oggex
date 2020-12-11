@@ -14,7 +14,6 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set(CMAKE_CXX_EXTENSIONS OFF) 
     set_property(GLOBAL PROPERTY USE_FOLDERS ON) 
     include(CTest) 
-    find_package(Doxygen) 
 endif()
 
 ### Require out-of-source builds
