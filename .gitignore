@@ -13,3 +13,5 @@ build
 subprojects/
 !subprojects/*.wrap
 
+# Ignore inclusion of resources too intensive for git
+test/resources
