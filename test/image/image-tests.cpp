@@ -1,11 +1,7 @@
-//#define CATCH_CONFIG_MAIN
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest/doctest.h"
 
-
 #include "image.hpp"
-
-//#include "doctest.h"
 
 #include <stdlib.h> 
 #include <iostream>
