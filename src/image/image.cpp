@@ -7,7 +7,7 @@
 #include <string>
 #include <stdlib.h>
 
-#include "Image.hpp"
+#include "image.hpp"
 
 //using namespace cv;
 //Image 
