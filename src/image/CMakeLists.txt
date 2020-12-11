@@ -1,6 +1,3 @@
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/image/image.hpp")
-#set(HEADER_LIST "${PROJECT_SOURCE_DIR}/include/image/image.hpp")
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/image/image.hpp")
 set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/image")
 
 add_library(image_library)
@@ -10,7 +7,6 @@ target_sources(image_library
 )
 
 target_include_directories(image_library PUBLIC ${OGGEX_SOURCE_DIR}/include/image)
-#target_link_libraries(image_library PRIVATE OpenCV::cv)
 target_link_libraries(image_library PRIVATE ${OpenCV_LIBS})
 target_compile_features(image_library PUBLIC cxx_std_11)
 
