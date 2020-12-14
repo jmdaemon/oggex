@@ -44,8 +44,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(libogg)
 
-add_subdirectory(src/image)
-add_subdirectory(src/encoder)
+add_subdirectory(src)
+#add_subdirectory(src/image)
+#add_subdirectory(src/encoder)
 #add_subdirectory(src/decoder)
 
 if(BUILD_TESTING)
