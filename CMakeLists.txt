@@ -41,8 +41,10 @@ include(FetchContent)
 FetchContent_Declare(
     libogg
     GIT_REPOSITORY "https://github.com/xiph/ogg")
-
-FetchContent_MakeAvailable(libogg)
+FetchContent_Declare(
+    libtag
+    GIT_REPOSITORY "https://github.com/taglib/taglib")
+FetchContent_MakeAvailable(libogg libtag)
 
 add_subdirectory(src)
 
