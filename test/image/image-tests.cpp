@@ -10,7 +10,7 @@
 std::string readImage() {
   std::string filepath = ("../../resources/12727a5f30b1429a1fd35113fd2550d8.png");
   Image testImage = Image(filepath);
-  if (testImage.readImage()) {
+  if (testImage.readImage() == 0) {
     return "Successfully read file";
   } else
     return "Unable to read file";
