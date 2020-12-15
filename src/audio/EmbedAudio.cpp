@@ -91,7 +91,7 @@ int checkFile(fs::path filePath) {
 }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
-  uintmax_t maxImageFileSize = 1024 * 1024 * 4;
+  uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   if (imageFileSize > maxImageFileSize) {
 		cerr << "Image is too large to fit sounds." << endl;
 		return false;
@@ -99,10 +99,17 @@ bool imageUnder4MiB (uintmax_t imageFileSize) {
   return true;
 }
 
+bool imageNotCorrupted(fs::path imageFilePath) {
+	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
+	if (!imageFile.is_open()) {
+		cerr << "Error: couldn't open \"" << imageFilePath << "\"" << endl;
+    return false;
+	}
+  return true;
+}
+
 
 int getFile(int argc, char** argv) {
-  size_t maxOutputSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-  uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   tuple<fs::path, fs::path> mediaFiles;
   try {
     mediaFiles = tuple<fs::path, fs::path> mediaFiles = parseOptions(argc, argv);
@@ -127,16 +134,9 @@ int getFile(int argc, char** argv) {
 
   uintmax_t imageFileSize = file_size(imageFilePath);
 
-  if (!imageUnder4MiB(imageFileSize)) {
+  if (!imageUnder4MiB(imageFileSize) && !imageNotCorrupted(imageFilePath)) {
     return -1;
   } 
-
-	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
-	if (!imageFile.is_open()) {
-		cerr << "Error: couldn't open \"" << imageFilePath << "\"" << endl;
-		return -1;
-	}
-
 
   // Clean up tempFiles
   // Temp file removal
