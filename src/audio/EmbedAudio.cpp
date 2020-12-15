@@ -1,19 +1,19 @@
-#include <iostream>
-#include <string>
-#include <fstream>
 #include <algorithm>
 #include <cctype>
-#include <tuple>
-#include <filesystem>
-#include <map>
 #include <exception>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
+#include <tuple>
 
-#include <cstdlib>
-#include <cstdio>
 #include <cstdint>
+#include <cstdio>
+#include <cstdlib>
 
-#include <unistd.h>
 #include <getopt.h>
+#include <unistd.h>
 
 #include <EmbedAudio.h>
 
@@ -146,14 +146,6 @@ int getFile(int argc, char** argv) {
   }
   fs::path audioFilePath = get<0>(mediaFiles);
   fs::path imageFilePath = get<1>(mediaFiles);
-  //fs::path audioFilePath = mediaFiles.get(0);
-  //fs::path imageFilePath = mediaFiles.get(0);
-  //fs::path audioFilePath = get<0>(mediaFiles);
-  //fs::path imageFilePath = get(1)(mediaFiles);
-
-  //fs::path audioFilePath, imageFilePath;
-  //auto [audioFilePath, imageFilePath] = get<0>(mediaFiles);
-
 
   vector<int> sounds; 
   int imageFileExists = checkFile(imageFilePath);
@@ -173,9 +165,6 @@ int getFile(int argc, char** argv) {
   if (!imageUnder4MiB(imageFileSize) && !imageNotCorrupted(imageFilePath)) {
     return -1;
   } 
-
-  
-
   //unsigned int maxTagLength = 100;
   //vector<size_t> soundSizes;
   //vector<string> soundTags;
