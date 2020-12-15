@@ -4,6 +4,7 @@
 #include <cctype>
 #include <tuple>
 #include <filesystem>
+#include <cstdint>
 
 #include <unistd.h>
 
@@ -61,7 +62,11 @@ tuple<fs::path, fs::path> parseOptions(int argc, char** argv) {
   }
 
   if (optind < 2) {
-    return tuple<fs::path, fs::path>{argv[optind], argv[optind + 1]};
+    auto imageFilePath = argv[optind];
+    auto audioFilePath = argv[optind + 1];
+    if (!imageFilePath.empty() && audioFilePath.empty()) {
+      return tuple<fs::path, fs::path>{imageFilePath, audioFilePath};
+    }
   }
 }
 
@@ -87,7 +92,7 @@ int checkFile(fs::path filePath) {
 
 
 int getFiles(int argc, char** argv) {
-  size_t maxOutputSize = 1024 * 1024 * 4; 
+  size_t maxOutputSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   tuple<fs::path, fs::path> mediaFiles;
   try {
     mediaFiles = tuple<fs::path, fs::path> mediaFiles = parseOptions(argc, argv);
@@ -105,14 +110,44 @@ int getFiles(int argc, char** argv) {
   }
 
   // Errors
-  if (sounds.size() <= 0) {
-    cerr << "Error: no sounds detected." << endl;
-    return -1;
+  //if (sounds.size() <= 0) {
+    //cerr << "Error: no sounds detected." << endl;
+    //return -1;
+  //}
+  //if (imageFile < 0) {
+    //cerr << "Error: no image detected." << endl;
+    //return -1;
+  //}
+
+  //if 
+
+  //size_t imageFileSize = file_size(imageFilePath);
+  uintmax_t maxImageFileSize = 1024 * 1024 * 4;
+  uintmax_t imageFileSize = file_size(imageFilePath);
+  if (imageFileSize > maxImageFileSize) {
+		cerr << "Image is too large to fit sounds." << endl;
+		return 0;
   }
-  if (imageFile < 0) {
-    cerr << "Error: no image detected." << endl;
-    return -1;
-  }
+
+	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
+	if (!imageFile.is_open()) {
+		cerr << "Error: couldn't open \"" << imageFilePath << "\"" << endl;
+		return -1;
+	}
+
+	//f.seekg(0, ifstream::end);
+	//size_t imageSize = f.tellg();
+	//f.close();
+
+	//// Temp file removal
+	//string tempLogFile = "nul";
+	//string tempAudioFile = "out.ogg";
+	//f.open(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
+	//if (f.is_open()) {
+		//f.close();
+		//remove(tempAudioFile.c_str());
+	//}
   return 0;
+
 }
 
