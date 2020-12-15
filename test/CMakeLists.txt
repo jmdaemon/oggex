@@ -19,4 +19,6 @@ target_include_directories(doctest_library PUBLIC ${DOCTEST_INCLUDE_DIR} )
 target_link_libraries(doctest_library PRIVATE image_library doctest::doctest)
 
 add_subdirectory(image)
+#add_subdirectory(audio)
 add_subdirectory(encoder)
+#add_subdirectory(decoder)
