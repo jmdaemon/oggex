@@ -12,10 +12,6 @@ class Image {
     Image(std::string imagePath);
     int readImage();
 
-    //void setImg(std::string imagePath) {
-      //this->imagePath = imagePath;
-    //}
-
     std::string getImg() {
       return this->imagePath;
     }
