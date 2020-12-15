@@ -34,7 +34,7 @@ configure_file (
   "${PROJECT_BINARY_DIR}/oggex.hpp"
 )
 
-find_package(OpenCV 4.5.0 REQUIRED)
+#find_package(OpenCV 4.5.0 REQUIRED)
 
 include(FetchContent)
 
