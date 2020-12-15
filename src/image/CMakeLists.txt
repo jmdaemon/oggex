@@ -8,7 +8,8 @@ target_sources(${TARGET}
 )
 
 target_include_directories(${TARGET} PUBLIC ${HEADER_LIST})
-target_link_libraries(${TARGET} PRIVATE ${OpenCV_LIBS})
+#target_link_libraries(${TARGET} PRIVATE ${OpenCV_LIBS})
+target_link_libraries(${TARGET} PRIVATE)
 target_compile_features(${TARGET} PUBLIC cxx_std_11)
 
 source_group(
