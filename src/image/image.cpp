@@ -7,13 +7,12 @@
 
 using namespace std;
 
-Image::Image(std::string imagePath) { 
-  setImg(imagePath); 
+Image::Image(std::string imagePath) : imagePath{imagePath} { 
+//Image::Image(std::string imagePath) { 
+  //setImg(imagePath); 
+  //this->imagePath{imagePath};
 } 
 
 int Image::readImage() {
+  return 0;
 }
-
-
-
-
