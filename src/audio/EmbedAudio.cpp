@@ -93,6 +93,7 @@ int checkFile(fs::path filePath) {
 
 int getFiles(int argc, char** argv) {
   size_t maxOutputSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
+  uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   tuple<fs::path, fs::path> mediaFiles;
   try {
     mediaFiles = tuple<fs::path, fs::path> mediaFiles = parseOptions(argc, argv);
@@ -114,16 +115,10 @@ int getFiles(int argc, char** argv) {
     //cerr << "Error: no sounds detected." << endl;
     //return -1;
   //}
-  //if (imageFile < 0) {
-    //cerr << "Error: no image detected." << endl;
-    //return -1;
-  //}
 
-  //if 
-
-  //size_t imageFileSize = file_size(imageFilePath);
   uintmax_t maxImageFileSize = 1024 * 1024 * 4;
   uintmax_t imageFileSize = file_size(imageFilePath);
+
   if (imageFileSize > maxImageFileSize) {
 		cerr << "Image is too large to fit sounds." << endl;
 		return 0;
