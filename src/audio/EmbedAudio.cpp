@@ -90,8 +90,17 @@ int checkFile(fs::path filePath) {
   return fileExists;
 }
 
+bool imageUnder4MiB (uintmax_t imageFileSize) {
+  uintmax_t maxImageFileSize = 1024 * 1024 * 4;
+  if (imageFileSize > maxImageFileSize) {
+		cerr << "Image is too large to fit sounds." << endl;
+		return false;
+  } else
+  return true;
+}
 
-int getFiles(int argc, char** argv) {
+
+int getFile(int argc, char** argv) {
   size_t maxOutputSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   tuple<fs::path, fs::path> mediaFiles;
@@ -116,13 +125,11 @@ int getFiles(int argc, char** argv) {
     //return -1;
   //}
 
-  uintmax_t maxImageFileSize = 1024 * 1024 * 4;
   uintmax_t imageFileSize = file_size(imageFilePath);
 
-  if (imageFileSize > maxImageFileSize) {
-		cerr << "Image is too large to fit sounds." << endl;
-		return 0;
-  }
+  if (!imageUnder4MiB(imageFileSize)) {
+    return -1;
+  } 
 
 	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
 	if (!imageFile.is_open()) {
@@ -130,18 +137,39 @@ int getFiles(int argc, char** argv) {
 		return -1;
 	}
 
-	//f.seekg(0, ifstream::end);
-	//size_t imageSize = f.tellg();
-	//f.close();
 
-	//// Temp file removal
-	//string tempLogFile = "nul";
-	//string tempAudioFile = "out.ogg";
-	//f.open(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
-	//if (f.is_open()) {
-		//f.close();
-		//remove(tempAudioFile.c_str());
-	//}
+  // Clean up tempFiles
+  // Temp file removal
+  //string tempLogFile = "nul";
+  //string tempAudioFile = "out.ogg";
+  fs::path tempLogFile = "nul";
+  fs::path tempAudioFile = "out.ogg";
+  //f.open(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
+  audioFile.open(tempAudioFile, ifstream::in | ifstream::binary);
+  if (audioFile.is_open()) {
+    audioFile.close();
+    remove(audioFile);
+  }
+
+  	unsigned int maxTagLength = 100;
+    vector<size_t> soundSizes;
+    vector<string> soundTags;
+    vector<bool> canQualityGain;
+    for (unsigned int i = 0; i < sounds.size(); ++i) {
+      soundSizes.push_back(0);
+      canQualityGain.push_back(true);
+      soundTags.push_back(argv[sounds[i]]);
+      ext = getExtension(soundTags[i]);
+      soundTags[i] = soundTags[i].substr(0, soundTags[i].length() - ext.length());
+      int j = soundTags[i].length() - 1;
+      for (; j >= 0; --j) {
+        if (soundTags[i][j] == '\\' || soundTags[i][j] == '/') break;
+      }
+      if (j >= 0) soundTags[i] = soundTags[i].substr(j + 1, soundTags[i].length() - (j + 1));
+      if (soundTags[i].length() > maxTagLength - 2) soundTags[i] = soundTags[i].substr(0, maxTagLength - 2);
+      soundTags[i].insert(0, "[");
+      soundTags[i] += "]";
+    }
   return 0;
 
 }
