@@ -13,7 +13,6 @@ namespace fs = std::filesystem;
 
 string toLowerCase(const fs::path& filePath) {
   string filePath = filePath.string();
-
   transform(filePath.begin(), filePath.end(), data.begin(),
       [](unsigned char c ) { return tolower(c); }); 
 }
@@ -151,26 +150,30 @@ int getFile(int argc, char** argv) {
     remove(audioFile);
   }
 
-  	unsigned int maxTagLength = 100;
-    vector<size_t> soundSizes;
-    vector<string> soundTags;
-    vector<bool> canQualityGain;
-    for (unsigned int i = 0; i < sounds.size(); ++i) {
-      soundSizes.push_back(0);
-      canQualityGain.push_back(true);
-      soundTags.push_back(argv[sounds[i]]);
-      ext = getExtension(soundTags[i]);
-      soundTags[i] = soundTags[i].substr(0, soundTags[i].length() - ext.length());
-      int j = soundTags[i].length() - 1;
-      for (; j >= 0; --j) {
-        if (soundTags[i][j] == '\\' || soundTags[i][j] == '/') break;
-      }
-      if (j >= 0) soundTags[i] = soundTags[i].substr(j + 1, soundTags[i].length() - (j + 1));
-      if (soundTags[i].length() > maxTagLength - 2) soundTags[i] = soundTags[i].substr(0, maxTagLength - 2);
-      soundTags[i].insert(0, "[");
-      soundTags[i] += "]";
-    }
-  return 0;
+  unsigned int maxTagLength = 100;
+  vector<size_t> soundSizes;
+  vector<string> soundTags;
+  vector<bool> canQualityGain;
+  for (unsigned int i = 0; i < sounds.size(); ++i) {
 
+    soundSizes.push_back(0);
+    canQualityGain.push_back(true);
+
+    soundTags.push_back(argv[sounds[i]]);
+    ext = getExtension(soundTags[i]);
+
+    soundTags[i] = soundTags[i].substr(0, soundTags[i].length() - ext.length());
+    int j = soundTags[i].length() - 1;
+
+    for (; j >= 0; --j) {
+      if (soundTags[i][j] == '\\' || soundTags[i][j] == '/') break;
+    }
+
+    if (j >= 0) soundTags[i] = soundTags[i].substr(j + 1, soundTags[i].length() - (j + 1));
+    if (soundTags[i].length() > maxTagLength - 2) soundTags[i] = soundTags[i].substr(0, maxTagLength - 2);
+    soundTags[i].insert(0, "[");
+    soundTags[i] += "]";
+  }
+  return 0;
 }
 
