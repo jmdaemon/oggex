@@ -1,10 +1,10 @@
 #define DOCTEST_CONFIG_IMPLEMENT
 #include "doctest/doctest.h"
 
-#include <EmbedAudio.h>
+#include "EmbedAudio.h"
 #include <string>
 
-int main(int argv, char** argv) {
+int main(int argc, char** argv) {
   return 0;
 }
 
