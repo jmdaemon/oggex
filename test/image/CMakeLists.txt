@@ -1,8 +1,9 @@
-add_executable(testimage image-tests.cpp)
+set(TARGET testimage)
+add_executable(${TARGET} image-tests.cpp)
 
-target_compile_features(testimage PRIVATE cxx_std_17)
-target_link_libraries(testimage PRIVATE image_library doctest)
+target_compile_features(${TARGET} PRIVATE cxx_std_17)
+target_link_libraries(${TARGET} PRIVATE image_library doctest)
 
-target_include_directories(testimage PUBLIC ${DOCTEST_INCLUDE_DIR} )
+target_include_directories(${TARGET} PUBLIC ${DOCTEST_INCLUDE_DIR} )
 
-add_test(NAME testimagetest COMMAND testimage)
+add_test(NAME test_image COMMAND ${TARGET})
