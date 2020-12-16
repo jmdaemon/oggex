@@ -1,10 +1,11 @@
-add_executable(test-ogg-encoder ogg-encoder-tests.cpp)
+set(TARGET test-ogg-encoder)
+add_executable(${TARGET} ogg-encoder-tests.cpp)
 
-target_compile_features(test-ogg-encoder PRIVATE cxx_std_17)
-target_link_libraries(test-ogg-encoder PRIVATE image_library doctest)
-target_include_directories(test-ogg-encoder PUBLIC ${DOCTEST_INCLUDE_DIR} ) 
+target_compile_features(${TARGET} PRIVATE cxx_std_17)
+target_link_libraries(${TARGET} PRIVATE image_library doctest)
+target_include_directories(${TARGET} PUBLIC ${DOCTEST_INCLUDE_DIR} ) 
 
-set_target_properties(test-ogg-encoder PROPERTIES
+set_target_properties(${TARGET} PROPERTIES
     RESOURCE "${RESOURCE_FILES}")
 
-add_test(NAME testencodertest COMMAND test-ogg-encoder)
+add_test(NAME test_encoder COMMAND ${TARGET})
