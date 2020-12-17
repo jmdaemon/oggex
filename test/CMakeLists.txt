@@ -5,6 +5,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(doctest)
 
 set(RESOURCE_SOURCE_DIR "${PROJECT_SOURCE_DIR}/test/resources/")
+set(DOCTEST_LIB "${OGGEX_SOURCE_DIR}/include/")
 
 set(RESOURCE_FILES
   #resources/
