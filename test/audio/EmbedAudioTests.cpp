@@ -18,6 +18,14 @@ bool key_compare (Map const &lhs, Map const &rhs) {
         && std::equal(lhs.begin(), lhs.end(), rhs.begin(), 
                       [] (auto a, auto b) { return a.first == b.first; });
 }
+char** createArgvInput(string arg) {
+    string input = arg;
+    std::vector<char> writable(input.begin(), input.end());
+    writable.push_back('\0');
+    char* input_ptr = &writable[0];
+    char** input_pptr = &input_ptr;
+    return input_pptr;
+}
 
 TEST_CASE("Audio files can be embedded into image files") {
 
@@ -31,14 +39,11 @@ TEST_CASE("Audio files can be embedded into image files") {
     CHECK(toLowerCase(".PNG") == ".png");
   }
 
-  SUBCASE("Testing parseOptions()") {
-    string inputString = "Test_parseOptions()";
-    std::vector<char> writable(inputString.begin(), inputString.end());
-    writable.push_back('\0');
-    char* inputptr = &writable[0];
-    char** inputpptr = &inputptr;
+  SUBCASE("Testing parseOptions()") { 
+    //char** input = createArgvInput("Test_parseOptions()");
+    //CHECK_THROWS_AS(parseOptions(0, input), std::exception);
+    CHECK_THROWS_AS(parseOptions(0, createArgvInput("Test_parseOptions()")), std::exception);
 
-    CHECK_THROWS_AS(parseOptions(0, inputpptr), std::exception);
     string input = "image.png audio.ogg";
     std::vector<char> inputVector(input.begin(), input.end());
     inputVector.push_back('\0');
