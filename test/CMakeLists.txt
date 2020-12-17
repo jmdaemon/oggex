@@ -18,10 +18,10 @@ add_executable(${DOCTEST_LIB} doctest-main.cpp)
 
 #target_compile_features(${DOCTEST_LIB} PRIVATE cxx_std_17)
 target_compile_features(${DOCTEST_LIB} PRIVATE cxx_std_20)
-target_include_directories(${DOCTEST_LIB} PUBLIC ${DOCTEST_INCLUDE_DIR} )
+target_include_directories(${DOCTEST_LIB} PUBLIC ${DOCTEST_INCLUDE_DIR}/doctest "${OGGEX_SOURCE_DIR}/include/" )
 target_link_libraries(${DOCTEST_LIB} PRIVATE image_library doctest::doctest)
 
-add_subdirectory(image)
+#add_subdirectory(image)
 add_subdirectory(audio)
-add_subdirectory(encoder)
+#add_subdirectory(encoder)
 #add_subdirectory(decoder)
