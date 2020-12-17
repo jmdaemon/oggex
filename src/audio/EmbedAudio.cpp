@@ -6,7 +6,6 @@
 #include <iostream>
 #include <map>
 #include <string>
-//#include <tuple>
 
 #include <cstdint>
 #include <cstdio>
@@ -42,9 +41,6 @@ static struct option runtimeOptions [] = {
   {0,0,0,0}, 
 };
 
-//tuple<fs::path, fs::path> parseOptions(int argc, char** argv) {
-//map<fs::path, fs::path> parseOptions(int argc, char** argv) {
-//map<int, fs::path> parseOptions(int argc, char** argv) {
 map<int, string> parseOptions(int argc, char** argv) {
   if (argc <= 1) {
     showUsage(argv[0]);
@@ -58,7 +54,6 @@ map<int, string> parseOptions(int argc, char** argv) {
 
   if (c == -1)
     throw std::exception();
-    //break;
 
   switch(c) {
     case 'h':
@@ -75,37 +70,15 @@ map<int, string> parseOptions(int argc, char** argv) {
   }
 
   if (optind < 2) {
-    //fs::path imageFilePath = argv[optind];
-    //fs::path audioFilePath = argv[optind + 1];
-    //string imageFilePath = (argv[optind]).string();
-    //string audioFilePath = (argv[optind + 1]).string();
     string imageFilePath = argv[optind];
     string audioFilePath = argv[optind + 1];
     if (!imageFilePath.empty() && audioFilePath.empty()) {
-      //return tuple<fs::path, fs::path>{imageFilePath, audioFilePath};
-      //map<int, fs::path> result;
-      //map<int, string> result;
-      //result[0] = imageFilePath.string();
-      //result[1] = audioFilePath.string();
-      //map<int, string> result = { {0, imageFilePath.string()}, {1, audioFilePath.string()} };
-      //map<int, string> result = { 
-      map<int, string> result;
-      result[0] = imageFilePath;
-      result[1] = audioFilePath;
-        //{0, imageFilePath}, 
-        //{1, audioFilePath} 
-      //};
-      //map<int, fs::path>{imageFilePath};
-      //return map<fs::path, fs::path>{imageFilePath, audioFilePath};
+      map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
       return result;
     }
   }
-  //return std::make_tuple("", "");
-  //return map<fs::path, fs::path>{"", ""};
-  //return map<int, fs::path>{"", ""};
-  //return map<int, string>{"", ""}; 
-  map<int, string> noValue;
-  return noValue;
+  map<int, string> nullValue = {{0, ""}, {1, ""}};
+  return nullValue;
 }
 
 const static map<int, string> ValidImageFileExtensions = {

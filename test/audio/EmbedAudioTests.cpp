@@ -43,12 +43,11 @@ TEST_CASE("Audio files can be embedded into image files") {
     CHECK_THROWS_AS(parseOptions(0, createArgvInput("Test_parseOptions()")), std::exception);
     
     char** input = createArgvInput("image.png audio.ogg");
-    auto filepaths = parseOptions(0, input); 
+
+    map<int, string> filepaths = parseOptions(0, input); 
     map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
 
     //auto filepaths = parseOptions(0, inputPptr); 
-
-    
     CHECK(key_compare(expectedPaths, filepaths));
 
   } 
