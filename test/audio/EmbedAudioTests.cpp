@@ -20,9 +20,9 @@ bool key_compare (Map const &lhs, Map const &rhs) {
 }
 char** createArgvInput(string arg) {
     string input = arg;
-    std::vector<char> writable(input.begin(), input.end());
-    writable.push_back('\0');
-    char* input_ptr = &writable[0];
+    std::vector<char> inputVector(input.begin(), input.end());
+    inputVector.push_back('\0');
+    char* input_ptr = &inputVector[0];
     char** input_pptr = &input_ptr;
     return input_pptr;
 }
@@ -41,13 +41,7 @@ TEST_CASE("Audio files can be embedded into image files") {
 
   SUBCASE("Testing parseOptions()") { 
     CHECK_THROWS_AS(parseOptions(0, createArgvInput("Test_parseOptions()")), std::exception);
-
-    //string input = "image.png audio.ogg";
-    //std::vector<char> inputVector(input.begin(), input.end());
-    //inputVector.push_back('\0');
-    //char* inputPtr = &inputVector[0];
-    //char** inputPptr = &inputPtr;
-
+    
     char** input = createArgvInput("image.png audio.ogg");
     auto filepaths = parseOptions(0, input); 
     map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
