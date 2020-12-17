@@ -1,16 +1,23 @@
 #include "../doctest-main.cpp"
 
 #include "EmbedAudio.h"
-#include <string>
-#include <sstream>
+
 #include <iostream>
-#include <tuple>
+#include <string>
 #include <vector>
 #include <filesystem>
-#include <functional>
+#include <map>
 
 using namespace std;
 namespace fs = std::filesystem;
+
+template <typename Map>
+
+bool key_compare (Map const &lhs, Map const &rhs) {
+    return lhs.size() == rhs.size()
+        && std::equal(lhs.begin(), lhs.end(), rhs.begin(), 
+                      [] (auto a, auto b) { return a.first == b.first; });
+}
 
 TEST_CASE("Audio files can be embedded into image files") {
 
@@ -47,11 +54,32 @@ TEST_CASE("Audio files can be embedded into image files") {
     //auto result = parseOptions(2, inputPptr);
 
     //auto checkResult = make_tuple("image.png", "audio.ogg");
-    //for (auto const& [key, val] : symbolTable) {
-        //std::cout << key        // string (key)
-                  //<< ':'  
-                  //<< val        // string's value
-                  //<< std::endl; 
+    map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
+
+    auto filepaths = parseOptions(0, inputPptr); 
+
+    
+    CHECK(key_compare(expectedPaths, filepaths));
+
+    //map<int, string>::iterator it; 
+
+    //for (it = expectedPaths.begin(); it != expectedPaths.end(); it++) { 
+      ////CHECK(it->first == expectedPaths[key]);
+      //CHECK(it->first == [key]);
+    //}
+
+    //for( const auto& paths_it : filepaths) {
+        ////std::cout << sm_pair.first << '\n' ;
+        //for( const auto& expect_it : paths_it.second )
+          //CHECK(it->first == expect_it->first);
+        //{
+            ////std::cout << "     " << sc_pair.first << '{' << sc_pair.second.a << ',' 
+                      ////<< sc_pair.second.b << ',' << sc_pair.second.d << "}\n" ;    
+        //}
+    //}
+
+    //for (auto const& [key, path] : filepaths) {
+      //CHECK(path == expectedPaths[key]);
     //}
 
     //auto result = make_tuple("image.png", "audio.ogg");
