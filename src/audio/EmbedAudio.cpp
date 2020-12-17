@@ -27,7 +27,7 @@ string toLowerCase(const fs::path& filePath) {
   return fpath;
 }
 
-static void showUsage(std::string programName) { 
+void showUsage(std::string programName) { 
   cerr << "Usage:" << programName << " [audio_file] [image_file]\n" 
        << "Options:\n"
        << "\t-h, --help\t\tShow this help message\n"
