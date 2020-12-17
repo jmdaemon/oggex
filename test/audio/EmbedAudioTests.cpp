@@ -1,5 +1,8 @@
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "doctest.h"
+//#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+//#include "doctest.h"
+//#define DOCTEST_CONFIG_DISABLE
+#include "../doctest-main.cpp"
+//#include "doctest.h"
 
 #include "EmbedAudio.h"
 #include <string>
