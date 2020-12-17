@@ -45,15 +45,6 @@ TEST_CASE("Audio files can be embedded into image files") {
     char* inputPtr = &inputVector[0];
     char** inputPptr = &inputPtr;
 
-    //tuple<fs::path, fs::path> checkResult = tuple<fs::path, fs::path>{"image.png", "audio.ogg"};
-    //tuple<fs::path, fs::path> result = parseOptions(2, {"image.png", "audio.ogg"});
-    //tuple<fs::path, fs::path> result = parseOptions(2, inputPptr);
-    //tuple<fs::path, fs::path> result = parseOptions(2, inputPptr);
-    //tuple<string, string> resultCast = make_tuple(get<0>(result), get<1>(result));
-    //tuple<string, string> result = parseOptions(2, inputPptr);
-    //auto result = parseOptions(2, inputPptr);
-
-    //auto checkResult = make_tuple("image.png", "audio.ogg");
     map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
 
     auto filepaths = parseOptions(0, inputPptr); 
@@ -61,39 +52,5 @@ TEST_CASE("Audio files can be embedded into image files") {
     
     CHECK(key_compare(expectedPaths, filepaths));
 
-    //map<int, string>::iterator it; 
-
-    //for (it = expectedPaths.begin(); it != expectedPaths.end(); it++) { 
-      ////CHECK(it->first == expectedPaths[key]);
-      //CHECK(it->first == [key]);
-    //}
-
-    //for( const auto& paths_it : filepaths) {
-        ////std::cout << sm_pair.first << '\n' ;
-        //for( const auto& expect_it : paths_it.second )
-          //CHECK(it->first == expect_it->first);
-        //{
-            ////std::cout << "     " << sc_pair.first << '{' << sc_pair.second.a << ',' 
-                      ////<< sc_pair.second.b << ',' << sc_pair.second.d << "}\n" ;    
-        //}
-    //}
-
-    //for (auto const& [key, path] : filepaths) {
-      //CHECK(path == expectedPaths[key]);
-    //}
-
-    //auto result = make_tuple("image.png", "audio.ogg");
-    //for (int i = 0; i < 2; i++) { 
-      ////string file = (get<i>(result)).string();
-      ////string file = get<i>(resultCast);
-      ////string file = std::get<i>(result);
-      ////string checkFile = std::get<i>(checkResult);
-      ////string file = get<i>(result);
-      ////string checkFile = std::get<i>(checkResult);
-      //string file = get<0>(result);
-      //string checkFile = std::get<0>(checkResult);
-      ////string checkFile = (get<i>(checkResult)).string();
-      //CHECK(file == checkFile);
-    //}
   } 
 }
