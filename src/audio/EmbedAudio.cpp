@@ -6,7 +6,7 @@
 #include <iostream>
 #include <map>
 #include <string>
-#include <tuple>
+//#include <tuple>
 
 #include <cstdint>
 #include <cstdio>
@@ -15,7 +15,7 @@
 #include <getopt.h>
 #include <unistd.h>
 
-#include <EmbedAudio.h>
+#include "EmbedAudio.h"
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -42,7 +42,10 @@ static struct option runtimeOptions [] = {
   {0,0,0,0}, 
 };
 
-tuple<fs::path, fs::path> parseOptions(int argc, char** argv) {
+//tuple<fs::path, fs::path> parseOptions(int argc, char** argv) {
+//map<fs::path, fs::path> parseOptions(int argc, char** argv) {
+//map<int, fs::path> parseOptions(int argc, char** argv) {
+map<int, string> parseOptions(int argc, char** argv) {
   if (argc <= 1) {
     showUsage(argv[0]);
     throw std::exception();
@@ -72,13 +75,37 @@ tuple<fs::path, fs::path> parseOptions(int argc, char** argv) {
   }
 
   if (optind < 2) {
-    fs::path imageFilePath = argv[optind];
-    fs::path audioFilePath = argv[optind + 1];
+    //fs::path imageFilePath = argv[optind];
+    //fs::path audioFilePath = argv[optind + 1];
+    //string imageFilePath = (argv[optind]).string();
+    //string audioFilePath = (argv[optind + 1]).string();
+    string imageFilePath = argv[optind];
+    string audioFilePath = argv[optind + 1];
     if (!imageFilePath.empty() && audioFilePath.empty()) {
-      return tuple<fs::path, fs::path>{imageFilePath, audioFilePath};
+      //return tuple<fs::path, fs::path>{imageFilePath, audioFilePath};
+      //map<int, fs::path> result;
+      //map<int, string> result;
+      //result[0] = imageFilePath.string();
+      //result[1] = audioFilePath.string();
+      //map<int, string> result = { {0, imageFilePath.string()}, {1, audioFilePath.string()} };
+      //map<int, string> result = { 
+      map<int, string> result;
+      result[0] = imageFilePath;
+      result[1] = audioFilePath;
+        //{0, imageFilePath}, 
+        //{1, audioFilePath} 
+      //};
+      //map<int, fs::path>{imageFilePath};
+      //return map<fs::path, fs::path>{imageFilePath, audioFilePath};
+      return result;
     }
   }
-  return std::make_tuple("", "");
+  //return std::make_tuple("", "");
+  //return map<fs::path, fs::path>{"", ""};
+  //return map<int, fs::path>{"", ""};
+  //return map<int, string>{"", ""}; 
+  map<int, string> noValue;
+  return noValue;
 }
 
 const static map<int, string> ValidImageFileExtensions = {
@@ -138,14 +165,21 @@ void cleanTempFiles() {
 
 
 int getFile(int argc, char** argv) {
-  tuple<fs::path, fs::path> mediaFiles;
+  //tuple<fs::path, fs::path> mediaFiles;
+  //map<fs::path, fs::path> mediaFiles;
+  //map<int, fs::path> mediaFiles;
+  map<int, string> mediaFiles;
   try {
     mediaFiles = parseOptions(argc, argv);
   } catch (const std::exception&) {
     return -1;
   }
-  fs::path audioFilePath = get<0>(mediaFiles);
-  fs::path imageFilePath = get<1>(mediaFiles);
+  //fs::path audioFilePath = get<0>(mediaFiles);
+  //fs::path imageFilePath = get<1>(mediaFiles);
+  //fs::path audioFilePath = (mediaFiles);
+  //fs::path imageFilePath = get<1>(mediaFiles);
+  fs::path audioFilePath = mediaFiles[0];
+  fs::path imageFilePath = mediaFiles[1];
 
   vector<int> sounds; 
   int imageFileExists = checkFile(imageFilePath);
