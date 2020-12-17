@@ -16,10 +16,6 @@ std::string readImage() {
     return "Unable to read file";
 }
 
-int main(int argc, char** argv) {
-  return 0;
-}
-
 TEST_CASE("Testing Image class") { 
   CHECK(readImage() == "Successfully read file");
 }
