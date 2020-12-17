@@ -13,13 +13,15 @@ set(RESOURCE_FILES
   resources/inputFile1.png
   )
 
-#set (DOCTEST_LIB doctest_library)
+set (DOCTEST_LIBRARY doctest_library)
 
-#add_executable(${DOCTEST_LIB} doctest-main.cpp)
+add_executable(${DOCTEST_LIBRARY} doctest-main.cpp)
 
-#target_compile_features(${DOCTEST_LIB} PRIVATE cxx_std_20)
-#target_include_directories(${DOCTEST_LIB} PUBLIC ${DOCTEST_INCLUDE_DIR}/doctest "${OGGEX_SOURCE_DIR}/include/" )
-#target_link_libraries(${DOCTEST_LIB} PRIVATE image_library doctest::doctest)
+target_compile_features(${DOCTEST_LIBRARY} PRIVATE cxx_std_20)
+#target_include_directories(${DOCTEST_LIBRARY} PUBLIC ${DOCTEST_INCLUDE_DIR}/doctest "${OGGEX_SOURCE_DIR}/include/" )
+target_include_directories(${DOCTEST_LIBRARY} PUBLIC ${DOCTEST_LIB})
+target_link_libraries(${DOCTEST_LIBRARY} PRIVATE image_library doctest)
+#target_link_libraries(${DOCTEST_LIBRARY} PRIVATE image_library doctest::doctest)
 
 add_subdirectory(image)
 add_subdirectory(audio)
