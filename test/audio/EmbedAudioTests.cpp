@@ -51,4 +51,14 @@ TEST_CASE("Audio files can be embedded into image files") {
     map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
     CHECK(key_compare(expectedPaths, createArgvInput(secondTestArgs)));
   } 
+
+  SUBCASE("Running image file checks") {
+    //CHECK(checkFileIsImage("inputFile1.png"));
+    //std::filesystem::path filepath = "../inputFile1.png";
+    std::filesystem::path filepath = "../../inputFile1.png";
+    //std::filesystem::path filepath = "../../test/resources/inputFile1.png";
+    CHECK(checkFile(filepath) == 1);
+    CHECK(imageUnder4MiB(std::filesystem::file_size(filepath)));
+    REQUIRE(imageNotCorrupted(filepath) == true);
+  }
 }
