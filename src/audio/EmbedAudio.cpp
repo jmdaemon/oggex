@@ -82,6 +82,16 @@ int checkFile(fs::path filePath) {
   return fileExists;
 }
 
+bool isImage(string file) {
+  string extension = toLowerCase(getFileExtension(file));
+  for (int i = 0; i < 5; i++) {
+    if(ValidImageFileExtensions.at(i) == extension) {
+      return true;
+    }
+  }
+  return false;
+}
+
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   if (imageFileSize > maxImageFileSize) {
