@@ -78,16 +78,12 @@ bool isFile(string file, const map<int, string> FileExtensions) {
   return false;
 }
 
-
 bool isImage(string file) {
   return isFile(file, ValidImageFileExtensions);
-  //string extension = toLowerCase(getFileExtension(file));
-  //for (int i = 0; i < ValidImageFileExtensions.size(); i++) {
-    //if(ValidImageFileExtensions.at(i) == extension) {
-      //return true;
-    //}
-  //}
-  //return false;
+}
+
+bool isAudio(string file) {
+  return isFile(file, ValidAudioFileExtensions);
 }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
@@ -108,15 +104,7 @@ bool imageNotCorrupted(fs::path imageFilePath) {
   return true;
 }
 
-bool isAudio(string file) {
-  string extension = toLowerCase(getFileExtension(file));
-  for (int i = 0; i < ValidAudioFileExtensions.size(); i++) {
-    if(ValidAudioFileExtensions.at(i) == extension) {
-      return true;
-    }
-  }
-  return false;
-}
+
 
 map<int, string> parseOptions(int argc, char** argv) {
   // Put in main
