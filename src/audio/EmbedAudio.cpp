@@ -1,6 +1,4 @@
 #include <algorithm>
-//#include <cctype>
-#include <cassert>
 #include <exception>
 #include <filesystem>
 #include <fstream>
@@ -8,17 +6,19 @@
 #include <map>
 #include <string>
 
-//#include <cstdint>
-//#include <cstdio>
-//#include <cstdlib>
-
-//#include <getopt.h>
-//#include <unistd.h>
-
 #include "EmbedAudio.h"
 
 using namespace std;
 namespace fs = std::filesystem;
+
+static bool bestQuality = true;
+const static map<int, string> ValidImageFileExtensions = {
+  {0, ".jpg"},
+  {1, ".jpeg"},
+  {2, ".gif"},
+  {3, ".png"},
+  {4, ".webm"},
+};
 
 string toLowerCase(const fs::path& filePath) {
   string fpath = filePath.string();
@@ -33,14 +33,7 @@ void showUsage(std::string programName) {
        << "\t-h, --help\t\tShow this help message\n"
        << "\t-f, --fast\t\tLower image quality\n"
        << endl;
-}
-
-static bool bestQuality = true;
-//static struct option runtimeOptions [] = {
-  //{"help",  no_argument,    0, 'h'},
-  //{"fast",  no_argument,    0, 'f'},
-  //{0,0,0,0}, 
-//};
+} 
 
 bool hasMinArgs(int argc, char** argv) {
   if (argc <= 1) {
@@ -53,10 +46,7 @@ bool hasMinArgs(int argc, char** argv) {
   return true;
 }
 
-//bool checkFileIsImage(int index, char** argv) {
 bool checkFileIsImage(int index, string arg) {
-  //string argument = argv[index].substr(argv[index].length() - 4);
-  //string arg = string(argv[index]);
   int ext = arg.length() - 4;
   string argument = arg.substr(ext);
   if (argument.compare(".jpg") ||
@@ -69,12 +59,9 @@ bool checkFileIsImage(int index, string arg) {
     return false;
 }
 
-//bool checkFileIsAudio(int index, char** argv) {
 bool checkFileIsAudio(int index, string arg) {
-  //string arg = string(argv[index]);
   int ext = arg.length() - 4;
   string argument = arg.substr(ext);
-  //string argument = (argv[index]).substr(argv[index].length() - 4);
   if (argument.compare(".ogg")) {
     return true;
   } else
@@ -100,12 +87,10 @@ map<int, string> parseOptions(int argc, char** argv) {
       bestQuality = true;
     }
 
-    //if (checkFileIsImage(i, argv)) {
     if (checkFileIsImage(i, arg)) {
       imageFilePath = argv[i];
     }
 
-    //if (checkFileIsAudio(i, argv)) {
     if (checkFileIsAudio(i, arg)) {
       audioFilePath = argv[i];
     }
@@ -116,27 +101,9 @@ map<int, string> parseOptions(int argc, char** argv) {
   }
 
   map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
-  return result;
-
-    //if (optind < 2) {
-    //string imageFilePath = argv[optind];
-    //string audioFilePath = argv[optind + 1];
-    //if (!imageFilePath.empty() && audioFilePath.empty()) {
-      //map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
-      //return result;
-    //}
-  //}
-  //map<int, string> nullValue = {{0, ""}, {1, ""}};
-  //return nullValue;
+  return result; 
 }
 
-const static map<int, string> ValidImageFileExtensions = {
-  {0, ".jpg"},
-  {1, ".jpeg"},
-  {2, ".gif"},
-  {3, ".png"},
-  {4, ".webm"},
-};
 
 int checkFile(fs::path filePath) {
   int fileExists = 0;
