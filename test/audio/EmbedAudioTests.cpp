@@ -18,14 +18,6 @@ bool key_compare (Map const &lhs, Map const &rhs) {
         && std::equal(lhs.begin(), lhs.end(), rhs.begin(), 
                       [] (auto a, auto b) { return a.first == b.first; });
 }
-char** createArgvInput(string arg) {
-    string input = arg;
-    std::vector<char> inputVector(input.begin(), input.end());
-    inputVector.push_back('\0');
-    char* input_ptr = &inputVector[0];
-    char** input_pptr = &input_ptr;
-    return input_pptr;
-}
 
 //char** createArgvInput(vector<string> arguments) {
   ////std::vector<std::string> arguments = {"--dir", "/some_path"};
@@ -38,6 +30,19 @@ char** createArgvInput(string arg) {
   //f.bar(argv.size() - 1, argv.data());
   ////return argv;
 //}
+//vector<char*> createArgvInput(vector<string> arguments) {
+map<int, string> createArgvInput(vector<string> arguments) {
+    vector<string> firstTestArgs = {""};
+    vector<char*> argv;
+    for (const auto& arg : arguments)
+        argv.push_back((char*)arg.data());
+    argv.push_back(nullptr);
+
+    map<int, string> filepaths = parseOptions(argv.size() - 1, argv.data()); 
+    return filepaths;
+    //char** parseOptions
+    //return argv;
+}
 
 TEST_CASE("Audio files can be embedded into image files") {
   SUBCASE("Test toLowerCase()") {
@@ -51,9 +56,24 @@ TEST_CASE("Audio files can be embedded into image files") {
 
   SUBCASE("Testing parseOptions()") { 
     INFO("Current output of parseOptions: ");
+
     //vector<string> firstTestArgs = {""};
-    CHECK_THROWS_AS(parseOptions(0, createArgvInput("")), std::exception);
-    CHECK_THROWS_AS(parseOptions(2, createArgvInput("")), std::exception);
+    //vector<char*> argv;
+    //for (const auto& arg : arguments)
+        //argv.push_back((char*)arg.data());
+    //argv.push_back(nullptr);
+    //vector<string> firstTestArgs = {""};
+    vector<string> firstTestArgs = {""};
+    //vector<char*> getArg = createArgvInput(firstTestArgs);
+    //auto nullInput = parseOptions(argv.size() - 1, argv.data());
+    CHECK_THROWS_AS(createArgvInput(firstTestArgs), std::exception);
+    //char** nullInput = parseOptions(getArg.size() - 1, getArg.data());
+
+    //CHECK_THROWS_AS(parseOptions(0, nullInput), std::exception);
+    //CHECK_THROWS_AS(parseOptions(2, nullInput), std::exception);
+
+    //CHECK_THROWS_AS(parseOptions(0, createArgvInput("")), std::exception);
+    //CHECK_THROWS_AS(parseOptions(2, createArgvInput("")), std::exception);
     //CHECK_THROWS_AS(parseOptions(0, createArgvInput(firstTestArgs)), std::exception);
     //CHECK_THROWS_AS(parseOptions(2, createArgvInput(firstTestArgs)), std::exception);
 
