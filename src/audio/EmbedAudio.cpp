@@ -1,5 +1,5 @@
 #include <algorithm>
-#include <cctype>
+//#include <cctype>
 #include <cassert>
 #include <exception>
 #include <filesystem>
@@ -8,12 +8,12 @@
 #include <map>
 #include <string>
 
-#include <cstdint>
-#include <cstdio>
-#include <cstdlib>
+//#include <cstdint>
+//#include <cstdio>
+//#include <cstdlib>
 
-#include <getopt.h>
-#include <unistd.h>
+//#include <getopt.h>
+//#include <unistd.h>
 
 #include "EmbedAudio.h"
 
@@ -36,16 +36,19 @@ void showUsage(std::string programName) {
 }
 
 static bool bestQuality = true;
-static struct option runtimeOptions [] = {
-  {"help",  no_argument,    0, 'h'},
-  {"fast",  no_argument,    0, 'f'},
-  {0,0,0,0}, 
-};
+//static struct option runtimeOptions [] = {
+  //{"help",  no_argument,    0, 'h'},
+  //{"fast",  no_argument,    0, 'f'},
+  //{0,0,0,0}, 
+//};
 
 bool hasMinArgs(int argc, char** argv) {
   if (argc <= 1) {
     showUsage(argv[0]);
     throw std::exception();
+  } else if (!(argc > 1 && argc < 3)) {
+    showUsage(argv[0]);
+    throw std::exception(); 
   }
   return true;
 }
@@ -83,7 +86,6 @@ map<int, string> parseOptions(int argc, char** argv) {
   if (!hasMinArgs(argc, argv)) {
     throw std::exception();
   }
-  assert(argc > 1 && argc < 3);
 
   fs::path imageFilePath;
   fs::path audioFilePath;
