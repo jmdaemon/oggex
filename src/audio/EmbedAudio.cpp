@@ -37,14 +37,11 @@ void showUsage(std::string programName) {
        << endl;
 } 
 
-bool hasMinArgs(int argc, char** argv) {
-  if (argc <= 1) {
+bool meetsReq(int argc, char** argv) {
+  if (argc <= 1 || !(argc > 1 && argc < 3)) {
     showUsage(argv[0]);
     throw std::exception();
-  } else if (!(argc > 1 && argc < 3)) {
-    showUsage(argv[0]);
-    throw std::exception(); 
-  }
+  } 
   return true;
 }
 
@@ -102,7 +99,7 @@ bool checkFileIsAudio(string arg) {
 
 map<int, string> parseOptions(int argc, char** argv) {
   // Put in main
-  if (!hasMinArgs(argc, argv)) {
+  if (!meetsReq(argc, argv)) {
     throw std::exception();
   }
 
