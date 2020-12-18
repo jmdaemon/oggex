@@ -126,38 +126,20 @@ void cleanTempFiles() {
   }
 }
 
-//void formatAudioTags() {
-//// Format sound tag
-  //unsigned int maxTagLength = 100;
+bool tagUnder100(unsigned int tagLength) {
+  unsigned int maxTagLength = 100;
+  if (tagLength < maxTagLength) {
+    return true;
+  }
+  return false;
+}
 
-  //vector<size_t> soundSizes;
-  //vector<string> soundTags;
-  //vector<bool> canQualityGain;
-
-
-  //// if filename == audio.ogg, soundtag == audio
-  //soundTags.push_back(audioFilePath.stem());
-  
-  //for (unsigned int i = 0; i < sounds.size(); ++i) {
-
-    //soundSizes.push_back(0);
-    //canQualityGain.push_back(true);
-
-    //int j = soundTags[i].length() - 1; // get the actual length of the soundtag
-
-    //for (; j >= 0; --j) {
-      //// escape soundtags with "\\"
-      //if (soundTags[i][j] == '\\' || soundTags[i][j] == '/') break;
-    //}
-
-    //if (j >= 0) soundTags[i] = soundTags[i].substr(j + 1, soundTags[i].length() - (j + 1));
-
-    //if (soundTags[i].length() > maxTagLength - 2) soundTags[i] = soundTags[i].substr(0, maxTagLength - 2);
-
-    //soundTags[i].insert(0, "[");
-    //soundTags[i] += "]";
-  //}
-//}
+vector<string> formatAudioTags(string tag) {
+  vector<string> soundTags;
+  string tag = "[" + tag + "]";
+  soundTags.push_back(tag); // audio.ogg ==> [audio] 
+  return soundTags;
+}
 
 int getFile(int argc, char** argv) {
   map<int, string> mediaFiles;
@@ -177,6 +159,8 @@ int getFile(int argc, char** argv) {
   if (!imageUnder4MiB(imageFileSize) && !notCorrupted(imageFilePath)) {
     return -1;
   } 
+
+  vector<string> tags = formatAudioTags(audioFilePath.stem());
   return 0;
 }
 
