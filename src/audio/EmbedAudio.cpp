@@ -96,13 +96,14 @@ bool imageNotCorrupted(fs::path imageFilePath) {
   return true;
 }
 
-bool checkFileIsAudio(string arg) {
-  int ext = arg.length() - 4;
-  string argument = arg.substr(ext);
-  if (argument.compare(".ogg")) {
-    return true;
-  } else
-    return false;
+bool isAudio(string file) {
+  string extension = toLowerCase(getFileExtension(file));
+  for (int i = 0; i < ValidAudioFileExtensions.size(); i++) {
+    if(ValidAudioFileExtensions.at(i) == extension) {
+      return true;
+    }
+  }
+  return false;
 }
 
 map<int, string> parseOptions(int argc, char** argv) {
@@ -129,7 +130,7 @@ map<int, string> parseOptions(int argc, char** argv) {
       imageFilePath = argv[i];
     }
 
-    if (checkFileIsAudio(arg)) {
+    if (isAudio(arg)) {
       audioFilePath = argv[i];
     }
   } 
