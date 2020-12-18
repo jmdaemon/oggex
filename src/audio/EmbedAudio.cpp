@@ -55,20 +55,6 @@ string getFileExtension(string file) {
   return ext;
 }
 
-bool checkFileIsImage(string file) {
-  //int ext = arg.length() - 4;
-  //string argument = arg.substr(ext);
-  string argument = getFileExtension(file);
-  if (argument.compare(".jpg") ||
-      argument.compare(".jpeg") ||
-      argument.compare(".png") ||
-      argument.compare(".gif") ||
-      argument.compare(".webm")) {
-    return true;
-  } else
-    return false;
-}
-
 int checkFile(fs::path filePath) {
   int fileExists = 0;
   //string extension = toLowerCase(filePath.extension());
@@ -138,7 +124,8 @@ map<int, string> parseOptions(int argc, char** argv) {
       bestQuality = true;
     }
 
-    if (checkFileIsImage(arg)) {
+    //if (checkFileIsImage(arg)) {
+    if (isImage(arg)) {
       imageFilePath = argv[i];
     }
 
