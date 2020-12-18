@@ -70,7 +70,7 @@ int checkFile(fs::path filePath) {
 
 bool isImage(string file) {
   string extension = toLowerCase(getFileExtension(file));
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < ValidImageFileExtensions.size(); i++) {
     if(ValidImageFileExtensions.at(i) == extension) {
       return true;
     }
