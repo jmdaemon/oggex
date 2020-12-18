@@ -22,6 +22,10 @@ const static map<int, string> ValidImageFileExtensions = {
   {4, ".webm"},
 };
 
+const static map<int, string> ValidAudioFileExtensions = {
+  {0, ".ogg"},
+};
+
 string toLowerCase(const fs::path& filePath) {
   string fpath = filePath.string();
   transform(fpath.begin(), fpath.end(), fpath.begin(), 
