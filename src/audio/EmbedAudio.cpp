@@ -68,14 +68,26 @@ int checkFile(fs::path filePath) {
   return fileExists;
 }
 
-bool isImage(string file) {
+bool isFile(string file, const map<int, string> FileExtensions) {
   string extension = toLowerCase(getFileExtension(file));
-  for (int i = 0; i < ValidImageFileExtensions.size(); i++) {
-    if(ValidImageFileExtensions.at(i) == extension) {
+  for (int i = 0; i < FileExtensions.size(); i++) {
+    if(FileExtensions.at(i) == extension) {
       return true;
     }
   }
   return false;
+}
+
+
+bool isImage(string file) {
+  return isFile(file, ValidImageFileExtensions);
+  //string extension = toLowerCase(getFileExtension(file));
+  //for (int i = 0; i < ValidImageFileExtensions.size(); i++) {
+    //if(ValidImageFileExtensions.at(i) == extension) {
+      //return true;
+    //}
+  //}
+  //return false;
 }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
