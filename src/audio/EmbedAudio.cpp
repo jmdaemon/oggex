@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cctype>
+#include <cassert>
 #include <exception>
 #include <filesystem>
 #include <fstream>
@@ -41,7 +42,7 @@ static struct option runtimeOptions [] = {
   {0,0,0,0}, 
 };
 
-bool hasMinArgs(int argc) {
+bool hasMinArgs(int argc, char** argv) {
   if (argc <= 1) {
     showUsage(argv[0]);
     throw std::exception();
@@ -49,45 +50,82 @@ bool hasMinArgs(int argc) {
   return true;
 }
 
+//bool checkFileIsImage(int index, char** argv) {
+bool checkFileIsImage(int index, string arg) {
+  //string argument = argv[index].substr(argv[index].length() - 4);
+  //string arg = string(argv[index]);
+  int ext = arg.length() - 4;
+  string argument = arg.substr(ext);
+  if (argument.compare(".jpg") ||
+      argument.compare(".jpeg") ||
+      argument.compare(".png") ||
+      argument.compare(".gif") ||
+      argument.compare(".webm")) {
+    return true;
+  } else
+    return false;
+}
+
+//bool checkFileIsAudio(int index, char** argv) {
+bool checkFileIsAudio(int index, string arg) {
+  //string arg = string(argv[index]);
+  int ext = arg.length() - 4;
+  string argument = arg.substr(ext);
+  //string argument = (argv[index]).substr(argv[index].length() - 4);
+  if (argument.compare(".ogg")) {
+    return true;
+  } else
+    return false;
+}
+
 map<int, string> parseOptions(int argc, char** argv) {
   // Put in main
-  if (!hasMinArgs(int argc)) {
+  if (!hasMinArgs(argc, argv)) {
     throw std::exception();
   }
   assert(argc > 1 && argc < 3);
 
-  //int c;
-  //int option_index = 0; 
+  fs::path imageFilePath;
+  fs::path audioFilePath;
 
-  //c = getopt_long (argc, argv, "hf", runtimeOptions, &option_index);
-
-  //if (c == -1)
-    //throw std::exception();
-
-  //switch(c) {
-    //case 'h':
-      //showUsage(argv[0]);
-      //break;
-    //case 'f': 
-      //bestQuality = true; 
-      //break; 
-    //case '?':
-      //showUsage(argv[0]);
-      //break;
-    //default: 
-      //abort();
-  //}
-
-  if (optind < 2) {
-    string imageFilePath = argv[optind];
-    string audioFilePath = argv[optind + 1];
-    if (!imageFilePath.empty() && audioFilePath.empty()) {
-      map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
-      return result;
+  for (int i = 0; i < argc; i++) {
+    string arg = string(argv[i]);
+    if (arg.compare("-h") || arg.compare("--help")) {
+      showUsage(argv[0]);
     }
+
+    if (arg.compare("-f") || arg.compare("--fast")) {
+      bestQuality = true;
+    }
+
+    //if (checkFileIsImage(i, argv)) {
+    if (checkFileIsImage(i, arg)) {
+      imageFilePath = argv[i];
+    }
+
+    //if (checkFileIsAudio(i, argv)) {
+    if (checkFileIsAudio(i, arg)) {
+      audioFilePath = argv[i];
+    }
+  } 
+
+  if (imageFilePath.empty() || audioFilePath.empty()) {
+    throw std::exception();
   }
-  map<int, string> nullValue = {{0, ""}, {1, ""}};
-  return nullValue;
+
+  map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
+  return result;
+
+    //if (optind < 2) {
+    //string imageFilePath = argv[optind];
+    //string audioFilePath = argv[optind + 1];
+    //if (!imageFilePath.empty() && audioFilePath.empty()) {
+      //map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
+      //return result;
+    //}
+  //}
+  //map<int, string> nullValue = {{0, ""}, {1, ""}};
+  //return nullValue;
 }
 
 const static map<int, string> ValidImageFileExtensions = {
