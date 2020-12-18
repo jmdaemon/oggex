@@ -6,6 +6,8 @@
 #include <map>
 #include <string>
 
+#include <cstdint>
+
 #include "EmbedAudio.h"
 
 using namespace std;
@@ -59,6 +61,36 @@ bool checkFileIsImage(int index, string arg) {
     return false;
 }
 
+int checkFile(fs::path filePath) {
+  int fileExists = 0;
+  string extension = toLowerCase(filePath.extension());
+  for (int i = 0; i < 5; i++) {
+    if(ValidImageFileExtensions.at(i) == extension) {
+      fileExists++;
+      break;
+    }
+  }
+  return fileExists;
+}
+
+bool imageUnder4MiB (uintmax_t imageFileSize) {
+  uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
+  if (imageFileSize > maxImageFileSize) {
+		cerr << "Image is too large to fit sounds." << endl;
+		return false;
+  } else
+  return true;
+}
+
+bool imageNotCorrupted(fs::path imageFilePath) {
+	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
+	if (!imageFile.is_open()) {
+		cerr << "Error: couldn't open \"" << imageFilePath << "\"" << endl;
+    return false;
+	}
+  return true;
+}
+
 bool checkFileIsAudio(int index, string arg) {
   int ext = arg.length() - 4;
   string argument = arg.substr(ext);
@@ -102,37 +134,6 @@ map<int, string> parseOptions(int argc, char** argv) {
 
   map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
   return result; 
-}
-
-
-int checkFile(fs::path filePath) {
-  int fileExists = 0;
-  string extension = toLowerCase(filePath.extension());
-  for (int i = 0; i < 5; i++) {
-    if(ValidImageFileExtensions.at(i) == extension) {
-      fileExists++;
-      break;
-    }
-  }
-  return fileExists;
-}
-
-bool imageUnder4MiB (uintmax_t imageFileSize) {
-  uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-  if (imageFileSize > maxImageFileSize) {
-		cerr << "Image is too large to fit sounds." << endl;
-		return false;
-  } else
-  return true;
-}
-
-bool imageNotCorrupted(fs::path imageFilePath) {
-	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
-	if (!imageFile.is_open()) {
-		cerr << "Error: couldn't open \"" << imageFilePath << "\"" << endl;
-    return false;
-	}
-  return true;
 }
 
 void cleanTempFiles() {
