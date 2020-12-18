@@ -118,19 +118,14 @@ map<int, string> parseOptions(int argc, char** argv) {
 }
 
 void cleanTempFiles() {
-  //Marker
-  //// Clean up tempFiles
-  //// Temp file removal
-  ////string tempLogFile = "nul";
-  ////string tempAudioFile = "out.ogg";
-  //fs::path tempLogFile = "nul";
-  //fs::path tempAudioFile = "out.ogg";
-  ////f.open(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
-  //audioFile.open(tempAudioFile, ifstream::in | ifstream::binary);
-  //if (audioFile.is_open()) {
-    //audioFile.close();
-    //remove(audioFile);
-  //}
+  fs::path tempImageFile = "nul";
+  fs::path tempAudioFile = "out.ogg";
+  if (tempImageFile.exists()) {
+    tempImageFile.remove();
+  }
+  if (tempAudioFile.exists()) {
+    tempAudioFile.remove();
+  }
 }
 
 
@@ -141,27 +136,18 @@ int getFile(int argc, char** argv) {
   } catch (const std::exception&) {
     return -1;
   }
+
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
   vector<int> sounds; 
-  //int imageFileExists = checkFile(imageFilePath);
-
-  for (int i = 1; i < argc; ++i) { 
-      sounds.push_back(i);
-  }
-
-  // Errors
-  //if (sounds.size() <= 0) {
-    //cerr << "Error: no sounds detected." << endl;
-    //return -1;
-  //}
 
   uintmax_t imageFileSize = file_size(imageFilePath);
 
-  if (!imageUnder4MiB(imageFileSize) && !imageNotCorrupted(imageFilePath)) {
+  if (!imageUnder4MiB(imageFileSize) && !notCorrupted(imageFilePath)) {
     return -1;
   } 
+
   //unsigned int maxTagLength = 100;
   //vector<size_t> soundSizes;
   //vector<string> soundTags;
