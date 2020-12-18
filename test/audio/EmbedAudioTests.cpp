@@ -52,13 +52,14 @@ TEST_CASE("Audio files can be embedded into image files") {
   SUBCASE("Testing parseOptions()") { 
     INFO("Current output of parseOptions: ");
     //vector<string> firstTestArgs = {""};
-    //CHECK_THROWS_AS(parseOptions(0, createArgvInput("")), std::exception);
-    //CHECK_THROWS_AS(parseOptions(2, createArgvInput("")), std::exception);
+    CHECK_THROWS_AS(parseOptions(0, createArgvInput("")), std::exception);
+    CHECK_THROWS_AS(parseOptions(2, createArgvInput("")), std::exception);
     //CHECK_THROWS_AS(parseOptions(0, createArgvInput(firstTestArgs)), std::exception);
     //CHECK_THROWS_AS(parseOptions(2, createArgvInput(firstTestArgs)), std::exception);
 
 
-    vector<string> arguments = {"-i ", "image.png", "-a ", "audio.ogg"};
+    //vector<string> arguments = {"-i ", "image.png", "-a ", "audio.ogg"};
+    vector<string> arguments = {"image.png", "audio.ogg"};
     vector<char*> argv;
     for (const auto& arg : arguments)
         argv.push_back((char*)arg.data());
