@@ -50,9 +50,7 @@ bool meetsReq(int argc, char** argv) {
 }
 
 string getFileExtension(string file) {
-  int index = file.length() - 4;
-  string ext = file.substr(index);
-  return ext;
+  return (fs::path (file)).extension();
 }
 
 bool isFile(string file, const map<int, string> FileExtensions) {
@@ -120,14 +118,46 @@ map<int, string> parseOptions(int argc, char** argv) {
 void cleanTempFiles() {
   fs::path tempImageFile = "nul";
   fs::path tempAudioFile = "out.ogg";
-  if (tempImageFile.exists()) {
-    tempImageFile.remove();
+  if (!tempImageFile.empty()) {
+    remove(tempImageFile);
   }
-  if (tempAudioFile.exists()) {
-    tempAudioFile.remove();
+  if (!tempAudioFile.empty()) {
+    remove(tempAudioFile);
   }
 }
 
+//void formatAudioTags() {
+//// Format sound tag
+  //unsigned int maxTagLength = 100;
+
+  //vector<size_t> soundSizes;
+  //vector<string> soundTags;
+  //vector<bool> canQualityGain;
+
+
+  //// if filename == audio.ogg, soundtag == audio
+  //soundTags.push_back(audioFilePath.stem());
+  
+  //for (unsigned int i = 0; i < sounds.size(); ++i) {
+
+    //soundSizes.push_back(0);
+    //canQualityGain.push_back(true);
+
+    //int j = soundTags[i].length() - 1; // get the actual length of the soundtag
+
+    //for (; j >= 0; --j) {
+      //// escape soundtags with "\\"
+      //if (soundTags[i][j] == '\\' || soundTags[i][j] == '/') break;
+    //}
+
+    //if (j >= 0) soundTags[i] = soundTags[i].substr(j + 1, soundTags[i].length() - (j + 1));
+
+    //if (soundTags[i].length() > maxTagLength - 2) soundTags[i] = soundTags[i].substr(0, maxTagLength - 2);
+
+    //soundTags[i].insert(0, "[");
+    //soundTags[i] += "]";
+  //}
+//}
 
 int getFile(int argc, char** argv) {
   map<int, string> mediaFiles;
@@ -147,31 +177,6 @@ int getFile(int argc, char** argv) {
   if (!imageUnder4MiB(imageFileSize) && !notCorrupted(imageFilePath)) {
     return -1;
   } 
-
-  //unsigned int maxTagLength = 100;
-  //vector<size_t> soundSizes;
-  //vector<string> soundTags;
-  //vector<bool> canQualityGain;
-  //for (unsigned int i = 0; i < sounds.size(); ++i) {
-
-    //soundSizes.push_back(0);
-    //canQualityGain.push_back(true);
-
-    //soundTags.push_back(argv[sounds[i]]);
-    //ext = getExtension(soundTags[i]);
-
-    //soundTags[i] = soundTags[i].substr(0, soundTags[i].length() - ext.length());
-    //int j = soundTags[i].length() - 1;
-
-    //for (; j >= 0; --j) {
-      //if (soundTags[i][j] == '\\' || soundTags[i][j] == '/') break;
-    //}
-
-    //if (j >= 0) soundTags[i] = soundTags[i].substr(j + 1, soundTags[i].length() - (j + 1));
-    //if (soundTags[i].length() > maxTagLength - 2) soundTags[i] = soundTags[i].substr(0, maxTagLength - 2);
-    //soundTags[i].insert(0, "[");
-    //soundTags[i] += "]";
-  //}
   return 0;
 }
 
