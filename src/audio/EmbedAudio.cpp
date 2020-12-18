@@ -55,19 +55,6 @@ string getFileExtension(string file) {
   return ext;
 }
 
-int checkFile(fs::path filePath) {
-  int fileExists = 0;
-  //string extension = toLowerCase(filePath.extension());
-  string extension = toLowerCase(getFileExtension(filePath.string()));
-  for (int i = 0; i < 5; i++) {
-    if(ValidImageFileExtensions.at(i) == extension) {
-      fileExists++;
-      break;
-    }
-  }
-  return fileExists;
-}
-
 bool isFile(string file, const map<int, string> FileExtensions) {
   string extension = toLowerCase(getFileExtension(file));
   for (int i = 0; i < FileExtensions.size(); i++) {
@@ -78,13 +65,10 @@ bool isFile(string file, const map<int, string> FileExtensions) {
   return false;
 }
 
-bool isImage(string file) {
-  return isFile(file, ValidImageFileExtensions);
-}
-
-bool isAudio(string file) {
-  return isFile(file, ValidAudioFileExtensions);
-}
+bool isImage(string file) { return isFile(file, ValidImageFileExtensions); }
+bool isAudio(string file) { return isFile(file, ValidAudioFileExtensions); }
+bool isImage(fs::path filepath) { return isFile(filepath.string(), ValidImageFileExtensions); }
+bool isAudio(fs::path filepath) { return isFile(filepath.string(), ValidAudioFileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
@@ -102,9 +86,7 @@ bool imageNotCorrupted(fs::path imageFilePath) {
     return false;
 	}
   return true;
-}
-
-
+} 
 
 map<int, string> parseOptions(int argc, char** argv) {
   // Put in main
@@ -117,22 +99,11 @@ map<int, string> parseOptions(int argc, char** argv) {
 
   for (int i = 0; i < argc; i++) {
     string arg = string(argv[i]);
-    if (arg.compare("-h") || arg.compare("--help")) {
-      showUsage(argv[0]);
-    }
 
-    if (arg.compare("-f") || arg.compare("--fast")) {
-      bestQuality = true;
-    }
-
-    //if (checkFileIsImage(arg)) {
-    if (isImage(arg)) {
-      imageFilePath = argv[i];
-    }
-
-    if (isAudio(arg)) {
-      audioFilePath = argv[i];
-    }
+    if (arg.compare("-h") || arg.compare("--help")) { showUsage(argv[0]); } 
+    if (arg.compare("-f") || arg.compare("--fast")) { bestQuality = true; }
+    if (isImage(arg)) { imageFilePath = argv[i]; }
+    if (isAudio(arg)) { audioFilePath = argv[i]; }
   } 
 
   if (imageFilePath.empty() || audioFilePath.empty()) {
@@ -171,7 +142,7 @@ int getFile(int argc, char** argv) {
   fs::path imageFilePath = mediaFiles[1];
 
   vector<int> sounds; 
-  int imageFileExists = checkFile(imageFilePath);
+  //int imageFileExists = checkFile(imageFilePath);
 
   for (int i = 1; i < argc; ++i) { 
       sounds.push_back(i);
