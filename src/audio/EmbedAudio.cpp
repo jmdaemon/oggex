@@ -102,7 +102,6 @@ int checkFile(fs::path filePath) {
   int fileExists = 0;
   string extension = toLowerCase(filePath.extension());
   for (int i = 0; i < 5; i++) {
-    //if(ValidImageFileExtensions[i] == extension) {
     if(ValidImageFileExtensions.at(i) == extension) {
       fileExists++;
       break;
@@ -147,19 +146,12 @@ void cleanTempFiles() {
 
 
 int getFile(int argc, char** argv) {
-  //tuple<fs::path, fs::path> mediaFiles;
-  //map<fs::path, fs::path> mediaFiles;
-  //map<int, fs::path> mediaFiles;
   map<int, string> mediaFiles;
   try {
     mediaFiles = parseOptions(argc, argv);
   } catch (const std::exception&) {
     return -1;
   }
-  //fs::path audioFilePath = get<0>(mediaFiles);
-  //fs::path imageFilePath = get<1>(mediaFiles);
-  //fs::path audioFilePath = (mediaFiles);
-  //fs::path imageFilePath = get<1>(mediaFiles);
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
