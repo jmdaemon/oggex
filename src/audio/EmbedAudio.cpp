@@ -48,7 +48,7 @@ bool hasMinArgs(int argc, char** argv) {
   return true;
 }
 
-bool checkFileIsImage(int index, string arg) {
+bool checkFileIsImage(string arg) {
   int ext = arg.length() - 4;
   string argument = arg.substr(ext);
   if (argument.compare(".jpg") ||
@@ -91,7 +91,7 @@ bool imageNotCorrupted(fs::path imageFilePath) {
   return true;
 }
 
-bool checkFileIsAudio(int index, string arg) {
+bool checkFileIsAudio(string arg) {
   int ext = arg.length() - 4;
   string argument = arg.substr(ext);
   if (argument.compare(".ogg")) {
@@ -119,11 +119,11 @@ map<int, string> parseOptions(int argc, char** argv) {
       bestQuality = true;
     }
 
-    if (checkFileIsImage(i, arg)) {
+    if (checkFileIsImage(arg)) {
       imageFilePath = argv[i];
     }
 
-    if (checkFileIsAudio(i, arg)) {
+    if (checkFileIsAudio(arg)) {
       audioFilePath = argv[i];
     }
   } 
