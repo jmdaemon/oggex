@@ -41,33 +41,42 @@ static struct option runtimeOptions [] = {
   {0,0,0,0}, 
 };
 
-map<int, string> parseOptions(int argc, char** argv) {
+bool hasMinArgs(int argc) {
   if (argc <= 1) {
     showUsage(argv[0]);
     throw std::exception();
   }
+  return true;
+}
 
-  int c;
-  int option_index = 0; 
-
-  c = getopt_long (argc, argv, "hf", runtimeOptions, &option_index);
-
-  if (c == -1)
+map<int, string> parseOptions(int argc, char** argv) {
+  // Put in main
+  if (!hasMinArgs(int argc)) {
     throw std::exception();
-
-  switch(c) {
-    case 'h':
-      showUsage(argv[0]);
-      break;
-    case 'f': 
-      bestQuality = true; 
-      break; 
-    case '?':
-      showUsage(argv[0]);
-      break;
-    default: 
-      abort();
   }
+  assert(argc > 1 && argc < 3);
+
+  //int c;
+  //int option_index = 0; 
+
+  //c = getopt_long (argc, argv, "hf", runtimeOptions, &option_index);
+
+  //if (c == -1)
+    //throw std::exception();
+
+  //switch(c) {
+    //case 'h':
+      //showUsage(argv[0]);
+      //break;
+    //case 'f': 
+      //bestQuality = true; 
+      //break; 
+    //case '?':
+      //showUsage(argv[0]);
+      //break;
+    //default: 
+      //abort();
+  //}
 
   if (optind < 2) {
     string imageFilePath = argv[optind];
