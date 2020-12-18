@@ -65,6 +65,15 @@ bool isFile(string file, const map<int, string> FileExtensions) {
   return false;
 }
 
+bool notCorrupted(fs::path filepath) {
+	ifstream file(filepath, ifstream::in | ifstream::binary);
+	if (!file.is_open()) {
+		cerr << "Error: couldn't open \"" << filepath << "\"" << endl;
+    return false;
+	}
+  return true;
+}
+
 bool isImage(string file) { return isFile(file, ValidImageFileExtensions); }
 bool isAudio(string file) { return isFile(file, ValidAudioFileExtensions); }
 bool isImage(fs::path filepath) { return isFile(filepath.string(), ValidImageFileExtensions); }
@@ -79,17 +88,11 @@ bool imageUnder4MiB (uintmax_t imageFileSize) {
   return true;
 }
 
-bool imageNotCorrupted(fs::path imageFilePath) {
-	ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
-	if (!imageFile.is_open()) {
-		cerr << "Error: couldn't open \"" << imageFilePath << "\"" << endl;
-    return false;
-	}
-  return true;
+bool imageNotCorrupted(fs::path filepath) {
+  return notCorrupted(filepath);
 } 
 
 map<int, string> parseOptions(int argc, char** argv) {
-  // Put in main
   if (!meetsReq(argc, argv)) {
     throw std::exception();
   }
