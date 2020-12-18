@@ -27,10 +27,20 @@ char** createArgvInput(string arg) {
     return input_pptr;
 }
 
-TEST_CASE("Audio files can be embedded into image files") {
+//char** createArgvInput(vector<string> arguments) {
+  ////std::vector<std::string> arguments = {"--dir", "/some_path"};
 
+  //vector<char*> argv;
+  //for (const auto& arg : arguments)
+      //argv.push_back((char*)arg.data());
+  //argv.push_back(nullptr);
+
+  //f.bar(argv.size() - 1, argv.data());
+  ////return argv;
+//}
+
+TEST_CASE("Audio files can be embedded into image files") {
   SUBCASE("Test toLowerCase()") {
-    cout << "Testing toLowerCase()" << endl;
     INFO("Current outPut of toLowerCase(): ");
 
     REQUIRE(toLowerCase("ABC") == "abc");
@@ -40,14 +50,38 @@ TEST_CASE("Audio files can be embedded into image files") {
   }
 
   SUBCASE("Testing parseOptions()") { 
-    CHECK_THROWS_AS(parseOptions(0, createArgvInput("Test_parseOptions()")), std::exception);
-    
-    char** input = createArgvInput("image.png audio.ogg");
+    INFO("Current output of parseOptions: ");
+    //vector<string> firstTestArgs = {""};
+    //CHECK_THROWS_AS(parseOptions(0, createArgvInput("")), std::exception);
+    //CHECK_THROWS_AS(parseOptions(2, createArgvInput("")), std::exception);
+    //CHECK_THROWS_AS(parseOptions(0, createArgvInput(firstTestArgs)), std::exception);
+    //CHECK_THROWS_AS(parseOptions(2, createArgvInput(firstTestArgs)), std::exception);
 
-    map<int, string> filepaths = parseOptions(0, input); 
+
+    vector<string> arguments = {"-i ", "image.png", "-a ", "audio.ogg"};
+    vector<char*> argv;
+    for (const auto& arg : arguments)
+        argv.push_back((char*)arg.data());
+      //argv.push_back(arg.data());
+    argv.push_back(nullptr);
+
+    //f.bar(argv.size() - 1, argv.data());
+    map<int, string> filepaths = parseOptions(argv.size() - 1, argv.data()); 
+    //return argv;
+
+    //vector<string> secondTestArgs = {"image.png", "audio.ogg"};
+    
+    //char** input = createArgvInput("image.png audio.ogg");
+    //char** input = createArgvInput(secondTestArgs);
+
+    //map<int, string> filepaths = parseOptions(2, input); 
     map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
+    ////map<int, string> expectedPaths = { {0, "image.png"}};
 
     //auto filepaths = parseOptions(0, inputPptr); 
+    //auto filepaths = parseOptions(0, inputPptr); 
+    //cout << filepaths[0] << endl;
+    //cout << expectedPaths[0] << endl;
     CHECK(key_compare(expectedPaths, filepaths));
 
   } 
