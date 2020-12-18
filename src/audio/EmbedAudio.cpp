@@ -45,9 +45,16 @@ bool meetsReq(int argc, char** argv) {
   return true;
 }
 
-bool checkFileIsImage(string arg) {
-  int ext = arg.length() - 4;
-  string argument = arg.substr(ext);
+string getFileExtension(string file) {
+  int index = file.length() - 4;
+  string ext = file.substr(index);
+  return ext;
+}
+
+bool checkFileIsImage(string file) {
+  //int ext = arg.length() - 4;
+  //string argument = arg.substr(ext);
+  string argument = getFileExtension(file);
   if (argument.compare(".jpg") ||
       argument.compare(".jpeg") ||
       argument.compare(".png") ||
@@ -60,7 +67,8 @@ bool checkFileIsImage(string arg) {
 
 int checkFile(fs::path filePath) {
   int fileExists = 0;
-  string extension = toLowerCase(filePath.extension());
+  //string extension = toLowerCase(filePath.extension());
+  string extension = toLowerCase(getFileExtension(filePath.string()));
   for (int i = 0; i < 5; i++) {
     if(ValidImageFileExtensions.at(i) == extension) {
       fileExists++;
