@@ -72,18 +72,22 @@ bool notCorrupted(fs::path filepath) {
   return true;
 }
 
+bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
+  uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
+  if (fileSize > maxFileSize) {
+		cerr << errorMsg << endl;
+		return false;
+  } else
+  return true;
+}
+
 bool isImage(string file) { return isFile(file, ValidImageFileExtensions); }
 bool isAudio(string file) { return isFile(file, ValidAudioFileExtensions); }
 bool isImage(fs::path filepath) { return isFile(filepath.string(), ValidImageFileExtensions); }
 bool isAudio(fs::path filepath) { return isFile(filepath.string(), ValidAudioFileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
-  uintmax_t maxImageFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-  if (imageFileSize > maxImageFileSize) {
-		cerr << "Image is too large to fit sounds." << endl;
-		return false;
-  } else
-  return true;
+  return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
 }
 
 bool imageNotCorrupted(fs::path filepath) {
@@ -136,10 +140,123 @@ bool tagUnder100(unsigned int tagLength) {
 
 vector<string> formatAudioTags(string tag) {
   vector<string> soundTags;
-  string tag = "[" + tag + "]";
-  soundTags.push_back(tag); // audio.ogg ==> [audio] 
+  string soundTag = "[" + tag + "]";
+  soundTags.push_back(soundTag); // audio.ogg ==> [audio] 
   return soundTags;
 }
+
+//stringstream buildCommand(int quality, string audioFilePath) {
+	//stringstream cmd;
+  //cmd.str("");
+  //cmd << "ffmpeg -y -nostdin -i \""
+    //<< audioFilePath
+    ////<< argv[sounds[i]]
+    //<< "\" -vn"
+    //<< " -acodec libvorbis -aq "
+    //<< ((quality < 0) ? 0 : quality);
+  //if (quality < 0) cmd << " -ac 1";
+  //cmd << " -map_metadata -1 \""
+    //<< tempAudioFile
+    //<< "\" >> \""
+    //<< tempLogFile
+    //<< "\" 2>&1";
+  //return cmd
+  //}
+
+
+//void encodeFile(string audioFilePath) {
+	//char buffer[512];
+	//bool qualityMinimized = false;
+	//bool qualityIncreased = false;
+
+  //uintmax_t audioFileSize = file_size(audioFilePath);
+	//for (int quality = 0; quality <= 10; ++quality) {
+		//unsigned int i;
+		//unsigned int soundsFit = 0;
+		//for (i = 0; i < sounds.size(); ++i) {
+      //stringstream cmd = buildCommand(quality, audioFilePath);
+      //fs::path tempAudioFile = "out.ogg";
+
+			//// Execute
+			//FILE* stream = popen(cmd.str().c_str(), "r");
+			//if (stream == NULL) {
+				//cerr << "Error: could not execute ffmpeg" << endl;
+				//clean(&tempAudioFile, &sounds);
+				//return -1;
+			//}
+
+			////cout << "Encoding \"" << argv[sounds[i]] << "\" @ quality=" << ((quality < 0) ? 0 : quality);
+      //cout << "Encoding \"" << audioFilePath << "\" @ quality=" << ((quality < 0) ? 0 : quality);
+			//if (quality < 0) cout << "/mono";
+			//cout << "..." << endl;
+
+			//while (fgets(buffer, sizeof(buffer), stream) != NULL); // Read and store in buffer
+			//pclose(stream);
+
+      //uintmax_t tempFileSize = file_size(tempAudioFile);
+
+      //if (!notCorrupted(tempAudioFile)) {
+				//cerr << "Error: encoding failed" << endl;
+				//clean(&tempAudioFile, &sounds);
+				//return -1;
+      //} else if (tempFileSize <= 0) {
+				//cout << "Encoding failed" << endl << endl;
+      //} else 
+        //cout << "Encoding completed" << endl;
+
+      //if (tempAudioFile) {
+      //}
+				//// Check if fittable
+				//size_t space = maxOutputSize - imageSize;
+				//for (unsigned int j = 0; j < sounds.size(); ++j) {
+					//assert(soundSizes[j] + soundTags[j].length() <= space);
+					//space -= soundSizes[j] + soundTags[j].length();
+				//}
+
+				//// It doesn't...
+				//if (fileSize + soundTags[i].length() > space) {
+					//// Minimize quality (if the quality hasn't already been increased)
+					//if (!qualityIncreased) {
+						//if (!qualityMinimized) {
+							//// Quality minimize
+							//for (unsigned int j = 0; j < sounds.size(); ++j) {
+								//soundSizes[j] = 0;
+							//}
+							//soundsFit = 0;
+							//quality -= 2;
+							//qualityMinimized = (quality < -1);
+							//cout << "Quality decreased" << endl << endl;
+							//break;
+						//}
+						//else {
+							//// Can't fit
+							//cout << "Warning: sound file \"" << argv[sounds[i]] << "\" cannot be fit." << endl;
+						//}
+					//}
+				//}
+				//// It does
+				//else {
+					//// Fit okay
+					//soundSizes[i] = fileSize;
+					//++soundsFit;
+
+					//// Move temp file
+					//stringstream temp;
+					//temp << "temp." << i << ".ogg";
+					//remove(temp.str().c_str());
+					//rename(tempAudioFile.c_str(), temp.str().c_str());
+				//}
+			//}
+		//}
+
+		//// No breakout?
+		//if (i == sounds.size()) {
+			//qualityIncreased = true;
+			//if (!(bestQuality && soundsFit == sounds.size()) || (qualityMinimized && sounds.size() == 1)) break;
+			//cout << "Quality increased" << endl << endl;
+		//}
+	//}
+//}
 
 int getFile(int argc, char** argv) {
   map<int, string> mediaFiles;
@@ -152,15 +269,10 @@ int getFile(int argc, char** argv) {
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
-  vector<int> sounds; 
-
-  uintmax_t imageFileSize = file_size(imageFilePath);
-
-  if (!imageUnder4MiB(imageFileSize) && !notCorrupted(imageFilePath)) {
+  if (!imageUnder4MiB(file_size(imageFilePath)) && !notCorrupted(imageFilePath)) {
     return -1;
   } 
 
   vector<string> tags = formatAudioTags(audioFilePath.stem());
   return 0;
-}
-
+} 
