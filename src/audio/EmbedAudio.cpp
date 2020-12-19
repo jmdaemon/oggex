@@ -186,17 +186,6 @@ int checkTempFile(uintmax_t tempFileSize, fs::path tempAudioFile) {
   return 0;
 }
 
-bool hasExceededMaxSize(fs::path filepath) {
-  uintmax_t fileSize = file_size(filepath);
-  uintmax_t maxFileSize = 1024 * 1024 * 4; 
-  if ((maxFileSize - fileSize) <= 0) { 
-    cerr << "Warning: \"" + filepath.string() + "\" has exceeded maximum 4MiB limit.";
-    return true;
-  }
-  return false;
-}
-
-
 void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality, string soundTag) {
   /*
      1. Build command.
@@ -205,23 +194,24 @@ void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality,
      4. Open tempAudioFile, do filechecks 
      5. If fileSize + tags exceeds the maxFileSize, decrease quality.
    */
-  uintmax_t maxFileSize = 1024 * 1024 * 4; 
+
+  bool toggleAC = (quality < 0) ? true : false;
   fs::path tempLogFile = "Log.txt";
+  string cmd = buildCommand(quality, toggleAC, audioFilePath, tempAudioFilePath.string(), tempLogFile);
+  string commandOutput = exec(cmd.c_str());
+
+  uintmax_t maxFileSize = 1024 * 1024 * 4; 
   uintmax_t tempFileSize = file_size(tempAudioFilePath);
+  uintmax_t soundTagSize = static_cast<uintmax_t>(soundTag.size());
 
   if (!notCorrupted(tempAudioFilePath) || (tempFileSize <= 0)) {
     cerr << "Error: encoding failed" << endl;
     throw exception();
   } 
-  bool toggleAC = (quality < 0) ? true : false;
-
-  string cmd = buildCommand(quality, toggleAC, audioFilePath, tempAudioFilePath.string(), tempLogFile);
-  string commandOutput = exec(cmd.c_str());
-
   cout << "Encoding completed" << endl;
-  if (hasExceededMaxSize(tempAudioFilePath)) { throw exception(); }
-  uintmax_t soundTagSize = static_cast<uintmax_t>(soundTag.size());
+
   if ((soundTagSize + tempFileSize) > maxFileSize) {
+    // decrease quality, run again.
   }
 
   fs::rename(tempAudioFilePath, "temp.ogg");
