@@ -72,15 +72,6 @@ bool isFile(string file, const map<int, string> FileExtensions) {
   return false;
 }
 
-//template<typename FileType>
-//bool isCorrupted(fs::path filepath, FileType& file) {
-	//if (!file.is_open()) {
-    //fmt::fprintf(cerr, "Error: couldn't open \"%s\"", filepath);
-    //return true;
-	//} else
-    //return false;
-//}
-
 bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
   uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   if (fileSize > maxFileSize) {
@@ -98,16 +89,6 @@ bool isAudio(fs::path filepath) { return isFile(filepath.string(), ValidAudioFil
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
 }
-
-//bool imageIsCorrupted(fs::path filepath) {
-  //ifstream& file(filepath, ifstream::in | ifstream::binary);
-  //return isCorrupted(filepath, &file);
-//} 
-
-//bool audioIsCorrupted(fs::path filepath) {
-  //ofstream& file(filepath, ifstream::out | ifstream::binary);
-  //return isCorrupted(filepath, &file);
-//} 
 
 map<int, string> parseOptions(int argc, char** argv) {
   if (!meetsReq(argc, argv)) { throw std::exception(); }
