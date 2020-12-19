@@ -15,6 +15,7 @@
 #include <cinttypes>
 
 #include <fmt/core.h>
+#include <fmt/printf.h>
 
 #include "EmbedAudio.h"
 
@@ -42,11 +43,32 @@ string toLowerCase(const fs::path& filePath) {
 }
 
 void showUsage(std::string programName) { 
-  cerr << "Usage:" << programName << " [audio_file] [image_file]\n" 
-       << "Options:\n"
-       << "\t-h, --help\t\tShow this help message\n"
-       << "\t-f, --fast\t\tLower image quality\n"
-       << endl;
+  fmt::fprintf(cerr, "Usage: %s [audio_file] [image_file]\n %s %s %s", programName,
+    "Options:\n",
+    "\t-h, --help\t\tShow this help message\n",
+    "\t-f, --fast\t\tLower image quality\n");
+
+  ////string msg = 
+    ////("Usage: {} [audio_file] [image_file]\n" + 
+    //"Options:\n" +
+    //"\t-h, --help\t\tShow this help message\n" +
+    //"\t-f, --fast\t\tLower image quality\n");
+  //fmt::print(cerr, msg, programName);
+  //fmt::format("Usage: {} [audio_file] [image_file]\n" +
+      //"Options:\n" + 
+      //"\t-h, --help\t\tShow this help message\n" + 
+      //"\t-f, --fast\t\tLower image quality\n");
+  //fmt::print(stderr, message);
+  //fmt::format(
+      //"Usage: {} [audio_file] [image_file]\n 
+      //Options:\n
+      //\t-h, --help\t\tShow this help message\n
+      //\t-f, --fast\t\tLower image quality\n", programName);
+  //cerr << "Usage:" << programName << " [audio_file] [image_file]\n" 
+       //<< "Options:\n"
+       //<< "\t-h, --help\t\tShow this help message\n"
+       //<< "\t-f, --fast\t\tLower image quality\n"
+       //<< endl;
 } 
 
 bool meetsReq(int argc, char** argv) {
