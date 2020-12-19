@@ -172,7 +172,7 @@ string exec(const char* cmd, Data audioData) {
     return result;
 }
 
-void encodeAudio(Data audioData) {
+void encodeAudio(Data audioData, ofstream& file) {
   string cmd = buildCommand(audioData);
   string cmdOutput = exec(cmd.c_str(), audioData);
 
@@ -180,7 +180,6 @@ void encodeAudio(Data audioData) {
   uintmax_t tempFileSize = file_size(audioData.tempAudioFile);
   uintmax_t soundTagSize = static_cast<uintmax_t>(audioData.soundTag.size());
 
-  ofstream file(audioData.audioFile, ifstream::out | ifstream::binary);
   if (isCorrupted(audioData.audioFile, file) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
@@ -255,7 +254,7 @@ void encodeAudio(Data audioData) {
 	//clean(&tempAudioFile, &sounds);
 //}
 
-int getFile(int argc, char** argv) {
+int embed(int argc, char** argv) {
   map<int, string> mediaFiles;
   try {
     mediaFiles = parseOptions(argc, argv);
@@ -266,7 +265,8 @@ int getFile(int argc, char** argv) {
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
-  ifstream file(imageFilePath, ifstream::in | ifstream::binary);
+  ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
+  ofstream audioFile(audioData.audioFile, ifstream::out | ifstream::binary);
   if (!imageUnder4MiB(file_size(imageFilePath)) && isCorrupted(imageFilePath, file)) { 
     file.close(); 
     return -1; 
@@ -276,6 +276,7 @@ int getFile(int argc, char** argv) {
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
   Data audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
+  encodeAudio(audioData, audioFile);
 
   return 0;
 } 
