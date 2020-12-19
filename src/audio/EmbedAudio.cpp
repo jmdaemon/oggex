@@ -72,14 +72,14 @@ bool isFile(string file, const map<int, string> FileExtensions) {
   return false;
 }
 
-bool isCorrupted(fs::path filepath) {
-	ifstream file(filepath, ifstream::in | ifstream::binary);
-	if (!file.is_open()) {
-    fmt::fprintf(cerr, "Error: couldn't open \"%s\"", filepath);
-    return true;
-	}
-  return false;
-}
+//template<typename FileType>
+//bool isCorrupted(fs::path filepath, FileType& file) {
+	//if (!file.is_open()) {
+    //fmt::fprintf(cerr, "Error: couldn't open \"%s\"", filepath);
+    //return true;
+	//} else
+    //return false;
+//}
 
 bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
   uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
@@ -99,9 +99,15 @@ bool imageUnder4MiB (uintmax_t imageFileSize) {
   return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
 }
 
-bool imageIsCorrupted(fs::path filepath) {
-  return isCorrupted(filepath);
-} 
+//bool imageIsCorrupted(fs::path filepath) {
+  //ifstream& file(filepath, ifstream::in | ifstream::binary);
+  //return isCorrupted(filepath, &file);
+//} 
+
+//bool audioIsCorrupted(fs::path filepath) {
+  //ofstream& file(filepath, ifstream::out | ifstream::binary);
+  //return isCorrupted(filepath, &file);
+//} 
 
 map<int, string> parseOptions(int argc, char** argv) {
   if (!meetsReq(argc, argv)) { throw std::exception(); }
@@ -193,11 +199,13 @@ void encodeAudio(Data audioData) {
   uintmax_t tempFileSize = file_size(audioData.tempAudioFile);
   uintmax_t soundTagSize = static_cast<uintmax_t>(audioData.soundTag.size());
 
-  if (isCorrupted(audioData.audioFile) || (tempFileSize <= 0)) {
+  ofstream file(audioData.audioFile, ifstream::out | ifstream::binary);
+  if (isCorrupted(audioData.audioFile, file) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
     fmt::print("Encoding completed.");
+  file.close();
 
   if ((soundTagSize + tempFileSize) > maxFileSize) {
     audioData.audioQuality -= 2;
@@ -238,15 +246,7 @@ void encodeAudio(Data audioData) {
   //f.close();
 //}
 
-//bool isCorrupted(fs::path filepath) {
-  //ofstream out(filepath, ifstream::out | ifstream::binary);
-  //if (!out.is_open()) {
-    //cerr << "Error: couldn't open \"" << outputFilename.c_str() << "\" for writing" << endl;
-    ////clean(&tempAudioFile, &sounds);
-    //return true;
-  //}
-  //return false;
-//}
+
 
 
 //void encodeImage(string imageFilePath, char[] buffer, string soundTag) { 
@@ -285,8 +285,11 @@ int getFile(int argc, char** argv) {
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
-  if (!imageUnder4MiB(file_size(imageFilePath)) && isCorrupted(imageFilePath)) { return -1; } 
-
+  ifstream file(imageFilePath, ifstream::in | ifstream::binary);
+  if (!imageUnder4MiB(file_size(imageFilePath)) && isCorrupted(imageFilePath, file)) { 
+    file.close(); 
+    return -1; 
+  } 
   fs::path tempLogFile = "Log.txt";
   fs::path tempAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());

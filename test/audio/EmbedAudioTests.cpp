@@ -53,10 +53,11 @@ TEST_CASE("Audio files can be embedded into image files") {
   } 
 
   SUBCASE("Running image file checks") {
-    std::filesystem::path filepath = "../../inputFile1.png";
+    std::filesystem::path filepath = "../../inputFile1.png"; 
+    ifstream file(filepath, ifstream::in | ifstream::binary);
     CHECK(isImage(filepath));
     CHECK(imageUnder4MiB(std::filesystem::file_size(filepath)));
-    REQUIRE(!imageIsCorrupted(filepath));
+    REQUIRE(!isCorrupted(filepath, file));
     //REQUIRE(imageNotCorrupted(filepath) == true);
   }
 
