@@ -14,6 +14,8 @@
 #include <cstdint>
 #include <cinttypes>
 
+#include <fmt/core.h>
+
 #include "EmbedAudio.h"
 
 using namespace std;
@@ -145,14 +147,22 @@ vector<string> formatAudioTags(string tag) {
   return soundTags;
 }
 
-// -=-=-=
+struct Data {
+  int audioQuality;
+  bool toggleAC;
+  string soundTag;
+  fs::path audioFile;
+  fs::path tempAudioFile;
+  fs::path tempLogFile;
+};
 
-string buildCommand(int audioQuality, bool toggleAC, string audioFilePath, string tempAudioFile, string tempLogFile) {
+//string buildCommand(int audioQuality, bool toggleAC, string audioFilePath, string tempAudioFile, string tempLogFile) {
+string buildCommand(Data audioData) {
   string command;
-  string setAudioChannel;
-  if (toggleAC) { setAudioChannel = " -ac 1"; } 
-  command = "ffmpeg -y -nostdin -i \"" + audioFilePath + "\" -vn -acodec libvorbis -aq " + to_string(audioQuality)
-    + setAudioChannel + " -map_metadata -1 \"" + tempAudioFile + "\" >> \"" + tempLogFile + "\" 2>&1";
+  string setAudioChannel = "";
+  if (audioData.toggleAC) { setAudioChannel = " -ac 1"; } 
+  command = "ffmpeg -y -nostdin -i \"" + audioData.audioFile.string() + "\" -vn -acodec libvorbis -aq " + to_string(audioData.audioQuality)
+    + setAudioChannel + " -map_metadata -1 \"" + audioData.tempAudioFile.string() + "\" >> \"" + audioData.tempLogFile.string() + "\" 2>&1";
   return command;
 }
 
@@ -174,7 +184,8 @@ string exec(const char* cmd) {
     return result;
 }
 
-void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality, string soundTag) {
+//void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality, string soundTag) {
+void encodeFile(Data audioData) {
   /*
      1. Build command.
      2. Execute command
@@ -182,27 +193,29 @@ void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality,
      4. Open tempAudioFile, do filechecks 
      5. If fileSize + tags exceeds the maxFileSize, decrease quality.
    */
+  string cmd = buildCommand(audioData);
+  string cmdOutput = exec(cmd.c_str());
 
-  bool toggleAC = (quality < 0) ? true : false;
-  fs::path tempLogFile = "Log.txt";
-  string cmd = buildCommand(quality, toggleAC, audioFilePath, tempAudioFilePath.string(), tempLogFile);
-  string commandOutput = exec(cmd.c_str());
+  //bool toggleAC = (audioData.audioQuality < 0) ? true : false;
+  //fs::path tempLogFile = "Log.txt";
+  //string cmd = buildCommand(quality, toggleAC, audioFilePath, tempAudioFilePath.string(), tempLogFile);
+  //string commandOutput = exec(cmd.c_str());
 
-  uintmax_t maxFileSize = 1024 * 1024 * 4; 
-  uintmax_t tempFileSize = file_size(tempAudioFilePath);
-  uintmax_t soundTagSize = static_cast<uintmax_t>(soundTag.size());
+  //uintmax_t maxFileSize = 1024 * 1024 * 4; 
+  //uintmax_t tempFileSize = file_size(tempAudioFilePath);
+  //uintmax_t soundTagSize = static_cast<uintmax_t>(soundTag.size());
 
-  if (!notCorrupted(tempAudioFilePath) || (tempFileSize <= 0)) {
-    cerr << "Error: encoding failed" << endl;
-    throw exception();
-  } 
-  cout << "Encoding completed" << endl;
+  //if (!notCorrupted(tempAudioFilePath) || (tempFileSize <= 0)) {
+    //cerr << "Error: encoding failed" << endl;
+    //throw exception();
+  //} 
+  //cout << "Encoding completed" << endl;
 
-  if ((soundTagSize + tempFileSize) > maxFileSize) {
-    // decrease quality, run again.
-  }
+  //if ((soundTagSize + tempFileSize) > maxFileSize) {
+    //// decrease quality, run again.
+  //}
 
-  fs::rename(tempAudioFilePath, "temp.ogg");
+  //fs::rename(tempAudioFilePath, "temp.ogg");
 }
 // -=-=-=
 
@@ -286,14 +299,13 @@ int getFile(int argc, char** argv) {
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
-  if (!imageUnder4MiB(file_size(imageFilePath)) && !notCorrupted(imageFilePath)) {
-    return -1;
-  } 
+  if (!imageUnder4MiB(file_size(imageFilePath)) && !notCorrupted(imageFilePath)) { return -1; } 
 
-  fs::path tempImageFile = "nul";
+  fs::path tempLogFile = "Log.txt";
   fs::path tempAudioFile = "out.ogg";
-
   vector<string> tags = formatAudioTags(audioFilePath.stem());
+
+  Data audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
 
   return 0;
 } 
