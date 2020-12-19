@@ -174,18 +174,6 @@ string exec(const char* cmd) {
     return result;
 }
 
-int checkTempFile(uintmax_t tempFileSize, fs::path tempAudioFile) {
-  if (!notCorrupted(tempAudioFile)) {
-    cerr << "Error: encoding failed" << endl;
-    return -1;
-  } else if (tempFileSize <= 0) {
-    cout << "Encoding failed" << endl << endl;
-    return -1;
-  } else 
-    cout << "Encoding completed" << endl;
-  return 0;
-}
-
 void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality, string soundTag) {
   /*
      1. Build command.
