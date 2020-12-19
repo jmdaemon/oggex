@@ -131,7 +131,7 @@ vector<string> formatAudioTags(string tag) {
   return soundTags;
 }
 
-struct Data {
+struct AudioData {
   int audioQuality;
   bool lowQuality;
   string soundTag;
@@ -140,47 +140,47 @@ struct Data {
   fs::path tempLogFile;
 };
 
-string buildCommand(Data audioData) {
+string buildCommand(AudioData data) {
   string command;
   string setAudioChannel = "";
-  if (audioData.lowQuality) { setAudioChannel = " -ac 1"; } 
+  if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
   command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      audioData.audioFile.string(),
-      audioData.audioQuality,
+      data.audioFile.string(),
+      data.audioQuality,
       setAudioChannel,
-      audioData.tempAudioFile.string(),
-      audioData.tempLogFile.string()
+      data.tempAudioFile.string(),
+      data.tempLogFile.string()
       );
   return command;
 }
 
-string exec(const char* cmd, Data audioData) {
+string exec(const char* cmd, AudioData data) {
     array<char, 512> buffer;
     string result;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
     if (!pipe) { 
       fmt::fprintf(cerr, "Error: could not execute ffmpeg");
-      cleanTempFiles(audioData.tempLogFile, audioData.tempAudioFile);
+      cleanTempFiles(data.tempLogFile, data.tempAudioFile);
       throw std::runtime_error("popen() failed!");
     } 
     string monoEncoding = "";
-    if (audioData.lowQuality) { monoEncoding = "/mono"; }
-    fmt::print("Encoding \"{}\" at quality = {} {}", audioData.audioFile, audioData.audioQuality, monoEncoding);
+    if (data.lowQuality) { monoEncoding = "/mono"; }
+    fmt::print("Encoding \"{}\" at quality = {} {}", data.audioFile, data.audioQuality, monoEncoding);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
         result += buffer.data();
     }
     return result;
 }
 
-void encodeAudio(Data audioData, ofstream& file) {
-  string cmd = buildCommand(audioData);
-  string cmdOutput = exec(cmd.c_str(), audioData);
+void encodeAudio(AudioData data, ofstream& file) {
+  string cmd = buildCommand(data);
+  string cmdOutput = exec(cmd.c_str(), data);
 
   uintmax_t maxFileSize = 1024 * 1024 * 4; 
-  uintmax_t tempFileSize = file_size(audioData.tempAudioFile);
-  uintmax_t soundTagSize = static_cast<uintmax_t>(audioData.soundTag.size());
+  uintmax_t tempFileSize = file_size(data.tempAudioFile);
+  uintmax_t soundTagSize = static_cast<uintmax_t>(data.soundTag.size());
 
-  if (isCorrupted(audioData.audioFile, file) || (tempFileSize <= 0)) {
+  if (isCorrupted(data.audioFile, file) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
@@ -188,9 +188,9 @@ void encodeAudio(Data audioData, ofstream& file) {
   file.close();
 
   if ((soundTagSize + tempFileSize) > maxFileSize) {
-    audioData.audioQuality -= 2;
+    data.audioQuality -= 2;
   }
-  fs::rename(audioData.tempAudioFile, "temp.ogg");
+  fs::rename(data.tempAudioFile, "temp.ogg");
 }
 
 //void hashFile(char[] buffer) {
@@ -276,7 +276,7 @@ int embed(int argc, char** argv) {
   fs::path tempAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
-  Data audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
+  AudioData audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
   encodeAudio(audioData, audioFile);
 
   return 0;
