@@ -266,9 +266,10 @@ int embed(int argc, char** argv) {
   fs::path imageFilePath = mediaFiles[1];
 
   ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
-  ofstream audioFile(audioData.audioFile, ifstream::out | ifstream::binary);
-  if (!imageUnder4MiB(file_size(imageFilePath)) && isCorrupted(imageFilePath, file)) { 
-    file.close(); 
+  ofstream audioFile(audioFilePath, ifstream::out | ifstream::binary);
+  if (!imageUnder4MiB(file_size(imageFilePath)) && !isCorrupted(imageFilePath, imageFile) && !isCorrupted(audioFilePath, audioFile)) { 
+    imageFile.close(); 
+    audioFile.close();
     return -1; 
   } 
   fs::path tempLogFile = "Log.txt";
