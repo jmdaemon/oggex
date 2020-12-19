@@ -72,14 +72,13 @@ bool isFile(string file, const map<int, string> FileExtensions) {
   return false;
 }
 
-bool notCorrupted(fs::path filepath) {
+bool isCorrupted(fs::path filepath) {
 	ifstream file(filepath, ifstream::in | ifstream::binary);
 	if (!file.is_open()) {
     fmt::fprintf(cerr, "Error: couldn't open \"%s\"", filepath);
-		//cerr << "Error: couldn't open \"" << filepath << "\"" << endl;
-    return false;
+    return true;
 	}
-  return true;
+  return false;
 }
 
 bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
@@ -100,8 +99,8 @@ bool imageUnder4MiB (uintmax_t imageFileSize) {
   return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
 }
 
-bool imageNotCorrupted(fs::path filepath) {
-  return notCorrupted(filepath);
+bool imageIsCorrupted(fs::path filepath) {
+  return isCorrupted(filepath);
 } 
 
 map<int, string> parseOptions(int argc, char** argv) {
@@ -163,8 +162,15 @@ string buildCommand(Data audioData) {
   string command;
   string setAudioChannel = "";
   if (audioData.toggleAC) { setAudioChannel = " -ac 1"; } 
-  command = "ffmpeg -y -nostdin -i \"" + audioData.audioFile.string() + "\" -vn -acodec libvorbis -aq " + to_string(audioData.audioQuality)
-    + setAudioChannel + " -map_metadata -1 \"" + audioData.tempAudioFile.string() + "\" >> \"" + audioData.tempLogFile.string() + "\" 2>&1";
+  command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+      audioData.audioFile.string(),
+      audioData.audioQuality,
+      setAudioChannel,
+      audioData.tempAudioFile.string(),
+      audioData.tempLogFile.string()
+      );
+  //command = "ffmpeg -y -nostdin -i \"" + audioData.audioFile.string() + "\" -vn -acodec libvorbis -aq " + to_string(audioData.audioQuality)
+    //+ setAudioChannel + " -map_metadata -1 \"" + audioData.tempAudioFile.string() + "\" >> \"" + audioData.tempLogFile.string() + "\" 2>&1";
   return command;
 }
 
@@ -301,7 +307,7 @@ int getFile(int argc, char** argv) {
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
 
-  if (!imageUnder4MiB(file_size(imageFilePath)) && !notCorrupted(imageFilePath)) { return -1; } 
+  if (!imageUnder4MiB(file_size(imageFilePath)) && isCorrupted(imageFilePath)) { return -1; } 
 
   fs::path tempLogFile = "Log.txt";
   fs::path tempAudioFile = "out.ogg";

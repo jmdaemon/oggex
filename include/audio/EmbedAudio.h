@@ -13,6 +13,7 @@ std::map<int, std::string> parseOptions(int argc, char** argv);
 /*int checkFile(std::filesystem::path filePath);*/
 bool isImage(std::filesystem::path filepath);
 bool imageUnder4MiB (std::uintmax_t imageFileSize);
-bool imageNotCorrupted(std::filesystem::path imageFilePath);
+/*bool imageNotCorrupted(std::filesystem::path imageFilePath);*/
+bool imageIsCorrupted(std::filesystem::path imageFilePath);
 
 #endif
