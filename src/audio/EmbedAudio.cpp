@@ -6,7 +6,13 @@
 #include <map>
 #include <string>
 
+#include <cstdio>
+#include <memory>
+#include <stdexcept>
+#include <array>
+
 #include <cstdint>
+#include <cinttypes>
 
 #include "EmbedAudio.h"
 
@@ -95,9 +101,7 @@ bool imageNotCorrupted(fs::path filepath) {
 } 
 
 map<int, string> parseOptions(int argc, char** argv) {
-  if (!meetsReq(argc, argv)) {
-    throw std::exception();
-  }
+  if (!meetsReq(argc, argv)) { throw std::exception(); }
 
   fs::path imageFilePath;
   fs::path audioFilePath;
@@ -111,17 +115,13 @@ map<int, string> parseOptions(int argc, char** argv) {
     if (isAudio(arg)) { audioFilePath = argv[i]; }
   } 
 
-  if (imageFilePath.empty() || audioFilePath.empty()) {
-    throw std::exception();
-  }
+  if (imageFilePath.empty() || audioFilePath.empty()) { throw std::exception(); }
 
   map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}};
   return result; 
 }
 
-void cleanTempFiles() {
-  fs::path tempImageFile = "nul";
-  fs::path tempAudioFile = "out.ogg";
+void cleanTempFiles(fs::path tempImageFile, fs::path tempAudioFile) {
   if (!tempImageFile.empty()) {
     remove(tempImageFile);
   }
@@ -145,117 +145,156 @@ vector<string> formatAudioTags(string tag) {
   return soundTags;
 }
 
-//stringstream buildCommand(int quality, string audioFilePath) {
-	//stringstream cmd;
-  //cmd.str("");
-  //cmd << "ffmpeg -y -nostdin -i \""
-    //<< audioFilePath
-    ////<< argv[sounds[i]]
-    //<< "\" -vn"
-    //<< " -acodec libvorbis -aq "
-    //<< ((quality < 0) ? 0 : quality);
-  //if (quality < 0) cmd << " -ac 1";
-  //cmd << " -map_metadata -1 \""
-    //<< tempAudioFile
-    //<< "\" >> \""
-    //<< tempLogFile
-    //<< "\" 2>&1";
-  //return cmd
+// -=-=-=
+
+string buildCommand(int audioQuality, bool toggleAC, string audioFilePath, string tempAudioFile, string tempLogFile) {
+  string command;
+  string setAudioChannel;
+  if (toggleAC) { setAudioChannel = " -ac 1"; } 
+  command = "ffmpeg -y -nostdin -i \"" + audioFilePath + "\" -vn -acodec libvorbis -aq " + to_string(audioQuality)
+    + setAudioChannel + " -map_metadata -1 \"" + tempAudioFile + "\" >> \"" + tempLogFile + "\" 2>&1";
+  return command;
+}
+
+string exec(const char* cmd) {
+    array<char, 512> buffer;
+    string result;
+    unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+    if (!pipe) { 
+      cerr << "Error: could not execute ffmpeg" << endl;
+      // Clean
+        throw std::runtime_error("popen() failed!");
+    } 
+    //cout << "Encoding \"" << audioFilePath << "\" @ quality=" << ((quality < 0) ? 0 : quality);
+    //if (quality < 0) cout << "/mono";
+    //cout << "..." << endl;
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+        result += buffer.data();
+    }
+    return result;
+}
+
+int checkTempFile(uintmax_t tempFileSize, fs::path tempAudioFile) {
+  if (!notCorrupted(tempAudioFile)) {
+    cerr << "Error: encoding failed" << endl;
+    return -1;
+  } else if (tempFileSize <= 0) {
+    cout << "Encoding failed" << endl << endl;
+    return -1;
+  } else 
+    cout << "Encoding completed" << endl;
+  return 0;
+}
+
+bool hasExceededMaxSize(fs::path filepath) {
+  uintmax_t fileSize = file_size(filepath);
+  uintmax_t maxFileSize = 1024 * 1024 * 4; 
+  if ((maxFileSize - fileSize) <= 0) { 
+    cerr << "Warning: \"" + filepath.string() + "\" has exceeded maximum 4MiB limit.";
+    return true;
+  }
+  return false;
+}
+
+
+void encodeFile(fs::path audioFilePath, fs::path tempAudioFilePath, int quality, string soundTag) {
+  /*
+     1. Build command.
+     2. Execute command
+     3. Output messages
+     4. Open tempAudioFile, do filechecks 
+     5. If fileSize + tags exceeds the maxFileSize, decrease quality.
+   */
+  uintmax_t maxFileSize = 1024 * 1024 * 4; 
+  fs::path tempLogFile = "Log.txt";
+  uintmax_t tempFileSize = file_size(tempAudioFilePath);
+
+  if (!notCorrupted(tempAudioFilePath) || (tempFileSize <= 0)) {
+    cerr << "Error: encoding failed" << endl;
+    throw exception();
+  } 
+  bool toggleAC = (quality < 0) ? true : false;
+
+  string cmd = buildCommand(quality, toggleAC, audioFilePath, tempAudioFilePath.string(), tempLogFile);
+  string commandOutput = exec(cmd.c_str());
+
+  cout << "Encoding completed" << endl;
+  if (hasExceededMaxSize(tempAudioFilePath)) { throw exception(); }
+  uintmax_t soundTagSize = static_cast<uintmax_t>(soundTag.size());
+  if ((soundTagSize + tempFileSize) > maxFileSize) {
+  }
+
+  fs::rename(tempAudioFilePath, "temp.ogg");
+}
+// -=-=-=
+
+//void hashFile(char[] buffer) {
+  //unsigned long long unmaskState = 0;
+  //int mask;
+  //for (unsigned int i = 0; i < count; ++i) {
+    //unmaskState = (1664525 * unmaskState + 1013904223) & 0xFFFFFFFF;
+    //mask = (unmaskState >> 24) & 0xFF;
+    //unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(buffer[i] ^ mask));
+    //soundTags[j][i] = (soundTags[j][i] ^ mask);
   //}
+//} 
+
+//void hashAndWrite(char[] buffer) {
+  //unsigned long long unmaskState = 0;
+  //int mask;
+  //for (unsigned int i = 0; i < buffer.length(); ++i) {
+    //unmaskState = (1664525 * unmaskState + 1013904223) & 0xFFFFFFFF;
+    //mask = (unmaskState >> 24) & 0xFF;
+    ////unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(soundTags[j][i]));
+    //unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(soundTags[j][i]));
+    //soundTags[j][i] = (soundTags[j][i] ^ mask);
+  //}
+//}
+
+//void writeMask(fs::path filepath, char[] buffer) {
+  //ifstream f(filepath, ifstream::in | ifstream::binary);
+
+  //while ((count = f.readsome(buffer, sizeof(buffer))) > 0) {
+    //out.write(buffer, count);
+    //hashFile(buffer);
+  //} 
+  //f.close();
+//}
+
+//bool isCorrupted(fs::path filepath) {
+  //ofstream out(filepath, ifstream::out | ifstream::binary);
+  //if (!out.is_open()) {
+    //cerr << "Error: couldn't open \"" << outputFilename.c_str() << "\" for writing" << endl;
+    ////clean(&tempAudioFile, &sounds);
+    //return true;
+  //}
+  //return false;
+//}
 
 
-//void encodeFile(string audioFilePath) {
-	//char buffer[512];
-	//bool qualityMinimized = false;
-	//bool qualityIncreased = false;
+//void encodeImage(string imageFilePath, char[] buffer, string soundTag) { 
+  //fs::path outputFilename = imageFilePath.stem() + "-embed" + imageFilePath.extension(); 
+  //fs::path tempAudioFile = "temp.ogg"
 
-  //uintmax_t audioFileSize = file_size(audioFilePath);
-	//for (int quality = 0; quality <= 10; ++quality) {
-		//unsigned int i;
-		//unsigned int soundsFit = 0;
-		//for (i = 0; i < sounds.size(); ++i) {
-      //stringstream cmd = buildCommand(quality, audioFilePath);
-      //fs::path tempAudioFile = "out.ogg";
+  //if (isCorrupted(outputFilename) || (!notCorrupted(imageFilePath))) { 
+      //throw exception(); 
+  //} else if (notCorrupted(tempAudioFile)) { 
+    //throw exception(); 
+  //}
+  //ofstream out(filepath, ifstream::out | ifstream::binary);
+  //// soundTags[j][i] == 
+  //// hashFile(soundTags[j][i]); // Get the soundtag
+  ////out.write(soundTags[j].c_str(), soundTags[j].length()); // Write the sound tag to the buffer
+  //hashFile(buffer);
+  //hashAndWrite(soundTag);
+  //hashAndWrite(buffer);
 
-			//// Execute
-			//FILE* stream = popen(cmd.str().c_str(), "r");
-			//if (stream == NULL) {
-				//cerr << "Error: could not execute ffmpeg" << endl;
-				//clean(&tempAudioFile, &sounds);
-				//return -1;
-			//}
+  //out.write(buffer, count);
+  //f.close();
+  //out.close();
 
-			////cout << "Encoding \"" << argv[sounds[i]] << "\" @ quality=" << ((quality < 0) ? 0 : quality);
-      //cout << "Encoding \"" << audioFilePath << "\" @ quality=" << ((quality < 0) ? 0 : quality);
-			//if (quality < 0) cout << "/mono";
-			//cout << "..." << endl;
-
-			//while (fgets(buffer, sizeof(buffer), stream) != NULL); // Read and store in buffer
-			//pclose(stream);
-
-      //uintmax_t tempFileSize = file_size(tempAudioFile);
-
-      //if (!notCorrupted(tempAudioFile)) {
-				//cerr << "Error: encoding failed" << endl;
-				//clean(&tempAudioFile, &sounds);
-				//return -1;
-      //} else if (tempFileSize <= 0) {
-				//cout << "Encoding failed" << endl << endl;
-      //} else 
-        //cout << "Encoding completed" << endl;
-
-      //if (tempAudioFile) {
-      //}
-				//// Check if fittable
-				//size_t space = maxOutputSize - imageSize;
-				//for (unsigned int j = 0; j < sounds.size(); ++j) {
-					//assert(soundSizes[j] + soundTags[j].length() <= space);
-					//space -= soundSizes[j] + soundTags[j].length();
-				//}
-
-				//// It doesn't...
-				//if (fileSize + soundTags[i].length() > space) {
-					//// Minimize quality (if the quality hasn't already been increased)
-					//if (!qualityIncreased) {
-						//if (!qualityMinimized) {
-							//// Quality minimize
-							//for (unsigned int j = 0; j < sounds.size(); ++j) {
-								//soundSizes[j] = 0;
-							//}
-							//soundsFit = 0;
-							//quality -= 2;
-							//qualityMinimized = (quality < -1);
-							//cout << "Quality decreased" << endl << endl;
-							//break;
-						//}
-						//else {
-							//// Can't fit
-							//cout << "Warning: sound file \"" << argv[sounds[i]] << "\" cannot be fit." << endl;
-						//}
-					//}
-				//}
-				//// It does
-				//else {
-					//// Fit okay
-					//soundSizes[i] = fileSize;
-					//++soundsFit;
-
-					//// Move temp file
-					//stringstream temp;
-					//temp << "temp." << i << ".ogg";
-					//remove(temp.str().c_str());
-					//rename(tempAudioFile.c_str(), temp.str().c_str());
-				//}
-			//}
-		//}
-
-		//// No breakout?
-		//if (i == sounds.size()) {
-			//qualityIncreased = true;
-			//if (!(bestQuality && soundsFit == sounds.size()) || (qualityMinimized && sounds.size() == 1)) break;
-			//cout << "Quality increased" << endl << endl;
-		//}
-	//}
+	//// Remove temp files
+	//clean(&tempAudioFile, &sounds);
 //}
 
 int getFile(int argc, char** argv) {
@@ -273,6 +312,10 @@ int getFile(int argc, char** argv) {
     return -1;
   } 
 
+  fs::path tempImageFile = "nul";
+  fs::path tempAudioFile = "out.ogg";
+
   vector<string> tags = formatAudioTags(audioFilePath.stem());
+
   return 0;
 } 
