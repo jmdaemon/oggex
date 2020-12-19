@@ -36,13 +36,14 @@ configure_file (
 
 include(FetchContent)
 
-FetchContent_Declare(
-    libogg
-    GIT_REPOSITORY "https://github.com/xiph/ogg")
+#FetchContent_Declare(
+    #libogg
+    #GIT_REPOSITORY "https://github.com/xiph/ogg")
 FetchContent_Declare(
     libfmt
     GIT_REPOSITORY "https://github.com/fmtlib/fmt")
-FetchContent_MakeAvailable(libogg libfmt)
+#FetchContent_MakeAvailable(libogg libfmt)
+FetchContent_MakeAvailable(libfmt)
 
 add_subdirectory(src)
 
