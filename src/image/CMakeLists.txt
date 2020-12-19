@@ -3,7 +3,7 @@ set(TARGET image_library)
 
 add_library(${TARGET})
 target_sources(${TARGET}
-    PRIVATE image.cpp 
+    PRIVATE Image.cpp 
     PUBLIC  ${HEADER_LIST}
 )
 

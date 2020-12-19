@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <vector>
 
-#include "image.hpp"
+#include "Image.h"
 
 using namespace std;
 

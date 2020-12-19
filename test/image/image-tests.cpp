@@ -1,6 +1,6 @@
 #include "../doctest-main.cpp"
 
-#include "image.hpp"
+#include "Image.h"
 
 #include <stdlib.h> 
 #include <iostream>
