@@ -25,4 +25,10 @@ bool isCorrupted(std::filesystem::path filepath, FileType& file) {
     return false;
 }
 
+std::string fileToString(FileType& filestream) {
+  std::ostringstream fileContents;
+  fileContents << filestream.rdbuf();
+  return fileContents.str();
+}
+
 #endif
