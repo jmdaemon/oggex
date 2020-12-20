@@ -208,6 +208,22 @@ void hashFile(array<char, 512> buffer, size_t count) {
   }
 } 
 
+void encodeTo(ifstream& inputFile, ofstream& outputFile, array<char, 512> buffer) {
+  ostringstream contents;
+  contents << inputFile.rdbuf();
+  contents.seekp(0, ios::end);
+  int contentSize = contents.tellp();
+
+  outputFile << contents.rdbuf();
+  hashFile(buffer, contentSize); // Write the imageFileHash to new outputFile
+} 
+
+array<char, 512> stringToBuffer(string str) {
+  array<char, 512> buffer; 
+  copy(begin(str), end(str), buffer.begin());
+  return buffer;
+}
+
 void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string soundTag) { 
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
   fs::path tempAudioFile = "temp.ogg";
@@ -215,23 +231,19 @@ void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string so
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
-  ifstream tempFileData(tempAudioFile.string().c_str(), ifstream::in | ifstream::binary);
+  ifstream tempFileData(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
   if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
     // clean
       throw exception(); 
   }
-  std::ostringstream contents;
-  contents << imageFileData.rdbuf(); // Read imageFileData
-  contents.seekp(0, ios::end);
-  int contentSize = contents.tellp();
 
-  outputFile << contents.rdbuf();
-  hashFile(audioBuffer, contentSize); // Write the imageFileHash to new outputFile
+  encodeTo(imageFileData, outputFile, audioBuffer);
   imageFileData.close();
 
-  tempFileData.open(tempAudioFile.string().c_str(), ifstream::in | ifstream::binary);
+  //tempFileData.open(tempAudioFile.string().c_str(), ifstream::in | ifstream::binary);
   array<char, 512> soundTagBuffer; 
   copy(begin(soundTag), end(soundTag), soundTagBuffer.begin());
+  //array<char, 512> soundTagBuffer(begin(soundTag), end(soundTag)); 
   hashFile(soundTagBuffer, soundTag.length());
 
   ostringstream soundTagContents;
@@ -240,7 +252,8 @@ void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string so
 
   std::ostringstream tempFileContents;
   tempFileContents << tempFileContents.rdbuf(); // Read imageFileData
-  contents.seekp(0, ios::end);
+  tempFileContents.seekp(0, ios::end);
+  //contents.seekp(0, ios::end);
   int tempContentSize = tempFileContents.tellp();
 
   hashFile(audioBuffer, tempContentSize);
