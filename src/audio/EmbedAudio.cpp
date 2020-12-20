@@ -199,9 +199,9 @@ string encodeAudio(AudioData data, ofstream& file) {
 }
 
 //array<char, 512> hashFile(array<char, 512> buffer, size_t count) {
-array<char, size> hashFile(array<char, 512> buffer, size_t count, int size) {
+array<char, length> hashFile(array<char, 512> buffer, size_t count, int length) {
   unsigned long long unmaskState = 0;
-  array<char, size> maskedBuffer;
+  array<char, length> maskedBuffer;
   int mask;
   for (unsigned int i = 0; i < count; ++i) {
     unmaskState = (1664525 * unmaskState + 1013904223) & 0xFFFFFFFF;
@@ -247,9 +247,8 @@ void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<ch
     // clean
     throw exception(); 
   }
-  array<char, 512> originalBuffer;
-  copy(begin(audioBuffer), end(audioBuffer), begin(originalBuffer));
-
+  //array<char, 512> originalBuffer;
+  //copy(begin(audioBuffer), end(audioBuffer), begin(originalBuffer));
 
   // Process:
   // 1.
@@ -273,10 +272,12 @@ void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<ch
   //array<char, 512> imageContentBuffer = stringToBuffer(fileToString(imageFileData));
   //hashFile(imageContentBuffer, imageContentBuffer.size()); // Write the imageFileHash to new outputFile
 
-  outputFile << imageFileData.rdbuf(); // Read and write entire Image to outputFile
+  outputFile << imageFileData.rdbuf();
+
   imageFileData.seekp(0, ios::end);
   int imageContentSize = imageFileData.tellp(); // get Length
-  array<char, imageContentSize> imageContent = stringToBuffer(fileToString(), imageContentSize);
+  array<char, imageContentSize> imageContent = stringToBuffer(fileToString(imageFileData), imageContentSize);
+
   hashFile(imageContent, imageContent.size(), imageContentSize); 
   imageFileData.close();
   //outputFile << imageFileData.rdbuf(); 
@@ -291,26 +292,31 @@ void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<ch
   // Ideally:
   //array<char, 512> soundTagBuffer = hashFile(stringToBuffer(soundTag), soundTag.length());
   //outputFile.write(soundTagBuffer, soundTagBuffer.length());
+  array<char, 512> soundTagBuffer = hashFile(stringToBuffer(soundTag), soundTag.length(), 100);
+  outputFile.write(soundTagBuffer, soundTagBuffer.length());
 
   // Read the soundTag, write to outputFile
 
-  hashFile();
+  //hashFile();
 
-  ostringstream soundTagContents;
-  soundTagContents.str(soundTag);
-  int soundTagLength = soundTag.length();
-  stringToBuffer();
+  //ostringstream soundTagContents;
+  //soundTagContents.str(soundTag);
+  //int soundTagLength = soundTag.length();
+  //stringToBuffer();
 
-  outputFile << soundTagContents.rdbuf();
+  //outputFile << soundTagContents.rdbuf();
 
   // Read AudioFile, write AudioFile to outputFile, write ImageHash
-  ostringstream audioFileData;
-  audioFileData << audioFileData.rdbuf(); // Read imageFileData
-  audioFileData.seekp(0, ios::end);
+  ostringstream audioFileContents;
+  audioFileContents << audioFileData.rdbuf();
+  audioFileContents.seekp(0, ios::end);
   int audioContentSize = audioFileData.tellp();
 
-  array<char, 512> audioFileBuffer = hashFile(audioBuffer, tempContentSize);
-  outputFile << audioFileData.rdbuf();
+  array<char, audioContentSize> audioFileBuffer = stringToBuffer(fileToString(audioFileData), audioContentSize); 
+  hashFile(audioFileBuffer, audioFileBuffer.size(), audioContentSize);
+  //array<char, audioContentSize> audioFileBuffer = hashFile(audioBuffer, audioFileContents.size(), audioContentSize);
+  outputFile.write(audioFileBuffer, audioContentSize);
+  //outputFile << audioFileData.rdbuf();
 
   tempFileData.close();
   outputFile.close();
