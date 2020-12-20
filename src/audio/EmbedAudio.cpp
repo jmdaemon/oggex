@@ -198,10 +198,9 @@ string encodeAudio(AudioData data, ofstream& file) {
   return cmdOutput;
 }
 
-//array<char, 512> hashFile(array<char, 512> buffer, size_t count) {
-array<char, length> hashFile(array<char, 512> buffer, size_t count, int length) {
+array<char, 512> hashFile(array<char, 512> buffer, size_t count) {
   unsigned long long unmaskState = 0;
-  array<char, length> maskedBuffer;
+  array<char, 512> maskedBuffer;
   int mask;
   for (unsigned int i = 0; i < count; ++i) {
     unmaskState = (1664525 * unmaskState + 1013904223) & 0xFFFFFFFF;
@@ -222,104 +221,18 @@ void encodeTo(ifstream& inputFile, ofstream& outputFile, array<char, 512> buffer
   hashFile(buffer, contentSize); // Write the imageFileHash to new outputFile
 } 
 
-//array<char, 512> stringToBuffer(string str) {
-  //array<char, 512> buffer; 
-  //copy(begin(str), end(str), buffer.begin());
-  //return buffer;
-//}
-
-array<char, length> stringToBuffer(string str, int length) {
-  array<char, length> buffer; 
-  copy(begin(str), end(str), buffer.begin());
-  return buffer;
-}
-
 void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<char, 512> audioBuffer, string soundTag) { 
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
-  //fs::path tempAudioFile = "temp.ogg";
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
   ifstream audioFileData(encodedAudioFilePath.c_str(), ifstream::in | ifstream::binary);
-  //ifstream audioFileData(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
 
   if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
     // clean
     throw exception(); 
   }
-  //array<char, 512> originalBuffer;
-  //copy(begin(audioBuffer), end(audioBuffer), begin(originalBuffer));
 
-  // Process:
-  // 1.
-  // - Read an ImageFile with a given path into memory.
-  // - Write the ImageFile to a new file, outputFile.
-  // - Read the outputFile again, and write the ImageFile hash from the ImageFile
-  // - Close ImageFile
-
-  // 2.
-  // - Open the AudioFile that was encoded with ffmpeg
-  // - Read the soundTag into memory, and mask the tag with the hash
-  // - Write the hashed soundTag to the outputFile
-
-  // 3.
-  // Read the AudioFile into memory, and mask the audio with the hash
-  // Write the hashed AudioFile to the outPut File
-  // Close all
-
-  // Read ImageFile, write ImageFileData to outputFile, write Image Hash to audioBuffer
-  // Ideally:
-  //array<char, 512> imageContentBuffer = stringToBuffer(fileToString(imageFileData));
-  //hashFile(imageContentBuffer, imageContentBuffer.size()); // Write the imageFileHash to new outputFile
-
-  outputFile << imageFileData.rdbuf();
-
-  imageFileData.seekp(0, ios::end);
-  int imageContentSize = imageFileData.tellp(); // get Length
-  array<char, imageContentSize> imageContent = stringToBuffer(fileToString(imageFileData), imageContentSize);
-
-  hashFile(imageContent, imageContent.size(), imageContentSize); 
-  imageFileData.close();
-  //outputFile << imageFileData.rdbuf(); 
-
-  //hashFile(audioBuffer, imageContentSize);
-  //imageFileData.close();
-  //outputFile << contents.rdbuf();
-  //hashFile(buffer, contentSize); 
-  //encodeTo(imageFileData, outputFile, audioBuffer);
-
-  // Hash the soundTag (key), and write the content to file
-  // Ideally:
-  //array<char, 512> soundTagBuffer = hashFile(stringToBuffer(soundTag), soundTag.length());
-  //outputFile.write(soundTagBuffer, soundTagBuffer.length());
-  array<char, 512> soundTagBuffer = hashFile(stringToBuffer(soundTag), soundTag.length(), 100);
-  outputFile.write(soundTagBuffer, soundTagBuffer.length());
-
-  // Read the soundTag, write to outputFile
-
-  //hashFile();
-
-  //ostringstream soundTagContents;
-  //soundTagContents.str(soundTag);
-  //int soundTagLength = soundTag.length();
-  //stringToBuffer();
-
-  //outputFile << soundTagContents.rdbuf();
-
-  // Read AudioFile, write AudioFile to outputFile, write ImageHash
-  ostringstream audioFileContents;
-  audioFileContents << audioFileData.rdbuf();
-  audioFileContents.seekp(0, ios::end);
-  int audioContentSize = audioFileData.tellp();
-
-  array<char, audioContentSize> audioFileBuffer = stringToBuffer(fileToString(audioFileData), audioContentSize); 
-  hashFile(audioFileBuffer, audioFileBuffer.size(), audioContentSize);
-  //array<char, audioContentSize> audioFileBuffer = hashFile(audioBuffer, audioFileContents.size(), audioContentSize);
-  outputFile.write(audioFileBuffer, audioContentSize);
-  //outputFile << audioFileData.rdbuf();
-
-  tempFileData.close();
-  outputFile.close();
 }
 
 int embed(int argc, char** argv) {
@@ -341,7 +254,6 @@ int embed(int argc, char** argv) {
     return -1; 
   } 
   fs::path tempLogFile = "Log.txt";
-  //fs::path tempAudioFile = "out.ogg";
   fs::path encodedAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
