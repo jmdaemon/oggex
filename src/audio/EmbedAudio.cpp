@@ -228,10 +228,10 @@ void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string so
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
   fs::path tempAudioFile = "temp.ogg";
 
-
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
   ifstream tempFileData(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
+
   if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
     // clean
       throw exception(); 
@@ -241,8 +241,8 @@ void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string so
   imageFileData.close();
 
   //tempFileData.open(tempAudioFile.string().c_str(), ifstream::in | ifstream::binary);
-  array<char, 512> soundTagBuffer; 
-  copy(begin(soundTag), end(soundTag), soundTagBuffer.begin());
+  array<char, 512> soundTagBuffer = stringToBuffer(soundTag); 
+  //copy(begin(soundTag), end(soundTag), soundTagBuffer.begin());
   //array<char, 512> soundTagBuffer(begin(soundTag), end(soundTag)); 
   hashFile(soundTagBuffer, soundTag.length());
 
@@ -286,11 +286,7 @@ int embed(int argc, char** argv) {
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
   AudioData audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
-  string audioBuffer = encodeAudio(audioData, audioFile);
-
-  array<char, 512> buffer;
-  copy(audioBuffer.begin(), audioBuffer.end(), buffer.begin());
-  encodeImage(imageFilePath, buffer, tags.at(0));
+  encodeImage(imageFilePath, stringToBuffer(encodeAudio(audioData, audioFile)), tags.at(0));
 
   return 0;
 } 
