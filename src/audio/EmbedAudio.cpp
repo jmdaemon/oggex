@@ -143,19 +143,19 @@ struct AudioData {
 struct ImageData {
 };
 
-//string buildCommand(AudioData data) {
-  //string command;
-  //string setAudioChannel = "";
-  //if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
-  //command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      //data.audioFile.string(),
-      //data.audioQuality,
-      //setAudioChannel,
-      //data.tempAudioFile.string(),
-      //data.tempLogFile.string()
-      //);
-  //return command;
-//}
+string buildCommand(AudioData data) {
+  string command;
+  string setAudioChannel = "";
+  if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
+  command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+      data.audioFile.string(),
+      data.audioQuality,
+      setAudioChannel,
+      data.tempAudioFile.string(),
+      data.tempLogFile.string()
+      );
+  return command;
+}
 
 string encodeOGG(AudioData data) {
   string command;
@@ -172,15 +172,8 @@ string encodeOGG(AudioData data) {
 }
 
 string exec(const char* cmd, AudioData data) {
-    //array<char, 512> buffer;
   ifstream dataContents(data.audioFile.c_str(), ifstream::in | ifstream::binary);
   const int dataSize = getFileSize(dataContents); 
-    //array<char, dataSize> buffer;
-    //char buffer[dataSize];
-    //vector<char, dataSize> buffer;
-    //array<char, getFileSize(dataContents)> buffer;
-  //char dataBuffer[] = new char[dataSize];
-  //auto buffer = make_unique<char[]>(dataSize);
   vector<char> buffer(dataSize);
     string result;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
@@ -245,7 +238,6 @@ void encodeTo(ifstream& inputFile, ofstream& outputFile, array<char, 512> buffer
   hashFile(buffer, contentSize); // Write the imageFileHash to new outputFile
 } 
 
-//void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<char, 512> audioBuffer, string soundTag) { 
 void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, string encodedAudio, string soundTag) { 
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
 
@@ -253,7 +245,6 @@ void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, string e
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
   ifstream audioFileData(encodedAudioFilePath.c_str(), ifstream::in | ifstream::binary);
 
-  //if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
   if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(encodedAudio, audioFileData)) { 
     // clean
     throw exception(); 
@@ -291,7 +282,6 @@ int embed(int argc, char** argv) {
 
   AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
   encodeImage(imageFilePath, encodedAudioFile, encodeAudio(audioData, audioFile), tags.at(0));
-  //encodeImage(imageFilePath, encodedAudioFile, stringToBuffer(encodeAudio(audioData, audioFile)), tags.at(0));
 
   return 0;
 } 
