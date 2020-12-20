@@ -198,7 +198,6 @@ string encodeAudio(AudioData data, ofstream& file) {
   return cmdOutput;
 }
 
-//void hashFile(char buffer[], size_t count) {
 void hashFile(array<char, 512> buffer, size_t count) {
   unsigned long long unmaskState = 0;
   int mask;
@@ -206,20 +205,8 @@ void hashFile(array<char, 512> buffer, size_t count) {
     unmaskState = (1664525 * unmaskState + 1013904223) & 0xFFFFFFFF;
     mask = (unmaskState >> 24) & 0xFF;
     unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(buffer[i] ^ mask));
-    //unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(get<i>(buffer) ^ mask));
-    //unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(buffer[i] ^ mask));
   }
 } 
-
-//void writeMask(fs::path filepath, char buffer[]) {
-  //ifstream f(filepath, ifstream::in | ifstream::binary);
-
-  //while ((count = f.readsome(buffer, sizeof(buffer))) > 0) {
-    //out.write(buffer, count);
-    //hashFile(buffer);
-  //} 
-  //f.close();
-//} 
 
 void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string soundTag) { 
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
@@ -229,70 +216,38 @@ void encodeImage(fs::path imageFilePath, array<char, 512> audioBuffer, string so
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
   ifstream tempFileData(tempAudioFile.string().c_str(), ifstream::in | ifstream::binary);
-  //if (isCorrupted(imageFilePath) || isCorrupted(tempAudioFile)) { 
   if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
     // clean
       throw exception(); 
   }
-
-
-  // ---- ==== ----
-  // Read from imageFile, write to outputFile
   std::ostringstream contents;
   contents << imageFileData.rdbuf(); // Read imageFileData
   contents.seekp(0, ios::end);
   int contentSize = contents.tellp();
 
   outputFile << contents.rdbuf();
-  //outputFile.write(contents, contentSize);
   hashFile(audioBuffer, contentSize); // Write the imageFileHash to new outputFile
   imageFileData.close();
-  //f.close();
 
-  // Read from TempFile, write to outputFile
-  //ifstream tempFileData(tempAudioFile.c_str(), ifstream::in | ifstream::binary);
   tempFileData.open(tempAudioFile.string().c_str(), ifstream::in | ifstream::binary);
-  //const char[] soundTagBuffer = soundTag.c_str();
-  //array<char, 512> soundTagBuffer = soundTag.c_str();
-  //array<char, 512> soundTagBuffer = *soundTag.data();
-  //array<char, 512> soundTagBuffer = std::copy(soundTag.begin(), soundTag.end(), soundTag.data());
-  //array<char, 512> soundTagBuffer = std::array(soundTag.begin(), soundTag.end(), soundTag.data());
-  //array<char, 512> soundTagBuffer = std::to_array(soundTag);
-  //array<char, 512> soundTagBuffer = to_array(soundTag.begin(), soundTag.end(), soundTag.data());
-  //const char *soundTagCArray = soundTag.c_str();
-  //array<char, 512> soundTagBuffer = to_array(soundTag.c_str());
-  //array<char, 512> soundTagBuffer = to_array(soundTagCArray.begin(), soundTagCArray.end(), soundTagCArray.data());
-  //array<char, 512> soundTagBuffer = std::copy(begin(soundTagCArray), end(soundTagCArray), data(soundTagCArray));
-  //array<char, 512> soundTagBuffer = std::array(soundTag.begin(), soundTag.end(), soundTag.data());
-  //const char stArray[] = array(soundTag.c_str());
-  //array<char, 512> soundTagBuffer = array(strcpy(soundTag, soundTag.c_str()));
   array<char, 512> soundTagBuffer; 
-  //copy(begin(stArray), end(stArray), soundTagBuffer);
-  //copy(soundTag.begin(), soundTag.end(), soundTagBuffer);
   copy(begin(soundTag), end(soundTag), soundTagBuffer.begin());
   hashFile(soundTagBuffer, soundTag.length());
+
   ostringstream soundTagContents;
   soundTagContents.str(soundTag);
   outputFile << soundTagContents.rdbuf();
-  //hashFile(soundTag.length(), &soundTagBuffer);
-  //hashFile(soundTag.length(), &soundTagBuffer);
-
-  //outputFile << soundTag;
-  //outputFile.write(soundTag.c_str(), soundTag.length());
-  //soundTag << soundTagBuffer;
 
   std::ostringstream tempFileContents;
   tempFileContents << tempFileContents.rdbuf(); // Read imageFileData
   contents.seekp(0, ios::end);
   int tempContentSize = tempFileContents.tellp();
-  //hashFile(tempFileContents, tempContentSize);
+
   hashFile(audioBuffer, tempContentSize);
   outputFile << tempFileContents.rdbuf();
-  //outputFile.write(tempFileContents);
 
   tempFileData.close();
   outputFile.close();
-  // ---- ==== ----
 }
 
 int embed(int argc, char** argv) {
@@ -320,7 +275,6 @@ int embed(int argc, char** argv) {
   AudioData audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
   string audioBuffer = encodeAudio(audioData, audioFile);
 
-  //array<char, 512> buffer = copy(audioBuffer.begin(), audioBuffer.end(), audioBuffer.data());
   array<char, 512> buffer;
   copy(audioBuffer.begin(), audioBuffer.end(), buffer.begin());
   encodeImage(imageFilePath, buffer, tags.at(0));
