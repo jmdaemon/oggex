@@ -1,2 +1,17 @@
 # Ignore ctags generated tags files
 tags
+
+# Ignore bazel output
+bazel-*
+
+.idea/*
+
+# Ignore cmake, meson build output
+build
+
+# Ignore meson subproject build files, but not wrap configs
+subprojects/
+!subprojects/*.wrap
+
+# Ignore inclusion of resources too intensive for git
+test/resources
