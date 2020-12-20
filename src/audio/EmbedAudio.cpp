@@ -143,11 +143,25 @@ struct AudioData {
 struct ImageData {
 };
 
-string buildCommand(AudioData data) {
+//string buildCommand(AudioData data) {
+  //string command;
+  //string setAudioChannel = "";
+  //if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
+  //command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+      //data.audioFile.string(),
+      //data.audioQuality,
+      //setAudioChannel,
+      //data.tempAudioFile.string(),
+      //data.tempLogFile.string()
+      //);
+  //return command;
+//}
+
+string encodeOGG(AudioData data) {
   string command;
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
-  command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+  command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
       data.audioFile.string(),
       data.audioQuality,
       setAudioChannel,
@@ -158,7 +172,16 @@ string buildCommand(AudioData data) {
 }
 
 string exec(const char* cmd, AudioData data) {
-    array<char, 512> buffer;
+    //array<char, 512> buffer;
+  ifstream dataContents(data.audioFile.c_str(), ifstream::in | ifstream::binary);
+  const int dataSize = getFileSize(dataContents); 
+    //array<char, dataSize> buffer;
+    //char buffer[dataSize];
+    //vector<char, dataSize> buffer;
+    //array<char, getFileSize(dataContents)> buffer;
+  //char dataBuffer[] = new char[dataSize];
+  //auto buffer = make_unique<char[]>(dataSize);
+  vector<char> buffer(dataSize);
     string result;
     unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
     if (!pipe) { 
@@ -176,7 +199,8 @@ string exec(const char* cmd, AudioData data) {
 }
 
 string encodeAudio(AudioData data, ofstream& file) {
-  string cmd = buildCommand(data);
+  //string cmd = buildCommand(data);
+  string cmd = encodeOGG(data);
   string cmdOutput = exec(cmd.c_str(), data);
 
   uintmax_t maxFileSize = 1024 * 1024 * 4; 
@@ -221,18 +245,26 @@ void encodeTo(ifstream& inputFile, ofstream& outputFile, array<char, 512> buffer
   hashFile(buffer, contentSize); // Write the imageFileHash to new outputFile
 } 
 
-void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<char, 512> audioBuffer, string soundTag) { 
+//void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, array<char, 512> audioBuffer, string soundTag) { 
+void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, string encodedAudio, string soundTag) { 
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
   ifstream audioFileData(encodedAudioFilePath.c_str(), ifstream::in | ifstream::binary);
 
-  if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
+  //if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(tempAudioFile, tempFileData)) { 
+  if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(encodedAudio, audioFileData)) { 
     // clean
     throw exception(); 
   }
 
+  outputFile << imageFileData.rdbuf();
+  outputFile.write(soundTag.c_str(), soundTag.length());
+  outputFile.write(encodedAudio.c_str(), encodedAudio.length());
+  outputFile.close();
+  imageFileData.close();
+  audioFileData.close();
 }
 
 int embed(int argc, char** argv) {
@@ -257,8 +289,9 @@ int embed(int argc, char** argv) {
   fs::path encodedAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
-  AudioData audioData = { 10, false, tags.at(0), audioFilePath, tempAudioFile, tempLogFile};
-  encodeImage(imageFilePath, encodedAudioFile, stringToBuffer(encodeAudio(audioData, audioFile)), tags.at(0));
+  AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
+  encodeImage(imageFilePath, encodedAudioFile, encodeAudio(audioData, audioFile), tags.at(0));
+  //encodeImage(imageFilePath, encodedAudioFile, stringToBuffer(encodeAudio(audioData, audioFile)), tags.at(0));
 
   return 0;
 } 
