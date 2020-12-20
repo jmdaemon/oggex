@@ -25,6 +25,7 @@ bool isCorrupted(std::filesystem::path filepath, FileType& file) {
     return false;
 }
 
+template<typename FileType>
 std::string fileToString(FileType& filestream) {
   std::ostringstream fileContents;
   fileContents << filestream.rdbuf();
