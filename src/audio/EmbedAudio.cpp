@@ -37,6 +37,22 @@ namespace Audio {
   };
 }
 
+namespace File {
+  string getFileExtension(string file) {
+    return (fs::path (file)).extension();
+  }
+
+  bool isFile(string file, const map<int, string> FileExtensions) {
+    string extension = toLowerCase(File::getFileExtension(file));
+    for (int i = 0; i < FileExtensions.size(); i++) {
+      if(FileExtensions.at(i) == extension) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+
 string toLowerCase(const fs::path& filePath) {
   string fpath = filePath.string();
   transform(fpath.begin(), fpath.end(), fpath.begin(), 
@@ -60,19 +76,7 @@ bool meetsReq(int argc, char** argv) {
   return true;
 }
 
-string getFileExtension(string file) {
-  return (fs::path (file)).extension();
-}
 
-bool isFile(string file, const map<int, string> FileExtensions) {
-  string extension = toLowerCase(getFileExtension(file));
-  for (int i = 0; i < FileExtensions.size(); i++) {
-    if(FileExtensions.at(i) == extension) {
-      return true;
-    }
-  }
-  return false;
-}
 
 bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
   uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
@@ -83,10 +87,10 @@ bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit
   return true;
 }
 
-bool isImage(string file) { return isFile(file, ValidImageFileExtensions); }
-bool isAudio(string file) { return isFile(file, Audio::FileExtensions); }
-bool isImage(fs::path filepath) { return isFile(filepath.string(), ValidImageFileExtensions); }
-bool isAudio(fs::path filepath) { return isFile(filepath.string(), Audio::FileExtensions); }
+bool isImage(string file) { return File::isFile(file, ValidImageFileExtensions); }
+bool isAudio(string file) { return File::isFile(file, Audio::FileExtensions); }
+bool isImage(fs::path filepath) { return File::isFile(filepath.string(), ValidImageFileExtensions); }
+bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
