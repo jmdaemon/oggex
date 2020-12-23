@@ -34,11 +34,7 @@ namespace Image {
   };
 }
 
-namespace Audio {
-  const static map<int, string> FileExtensions = {
-    {0, ".ogg"},
-  };
-}
+
 
 namespace File {
   string getFileExtension(string file) {
@@ -62,6 +58,12 @@ namespace File {
       return false;
     } else
     return true;
+  }
+
+  namespace Audio {
+    const static map<int, string> FileExtensions = {
+      {0, ".ogg"},
+    };
   }
 }
 
@@ -88,12 +90,10 @@ bool meetsReq(int argc, char** argv) {
   return true;
 }
 
-
-
 bool isImage(string file) { return File::isFile(file, Image::FileExtensions); }
-bool isAudio(string file) { return File::isFile(file, Audio::FileExtensions); }
+bool isAudio(string file) { return File::isFile(file, File::Audio::FileExtensions); }
 bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::FileExtensions); }
-bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
+bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), File::Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
