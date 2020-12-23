@@ -45,7 +45,9 @@ int extract(fs::path filepath) {
     //for (std::string::size_type offset = 0, found_at; file_size > offset && (found_at = file_content.find(search_term, offset)) != std::string::npos; 
     for (; file_size > offset && (found_at = file_content.find(search_term, offset)) != string::npos; 
         offset = found_at + search_term_size)
-      cout << found_at << endl;
+      fmt::print("File offset of audio file: {}", found_at);
+      //cerr << found_at << endl;
+      //cout << found_at << endl;
   }
 
 
