@@ -51,6 +51,15 @@ namespace File {
     }
     return false;
   }
+
+  bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
+    uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
+    if (fileSize > maxFileSize) {
+      cerr << errorMsg << endl;
+      return false;
+    } else
+    return true;
+  }
 }
 
 string toLowerCase(const fs::path& filePath) {
@@ -78,22 +87,13 @@ bool meetsReq(int argc, char** argv) {
 
 
 
-bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
-  uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-  if (fileSize > maxFileSize) {
-		cerr << errorMsg << endl;
-		return false;
-  } else
-  return true;
-}
-
 bool isImage(string file) { return File::isFile(file, ValidImageFileExtensions); }
 bool isAudio(string file) { return File::isFile(file, Audio::FileExtensions); }
 bool isImage(fs::path filepath) { return File::isFile(filepath.string(), ValidImageFileExtensions); }
 bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
-  return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
+  return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
 }
 
 map<int, string> parseOptions(int argc, char** argv) {
