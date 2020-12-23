@@ -32,7 +32,7 @@ const static map<int, string> ValidImageFileExtensions = {
 };
 
 namespace Audio {
-  const static map<int, string> ValidAudioFileExtensions = {
+  const static map<int, string> FileExtensions = {
     {0, ".ogg"},
   };
 }
@@ -84,9 +84,9 @@ bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit
 }
 
 bool isImage(string file) { return isFile(file, ValidImageFileExtensions); }
-bool isAudio(string file) { return isFile(file, Audio::ValidAudioFileExtensions); }
+bool isAudio(string file) { return isFile(file, Audio::FileExtensions); }
 bool isImage(fs::path filepath) { return isFile(filepath.string(), ValidImageFileExtensions); }
-bool isAudio(fs::path filepath) { return isFile(filepath.string(), Audio::ValidAudioFileExtensions); }
+bool isAudio(fs::path filepath) { return isFile(filepath.string(), Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
