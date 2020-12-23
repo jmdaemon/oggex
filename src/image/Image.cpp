@@ -7,8 +7,10 @@
 
 using namespace std;
 
-Image::Image(std::string imagePath) : imagePath{imagePath} { } 
+namespace Image {
+  Image::Image(std::string imagePath) : imagePath{imagePath} { } 
 
-int Image::readImage() {
-  return 0;
+  int Image::readImage() {
+    return 0;
+  }
 }

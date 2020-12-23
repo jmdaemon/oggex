@@ -18,15 +18,12 @@
 #include <fmt/printf.h>
 
 #include "EmbedAudio.h"
+#include "Image.h"
 
 using namespace std;
 namespace fs = std::filesystem;
 
 static bool bestQuality = true;
-
-
-
-
 
 namespace File {
   string getFileExtension(string file) {
@@ -58,15 +55,6 @@ namespace File {
     };
   }
 
-  namespace Image {
-    const static map<int, string> FileExtensions = {
-      {0, ".jpg"},
-      {1, ".jpeg"},
-      {2, ".gif"},
-      {3, ".png"},
-      {4, ".webm"},
-    };
-  }
 }
 
 string toLowerCase(const fs::path& filePath) {
@@ -92,9 +80,9 @@ bool meetsReq(int argc, char** argv) {
   return true;
 }
 
-bool isImage(string file) { return File::isFile(file, File::Image::FileExtensions); }
+bool isImage(string file) { return File::isFile(file, Image::FileExtensions); }
 bool isAudio(string file) { return File::isFile(file, File::Audio::FileExtensions); }
-bool isImage(fs::path filepath) { return File::isFile(filepath.string(), File::Image::FileExtensions); }
+bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::FileExtensions); }
 bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), File::Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {

@@ -2,19 +2,30 @@
 #define IMAGE_H
 
 #include <string>
+#include <map>
 
-class Image {
-  private:
-    std::string imagePath;
+namespace Image {
+  const static std::map<int, std::string> FileExtensions = {
+    {0, ".jpg"},
+    {1, ".jpeg"},
+    {2, ".gif"},
+    {3, ".png"},
+    {4, ".webm"},
+  };
 
-  public:
+  class Image {
+    private:
+      std::string imagePath;
 
-    Image(std::string imagePath);
-    int readImage();
+    public:
 
-    std::string getImg() {
-      return this->imagePath;
-    }
-};
+      Image(std::string imagePath);
+      int readImage();
+
+      std::string getImg() {
+        return this->imagePath;
+      }
+  };
+}
 
 #endif
