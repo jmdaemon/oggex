@@ -20,39 +20,12 @@
 #include "EmbedAudio.h"
 #include "Image.h"
 #include "Audio.h"
+#include "File.h"
 
 using namespace std;
 namespace fs = std::filesystem;
 
 static bool bestQuality = true;
-
-namespace File {
-  string getFileExtension(string file) {
-    return (fs::path (file)).extension();
-  }
-
-  bool isFile(string file, const map<int, string> FileExtensions) {
-    string extension = toLowerCase(File::getFileExtension(file));
-    for (int i = 0; i < FileExtensions.size(); i++) {
-      if(FileExtensions.at(i) == extension) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit sounds.") {
-    uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-    if (fileSize > maxFileSize) {
-      cerr << errorMsg << endl;
-      return false;
-    } else
-    return true;
-  }
-
-
-
-}
 
 string toLowerCase(const fs::path& filePath) {
   string fpath = filePath.string();

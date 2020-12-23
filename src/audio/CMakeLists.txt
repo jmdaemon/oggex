@@ -1,10 +1,12 @@
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio")
+set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file")
 set(TARGET audio_library)
 
 add_library(${TARGET})
 target_sources(${TARGET}
     PRIVATE metadata.cpp 
     PRIVATE ExtractAudio.cpp
+    PRIVATE Audio.cpp
+    PRIVATE File.cpp
     PRIVATE EmbedAudio.cpp
     PUBLIC  ${HEADER_LIST}
 )
