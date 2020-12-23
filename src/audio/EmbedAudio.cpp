@@ -25,7 +25,7 @@ namespace fs = std::filesystem;
 static bool bestQuality = true;
 
 namespace Image {
-  const static map<int, string> ValidImageFileExtensions = {
+  const static map<int, string> FileExtensions = {
     {0, ".jpg"},
     {1, ".jpeg"},
     {2, ".gif"},
@@ -90,9 +90,9 @@ bool meetsReq(int argc, char** argv) {
 
 
 
-bool isImage(string file) { return File::isFile(file, Image::ValidImageFileExtensions); }
+bool isImage(string file) { return File::isFile(file, Image::FileExtensions); }
 bool isAudio(string file) { return File::isFile(file, Audio::FileExtensions); }
-bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::ValidImageFileExtensions); }
+bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::FileExtensions); }
 bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
