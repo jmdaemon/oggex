@@ -1,7 +1,10 @@
 #include <iostream>
-#include <string>
-#include <stdlib.h>
 #include <vector>
+
+#include <string>
+#include <map>
+#include <cstdint>
+
 
 #include "Image.h"
 
@@ -13,4 +16,12 @@ namespace Image {
   int Image::readImage() {
     return 0;
   }
+
+  bool isImage(std::string file) { return File::isFile(file, FileExtensions); }
+  bool isImage(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
+
+  bool imageUnder4MiB (uintmax_t imageFileSize) {
+    return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
+  }
+
 }

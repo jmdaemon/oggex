@@ -3,6 +3,10 @@
 
 #include <string>
 #include <map>
+#include <cstdint>
+
+//#include "../file/File.h"
+#include "File.h"
 
 namespace Image {
   const static std::map<int, std::string> FileExtensions = {
@@ -26,6 +30,9 @@ namespace Image {
         return this->imagePath;
       }
   };
+  bool isImage(std::string file);
+  bool isImage(std::filesystem::path filepath);
+  bool imageUnder4MiB (uintmax_t imageFileSize); 
 }
 
 #endif

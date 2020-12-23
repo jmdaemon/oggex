@@ -27,13 +27,6 @@ namespace fs = std::filesystem;
 
 static bool bestQuality = true;
 
-string toLowerCase(const fs::path& filePath) {
-  string fpath = filePath.string();
-  transform(fpath.begin(), fpath.end(), fpath.begin(), 
-      [](unsigned char c ) { return tolower(c); }); 
-  return fpath;
-}
-
 void showUsage(std::string programName) { 
   fmt::fprintf(cerr, 
       "Usage: %s [audio_file] [image_file]\n %s %s %s", programName, 
@@ -50,13 +43,6 @@ bool meetsReq(int argc, char** argv) {
   return true;
 }
 
-bool isImage(string file) { return File::isFile(file, Image::FileExtensions); }
-bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::FileExtensions); }
-
-bool imageUnder4MiB (uintmax_t imageFileSize) {
-  return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
-}
-
 map<int, string> parseOptions(int argc, char** argv) {
   if (!meetsReq(argc, argv)) { throw std::exception(); }
 
@@ -68,7 +54,7 @@ map<int, string> parseOptions(int argc, char** argv) {
 
     if (arg.compare("-h") || arg.compare("--help")) { showUsage(argv[0]); } 
     if (arg.compare("-f") || arg.compare("--fast")) { bestQuality = true; }
-    if (isImage(arg)) { imageFilePath = argv[i]; }
+    if (Image::isImage(arg)) { imageFilePath = argv[i]; }
     if (Audio::isAudio(arg)) { audioFilePath = argv[i]; }
   } 
 
@@ -97,8 +83,6 @@ vector<string> formatAudioTags(string tag) {
   soundTags.push_back(soundTag); // audio.ogg ==> [audio] 
   return soundTags;
 }
-
-
 
 struct ImageData {
 };
@@ -231,7 +215,7 @@ int embed(int argc, char** argv) {
 
   ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
   ofstream audioFile(audioFilePath, ifstream::out | ifstream::binary);
-  if (!imageUnder4MiB(file_size(imageFilePath)) && !isCorrupted(imageFilePath, imageFile) && !isCorrupted(audioFilePath, audioFile)) { 
+  if (!Image::imageUnder4MiB(file_size(imageFilePath)) && !isCorrupted(imageFilePath, imageFile) && !isCorrupted(audioFilePath, audioFile)) { 
     imageFile.close(); 
     audioFile.close();
     return -1; 

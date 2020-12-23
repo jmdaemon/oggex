@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 
+//#include "../file/File.h"
 #include "File.h"
 
 namespace Audio {
@@ -21,9 +22,9 @@ namespace Audio {
     std::filesystem::path tempLogFile;
   };
 
-  bool isAudio(std::string file) { return File::isFile(file, Audio::FileExtensions); }
+  bool isAudio(std::string file) { return File::isFile(file, FileExtensions); }
 
-  bool isAudio(std::filesystem::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
+  bool isAudio(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
 
 }
 

@@ -1,4 +1,4 @@
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/image")
+set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/image" "${OGGEX_SOURCE_DIR}/include/file")
 set(TARGET image_library)
 
 add_library(${TARGET})
