@@ -19,6 +19,7 @@
 
 #include "EmbedAudio.h"
 #include "Image.h"
+#include "Audio.h"
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -49,11 +50,7 @@ namespace File {
     return true;
   }
 
-  namespace Audio {
-    const static map<int, string> FileExtensions = {
-      {0, ".ogg"},
-    };
-  }
+
 
 }
 
@@ -81,9 +78,9 @@ bool meetsReq(int argc, char** argv) {
 }
 
 bool isImage(string file) { return File::isFile(file, Image::FileExtensions); }
-bool isAudio(string file) { return File::isFile(file, File::Audio::FileExtensions); }
+bool isAudio(string file) { return File::isFile(file, Audio::FileExtensions); }
 bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::FileExtensions); }
-bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), File::Audio::FileExtensions); }
+bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
@@ -130,19 +127,12 @@ vector<string> formatAudioTags(string tag) {
   return soundTags;
 }
 
-struct AudioData {
-  int audioQuality;
-  bool lowQuality;
-  string soundTag;
-  fs::path audioFile;
-  fs::path tempAudioFile;
-  fs::path tempLogFile;
-};
+
 
 struct ImageData {
 };
 
-string buildCommand(AudioData data) {
+string buildCommand(Audio::AudioData data) {
   string command;
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
@@ -156,7 +146,7 @@ string buildCommand(AudioData data) {
   return command;
 }
 
-string encodeOGG(AudioData data) {
+string encodeOGG(Audio::AudioData data) {
   string command;
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
@@ -170,7 +160,7 @@ string encodeOGG(AudioData data) {
   return command;
 }
 
-string exec(const char* cmd, AudioData data) {
+string exec(const char* cmd, Audio::AudioData data) {
   ifstream dataContents(data.audioFile.c_str(), ifstream::in | ifstream::binary);
   const int dataSize = getFileSize(dataContents); 
   vector<char> buffer(dataSize);
@@ -190,7 +180,7 @@ string exec(const char* cmd, AudioData data) {
     return result;
 }
 
-string encodeAudio(AudioData data, ofstream& file) {
+string encodeAudio(Audio::AudioData data, ofstream& file) {
   //string cmd = buildCommand(data);
   string cmd = encodeOGG(data);
   string cmdOutput = exec(cmd.c_str(), data);
@@ -279,7 +269,7 @@ int embed(int argc, char** argv) {
   fs::path encodedAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
-  AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
+  Audio::AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
   encodeImage(imageFilePath, encodedAudioFile, encodeAudio(audioData, audioFile), tags.at(0));
 
   return 0;
