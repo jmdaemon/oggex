@@ -22,9 +22,8 @@ namespace Audio {
     std::filesystem::path tempLogFile;
   };
 
-  bool isAudio(std::string file) { return File::isFile(file, FileExtensions); }
-
-  bool isAudio(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
+  bool isAudio(std::string file);
+  bool isAudio(std::filesystem::path filepath);
 
 }
 

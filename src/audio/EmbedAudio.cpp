@@ -84,9 +84,6 @@ vector<string> formatAudioTags(string tag) {
   return soundTags;
 }
 
-struct ImageData {
-};
-
 string buildCommand(Audio::AudioData data) {
   string command;
   string setAudioChannel = "";

@@ -17,6 +17,9 @@ namespace Image {
     {4, ".webm"},
   };
 
+  struct ImageData {
+  };
+
   class Image {
     private:
       std::string imagePath;
