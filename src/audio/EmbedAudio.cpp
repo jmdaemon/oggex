@@ -51,9 +51,7 @@ bool meetsReq(int argc, char** argv) {
 }
 
 bool isImage(string file) { return File::isFile(file, Image::FileExtensions); }
-bool isAudio(string file) { return File::isFile(file, Audio::FileExtensions); }
 bool isImage(fs::path filepath) { return File::isFile(filepath.string(), Image::FileExtensions); }
-bool isAudio(fs::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
@@ -71,7 +69,7 @@ map<int, string> parseOptions(int argc, char** argv) {
     if (arg.compare("-h") || arg.compare("--help")) { showUsage(argv[0]); } 
     if (arg.compare("-f") || arg.compare("--fast")) { bestQuality = true; }
     if (isImage(arg)) { imageFilePath = argv[i]; }
-    if (isAudio(arg)) { audioFilePath = argv[i]; }
+    if (Audio::isAudio(arg)) { audioFilePath = argv[i]; }
   } 
 
   if (imageFilePath.empty() || audioFilePath.empty()) { throw std::exception(); }

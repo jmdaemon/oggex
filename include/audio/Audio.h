@@ -5,6 +5,8 @@
 #include <map>
 #include <string>
 
+#include "File.h"
+
 namespace Audio {
   const static std::map<int, std::string> FileExtensions = {
     {0, ".ogg"},
@@ -18,6 +20,11 @@ namespace Audio {
     std::filesystem::path tempAudioFile;
     std::filesystem::path tempLogFile;
   };
+
+  bool isAudio(std::string file) { return File::isFile(file, Audio::FileExtensions); }
+
+  bool isAudio(std::filesystem::path filepath) { return File::isFile(filepath.string(), Audio::FileExtensions); }
+
 }
 
 #endif
