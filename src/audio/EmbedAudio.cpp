@@ -31,9 +31,11 @@ const static map<int, string> ValidImageFileExtensions = {
   {4, ".webm"},
 };
 
-const static map<int, string> ValidAudioFileExtensions = {
-  {0, ".ogg"},
-};
+namespace Audio {
+  const static map<int, string> ValidAudioFileExtensions = {
+    {0, ".ogg"},
+  };
+}
 
 string toLowerCase(const fs::path& filePath) {
   string fpath = filePath.string();
@@ -82,9 +84,9 @@ bool fileUnder4MiB (uintmax_t fileSize, string errorMsg = "File too large to fit
 }
 
 bool isImage(string file) { return isFile(file, ValidImageFileExtensions); }
-bool isAudio(string file) { return isFile(file, ValidAudioFileExtensions); }
+bool isAudio(string file) { return isFile(file, Audio::ValidAudioFileExtensions); }
 bool isImage(fs::path filepath) { return isFile(filepath.string(), ValidImageFileExtensions); }
-bool isAudio(fs::path filepath) { return isFile(filepath.string(), ValidAudioFileExtensions); }
+bool isAudio(fs::path filepath) { return isFile(filepath.string(), Audio::ValidAudioFileExtensions); }
 
 bool imageUnder4MiB (uintmax_t imageFileSize) {
   return fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
