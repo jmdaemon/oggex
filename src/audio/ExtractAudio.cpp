@@ -25,13 +25,18 @@ size_t getFileSize(ifstream& file) {
   return file_size;
 }
 
+string dataToString(ifstream& file) {
+  ostringstream fileContents;
+  fileContents << file.rdbuf();
+  string filedata = fileContents.str();
+  return filedata;
+}
+
 size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
   size_t file_size = getFileSize(file);
   fmt::print("\nSize of embedded file: \t\t{} bytes\n", file_size);
 
-  ostringstream fileContents;
-  fileContents << file.rdbuf();
-  string filedata = fileContents.str();
+  string filedata = dataToString(file);
 
   size_t found_at = 0;
   found_at = filedata.find(search_term);
@@ -50,10 +55,8 @@ string readFile(fs::path filepath, size_t offset) {
   fmt::print("Audio File size in readFile(): \t{}\t bytes\n", file_size); 
   file.seekg(offset, ios::beg);
 
-  stringstream content;
-  content << file.rdbuf();
+  string result = dataToString(file);
   file.close();
-  string result = content.str();
 
   return result;
 }
@@ -62,10 +65,9 @@ string findSoundTag(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ios::binary);
   size_t file_size = getFileSize(file);
 
-  stringstream content;
-  content << file.rdbuf();
+  string fileContent = dataToString(file);
+
   file.close();
-  string fileContent = content.str();
 
   size_t fileContentSize = offset;
   size_t index = fileContentSize - 100;
@@ -103,10 +105,9 @@ int extract(fs::path filepath) {
   size_t audioOffset = getAudioOffset(file);
   fmt::print("Audio File offset: \t\t{} \tbytes \n\n", audioOffset); 
 
-  file.seekg(audioOffset, ios::beg);
+  //file.seekg(audioOffset, ios::beg);
 
   string audioContent = readFile(filepath, audioOffset);
-
   string soundTag = (findSoundTag(filepath, audioOffset) + ".ogg"); 
   fmt::print("Sound tag: \t\t{}\n", soundTag);
 
