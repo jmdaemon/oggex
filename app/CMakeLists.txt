@@ -1,8 +1,6 @@
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/base64")
 set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" )
 set(TARGET extract)
 
-#add_library(${TARGET})
 add_executable(${TARGET})
 target_sources(${TARGET}
     PRIVATE extract.cpp

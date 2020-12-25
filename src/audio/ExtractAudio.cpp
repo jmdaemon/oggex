@@ -3,17 +3,12 @@
 #include <filesystem>
 #include <exception>
 #include <fstream>
-//#include <cassert>
-//#include <streambuf>
-//#include <exception>
-//#include <locale>
 #include <regex>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>
 
 #include "EmbedAudio.h"
-//#include "base64.h"
 
 using namespace std;
 namespace fs = std::filesystem;
