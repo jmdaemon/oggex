@@ -41,4 +41,6 @@ int getFileSize(FileType& file) {
   return contentSize;
 }
 
+int embed(int argc, char** argv);
+
 #endif
