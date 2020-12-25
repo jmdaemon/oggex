@@ -38,8 +38,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 
   string filedata = dataToString(file);
 
-  size_t found_at = 0;
-  found_at = filedata.find(search_term);
+  size_t found_at = filedata.find(search_term);
 
   if (file_size == found_at) {
     fmt::fprintf(cerr, "file_size: {} == found_at: {}. Search term not found", file_size, found_at);
@@ -71,7 +70,6 @@ string findSoundTag(fs::path filepath, size_t offset) {
   regex exp("(\\[\\w+\\])(\?!OggS)");
 
   string soundTag = "";
-
   smatch match;
   if (regex_search(tag, match, exp)) 
     soundTag += match[0]; // tag = [audio02].ogg
@@ -92,11 +90,11 @@ int extract(fs::path filepath) {
   if (isCorrupted(filepath, file)) { throw exception(); }
 
   size_t audioOffset = getAudioOffset(file);
-  fmt::print("Audio File offset: \t\t{} \tbytes \n\n", audioOffset); 
+  fmt::print("Audio File offset: \t\t{} \tbytes \n", audioOffset); 
 
   string audioContent = readFile(filepath, audioOffset);
   string soundTag     = findSoundTag(filepath, audioOffset) + ".ogg"; 
-  fmt::print("Sound tag: \t\t{}\n", soundTag);
+  fmt::print("Sound tag: \t\t\t{}\n\n", soundTag);
 
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
   audioFile.write(audioContent.c_str(), audioContent.length());
