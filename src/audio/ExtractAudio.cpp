@@ -56,72 +56,75 @@ string readFile(fs::path filepath, size_t offset) {
 }
 
 //string getSoundTag(fs::path filepath, size_t firstBracket, size_t secondBracket) {
-//string getSoundTag(fs::path filepath) {
-  //ifstream file(filepath, ifstream::in | ios::binary);
+string getSoundTag(fs::path filepath) {
+  ifstream file(filepath, ifstream::in | ios::binary);
 
-  //size_t firstBracket   = getAudioOffset(file, "[");
-  //size_t secondBracket  = getAudioOffset(file, "]");
-
-  //file.seekg(firstBracket, ios::end);
-  //ifstream::pos_type first = file.tellg();
-
-  //file.seekg(secondBracket, ios::end);
-  //ifstream::pos_type second = file.tellg();
-
+  size_t firstBracket   = getAudioOffset(file, "[");
+  size_t secondBracket  = getAudioOffset(file, "]");
+  
+  stringstream content;
+  content << file.rdbuf();
+  file.close();
+  string fileContent = content.str();
 
 
+  string soundTag = fileContent.substr(firstBracket, secondBracket);
 
-  ////file.seekg(0, ios::end);
-  ////size_t file_size = file.tellg(); 
+  string result = "";
+  for(int i = 0; i < soundTag.length(); i++) {
+    result += static_cast<char>(soundTag[i]);
+    //result += static_cast<char>(std::stoi(soundTag[i], nullptr, 2) + 64);
+  }
+  return result;
+}
+
+//string findSoundTag(string file) {
+  //int start = 0;
+  //int end = 0;
+  //string soundTag = "";
+  //for (int i = 0; i < file.length(); i++) {
+    //if (file[i] == '[')
+      //start = i;
+      ////end = i;
+    //if (file[i] == ']')
+      //end = i;
+      ////start = i;
+  //}
+
+  //if (start != 0 && end != 0) {
+    //soundTag = file.substr(start, end);
+  //}
+
+  //string result = "";
+  //result.reserve(100); // Max tag length
+  //regex exp("(\\w)");
+
+  //smatch match;
+  //for (int i = 0; i < soundTag.length(); i++) {
+  ////if (regex_match(soundTag[i], match, exp)) 
+  //if (regex_search(soundTag, match, exp))
+    //result += match[i];
+  //}
+
+  //return result;
 //}
 
 string findSoundTag(string file) {
-  int start = 0;
-  int end = 0;
-  string soundTag = "";
-  for (int i = 0; i < file.length(); i++) {
-    if (file[i] == '[')
-      start = i;
-      //end = i;
-    if (file[i] == ']')
-      end = i;
-      //start = i;
-  }
+  int start = file.find("[");
+  int end   = file.find("]");
 
-  if (start != 0 && end != 0) {
-    soundTag = file.substr(start, end);
-  }
-
-  string result = "";
-  //result.reserve(100); // Max tag length
-  result.reserve(50);
-  //const regex regexp(R"(\w)(_)?");
-  //const regex regexp("(\\w)(_)?");
-  //regex regexp("(\\w)(_)?");
-  //regex exp("(\\w)(_)?");
+  string soundTag = file.substr(start, end);
   regex exp("(\\w)");
 
-  //if ( regex_match ( regexp.begin(), regexp.end(), soundTag ) )
-    //result.append();
-
+  string result = "";
   smatch match;
-  //if (regex_search(soundTag.begin(), soundTag.end(), match, regexp))
-  //if (regex_search(begin(soundTag), end(soundTag), match, regexp))
-  //if (regex_search(soundTag.begin(), soundTag.end(), match, exp))
   for (int i = 0; i < soundTag.length(); i++) {
-  //if (regex_match(soundTag[i], match, exp)) 
   if (regex_search(soundTag, match, exp))
-    result += match[i];
+    result += static_cast<char>(soundTag[i]);
+    //result += static_cast<char>(stoi(soundTag[i], nullptr, 2) + 64);
+    //result += match[i];
   }
-  //for (const auto &tag : soundTag) { 
-    ////if (regex_match(tag, match, regexp)) {
-    ////if (regex_search(tag, match, regexp)) {
-    //if (regex_match(soundTag, match, regexp)) {
-      //result += match.str();
-    //}
-  //}
 
-  
   return result;
 }
 
@@ -157,6 +160,10 @@ int extract(fs::path filepath) {
   string audioContent = readFile(filepath, audioOffset);
   assert(!audioContent.empty());
   
+  //string soundTagStem = findSoundTag(audioContent);
+  //string soundTagStem = getSoundTag(audioContent);
+  //string soundTagStem = getSoundTag("temp.ogg");
+  //string soundTagStem = getSoundTag("temp.ogg");
   string soundTagStem = findSoundTag(audioContent);
   string soundTag = (soundTagStem + ".ogg"); 
   //string soundTag = (base64_decode(findSoundTag(audioContent), false) + ".ogg"); 
