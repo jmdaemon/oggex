@@ -3,17 +3,17 @@
 #include <filesystem>
 #include <exception>
 #include <fstream>
-#include <cassert>
-#include <streambuf>
-#include <exception>
-#include <locale>
+//#include <cassert>
+//#include <streambuf>
+//#include <exception>
+//#include <locale>
 #include <regex>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>
 
 #include "EmbedAudio.h"
-#include "base64.h"
+//#include "base64.h"
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -51,7 +51,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 string readFile(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ios::binary);
   size_t file_size = getFileSize(file);
-  fmt::print("Audio File size in readFile(): \t{}\t bytes\n", file_size); 
+  fmt::print("Audio File size in readFile(): \t{} \tbytes\n", file_size); 
   file.seekg(offset, ios::beg);
 
   string result = dataToString(file);
