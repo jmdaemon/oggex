@@ -18,12 +18,16 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
+size_t getFileSize(ifstream& file) {
   file.seekg(0, ios::end);
   size_t file_size = file.tellg();
-  fmt::print("\nSize of embedded file: \t\t{} bytes\n", file_size);
-
   file.seekg(0, ios::beg);
+  return file_size;
+}
+
+size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
+  size_t file_size = getFileSize(file);
+  fmt::print("\nSize of embedded file: \t\t{} bytes\n", file_size);
 
   ostringstream fileContents;
   fileContents << file.rdbuf();
@@ -42,8 +46,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 
 string readFile(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ios::binary);
-  file.seekg(offset, ios::end);
-  size_t file_size = file.tellg();
+  size_t file_size = getFileSize(file);
   fmt::print("Audio File size in readFile(): \t{}\t bytes\n", file_size); 
   file.seekg(offset, ios::beg);
 
@@ -57,11 +60,7 @@ string readFile(fs::path filepath, size_t offset) {
 
 string findSoundTag(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ios::binary);
-
-  file.seekg(0, ios::end);
-  size_t file_size = file.tellg();
-
-  file.seekg(0, ios::beg);
+  size_t file_size = getFileSize(file);
 
   stringstream content;
   content << file.rdbuf();
@@ -70,7 +69,6 @@ string findSoundTag(fs::path filepath, size_t offset) {
 
   size_t fileContentSize = offset;
   size_t index = fileContentSize - 100;
-  //size_t index = fileContentSize - 10;
 
   int start = fileContent.find("[", index);
   int end   = fileContent.find("]", index);
@@ -103,37 +101,18 @@ int extract(fs::path filepath) {
   if (isCorrupted(filepath, file)) { throw exception(); }
 
   size_t audioOffset = getAudioOffset(file);
-  //file.close();
-
-  //assert(audioOffset != -1);
-  //assert(audioOffset != 0);
   fmt::print("Audio File offset: \t\t{} \tbytes \n\n", audioOffset); 
-
 
   file.seekg(audioOffset, ios::beg);
 
-  fs::path tempfilepath = "temp.ogg";
-  ofstream tempFile(tempfilepath, ifstream::out | ifstream::binary);
-  tempFile << file.rdbuf();
-  file.close();
-
-  tempFile.close();
-
   string audioContent = readFile(filepath, audioOffset);
-  assert(!audioContent.empty());
-  
+
   string soundTag = (findSoundTag(filepath, audioOffset) + ".ogg"); 
-  assert(!soundTag.empty());
-  //fmt::print("Sound tag: \t\t{}\n", soundTag);
-  //cerr << soundTag << endl;
-  //ofstream audioFile("audio01.ogg", ifstream::out | ifstream::binary); 
+  fmt::print("Sound tag: \t\t{}\n", soundTag);
+
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
-
-  //audioFile.write(audioContent.c_str(), sizeof(char)*audioContent.size());
   audioFile.write(audioContent.c_str(), audioContent.length());
-  //audioFile << audioContent;
 
-  //file.close();
   audioFile.close();
 
    return 0;
