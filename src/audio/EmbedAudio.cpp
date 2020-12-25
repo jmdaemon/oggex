@@ -84,11 +84,12 @@ vector<string> formatAudioTags(string tag) {
   return soundTags;
 }
 
-string buildCommand(Audio::AudioData data) {
+string createCommand( Audio::AudioData data, 
+    string cmd = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1") {
   string command;
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
-  command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+  command = fmt::format(cmd,
       data.audioFile.string(),
       data.audioQuality,
       setAudioChannel,
@@ -98,18 +99,9 @@ string buildCommand(Audio::AudioData data) {
   return command;
 }
 
-string encodeOGG(Audio::AudioData data) {
-  string command;
-  string setAudioChannel = "";
-  if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
-  command = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      data.audioFile.string(),
-      data.audioQuality,
-      setAudioChannel,
-      data.tempAudioFile.string(),
-      data.tempLogFile.string()
-      );
-  return command;
+string buildCommand(Audio::AudioData data) { return createCommand(data); }
+string encodeAudio(Audio::AudioData data) {
+  return createCommand(data, "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
 }
 
 string exec(const char* cmd, Audio::AudioData data) {
@@ -134,7 +126,7 @@ string exec(const char* cmd, Audio::AudioData data) {
 
 string encodeAudio(Audio::AudioData data, ofstream& file) {
   //string cmd = buildCommand(data);
-  string cmd = encodeOGG(data);
+  string cmd = encodeAudio(data);
   string cmdOutput = exec(cmd.c_str(), data);
 
   uintmax_t maxFileSize = 1024 * 1024 * 4; 
