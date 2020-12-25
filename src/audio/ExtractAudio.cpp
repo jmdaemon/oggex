@@ -63,13 +63,10 @@ string readFile(fs::path filepath, size_t offset) {
 
 string findSoundTag(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ios::binary);
-
   string fileContent = dataToString(file);
   file.close();
 
-  size_t fileContentSize = offset;
-  size_t index = fileContentSize - 100;
-
+  size_t index = offset - 100;
   string tag = fileContent.substr(fileContent.find("[", index), fileContent.find("]", index));
   regex exp("(\\[\\w+\\])(\?!OggS)");
 
@@ -97,10 +94,8 @@ int extract(fs::path filepath) {
   size_t audioOffset = getAudioOffset(file);
   fmt::print("Audio File offset: \t\t{} \tbytes \n\n", audioOffset); 
 
-  //file.seekg(audioOffset, ios::beg);
-
   string audioContent = readFile(filepath, audioOffset);
-  string soundTag = (findSoundTag(filepath, audioOffset) + ".ogg"); 
+  string soundTag     = findSoundTag(filepath, audioOffset) + ".ogg"; 
   fmt::print("Sound tag: \t\t{}\n", soundTag);
 
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
