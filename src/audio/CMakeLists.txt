@@ -3,7 +3,6 @@ set(TARGET audio_library)
 
 add_library(${TARGET})
 target_sources(${TARGET}
-    PRIVATE metadata.cpp 
     PRIVATE ExtractAudio.cpp
     PRIVATE Audio.cpp
     PRIVATE File.cpp
