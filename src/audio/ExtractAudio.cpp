@@ -18,7 +18,6 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-//size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
   file.seekg(0, ios::end);
   size_t file_size = file.tellg();
@@ -29,36 +28,9 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
   ostringstream fileContents;
   fileContents << file.rdbuf();
   string filedata = fileContents.str();
-  //string filedata = file_content.str();
 
-  //std::string key = "\x39\xb5\x7d\xc6";
-  //string searchTerm = "\0x4\0x67\0x67\0x53\0\2";
-  //string searchTerm = "\x4\x67\x67\x53";
   size_t found_at = 0;
   found_at = filedata.find(search_term);
-  //found_at = filedata.find(searchTerm);
-  //auto result = search(begin(filedata), end(filedata), begin(searchTerm), end(searchTerm));
-  //if (end(filedata) != result) {
-    //found_at = result - filedata.begin();
-  //}
-
-  //string file_content;
-  //file_content.reserve(file_size);
-  //char buffer[16384];
-  //streamsize chars_read;
-
-  //while (file.read(buffer, sizeof buffer), chars_read = file.gcount())
-      //file_content.append(buffer, chars_read);
-
-  //size_t search_term_size = strlen(search_term);
-
-  //size_t offset = 0; 
-  //size_t found_at = 0;
-  //if (file.eof()) { 
-    //for (; file_size > offset && (found_at = file_content.find(search_term, offset)) != string::npos; 
-        //offset = found_at + search_term_size)
-      //break; 
-  //}
 
   if (file_size == found_at) {
     fmt::fprintf(cerr, "file_size: {} == found_at: {}. Search term not found", file_size, found_at);
@@ -80,7 +52,6 @@ string readFile(fs::path filepath, size_t offset) {
   file.close();
   string result = content.str();
 
-  //fmt::print("File content: {}\n", content.str()); 
   return result;
 }
 
@@ -181,52 +152,11 @@ int extract(fs::path filepath) {
   tempFile << file.rdbuf();
   file.close();
 
-  //tempFile << soundTagStem;
   tempFile.close();
-  //fs::path tempfilepath = "temp.ogg";
-  //ofstream tempFile();
 
-  //fs::path tempfilepath = "temp.ogg";
-
-  //ofstream outputFile(tempfilepath, ifstream::out | ifstream::binary);
-  //outputFile << audioContent;
-  //outputFile.close();
-  //fmt::print("audioContent string: {}\n", audioContent);
   string audioContent = readFile(filepath, audioOffset);
   assert(!audioContent.empty());
-
-  //string soundTag = fmt::format("{}.ogg", findSoundTag(audioContent)); 
-
-  //string soundTag = (findSoundTag(audioContent) + ".ogg"); 
-  //ifstream tempFile(tempfilepath, ifstream::in | ifstream::binary);
-
-  //ostringstream soundTagContent;
-  //soundTagContent << tempFile.rdbuf();
-  //tempFile.close();
-
-  //string soundTagStem = soundTagContent.str();
-
-  //std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-  //const std::wstring wide_string = L"This is a string";
-  //const std::string utf8_string = converter.to_bytes(wide_string);
-
-  //string soundTagStem = u8 + getSoundTag(audioContent);
-
-  //fs::path tempfilepath = "temp.ogg";
-
-  //ofstream tempFile(tempfilepath, ifstream::out | ifstream::binary);
-  //tempFile << soundTagStem;
-  //tempFile.close();
   
-  //ostringstream soundTagContent;
-  //soundTagContent << soundTagStem;
-  //tempFile.close();
-
-
-  //string soundTag = (getSoundTag(tempfilepath) + ".ogg"); 
-  //std::string base64_decode(findSoundTag(audioContent), false);
-  //string soundTag = (findSoundTag(audioContent) + ".ogg"); 
-  //string soundTagStem = base64_decode(findSoundTag(audioContent));
   string soundTagStem = findSoundTag(audioContent);
   string soundTag = (soundTagStem + ".ogg"); 
   //string soundTag = (base64_decode(findSoundTag(audioContent), false) + ".ogg"); 
