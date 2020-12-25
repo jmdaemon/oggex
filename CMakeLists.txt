@@ -46,6 +46,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(libfmt)
 
 add_subdirectory(src)
+add_subdirectory(app)
 
 if(BUILD_TESTING)
   add_subdirectory(test)
