@@ -41,6 +41,7 @@ int getFileSize(FileType& file) {
   return contentSize;
 }
 
-int embed(int argc, char** argv);
+//int embed(int argc, char** argv);
+int embed(std::filesystem::path audioFilePath, std::filesystem::path imageFilePath, bool quality);
 
 #endif
