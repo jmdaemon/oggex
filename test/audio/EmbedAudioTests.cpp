@@ -23,7 +23,7 @@ string formatCMD(string cmdFormat, Audio::AudioData data) {
 
 TEST_CASE("Audio files can be embedded into image files") {
   fs::path embeddedImage  = "../../inputFile1.png";
-  fs::path imageFile      = "../../inputFile1.png.png";
+  fs::path imageFile      = "../../inputFile2.png";
   fs::path audioFile      = "../../outputFile1.audio02.ogg";
   ifstream file(embeddedImage, ifstream::in | ios::binary);
 
@@ -63,21 +63,21 @@ TEST_CASE("Audio files can be embedded into image files") {
 
   }
 
-  SUBCASE("Ffmpeg command executes to completion") {
-    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    string cmd = encodeAudio(audioData);
+  //SUBCASE("Ffmpeg command executes to completion") {
+    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    //string cmd = encodeAudio(audioData);
 
-    string encodedAudio = exec(cmd.c_str(), audioData);
-    REQUIRE(!encodedAudio.empty());
-  }
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //REQUIRE(!encodedAudio.empty());
+  //}
 
-  SUBCASE("Image can be encoded") {
-    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    string cmd = encodeAudio(audioData);
-    string encodedAudio = exec(cmd.c_str(), audioData);
-    encodeImage(imageFile, encodedAudio, "[audio02]");
-    //fs::path outputFile = "inputFile1.png-embed.png";
-  }
+  //SUBCASE("Image can be encoded") {
+    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    //string cmd = encodeAudio(audioData);
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //encodeImage(imageFile, encodedAudio, "[audio02]");
+    ////fs::path outputFile = "inputFile1.png-embed.png";
+  //}
 
 
   //embed();
