@@ -114,7 +114,7 @@ fs::path createOutputFileName(fs::path imageFilePath) {
   string stem = imageFilePath.stem();
   string ext = imageFilePath.extension();
   fs::path outputFilename = stem + "-embed" + ext;
-  return outputFile;
+  return outputFilename;
 }
 
 void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath) { 
