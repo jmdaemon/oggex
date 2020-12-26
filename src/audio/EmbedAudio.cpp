@@ -89,12 +89,20 @@ string exec(const char* cmd, Audio::AudioData data) {
   //while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
   while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { 
     //copy(buffer.begin(), buffer.end(), ostream_iterator<string>(result,"\n"));
-    //result << buffer.data();
-      result += buffer.data();
+    //result << buffer.data(); 
+    ;
+      //result += buffer.data();
   }
   dataContents.close();
+
+  ifstream tempFile(data.tempAudioFile.c_str(), ifstream::in | ifstream::binary);
+  ostringstream tempContents;
+  tempContents << tempFile.rdbuf();
+  string filedata = tempContents.str();
+
+
   //return result.str();
-  return result;
+  return filedata;
 }
 
 string encodeAudio(Audio::AudioData data, ofstream& file) {

@@ -47,7 +47,7 @@ TEST_CASE("Audio files can be embedded into image files") {
   }
 
   SUBCASE("Ffmpeg cli commands are created and formatted correctly") {
-    string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
+    string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
     string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
 
     Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
@@ -67,9 +67,9 @@ TEST_CASE("Audio files can be embedded into image files") {
     Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
     string cmd = encodeAudio(audioData);
 
-    //string encodedAudio = exec(cmd.c_str(), audioData);
-    //REQUIRE(!encodedAudio.empty());
-    //fmt::print("Results of encoded audio file: \t{}\n", encodedAudio);
+    string encodedAudio = exec(cmd.c_str(), audioData);
+    REQUIRE(!encodedAudio.empty());
+    fmt::print("Results of encoded audio file: \t{}\n", encodedAudio);
   }
 
   SUBCASE("Image can be encoded") {
