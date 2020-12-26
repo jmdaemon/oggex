@@ -16,10 +16,14 @@ TEST_CASE("Testing extract()") {
   fs::path filepath = "../../inputFile1.png";
   ifstream file(filepath, ifstream::in | ios::binary);
 
-  //SUBCASE("Retrieve the file, and filesize") {
-  //REQUIRE(getFileSize(file) != 0);
-  //REQUIRE(dataToString(file) != 0);
-  //}
+  SUBCASE("Retrieve the file, and filesize") {
+  REQUIRE(getFileSize(file) != 0);
+
+  //Make sure you open this file only once at the same time, c++ will block the file otherwise
+  string filedata = dataToString(file);
+  REQUIRE(!filedata.empty());
+  CHECK(filedata.size() == fileSize);
+  }
 
   SUBCASE("Returns start of ogg file in embedded file") {
     REQUIRE(getAudioOffset(file) !=  0);
@@ -30,12 +34,16 @@ TEST_CASE("Testing extract()") {
   SUBCASE("Returns sliced file after specified offset") {
     REQUIRE(!readFile(filepath, audioOffset).empty());
     CHECK(readFile(filepath, fileSize).empty());
+    CHECK(readFile(filepath, audioOffset).length() == (fileSize - audioOffset));
   }
 
   SUBCASE("Retrieve sound tag from embedded file") {
-    REQUIRE(!findSoundTag(filepath, audioOffset).empty());
-    REQUIRE((findSoundTag(filepath, audioOffset)) == "audio02");
+    string soundTag = findSoundTag(filepath, audioOffset);
+    REQUIRE(!soundTag.empty());
+    REQUIRE(soundTag == "audio02");
+    REQUIRE(soundTag.length() < 100);
   }
 
   REQUIRE(extract(filepath) == 0);
+  file.close();
 }
