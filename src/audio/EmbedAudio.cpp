@@ -88,7 +88,6 @@ string exec(const char* cmd, Audio::AudioData data) {
 }
 
 string encodeAudio(Audio::AudioData data, ofstream& file) {
-  //string cmd = buildCommand(data);
   string cmd = encodeAudio(data);
   string cmdOutput = exec(cmd.c_str(), data);
 
@@ -111,8 +110,16 @@ string encodeAudio(Audio::AudioData data, ofstream& file) {
   return cmdOutput;
 }
 
-void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath = "out.ogg") { 
-  fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
+fs::path createOutputFileName(fs::path imageFilePath) {
+  string stem = imageFilePath.stem();
+  string ext = imageFilePath.extension();
+  fs::path outputFilename = stem + "-embed" + ext;
+  return outputFile;
+}
+
+void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath) { 
+  //fs::path outputFilename = imageFilePath + "embed" + ;
+  fs::path outputFilename = createOutputFileName(imageFilePath);
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
@@ -123,15 +130,12 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
     throw exception(); 
   }
 
-  outputFile << imageFileData.rdbuf();
-  outputFile.write(soundTag.c_str(), soundTag.length());
-  outputFile.write(encodedAudio.c_str(), encodedAudio.length());
+  outputFile << imageFileData.rdbuf() << soundTag << encodedAudio;
   outputFile.close();
   imageFileData.close();
   audioFileData.close();
 }
 
-//int embed(int argc, char** argv) {
 int embed(fs::path audioFilePath, fs::path imageFilePath, bool quality) {
   bestQuality = quality;
 
