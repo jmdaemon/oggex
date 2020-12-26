@@ -39,9 +39,7 @@ vector<string> formatAudioTags(string tag) {
   soundTags.push_back(soundTag); // audio.ogg ==> [audio] 
   return soundTags;
 }
-
-string createCommand( Audio::AudioData data, 
-    string cmd = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1") {
+string createCommand( Audio::AudioData data, string cmd) {
   string command;
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
@@ -139,7 +137,8 @@ int embed(fs::path audioFilePath, fs::path imageFilePath, bool quality) {
   fs::path encodedAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
-  Audio::AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
+  //Audio::AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
+  Audio::AudioData audioData = Audio::AudioData(tags.at(0), audioFilePath);
   encodeImage(imageFilePath, encodedAudioFile, encodeAudio(audioData, audioFile), tags.at(0));
 
   return 0;
