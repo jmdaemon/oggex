@@ -8,7 +8,7 @@
 
 template<typename FileType> bool isCorrupted(std::filesystem::path filepath, FileType& file) {
   if (!file.is_open()) {
-    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"", filepath);
+    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
     return true;
   } else
     return false;
