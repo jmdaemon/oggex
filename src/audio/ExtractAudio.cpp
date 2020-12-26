@@ -30,7 +30,7 @@ string dataToString(ifstream& file) {
 
 size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
   size_t file_size = getFileSize(file);
-  fmt::print("\nSize of embedded file: \t\t{} bytes\n", file_size);
+  fmt::print("Size of embedded file: \t\t{} bytes\n", file_size);
 
   string filedata = dataToString(file);
 
@@ -47,7 +47,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 string readFile(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ifstream::binary);
   size_t file_size = getFileSize(file);
-  fmt::print("Audio File size in readFile(): \t{} bytes\n", file_size); 
+  fmt::print("Audio File Size in readFile(): \t{} bytes\n", file_size); 
   file.seekg(offset, ios::beg);
 
   string result = dataToString(file);
@@ -63,7 +63,8 @@ string findSoundTag(fs::path filepath, size_t offset) {
 
   size_t start    = fileContent.find("[", offset - 101);
   size_t end      = fileContent.find("]", offset - 1);
-  fmt::print("Start: \t\t{}\nEnd: \t\t{}\n", start, end);
+  fmt::print("SoundTag Start: \t\t\t{} \tbytes\n", start);
+  fmt::print("SoundTag End: \t\t\t{} \tbytes\n", end);
 
   string tag = fileContent.substr(start, end);
   //regex exp("(\\[\\w+\\])(\?!OggS)");
@@ -90,12 +91,12 @@ int extract(fs::path filepath) {
   if (isCorrupted(filepath, file)) { throw exception(); }
 
   size_t audioOffset = getAudioOffset(file);
-  fmt::print("Audio File offset: \t\t{} \tbytes \n", audioOffset); 
+  fmt::print("Audio File Offset: \t\t\t{} \tbytes\n", audioOffset); 
   file.close();
 
   string audioContent = readFile(filepath, audioOffset);
   string soundTag     = findSoundTag(filepath, audioOffset) + ".ogg"; 
-  fmt::print("Sound tag: \t\t\t\t{}\t\n", soundTag);
+  fmt::print("Sound tag: \t\t\t\t\"{}\"\n\n", soundTag);
 
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
   audioFile.write(audioContent.c_str(), audioContent.length());
