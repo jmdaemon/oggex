@@ -24,6 +24,8 @@ target_include_directories(${MASK_TESTS} PUBLIC ${DOCTEST_LIB})
 target_include_directories(${AUDIO_TESTS} PUBLIC ${DOCTEST_LIB})
 
 FILE(COPY "../resources/inputFile1.png" DESTINATION "${CMAKE_BINARY_DIR}")
+FILE(COPY "../resources/inputFile1.png.png" DESTINATION "${CMAKE_BINARY_DIR}")
+FILE(COPY "../resources/outputFile1.audio02.ogg" DESTINATION "${CMAKE_BINARY_DIR}")
 
 set_target_properties(${EMBED_AUDIO_TESTS} PROPERTIES
     RESOURCE "${RESOURCE_FILES}" )

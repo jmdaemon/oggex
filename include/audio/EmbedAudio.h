@@ -19,6 +19,9 @@ std::string createCommand(Audio::AudioData data,
 std::string buildCommand(Audio::AudioData data);
 std::string encodeAudio(Audio::AudioData data);
 
+std::string exec(const char* cmd, Audio::AudioData data);
+
+
 int embed(std::filesystem::path audioFilePath, std::filesystem::path imageFilePath, bool quality);
 
 #endif

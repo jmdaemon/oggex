@@ -11,6 +11,8 @@ set(RESOURCE_FILES
   #resources/
   #resources/12727a5f30b1429a1fd35113fd2550d8.png
   resources/inputFile1.png
+  resources/inputFile1.png.png
+  resources/outputFile1.audio02.ogg
   )
 
 set (DOCTEST_MAIN doctest_library)

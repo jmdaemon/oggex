@@ -22,9 +22,10 @@ string formatCMD(string cmdFormat, Audio::AudioData data) {
 }
 
 TEST_CASE("Audio files can be embedded into image files") {
-  fs::path imageFile = "../../inputFile1.png.png";
-  fs::path audioFile = "";
-  ifstream file(imageFile, ifstream::in | ios::binary);
+  fs::path embeddedImage  = "../../inputFile1.png";
+  fs::path imageFile      = "../../inputFile1.png.png";
+  fs::path audioFile      = "../../outputFile1.audio02.ogg";
+  ifstream file(embeddedImage, ifstream::in | ios::binary);
 
   SUBCASE("Test toLowerCase()") {
     INFO("Current outPut of toLowerCase(): ");
@@ -61,6 +62,19 @@ TEST_CASE("Audio files can be embedded into image files") {
     REQUIRE(buildMaskCMD == formatCMD(maskCMDFormat, audioData));
 
   }
+
+  SUBCASE("Ffmpeg command executes to completion") {
+    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    string cmd = encodeAudio(audioData);
+
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //REQUIRE(!encodedAudio.empty());
+    //fmt::print("Results of encoded audio file: \t{}\n", encodedAudio);
+  }
+
+  SUBCASE("Image can be encoded") {
+  }
+
 
   //embed();
   file.close();

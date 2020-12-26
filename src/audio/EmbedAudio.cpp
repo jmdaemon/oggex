@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <iterator>
 
 #include <cstdint>
 
@@ -50,32 +52,49 @@ string createCommand( Audio::AudioData data, string cmd) {
       data.tempAudioFile.string(),
       data.tempLogFile.string()
       );
+  fmt::print("{}\n", command);
   return command;
 }
 
 string buildCommand(Audio::AudioData data) { return createCommand(data); }
 string encodeAudio(Audio::AudioData data) {
-  return createCommand(data, "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
+  return createCommand(data, "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
 }
 
 string exec(const char* cmd, Audio::AudioData data) {
+
   ifstream dataContents(data.audioFile.c_str(), ifstream::in | ifstream::binary);
-  const int dataSize = getFileSize(dataContents); 
-  vector<char> buffer(dataSize);
-    string result;
-    unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
-    if (!pipe) { 
-      fmt::fprintf(cerr, "Error: could not execute ffmpeg");
-      cleanTempFiles(data.tempLogFile, data.tempAudioFile);
-      throw std::runtime_error("popen() failed!");
-    } 
-    string monoEncoding = "";
-    if (data.lowQuality) { monoEncoding = "/mono"; }
-    fmt::print("Encoding \"{}\" at quality = {} {}", data.audioFile, data.audioQuality, monoEncoding);
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-        result += buffer.data();
-    }
-    return result;
+  const size_t dataSize = getFileSize(dataContents); 
+  //vector<char> buffer(dataSize);
+  vector<char> buffer(4096);
+
+  //stringstream result;
+  string result = "0";
+  result.reserve(dataSize);
+  unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+  if (!pipe) { 
+    fmt::fprintf(cerr, "Error: could not execute ffmpeg");
+    cleanTempFiles(data.tempLogFile, data.tempAudioFile);
+    throw runtime_error("popen() failed!");
+  } 
+
+  string monoEncoding = "";
+  if (data.lowQuality) { monoEncoding = "/mono"; }
+  fmt::print("Encoding \"{}\" at quality = {} {}\n", data.audioFile, data.audioQuality, monoEncoding);
+  // fgets(buffer.data(), buffer.size(), pipe.get()) 
+  // => char* str, data is copied here, 
+  // => number of characters copied
+  // => pointer to stream
+
+  //while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { 
+    //copy(buffer.begin(), buffer.end(), ostream_iterator<string>(result,"\n"));
+    //result << buffer.data();
+      result += buffer.data();
+  }
+  dataContents.close();
+  //return result.str();
+  return result;
 }
 
 string encodeAudio(Audio::AudioData data, ofstream& file) {
