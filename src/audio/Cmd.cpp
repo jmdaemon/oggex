@@ -22,7 +22,6 @@ void showUsage(std::string programName) {
 } 
 
 bool meetsReq(int argc, char** argv) {
-  //if (argc <= 1 || !(argc > 1 && argc < 5)) {
   if (argc <= 1) {
     fmt::print("# of Arguments passed: \t{}\n", argc);
     showUsage(argv[0]);
@@ -44,22 +43,17 @@ map<int, string> parseOptions(int argc, char** argv, bool bestQuality = true) {
   for (int i = 0; i < argc; i++) {
     string arg = string(argv[i]);
 
-    //if (arg.compare("-h") || arg.compare("--help")) { showUsage(argv[0]); } 
     if (arg == "-h" || arg == "--help") { 
       showUsage(argv[0]); 
       map<int, string> quitEarly = {{0, ""}};
-      fmt::print("Exiting program...");
+      fmt::print("Exiting program...\n");
       return quitEarly;
     } 
     if (arg.compare("-f") || arg.compare("--fast")) { bestQuality = false; }
-    //if (regex_search(arg, match, exp)) soundTag += match[0];
     if (regex_search(arg, match, exp)) 
       soundTag = arg;
-      //soundTag = argv[i];
     if (Image::isImage(arg)) { imageFilePath = arg; }
-    if (Audio::isAudio(arg)) { audioFilePath = arg; }
-    //if (Image::isImage(arg)) { imageFilePath = argv[i]; }
-    //if (Audio::isAudio(arg)) { audioFilePath = argv[i]; }
+    if (Audio::isAudio(arg)) { audioFilePath = arg; } 
   } 
 
   if (imageFilePath.empty() || audioFilePath.empty() || soundTag.empty()) { throw std::exception(); }

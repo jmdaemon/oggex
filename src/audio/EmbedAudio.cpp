@@ -46,14 +46,11 @@ string createCommand(Audio::AudioData data, string cmd) {
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
   command = fmt::format(cmd,
-      data.audioFile,
-      //data.audioFile.string(),
+      data.audioFile.string(),
       data.audioQuality,
       setAudioChannel,
-      data.tempAudioFile,
-      //data.tempAudioFile.string(),
-      //data.tempLogFile.string()
-      data.tempLogFile
+      data.tempAudioFile.string(),
+      data.tempLogFile.string()
       );
   fmt::print("{}\n", command);
   return command;
@@ -61,16 +58,11 @@ string createCommand(Audio::AudioData data, string cmd) {
 
 string buildCommand(Audio::AudioData data) { return createCommand(data); }
 string encodeAudio(Audio::AudioData data) {
-  return createCommand(data, "ffmpeg -y -nostdin -i {} -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
-  //return createCommand(data, "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
+  return createCommand(data, "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
 }
 
 string exec(const char* cmd, Audio::AudioData data) {
-
-  //ifstream dataContents(data.audioFile.c_str(), ifstream::in | ifstream::binary);
   ifstream dataContents(data.audioFile, ifstream::in | ifstream::binary);
-  //const size_t dataSize = getFileSize(dataContents); 
-  //const size_t dataSize = getFileSize(dataContents); 
   vector<char> buffer(4096);
 
   unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
@@ -86,16 +78,14 @@ string exec(const char* cmd, Audio::AudioData data) {
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   dataContents.close();
 
-  // By this point, ffmpeg should have generated the needed out.ogg temp file
   ifstream tempFile(data.tempAudioFile, ifstream::in | ifstream::binary);
   ostringstream tempContents;
   tempContents << tempFile.rdbuf();
   string filedata = tempContents.str();
+  tempFile.close();
   return filedata;
 }
 
-//string encodeAudio(Audio::AudioData data, ofstream& file) {
-//string encodeAudio(Audio::AudioData data, ifstream& file) {
 string encodeAudioFile(Audio::AudioData data, fs::path filepath) {
   string cmd = encodeAudio(data);
   string cmdOutput = exec(cmd.c_str(), data);
@@ -109,7 +99,7 @@ string encodeAudioFile(Audio::AudioData data, fs::path filepath) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
-    fmt::print("Encoding completed.");
+    fmt::print("Encoding completed.\n\n");
   file.close();
 
   if ((soundTagSize + tempFileSize) > maxFileSize) {
@@ -129,15 +119,17 @@ fs::path createOutputFileName(fs::path imageFilePath) {
 }
 
 void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath) { 
-  //fs::path outputFilename = imageFilePath + "embed" + ;
   fs::path outputFilename = createOutputFileName(imageFilePath);
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
-  ifstream imageFileData(imageFilePath.c_str(), ifstream::in | ifstream::binary);
-  ifstream audioFileData(encodedAudioFilePath.c_str(), ifstream::in | ifstream::binary);
+  ifstream imageFileData(imageFilePath, ifstream::in | ifstream::binary);
+  ifstream audioFileData(encodedAudioFilePath, ifstream::in | ifstream::binary);
 
-  if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(encodedAudio, audioFileData)) { 
+  if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(encodedAudioFilePath, audioFileData)) { 
+    fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
     // clean
+    imageFileData.close();
+    audioFileData.close();
     throw exception(); 
   }
 
@@ -152,10 +144,9 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
 
   ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
   ifstream audioFile(audioFilePath, ifstream::in | ifstream::binary);
-  //ofstream audioFile(audioFilePath, ifstream::out | ifstream::binary);
   if (!Image::imageUnder4MiB(file_size(imageFilePath)) 
-      && !isCorrupted(imageFilePath, imageFile) 
-      && !isCorrupted(audioFilePath, audioFile)) { 
+      && isCorrupted(imageFilePath, imageFile) 
+      && isCorrupted(audioFilePath, audioFile)) { 
     imageFile.close(); 
     audioFile.close();
     return -1; 
@@ -163,14 +154,14 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
   imageFile.close();
   audioFile.close();
   //vector<string> tags = formatAudioTags(audioFilePath.stem());
-
   //Audio::AudioData audioData = Audio::AudioData(tags.at(0), audioFilePath);
   //encodeImage(imageFilePath, encodeAudio(audioData, audioFile), tags.at(0));
+
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
-  //string encodedAudio = encodeAudioFile(audioData, audioFile);
   string encodedAudio = encodeAudioFile(audioData, audioFilePath);
-  //encodeImage(imageFilePath, encodeAudio(audioData, audioFile), soundTag);
-  encodeImage(imageFilePath, encodedAudio, soundTag);
+  encodeImage(imageFilePath, encodedAudio, soundTag, "temp.ogg");
+  //encodeImage(imageFilePath, encodedAudio, soundTag);
+
 
   return 0;
 } 

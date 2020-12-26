@@ -21,7 +21,6 @@ int main(int argc, char** argv) {
   string soundTag         = mediaFiles[2];
 
   embed(imageFilePath, audioFilePath, soundTag, bestQuality);
-  //embed(audioFilePath, imageFilePath, soundTag, bestQuality);
   return 0;
 }
 
