@@ -28,6 +28,7 @@ string dataToString(ifstream& file) {
 }
 
 size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
+//size_t getAudioOffset(ifstream& file, const char* search_term) {
   size_t file_size = getFileSize(file);
   fmt::print("\nSize of embedded file: \t\t{} bytes\n", file_size);
 
