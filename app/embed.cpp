@@ -1,11 +1,7 @@
 #include <iostream>
 #include <filesystem>
 
-
 #include "EmbedAudio.h"
-//#include "File.h"
-//#include "Image.h"
-//#include "Audio.h" 
 #include "Cmd.h"
 
 using namespace std;
@@ -24,7 +20,6 @@ int main(int argc, char** argv) {
   fs::path imageFilePath = mediaFiles[1];
 
   embed(audioFilePath, imageFilePath, bestQuality);
-  //embed(argc, argv);
   return 0;
 }
 
