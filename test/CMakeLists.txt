@@ -22,5 +22,4 @@ target_link_libraries(${DOCTEST_MAIN} PRIVATE image_library doctest)
 
 add_subdirectory(image)
 add_subdirectory(audio)
-add_subdirectory(encoder)
-add_subdirectory(decoder)
+add_subdirectory(extract)
