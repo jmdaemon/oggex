@@ -21,11 +21,11 @@ TEST_CASE("Testing extract()") {
   //REQUIRE(dataToString(file) != 0);
   //}
 
-  //SUBCASE("Returns start of ogg file in embedded file") {
-    //REQUIRE(!(getAudioOffset(file) ==  0));
-    //REQUIRE(!(getAudioOffset(file) == -1));
-    //CHECK(getAudioOffset(file) > 0);
-  //}
+  SUBCASE("Returns start of ogg file in embedded file") {
+    REQUIRE(getAudioOffset(file) !=  0);
+    REQUIRE(getAudioOffset(file) != -1);
+    CHECK(getAudioOffset(file) > 0);
+  }
 
   SUBCASE("Returns sliced file after specified offset") {
     REQUIRE(!readFile(filepath, audioOffset).empty());
