@@ -160,8 +160,6 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
   string encodedAudio = encodeAudioFile(audioData, audioFilePath);
   encodeImage(imageFilePath, encodedAudio, soundTag, "temp.ogg");
-  //encodeImage(imageFilePath, encodedAudio, soundTag);
-
 
   return 0;
 } 

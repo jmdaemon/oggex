@@ -47,8 +47,8 @@ TEST_CASE("Audio files can be embedded into image files") {
   }
 
   SUBCASE("Ffmpeg cli commands are created and formatted correctly") {
-    string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
-    string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
+    string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
+    string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
 
     Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
     string legacyCMD  = createCommand(audioData, legacyCMDFormat);
@@ -76,10 +76,11 @@ TEST_CASE("Audio files can be embedded into image files") {
     string cmd = encodeAudio(audioData);
     string encodedAudio = exec(cmd.c_str(), audioData);
     encodeImage(imageFile, encodedAudio, "[audio02]");
-    //fs::path outputFile = "inputFile1.png-embed.png";
+    fs::path outputFilePath = "inputFile2-embed.png";
+    ifstream outputFile(outputFilePath, ifstream::in | ifstream::binary);
+    CHECK(!isCorrupted(outputFilePath, outputFile));
+    outputFile.close();
   }
 
-
-  //embed();
   file.close();
 }
