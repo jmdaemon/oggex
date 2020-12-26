@@ -9,6 +9,7 @@
 #include "FileType.tpp"
 #include "Audio.h"
 
+bool fileExists(std::filesystem::path filepath);
 void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);
 
 bool tagUnder100(unsigned int tagLength);

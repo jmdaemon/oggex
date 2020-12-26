@@ -22,6 +22,17 @@ namespace fs = std::filesystem;
 
 static bool bestQuality = true;
 
+bool fileExists(fs::path filepath) { 
+  ifstream file(filepath, ifstream::in | ifstream::binary);
+  if (!file.is_open()) {
+    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    file.close();
+    return true; 
+  } 
+  file.close();
+  return false; 
+}
+
 void cleanTempFiles(fs::path tempLogFile, fs::path tempAudioFile) {
   if (!tempLogFile.empty())   { remove(tempLogFile); }
   if (!tempAudioFile.empty()) { remove(tempAudioFile); }
@@ -141,22 +152,11 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
 
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
   bestQuality = quality;
-
-  ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
-  ifstream audioFile(audioFilePath, ifstream::in | ifstream::binary);
   if (!Image::imageUnder4MiB(file_size(imageFilePath)) 
-      && isCorrupted(imageFilePath, imageFile) 
-      && isCorrupted(audioFilePath, audioFile)) { 
-    imageFile.close(); 
-    audioFile.close();
+      && fileExists(imageFilePath) 
+      && fileExists(audioFilePath)) { 
     return -1; 
   } 
-  imageFile.close();
-  audioFile.close();
-  //vector<string> tags = formatAudioTags(audioFilePath.stem());
-  //Audio::AudioData audioData = Audio::AudioData(tags.at(0), audioFilePath);
-  //encodeImage(imageFilePath, encodeAudio(audioData, audioFile), tags.at(0));
-
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
   string encodedAudio = encodeAudioFile(audioData, audioFilePath);
   encodeImage(imageFilePath, encodedAudio, soundTag, "temp.ogg");
