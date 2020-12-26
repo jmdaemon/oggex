@@ -132,17 +132,15 @@ fs::path createOutputFileName(fs::path imageFilePath) {
 void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath) { 
   fs::path outputFilename = createOutputFileName(imageFilePath);
 
+  if (fileExists(imageFilePath) || fileExists(encodedAudioFilePath)) { 
+  fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
+  // clean
+  throw exception();
+  }
+
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
   ifstream imageFileData(imageFilePath, ifstream::in | ifstream::binary);
   ifstream audioFileData(encodedAudioFilePath, ifstream::in | ifstream::binary);
-
-  if (isCorrupted(imageFilePath, imageFileData) || isCorrupted(encodedAudioFilePath, audioFileData)) { 
-    fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
-    // clean
-    imageFileData.close();
-    audioFileData.close();
-    throw exception(); 
-  }
 
   outputFile << imageFileData.rdbuf() << soundTag << encodedAudio;
   outputFile.close();
@@ -152,7 +150,6 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
 
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
   bestQuality = quality;
-  //if (!Image::imageUnder4MiB(file_size(imageFilePath)) 
   if (!under4MiB(imageFilePath) 
       && fileExists(imageFilePath) 
       && fileExists(audioFilePath)) { 
