@@ -13,7 +13,7 @@
 #include "EmbedAudio.h"
 #include "Image.h"
 #include "Audio.h"
-#include "Hash.h"
+#include "Mask.h"
 
 using namespace std;
 namespace fs = std::filesystem;

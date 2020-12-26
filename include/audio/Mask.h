@@ -1,5 +1,5 @@
-#ifndef HASH_H
-#define HASH_H
+#ifndef MASK_H
+#define MASK_H
 
 #include <array>
 #include <fstream>

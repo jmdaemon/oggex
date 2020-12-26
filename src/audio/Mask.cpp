@@ -1,4 +1,5 @@
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include <string>
 #include <cstdio>
@@ -10,6 +11,10 @@
 #include <fmt/core.h>
 #include <fmt/printf.h>
 
+#include "Mask.h"
+
+using namespace std;
+namespace fs = std::filesystem;
 array<char, 512> hashFile(array<char, 512> buffer, size_t count) {
   unsigned long long unmaskState = 0;
   array<char, 512> maskedBuffer;
