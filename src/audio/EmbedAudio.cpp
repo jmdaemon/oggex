@@ -5,12 +5,7 @@
 #include <iostream>
 #include <string>
 
-#include <cstdio>
-#include <memory>
-#include <array>
-
 #include <cstdint>
-#include <cinttypes>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>
