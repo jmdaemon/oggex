@@ -15,14 +15,16 @@ namespace fs = std::filesystem;
 
 void showUsage(std::string programName) { 
   fmt::fprintf(cerr, 
-      "Usage: %s [audio_file] [image_file]\n %s %s %s", programName, 
+      "Usage: %s [audio_file] [sound_tag] [image_file]\n %s %s %s", programName, 
       "Options:\n", 
       "\t-h, --help\t\tShow this help message\n", 
       "\t-f, --fast\t\tLower image quality\n");
 } 
 
 bool meetsReq(int argc, char** argv) {
-  if (argc <= 1 || !(argc > 1 && argc < 4)) {
+  //if (argc <= 1 || !(argc > 1 && argc < 5)) {
+  if (argc <= 1) {
+    fmt::print("# of Arguments passed: \t{}\n", argc);
     showUsage(argv[0]);
     throw std::exception();
   } 
@@ -42,12 +44,22 @@ map<int, string> parseOptions(int argc, char** argv, bool bestQuality = true) {
   for (int i = 0; i < argc; i++) {
     string arg = string(argv[i]);
 
-    if (arg.compare("-h") || arg.compare("--help")) { showUsage(argv[0]); } 
+    //if (arg.compare("-h") || arg.compare("--help")) { showUsage(argv[0]); } 
+    if (arg == "-h" || arg == "--help") { 
+      showUsage(argv[0]); 
+      map<int, string> quitEarly = {{0, ""}};
+      fmt::print("Exiting program...");
+      return quitEarly;
+    } 
     if (arg.compare("-f") || arg.compare("--fast")) { bestQuality = false; }
     //if (regex_search(arg, match, exp)) soundTag += match[0];
-    if (regex_search(arg, match, exp)) soundTag += argv[i];
-    if (Image::isImage(arg)) { imageFilePath = argv[i]; }
-    if (Audio::isAudio(arg)) { audioFilePath = argv[i]; }
+    if (regex_search(arg, match, exp)) 
+      soundTag = arg;
+      //soundTag = argv[i];
+    if (Image::isImage(arg)) { imageFilePath = arg; }
+    if (Audio::isAudio(arg)) { audioFilePath = arg; }
+    //if (Image::isImage(arg)) { imageFilePath = argv[i]; }
+    //if (Audio::isAudio(arg)) { audioFilePath = argv[i]; }
   } 
 
   if (imageFilePath.empty() || audioFilePath.empty() || soundTag.empty()) { throw std::exception(); }

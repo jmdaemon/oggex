@@ -16,11 +16,12 @@ int main(int argc, char** argv) {
     return -1;
   }
 
-  fs::path audioFilePath = mediaFiles[0];
-  fs::path imageFilePath = mediaFiles[1];
-  string soundTag = mediaFiles[2];
+  fs::path imageFilePath  = mediaFiles[0];
+  fs::path audioFilePath  = mediaFiles[1];
+  string soundTag         = mediaFiles[2];
 
-  embed(audioFilePath, imageFilePath, soundTag, bestQuality);
+  embed(imageFilePath, audioFilePath, soundTag, bestQuality);
+  //embed(audioFilePath, imageFilePath, soundTag, bestQuality);
   return 0;
 }
 
