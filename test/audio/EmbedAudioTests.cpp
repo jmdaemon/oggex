@@ -69,7 +69,6 @@ TEST_CASE("Audio files can be embedded into image files") {
 
     string encodedAudio = exec(cmd.c_str(), audioData);
     REQUIRE(!encodedAudio.empty());
-    fmt::print("Results of encoded audio file: \t{}\n", encodedAudio);
   }
 
   SUBCASE("Image can be encoded") {

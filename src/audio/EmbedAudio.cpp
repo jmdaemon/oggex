@@ -65,12 +65,8 @@ string exec(const char* cmd, Audio::AudioData data) {
 
   ifstream dataContents(data.audioFile.c_str(), ifstream::in | ifstream::binary);
   const size_t dataSize = getFileSize(dataContents); 
-  //vector<char> buffer(dataSize);
   vector<char> buffer(4096);
 
-  //stringstream result;
-  string result = "0";
-  result.reserve(dataSize);
   unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
   if (!pipe) { 
     fmt::fprintf(cerr, "Error: could not execute ffmpeg");
@@ -81,27 +77,13 @@ string exec(const char* cmd, Audio::AudioData data) {
   string monoEncoding = "";
   if (data.lowQuality) { monoEncoding = "/mono"; }
   fmt::print("Encoding \"{}\" at quality = {} {}\n", data.audioFile, data.audioQuality, monoEncoding);
-  // fgets(buffer.data(), buffer.size(), pipe.get()) 
-  // => char* str, data is copied here, 
-  // => number of characters copied
-  // => pointer to stream
-
-  //while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
-  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { 
-    //copy(buffer.begin(), buffer.end(), ostream_iterator<string>(result,"\n"));
-    //result << buffer.data(); 
-    ;
-      //result += buffer.data();
-  }
+    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   dataContents.close();
 
   ifstream tempFile(data.tempAudioFile.c_str(), ifstream::in | ifstream::binary);
   ostringstream tempContents;
   tempContents << tempFile.rdbuf();
   string filedata = tempContents.str();
-
-
-  //return result.str();
   return filedata;
 }
 
