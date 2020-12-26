@@ -72,6 +72,11 @@ TEST_CASE("Audio files can be embedded into image files") {
   }
 
   SUBCASE("Image can be encoded") {
+    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    string cmd = encodeAudio(audioData);
+    string encodedAudio = exec(cmd.c_str(), audioData);
+    encodeImage(imageFile, encodedAudio, "[audio02]");
+    //fs::path outputFile = "inputFile1.png-embed.png";
   }
 
 
