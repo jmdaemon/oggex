@@ -14,5 +14,6 @@ namespace File {
   bool fileUnder4MiB (uintmax_t fileSize, std::string errorMsg = "File too large to fit sounds.");
 
 }
+bool under4MiB (std::filesystem::path filepath, std::string errorMsg = "File too large to fit sounds.");
 
 #endif

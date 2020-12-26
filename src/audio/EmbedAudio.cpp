@@ -152,7 +152,8 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
 
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
   bestQuality = quality;
-  if (!Image::imageUnder4MiB(file_size(imageFilePath)) 
+  //if (!Image::imageUnder4MiB(file_size(imageFilePath)) 
+  if (!under4MiB(imageFilePath) 
       && fileExists(imageFilePath) 
       && fileExists(audioFilePath)) { 
     return -1; 
