@@ -63,24 +63,24 @@ TEST_CASE("Audio files can be embedded into image files") {
 
   }
 
-  SUBCASE("Ffmpeg command executes to completion") {
-    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    string cmd = encodeAudio(audioData);
+  //SUBCASE("Ffmpeg command executes to completion") {
+    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    //string cmd = encodeAudio(audioData);
 
-    string encodedAudio = exec(cmd.c_str(), audioData);
-    REQUIRE(!encodedAudio.empty());
-  }
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //REQUIRE(!encodedAudio.empty());
+  //}
 
-  SUBCASE("Image can be encoded") {
-    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    string cmd = encodeAudio(audioData);
-    string encodedAudio = exec(cmd.c_str(), audioData);
-    encodeImage(imageFile, encodedAudio, "[audio02]");
-    fs::path outputFilePath = "inputFile2-embed.png";
-    ifstream outputFile(outputFilePath, ifstream::in | ifstream::binary);
-    CHECK(!isCorrupted(outputFilePath, outputFile));
-    outputFile.close();
-  }
+  //SUBCASE("Image can be encoded") {
+    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    //string cmd = encodeAudio(audioData);
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //encodeImage(imageFile, encodedAudio, "[audio02]");
+    //fs::path outputFilePath = "inputFile2-embed.png";
+    //ifstream outputFile(outputFilePath, ifstream::in | ifstream::binary);
+    //CHECK(!isCorrupted(outputFilePath, outputFile));
+    //outputFile.close();
+  //}
 
   file.close();
 }
