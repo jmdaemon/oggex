@@ -103,22 +103,31 @@ string encodeAudioFile(Audio::AudioData data, fs::path filepath) {
 
   uintmax_t maxFileSize = 1024 * 1024 * 4; 
   uintmax_t tempFileSize = fs::file_size(data.tempAudioFile);
-  uintmax_t soundTagSize = static_cast<uintmax_t>(data.soundTag.size());
+  uintmax_t soundTagSize = data.soundTag.size();
 
-  ifstream file(filepath, ifstream::in | ifstream::binary);
-  if (isCorrupted(data.audioFile, file) || (tempFileSize <= 0)) {
+  if (fileExists(data.audioFile) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
     fmt::print("Encoding completed.\n\n");
-  file.close();
 
   if ((soundTagSize + tempFileSize) > maxFileSize) {
-    data.audioQuality -= 2;
+    if (data.audioQuality > 5) {
+      data.audioQuality -= 5;
+      fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
+      encodeAudioFile(data, filepath);
+    } else if (data.audioQuality <= 5 && data.audioQuality > 0) {
+      data.audioQuality -= 1;
+      fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
+      encodeAudioFile(data, filepath);
+    } else {
+      fmt::print("Audio file too big, try running with -f or --fast\n");
+      return "";
+    }
+  } else {
+    fs::rename(data.tempAudioFile, "temp.ogg");
+    data.tempAudioFile = "temp.ogg";
   }
-  
-  fs::rename(data.tempAudioFile, "temp.ogg");
-  data.tempAudioFile = "temp.ogg";
   return cmdOutput;
 }
 
@@ -157,6 +166,7 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
   } 
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
   string encodedAudio = encodeAudioFile(audioData, audioFilePath);
+  if (encodedAudio.empty()) { return -1; }
   encodeImage(imageFilePath, encodedAudio, soundTag, "temp.ogg");
 
   return 0;
