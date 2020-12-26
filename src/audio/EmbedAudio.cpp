@@ -97,13 +97,19 @@ string exec(const char* cmd, Audio::AudioData data) {
   return filedata;
 }
 
-string encodeAudioFile(Audio::AudioData data, fs::path filepath) {
+string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath) {
   string cmd = encodeAudio(data);
   string cmdOutput = exec(cmd.c_str(), data);
 
-  uintmax_t maxFileSize = 1024 * 1024 * 4; 
-  uintmax_t tempFileSize = fs::file_size(data.tempAudioFile);
-  uintmax_t soundTagSize = data.soundTag.size();
+  //uintmax_t maxFileSize = 1024 * 1024 * 4; 
+  size_t maxFileSize = 1024 * 1024 * 4; 
+  //uintmax_t tempFileSize = fs::file_size(data.tempAudioFile);
+  //uintmax_t imageFileSize = fs::file_size(imageFilePath);
+  size_t tempFileSize   = getFileSize(data.tempAudioFile);
+  size_t imageFileSize  = getFileSize(imageFilePath);
+
+  size_t soundTagSize = data.soundTag.size();
+  //uintmax_t soundTagSize = data.soundTag.size();
 
   if (fileExists(data.audioFile) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
@@ -111,15 +117,22 @@ string encodeAudioFile(Audio::AudioData data, fs::path filepath) {
   } else 
     fmt::print("Encoding completed.\n\n");
 
-  if ((soundTagSize + tempFileSize) > maxFileSize) {
-    if (data.audioQuality > 5) {
-      data.audioQuality -= 5;
+  uintmax_t totalSize = tempFileSize + imageFileSize + soundTagSize;
+  fmt::print("tempFileSize: {}\nimageFileSize: {}\nsoundTagSize: {}\n", tempFileSize, imageFileSize, soundTagSize);
+  fmt::print("Total size: {}\n", totalSize);
+  //if ((soundTagSize + tempFileSize + tempFileSize) > maxFileSize) {
+  if (totalSize > maxFileSize) {
+    if (data.audioQuality > 4) {
+      data.audioQuality -= 6;
       fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
-      encodeAudioFile(data, filepath);
-    } else if (data.audioQuality <= 5 && data.audioQuality > 0) {
+      encodeAudioFile(data, audioFilePath, imageFilePath);
+    }
+    if (data.audioQuality <= 4 && data.audioQuality > 0) {
       data.audioQuality -= 1;
+      data.lowQuality = true;
       fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
-      encodeAudioFile(data, filepath);
+      fmt::print("Setting -ac 1 option \n");
+      encodeAudioFile(data, audioFilePath, imageFilePath);
     } else {
       fmt::print("Audio file too big, try running with -f or --fast\n");
       return "";
@@ -165,7 +178,7 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
     return -1; 
   } 
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
-  string encodedAudio = encodeAudioFile(audioData, audioFilePath);
+  string encodedAudio = encodeAudioFile(audioData, audioFilePath, imageFilePath);
   if (encodedAudio.empty()) { return -1; }
   encodeImage(imageFilePath, encodedAudio, soundTag, "temp.ogg");
 

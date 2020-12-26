@@ -2,6 +2,7 @@
 #include <string>
 #include <filesystem>
 #include <map>
+#include <fstream>
 
 #include "File.h"
 
@@ -36,12 +37,25 @@ namespace File {
     return true;
   } 
 }
-  bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
-    uintmax_t fileSize = std::filesystem::file_size(filepath);
-    uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-    if (fileSize > maxFileSize) {
-      std::cerr << errorMsg << std::endl;
-      return false;
-    } else
-    return true;
-  } 
+
+size_t getFileSize(std::filesystem::path filepath) {
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+  file.seekg(0, std::ios::end);
+  size_t file_size = file.tellg();
+  file.seekg(0, std::ios::beg);
+  file.close();
+  return file_size;
+}
+bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
+  //uintmax_t fileSize = std::filesystem::file_size(filepath);
+  //uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
+  size_t fileSize = getFileSize(filepath);
+  size_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
+  if (fileSize > maxFileSize) {
+    std::cerr << errorMsg << std::endl;
+    return false;
+  } else
+  return true;
+} 
+
+
