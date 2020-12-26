@@ -3,12 +3,10 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <map>
 #include <string>
 
 #include <cstdio>
 #include <memory>
-#include <stdexcept>
 #include <array>
 
 #include <cstdint>
@@ -20,7 +18,6 @@
 #include "EmbedAudio.h"
 #include "Image.h"
 #include "Audio.h"
-#include "File.h"
 
 using namespace std;
 namespace fs = std::filesystem;
