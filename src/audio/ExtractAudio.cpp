@@ -62,8 +62,13 @@ string findSoundTag(fs::path filepath, size_t offset) {
   file.close();
 
   size_t index = offset - 100;
-  string tag = fileContent.substr(fileContent.find("[", index), fileContent.find("]", index));
-  regex exp("(\\[\\w+\\])(\?!OggS)");
+  //string tag = fileContent.substr(fileContent.find("[", index), fileContent.find("]", index));
+  //string tag = fileContent.substr(fileContent.find('[', index), fileContent.find(']', index));
+  string tag = fileContent.substr(fileContent.find("[", index), fileContent.find("]OggS", index));
+  //regex exp("(\\[\\w+\\])(\?!OggS)");
+  //regex exp("(\\[\\w+\\])\\.{1}(\?!OggS)");
+  //regex exp("(\\[\\w+\\])(\\.{1}\\|\\R)?(\?!OggS)");
+  regex exp("(\\[\\w+\\])(\\.{1}\\|\\R)?(?!OggS)");
 
   string soundTag = "";
   smatch match;
