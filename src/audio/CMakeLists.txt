@@ -6,6 +6,7 @@ target_sources(${TARGET}
     PRIVATE ExtractAudio.cpp
     PRIVATE Audio.cpp
     PRIVATE EmbedAudio.cpp
+    PRIVATE Cmd.cpp
     PUBLIC  ${HEADER_LIST}
 )
 
