@@ -4,6 +4,9 @@
 #include "File.h"
 #include "Image.h"
 
+#include <fmt/core.h>
+#include <fmt/printf.h> 
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -11,7 +14,7 @@ string formatCMD(string cmdFormat, Audio::AudioData data) {
     string cmd = fmt::format(cmdFormat, 
       data.audioFile.string(),
       data.audioQuality,
-      //data.AudioChannel,
+      "",
       data.tempAudioFile.string(),
       data.tempLogFile.string()
       );
@@ -42,17 +45,20 @@ TEST_CASE("Audio files can be embedded into image files") {
     CHECK(!tagUnder100(overflowTag.length()));
   }
 
-  SUBCASE("Ffmpeg cli commands can be built") {
-    string legacyCMDFormat = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
-    string maskCMDFormat = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
-
-    //string audioFilePath = "";
-    //string encodedAudioFile = "";
-    //Audio::AudioData audioData = { 10, false, "[audio02]", audioFilePath, encodedAudioFile, tempLogFile}; 
+  SUBCASE("Ffmpeg cli commands are created and formatted correctly") {
+    string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -ar 44100 -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
+    string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {} {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
 
     Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    //REQUIRE(createCommand(audioData, legacyCMDFormat) == formatCMD(legacyCMDFormat, audioData)); 
-    //REQUIRE(createCommand(audioData, maskCMDFormat) == formatCMD(maskCMDFormat, audioData)); 
+    string legacyCMD  = createCommand(audioData, legacyCMDFormat);
+    REQUIRE(!legacyCMD.empty());
+    REQUIRE(legacyCMD == formatCMD(legacyCMDFormat, audioData)); 
+
+    string buildLegacyCMD = encodeAudio(audioData);
+    string buildMaskCMD   = buildCommand(audioData);
+
+    REQUIRE(buildLegacyCMD == formatCMD(legacyCMD, audioData));
+    REQUIRE(buildMaskCMD == formatCMD(maskCMDFormat, audioData));
 
   }
 

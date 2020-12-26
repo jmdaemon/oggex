@@ -102,7 +102,7 @@ string encodeAudio(Audio::AudioData data, ofstream& file) {
   return cmdOutput;
 }
 
-void encodeImage(fs::path imageFilePath, fs::path encodedAudioFilePath, string encodedAudio, string soundTag) { 
+void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath = "out.ogg") { 
   fs::path outputFilename = fmt::format("{}-embed{}", imageFilePath.stem(), imageFilePath.extension()); 
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
@@ -133,13 +133,10 @@ int embed(fs::path audioFilePath, fs::path imageFilePath, bool quality) {
     audioFile.close();
     return -1; 
   } 
-  fs::path tempLogFile = "Log.txt";
-  fs::path encodedAudioFile = "out.ogg";
   vector<string> tags = formatAudioTags(audioFilePath.stem());
 
-  //Audio::AudioData audioData = { 10, false, tags.at(0), audioFilePath, encodedAudioFile, tempLogFile};
   Audio::AudioData audioData = Audio::AudioData(tags.at(0), audioFilePath);
-  encodeImage(imageFilePath, encodedAudioFile, encodeAudio(audioData, audioFile), tags.at(0));
+  encodeImage(imageFilePath, encodeAudio(audioData, audioFile), tags.at(0));
 
   return 0;
 } 
