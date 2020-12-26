@@ -136,7 +136,7 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
   audioFileData.close();
 }
 
-int embed(fs::path audioFilePath, fs::path imageFilePath, bool quality) {
+int embed(fs::path audioFilePath, fs::path imageFilePath, string soundTag, bool quality) {
   bestQuality = quality;
 
   ifstream imageFile(imageFilePath, ifstream::in | ifstream::binary);
@@ -146,10 +146,12 @@ int embed(fs::path audioFilePath, fs::path imageFilePath, bool quality) {
     audioFile.close();
     return -1; 
   } 
-  vector<string> tags = formatAudioTags(audioFilePath.stem());
+  //vector<string> tags = formatAudioTags(audioFilePath.stem());
 
-  Audio::AudioData audioData = Audio::AudioData(tags.at(0), audioFilePath);
-  encodeImage(imageFilePath, encodeAudio(audioData, audioFile), tags.at(0));
+  //Audio::AudioData audioData = Audio::AudioData(tags.at(0), audioFilePath);
+  //encodeImage(imageFilePath, encodeAudio(audioData, audioFile), tags.at(0));
+  Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
+  encodeImage(imageFilePath, encodeAudio(audioData, audioFile), soundTag);
 
   return 0;
 } 

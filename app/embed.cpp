@@ -18,8 +18,9 @@ int main(int argc, char** argv) {
 
   fs::path audioFilePath = mediaFiles[0];
   fs::path imageFilePath = mediaFiles[1];
+  string soundTag = mediaFiles[2];
 
-  embed(audioFilePath, imageFilePath, bestQuality);
+  embed(audioFilePath, imageFilePath, soundTag, bestQuality);
   return 0;
 }
 

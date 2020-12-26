@@ -24,6 +24,6 @@ std::string exec(const char* cmd, Audio::AudioData data);
 void encodeImage(std::filesystem::path imageFilePath, std::string encodedAudio, std::string soundTag, std::filesystem::path encodedAudioFilePath = "out.ogg");
 
 
-int embed(std::filesystem::path audioFilePath, std::filesystem::path imageFilePath, bool quality);
+int embed(std::filesystem::path audioFilePath, std::filesystem::path imageFilePath, std::string soundTag, bool quality);
 
 #endif
