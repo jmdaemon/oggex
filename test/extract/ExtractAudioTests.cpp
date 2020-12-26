@@ -27,10 +27,10 @@ TEST_CASE("Testing extract()") {
     //CHECK(getAudioOffset(file) > 0);
   //}
 
-  //SUBCASE("Returns sliced file after specified offset") {
-    //REQUIRE(readFile(filepath, audioOffset) != 0);
-    //CHECK(readFile(filepath, fileSize).empty());
-  //}
+  SUBCASE("Returns sliced file after specified offset") {
+    REQUIRE(!readFile(filepath, audioOffset).empty());
+    CHECK(readFile(filepath, fileSize).empty());
+  }
 
   SUBCASE("Retrieve sound tag from embedded file") {
     REQUIRE(!findSoundTag(filepath, audioOffset).empty());
