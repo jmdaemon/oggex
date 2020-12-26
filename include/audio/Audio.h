@@ -13,7 +13,10 @@ namespace Audio {
   };
 
   struct AudioData {
-    AudioData(std::string soundTag, std::filesystem::path audioFile): audioQuality(10), lowQuality(false), soundTag(soundTag), audioFile(audioFile), tempAudioFile("out.ogg"), tempLogFile("Log.txt") {}
+    AudioData(std::string soundTag, std::filesystem::path audioFile): 
+      audioQuality(10), lowQuality(false), 
+      soundTag(soundTag), audioFile(audioFile), 
+      tempAudioFile("out.ogg"), tempLogFile("Log.txt") {}
     int audioQuality;
     bool lowQuality;
     std::string soundTag;
