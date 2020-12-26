@@ -47,7 +47,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 string readFile(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ios::binary);
   size_t file_size = getFileSize(file);
-  fmt::print("Audio File size in readFile(): \t{} \tbytes\n", file_size); 
+  fmt::print("Audio File size in readFile(): \t{} bytes\n", file_size); 
   file.seekg(offset, ios::beg);
 
   string result = dataToString(file);
@@ -86,11 +86,11 @@ int extract(fs::path filepath) {
   if (isCorrupted(filepath, file)) { throw exception(); }
 
   size_t audioOffset = getAudioOffset(file);
-  fmt::print("Audio File offset: \t\t{} \tbytes \n", audioOffset); 
+  fmt::print("Audio File offset: \t\t\t{} \tbytes \n", audioOffset); 
 
   string audioContent = readFile(filepath, audioOffset);
   string soundTag     = findSoundTag(filepath, audioOffset) + ".ogg"; 
-  fmt::print("Sound tag: \t\t\t{}\n\n", soundTag);
+  fmt::print("Sound tag: \t\t\t\t{}\t\n", soundTag);
 
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
   audioFile.write(audioContent.c_str(), audioContent.length());
