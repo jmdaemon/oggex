@@ -101,15 +101,11 @@ string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path i
   string cmd = encodeAudio(data);
   string cmdOutput = exec(cmd.c_str(), data);
 
-  //uintmax_t maxFileSize = 1024 * 1024 * 4; 
   size_t maxFileSize = 1024 * 1024 * 4; 
-  //uintmax_t tempFileSize = fs::file_size(data.tempAudioFile);
-  //uintmax_t imageFileSize = fs::file_size(imageFilePath);
+
   size_t tempFileSize   = getFileSize(data.tempAudioFile);
   size_t imageFileSize  = getFileSize(imageFilePath);
-
   size_t soundTagSize = data.soundTag.size();
-  //uintmax_t soundTagSize = data.soundTag.size();
 
   if (fileExists(data.audioFile) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
@@ -118,16 +114,15 @@ string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path i
     fmt::print("Encoding completed.\n\n");
 
   uintmax_t totalSize = tempFileSize + imageFileSize + soundTagSize;
-  fmt::print("tempFileSize: {}\nimageFileSize: {}\nsoundTagSize: {}\n", tempFileSize, imageFileSize, soundTagSize);
+  fmt::print("\nFile sizes:\n=====\nmaxFileSize: {}\ntempFileSize: {}\nimageFileSize: {}\nsoundTagSize: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
   fmt::print("Total size: {}\n", totalSize);
-  //if ((soundTagSize + tempFileSize + tempFileSize) > maxFileSize) {
+
   if (totalSize > maxFileSize) {
-    if (data.audioQuality > 4) {
+    if (data.audioQuality == 10) {
       data.audioQuality -= 6;
       fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
       encodeAudioFile(data, audioFilePath, imageFilePath);
-    }
-    if (data.audioQuality <= 4 && data.audioQuality > 0) {
+    } else if (data.audioQuality <= 4 && data.audioQuality > 0) {
       data.audioQuality -= 1;
       data.lowQuality = true;
       fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
@@ -164,7 +159,8 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
   ifstream imageFileData(imageFilePath, ifstream::in | ifstream::binary);
   ifstream audioFileData(encodedAudioFilePath, ifstream::in | ifstream::binary);
 
-  outputFile << imageFileData.rdbuf() << soundTag << encodedAudio;
+  //outputFile << imageFileData.rdbuf() << soundTag << encodedAudio;
+  outputFile << imageFileData.rdbuf() << soundTag << audioFileData.rdbuf();
   outputFile.close();
   imageFileData.close();
   audioFileData.close();
