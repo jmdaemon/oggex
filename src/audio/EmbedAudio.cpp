@@ -92,9 +92,7 @@ string exec(const char* cmd, Audio::AudioData data) {
   dataContents.close();
 
   ifstream tempFile(data.tempAudioFile, ifstream::in | ifstream::binary);
-  ostringstream tempContents;
-  tempContents << tempFile.rdbuf();
-  string filedata = tempContents.str();
+  string filedata = dataToString(tempFile);
   tempFile.close();
   return filedata;
 }
@@ -156,7 +154,6 @@ fs::path createOutputFileName(fs::path imageFilePath) {
 
 void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioFilePath) { 
   fs::path outputFilename = createOutputFileName(imageFilePath);
-
   if (!fileExists(encodedAudioFilePath)) { 
     fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
     cleanTempFiles(imageFilePath, encodedAudioFilePath);
