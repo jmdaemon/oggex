@@ -58,4 +58,18 @@ bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
   return true;
 } 
 
+size_t getFileSize(std::ifstream& file) {
+  file.seekg(0, std::ios::end);
+  size_t file_size = file.tellg();
+  file.seekg(0, std::ios::beg);
+  return file_size;
+}
+
+std::string dataToString(std::ifstream& file) {
+  std::ostringstream fileContents;
+  fileContents << file.rdbuf();
+  std::string filedata = fileContents.str();
+  return filedata;
+}
+
 

@@ -37,12 +37,12 @@ TEST_CASE("Testing extract()") {
     CHECK(readFile(filepath, audioOffset).length() == (fileSize - audioOffset));
   }
 
-  //SUBCASE("Retrieve sound tag from embedded file") {
-    //string soundTag = findSoundTag(filepath, audioOffset);
-    //REQUIRE(!soundTag.empty());
-    //REQUIRE(soundTag == "audio02");
-    //REQUIRE(soundTag.length() < 100);
-  //}
+  SUBCASE("Retrieve sound tag from embedded file") {
+    string soundTag = findSoundTag(filepath, audioOffset);
+    REQUIRE(!soundTag.empty());
+    REQUIRE(soundTag == "audio02");
+    REQUIRE(soundTag.length() < 100);
+  }
 
   REQUIRE(extract(filepath) == 0);
   file.close();

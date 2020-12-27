@@ -14,20 +14,6 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-size_t getFileSize(ifstream& file) {
-  file.seekg(0, ios::end);
-  size_t file_size = file.tellg();
-  file.seekg(0, ios::beg);
-  return file_size;
-}
-
-string dataToString(ifstream& file) {
-  ostringstream fileContents;
-  fileContents << file.rdbuf();
-  string filedata = fileContents.str();
-  return filedata;
-}
-
 size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
   size_t file_size = getFileSize(file);
   fmt::print("Size of embedded file: \t\t{} bytes\n", file_size);

@@ -52,6 +52,7 @@ vector<string> formatAudioTags(string tag) {
   soundTags.push_back(soundTag); // audio.ogg ==> [audio] 
   return soundTags;
 }
+
 string createCommand(Audio::AudioData data, string cmd) {
   string command;
   string setAudioChannel = "";
@@ -69,7 +70,8 @@ string createCommand(Audio::AudioData data, string cmd) {
 
 string buildCommand(Audio::AudioData data) { return createCommand(data); }
 string encodeAudio(Audio::AudioData data) {
-  return createCommand(data, "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
+  return createCommand(data, 
+      "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
 }
 
 string exec(const char* cmd, Audio::AudioData data) {

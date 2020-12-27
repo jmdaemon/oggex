@@ -19,7 +19,7 @@ target_sources(${EMBED}
 target_include_directories(${EXTRACT} PUBLIC ${HEADER_LIST})
 target_include_directories(${EMBED} PUBLIC ${HEADER_LIST})
 
-target_link_libraries(${EXTRACT} PRIVATE fmt image_library audio_library)
+target_link_libraries(${EXTRACT} PRIVATE fmt image_library audio_library file_library)
 target_link_libraries(${EMBED} PRIVATE fmt image_library audio_library file_library)
 
 target_compile_features(${EXTRACT} PUBLIC cxx_std_20)
