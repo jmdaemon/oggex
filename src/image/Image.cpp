@@ -20,8 +20,8 @@ namespace Image {
   bool isImage(std::string file) { return File::isFile(file, FileExtensions); }
   bool isImage(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
 
-  bool imageUnder4MiB (uintmax_t imageFileSize) {
-    return File::fileUnder4MiB(imageFileSize, "Image is too large to fit sounds.");
+  bool imageUnder4MiB (std::filesystem::path imagePath) {
+    return under4MiB(imagePath, "Image is too large to fit sounds.");
   }
 
 }

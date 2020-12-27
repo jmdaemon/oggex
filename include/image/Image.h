@@ -35,7 +35,7 @@ namespace Image {
   };
   bool isImage(std::string file);
   bool isImage(std::filesystem::path filepath);
-  bool imageUnder4MiB (uintmax_t imageFileSize); 
+  bool imageUnder4MiB (std::filesystem::path imagePath); 
 }
 
 #endif

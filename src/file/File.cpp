@@ -31,15 +31,6 @@ namespace File {
     }
     return false;
   }
-
-  bool fileUnder4MiB (uintmax_t fileSize, std::string errorMsg) {
-    uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-    if (fileSize > maxFileSize) {
-      std::cerr << errorMsg << std::endl;
-      return false;
-    } else
-    return true;
-  } 
 }
 
 size_t getFileSize(std::ifstream& file) {
