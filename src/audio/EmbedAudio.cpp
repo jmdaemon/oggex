@@ -97,13 +97,12 @@ string exec(const char* cmd, Audio::AudioData data) {
   return filedata;
 }
 
-//Audio::AudioData decreaseQuality(unsigned int subtrahend, Audio::AudioData& data) {
 void decreaseQuality(unsigned int subtrahend, Audio::AudioData& data) {
   data.audioQuality -= subtrahend;
   fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
 }
 
-uintmax_t calculateTotalSize(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
+uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
   size_t tempFileSize   = getFileSize(data.tempAudioFile);
   size_t imageFileSize  = getFileSize(imageFilePath);
   size_t soundTagSize   = data.soundTag.size();
@@ -122,19 +121,19 @@ uintmax_t calculateTotalSize(Audio::AudioData data, fs::path audioFilePath, fs::
   return totalSize;
 }
 
-string encodeAudioFile(Audio::AudioData& data, fs::path audioFilePath, fs::path imageFilePath) {
+string encodeAudioFile(Audio::AudioData& data, fs::path imageFilePath) {
   string cmdOutput = exec(encodeAudio(data).c_str(), data);
   size_t maxFileSize    = 1024 * 1024 * 4; 
-  uintmax_t totalSize   = calculateTotalSize(data, audioFilePath, imageFilePath);
+  uintmax_t totalSize   = calculateTotalSize(data, imageFilePath);
   if (totalSize > maxFileSize) {
     if (data.audioQuality == 10) {
       decreaseQuality(6, data);
-      encodeAudioFile(data, audioFilePath, imageFilePath);
+      encodeAudioFile(data, imageFilePath);
     } else if (data.audioQuality <= 4 && data.audioQuality > 0) {
       decreaseQuality(1, data);
       data.lowQuality = true;
       fmt::print("Setting -ac 1 option \n");
-      encodeAudioFile(data, audioFilePath, imageFilePath);
+      encodeAudioFile(data, imageFilePath);
     } else {
       fmt::print("Audio file too big, try running with -f or --fast\n");
       throw exception();
@@ -158,7 +157,7 @@ void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioF
 
   if (!fileExists(encodedAudioFilePath)) { 
     fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
-    // clean
+    cleanTempFiles(imageFilePath, encodedAudioFilePath);
     throw exception();
   }
 
@@ -170,15 +169,14 @@ void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioF
   outputFile.close();
   imageFileData.close();
   audioFileData.close();
+  remove(encodedAudioFilePath);
 }
 
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
   bestQuality = quality;
-  if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { 
-    return -1; 
-  } 
+  if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { return -1; } 
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
-  encodeAudioFile(audioData, audioFilePath, imageFilePath);
+  encodeAudioFile(audioData, imageFilePath);
   encodeImage(imageFilePath, soundTag, audioData.tempAudioFile);
   return 0;
 } 
