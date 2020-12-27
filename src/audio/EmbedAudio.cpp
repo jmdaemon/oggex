@@ -5,9 +5,10 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <iterator>
+//#include <iterator>
+#include <initializer_list>
 
-#include <cstdint>
+//#include <cstdint>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>
@@ -33,9 +34,10 @@ bool fileExists(fs::path filepath) {
   return true; 
 }
 
-void cleanTempFiles(fs::path tempLogFile, fs::path tempAudioFile) {
-  if (!tempLogFile.empty())   { remove(tempLogFile); }
-  if (!tempAudioFile.empty()) { remove(tempAudioFile); }
+void clean(initializer_list<fs::path> filepaths) {
+  for( auto filepath: filepaths) {
+    remove(filepath);
+  }
 }
 
 bool tagUnder100(unsigned int tagLength) {
@@ -81,7 +83,7 @@ string exec(const char* cmd, Audio::AudioData data) {
   unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
   if (!pipe) { 
     fmt::fprintf(cerr, "Error: could not execute ffmpeg");
-    cleanTempFiles(data.tempLogFile, data.tempAudioFile);
+    clean({ data.tempLogFile, data.tempAudioFile});
     throw runtime_error("popen() failed!");
   } 
 
@@ -156,7 +158,7 @@ void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioF
   fs::path outputFilename = createOutputFileName(imageFilePath);
   if (!fileExists(encodedAudioFilePath)) { 
     fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
-    cleanTempFiles(imageFilePath, encodedAudioFilePath);
+    clean({imageFilePath, encodedAudioFilePath});
     throw exception();
   }
 
@@ -168,7 +170,7 @@ void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioF
   outputFile.close();
   imageFileData.close();
   audioFileData.close();
-  remove(encodedAudioFilePath);
+  clean({encodedAudioFilePath});
 }
 
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
