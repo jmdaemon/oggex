@@ -103,11 +103,7 @@ Audio::AudioData decreaseQuality(unsigned int subtrahend, Audio::AudioData data)
   return data;
 }
 
-string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath) {
-  string cmd = encodeAudio(data);
-  string cmdOutput = exec(cmd.c_str(), data);
-
-  size_t maxFileSize    = 1024 * 1024 * 4; 
+uintmax_t calculateTotalSize(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
   size_t tempFileSize   = getFileSize(data.tempAudioFile);
   size_t imageFileSize  = getFileSize(imageFilePath);
   size_t soundTagSize   = data.soundTag.size();
@@ -123,6 +119,13 @@ string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path i
   fmt::print("Max File Size: {}\nTemp File Size: {}\nImage File Size: {}\nSound Tag Size: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
   fmt::print("Total size: {}\n", totalSize);
 
+  return totalSize;
+}
+
+string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath) {
+  string cmdOutput = exec(encodeAudio(data).c_str(), data);
+  size_t maxFileSize    = 1024 * 1024 * 4; 
+  uintmax_t totalSize   = calculateTotalSize(data, audioFilePath, imageFilePath);
   if (totalSize > maxFileSize) {
     if (data.audioQuality == 10) {
       Audio::AudioData newData = decreaseQuality(6, data);
