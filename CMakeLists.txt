@@ -41,6 +41,11 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/fmtlib/fmt")
 FetchContent_MakeAvailable(libfmt)
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
+#pkg_check_modules(GTK3 REQUIRED IMPORTED_TARGET gtk+-3.0)
+#pkg_check_modules(GLIB2 REQUIRED IMPORTED_TARGET glib-2.0)
+
 add_subdirectory(src)
 add_subdirectory(app)
 
