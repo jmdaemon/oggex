@@ -1,5 +1,6 @@
 #include "../doctest-main.cpp"
 
+#include <algorithm>
 #include <filesystem>
 #include <string>
 #include <fstream>

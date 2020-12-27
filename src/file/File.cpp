@@ -3,6 +3,10 @@
 #include <filesystem>
 #include <map>
 #include <fstream>
+#include <initializer_list>
+
+#include <fmt/core.h>
+#include <fmt/printf.h>
 
 #include "File.h"
 
@@ -72,4 +76,20 @@ std::string dataToString(std::ifstream& file) {
   return filedata;
 }
 
+bool fileExists(std::filesystem::path filepath) { 
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+  if (!file.is_open()) {
+    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    file.close();
+    return false; 
+  } 
+  file.close();
+  return true; 
+}
+
+void clean(std::initializer_list<std::filesystem::path> filepaths) {
+  for( auto filepath: filepaths) {
+    std::filesystem::remove(filepath);
+  }
+}
 

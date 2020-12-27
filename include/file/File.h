@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <map>
 #include <cstdint>
+#include <initializer_list>
 
 namespace File {
   std::string toLowerCase(const std::filesystem::path& filePath);
@@ -19,5 +20,7 @@ size_t getFileSize(std::ifstream& file);
 std::string dataToString(std::ifstream& file);
 size_t getFileSize(std::filesystem::path filepath);
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg = "File too large to fit sounds.");
+bool fileExists(std::filesystem::path filepath);
+void clean(std::initializer_list<std::filesystem::path> filepaths);
 
 #endif

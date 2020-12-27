@@ -1,14 +1,8 @@
-#include <algorithm>
 #include <exception>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <sstream>
-//#include <iterator>
-#include <initializer_list>
-
-//#include <cstdint>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>
@@ -22,23 +16,6 @@ using namespace std;
 namespace fs = std::filesystem;
 
 static bool bestQuality = true;
-
-bool fileExists(fs::path filepath) { 
-  ifstream file(filepath, ifstream::in | ifstream::binary);
-  if (!file.is_open()) {
-    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
-    file.close();
-    return false; 
-  } 
-  file.close();
-  return true; 
-}
-
-void clean(initializer_list<fs::path> filepaths) {
-  for( auto filepath: filepaths) {
-    remove(filepath);
-  }
-}
 
 bool tagUnder100(unsigned int tagLength) {
   unsigned int maxTagLength = 100;
