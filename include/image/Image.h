@@ -2,19 +2,40 @@
 #define IMAGE_H
 
 #include <string>
+#include <map>
+#include <cstdint>
 
-class Image {
-  private:
-    std::string imagePath;
+//#include "../file/File.h"
+#include "File.h"
 
-  public:
+namespace Image {
+  const static std::map<int, std::string> FileExtensions = {
+    {0, ".jpg"},
+    {1, ".jpeg"},
+    {2, ".gif"},
+    {3, ".png"},
+    {4, ".webm"},
+  };
 
-    Image(std::string imagePath);
-    int readImage();
+  struct ImageData {
+  };
 
-    std::string getImg() {
-      return this->imagePath;
-    }
-};
+  class Image {
+    private:
+      std::string imagePath;
+
+    public:
+
+      Image(std::string imagePath);
+      int readImage();
+
+      std::string getImg() {
+        return this->imagePath;
+      }
+  };
+  bool isImage(std::string file);
+  bool isImage(std::filesystem::path filepath);
+  bool imageUnder4MiB (std::filesystem::path imagePath); 
+}
 
 #endif

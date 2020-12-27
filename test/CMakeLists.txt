@@ -11,6 +11,8 @@ set(RESOURCE_FILES
   #resources/
   #resources/12727a5f30b1429a1fd35113fd2550d8.png
   resources/inputFile1.png
+  resources/inputFile2.png
+  resources/outputFile1.audio02.ogg
   )
 
 set (DOCTEST_MAIN doctest_library)
@@ -22,5 +24,4 @@ target_link_libraries(${DOCTEST_MAIN} PRIVATE image_library doctest)
 
 add_subdirectory(image)
 add_subdirectory(audio)
-add_subdirectory(encoder)
-#add_subdirectory(decoder)
+add_subdirectory(extract)

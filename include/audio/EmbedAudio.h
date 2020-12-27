@@ -1,44 +1,26 @@
 #ifndef EMBEDAUDIO_H
 #define EMBEDAUDIO_H
 
-#include <string>
 #include <filesystem>
-#include <fstream>
-#include <map>
-#include <cstdint>
-#include <fstream>
+#include <string>
 
-#include <fmt/core.h>
-#include <fmt/printf.h>
+#include "Audio.h"
+#include "FileType.tpp"
 
-std::string toLowerCase(const std::filesystem::path& filePath);
-void showUsage(std::string programName);
-std::map<int, std::string> parseOptions(int argc, char** argv);
-bool isImage(std::filesystem::path filepath);
-bool imageUnder4MiB (std::uintmax_t imageFileSize);
+bool fileExists(std::filesystem::path filepath);
+void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);
 
-template<typename FileType> bool isCorrupted(std::filesystem::path filepath, FileType& file) {
-  if (!file.is_open()) {
-    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"", filepath);
-    return true;
-  } else
-    return false;
-}
+bool tagUnder100(unsigned int tagLength);
+std::vector<std::string> formatAudioTags(std::string tag);
 
-template<typename FileType>
-std::string fileToString(FileType& filestream) {
-  std::ostringstream fileContents;
-  fileContents << filestream.rdbuf();
-  return fileContents.str();
-}
+std::string createCommand(Audio::AudioData data, 
+    std::string cmd = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
+std::string buildCommand(Audio::AudioData data);
+std::string encodeAudio(Audio::AudioData data);
 
-template<typename FileType>
-int getFileSize(FileType& file) {
-  std::ostringstream contents;
-  contents << file.rdbuf(); // Read imageFileData
-  contents.seekp(0, std::ios::end);
-  int contentSize = contents.tellp();
-  return contentSize;
-}
+std::string exec(const char* cmd, Audio::AudioData data);
+
+void encodeImage(std::filesystem::path imageFilePath, std::string soundTag, std::filesystem::path encodedAudioFilePath = "out.ogg");
+int embed(std::filesystem::path audioFilePath, std::filesystem::path imageFilePath, std::string soundTag, bool quality);
 
 #endif

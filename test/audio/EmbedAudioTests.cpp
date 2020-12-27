@@ -1,66 +1,86 @@
 #include "../doctest-main.cpp"
 
 #include "EmbedAudio.h"
+#include "File.h"
+#include "Image.h"
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <filesystem>
-#include <map>
+#include <fmt/core.h>
+#include <fmt/printf.h> 
 
 using namespace std;
 namespace fs = std::filesystem;
 
-template <typename Map>
-
-bool key_compare (Map const &lhs, Map const &rhs) {
-    return lhs.size() == rhs.size()
-        && std::equal(lhs.begin(), lhs.end(), rhs.begin(), 
-                      [] (auto a, auto b) { return a.first == b.first; });
-}
-
-map<int, string> createArgvInput(vector<string> arguments) {
-    vector<string> firstTestArgs = {""};
-    vector<char*> argv;
-    for (const auto& arg : arguments)
-        argv.push_back((char*)arg.data());
-    argv.push_back(nullptr);
-
-    map<int, string> filepaths = parseOptions(argv.size() - 1, argv.data()); 
-    return filepaths;
+string formatCMD(string cmdFormat, Audio::AudioData data) {
+    string cmd = fmt::format(cmdFormat, 
+      data.audioFile.string(),
+      data.audioQuality,
+      "",
+      data.tempAudioFile.string(),
+      data.tempLogFile.string()
+      );
+    return cmd;
 }
 
 TEST_CASE("Audio files can be embedded into image files") {
+  fs::path embeddedImage  = "../../inputFile1.png";
+  fs::path imageFile      = "../../inputFile2.png";
+  fs::path audioFile      = "../../outputFile1.audio02.ogg";
+  ifstream file(embeddedImage, ifstream::in | ios::binary);
+
   SUBCASE("Test toLowerCase()") {
     INFO("Current outPut of toLowerCase(): ");
 
-    REQUIRE(toLowerCase("ABC") == "abc");
-    REQUIRE(toLowerCase(".JPG") == ".jpg");
-    CHECK(toLowerCase(".JPEG") == ".jpeg");
-    CHECK(toLowerCase(".PNG") == ".png");
+    REQUIRE(File::toLowerCase("ABC") == "abc");
+    REQUIRE(File::toLowerCase(".JPG") == ".jpg");
+    CHECK(File::toLowerCase(".JPEG") == ".jpeg");
+    CHECK(File::toLowerCase(".PNG") == ".png");
+  }
+  SUBCASE("Temp files should be removed") {
   }
 
-  SUBCASE("Testing parseOptions()") { 
-    INFO("Current output of parseOptions: ");
-
-    vector<string> firstTestArgs = {""};
-    CHECK_THROWS_AS(createArgvInput(firstTestArgs), std::exception);
-
-    vector<string> secondTestArgs = {"image.png", "audio.ogg"};
-    
-    map<int, string> expectedPaths = { {0, "image.png"}, {1, "audio.ogg"}};
-    CHECK(key_compare(expectedPaths, createArgvInput(secondTestArgs)));
-  } 
-
-  SUBCASE("Running image file checks") {
-    std::filesystem::path filepath = "../../inputFile1.png"; 
-    ifstream file(filepath, ifstream::in | ifstream::binary);
-    CHECK(isImage(filepath));
-    CHECK(imageUnder4MiB(std::filesystem::file_size(filepath)));
-    REQUIRE(!isCorrupted(filepath, file));
-    //REQUIRE(imageNotCorrupted(filepath) == true);
+  SUBCASE("Sound tags should be formatted correctly") {
+    string soundTag = "audio02";
+    string overflowTag = "====================================================================================================";
+    REQUIRE(tagUnder100(soundTag.length()));
+    REQUIRE(formatAudioTags(soundTag)[0] == "[audio02]");
+    CHECK(!tagUnder100(overflowTag.length()));
   }
 
-  //SUBCASE("") {
+  SUBCASE("Ffmpeg cli commands are created and formatted correctly") {
+    string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
+    string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
+
+    Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    string legacyCMD  = createCommand(audioData, legacyCMDFormat);
+    REQUIRE(!legacyCMD.empty());
+    REQUIRE(legacyCMD == formatCMD(legacyCMDFormat, audioData)); 
+
+    string buildLegacyCMD = encodeAudio(audioData);
+    string buildMaskCMD   = buildCommand(audioData);
+
+    REQUIRE(buildLegacyCMD == formatCMD(legacyCMD, audioData));
+    REQUIRE(buildMaskCMD == formatCMD(maskCMDFormat, audioData));
+
+  }
+
+  //SUBCASE("Ffmpeg command executes to completion") {
+    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    //string cmd = encodeAudio(audioData);
+
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //REQUIRE(!encodedAudio.empty());
   //}
+
+  //SUBCASE("Image can be encoded") {
+    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
+    //string cmd = encodeAudio(audioData);
+    //string encodedAudio = exec(cmd.c_str(), audioData);
+    //encodeImage(imageFile, encodedAudio, "[audio02]");
+    //fs::path outputFilePath = "inputFile2-embed.png";
+    //ifstream outputFile(outputFilePath, ifstream::in | ifstream::binary);
+    //CHECK(!isCorrupted(outputFilePath, outputFile));
+    //outputFile.close();
+  //}
+
+  file.close();
 }
