@@ -42,17 +42,19 @@ namespace File {
   } 
 }
 
-size_t getFileSize(std::filesystem::path filepath) {
-  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+size_t getFileSize(std::ifstream& file) {
   file.seekg(0, std::ios::end);
   size_t file_size = file.tellg();
   file.seekg(0, std::ios::beg);
-  file.close();
   return file_size;
 }
+
+size_t getFileSize(std::filesystem::path filepath) {
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+  return getFileSize(file); 
+}
+
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
-  //uintmax_t fileSize = std::filesystem::file_size(filepath);
-  //uintmax_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   size_t fileSize = getFileSize(filepath);
   size_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   if (fileSize > maxFileSize) {
@@ -61,13 +63,6 @@ bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
   } else
   return true;
 } 
-
-size_t getFileSize(std::ifstream& file) {
-  file.seekg(0, std::ios::end);
-  size_t file_size = file.tellg();
-  file.seekg(0, std::ios::beg);
-  return file_size;
-}
 
 std::string dataToString(std::ifstream& file) {
   std::ostringstream fileContents;
