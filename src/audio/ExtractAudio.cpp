@@ -1,10 +1,10 @@
-#include <iostream>
-#include <string>
-#include <filesystem>
-#include <exception>
-#include <fstream>
-#include <regex>
 #include <cstdio>
+#include <exception>
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <regex>
+#include <string>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>

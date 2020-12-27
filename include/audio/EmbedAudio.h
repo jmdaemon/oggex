@@ -1,13 +1,11 @@
 #ifndef EMBEDAUDIO_H
 #define EMBEDAUDIO_H
 
-#include <string>
 #include <filesystem>
-#include <cstdint>
-#include <vector>
+#include <string>
 
-#include "FileType.tpp"
 #include "Audio.h"
+#include "FileType.tpp"
 
 bool fileExists(std::filesystem::path filepath);
 void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);
@@ -23,7 +21,6 @@ std::string encodeAudio(Audio::AudioData data);
 std::string exec(const char* cmd, Audio::AudioData data);
 
 void encodeImage(std::filesystem::path imageFilePath, std::string soundTag, std::filesystem::path encodedAudioFilePath = "out.ogg");
-
 int embed(std::filesystem::path audioFilePath, std::filesystem::path imageFilePath, std::string soundTag, bool quality);
 
 #endif

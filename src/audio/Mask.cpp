@@ -1,12 +1,12 @@
-#include <iostream>
+#include <array>
+#include <cinttypes>
+#include <cstdint>
+#include <cstdio>
 #include <filesystem>
 #include <fstream>
-#include <string>
-#include <cstdio>
+#include <iostream>
 #include <memory>
-#include <array>
-#include <cstdint>
-#include <cinttypes>
+#include <string>
 
 #include <fmt/core.h>
 #include <fmt/printf.h>
