@@ -97,10 +97,10 @@ string exec(const char* cmd, Audio::AudioData data) {
   return filedata;
 }
 
-Audio::AudioData decreaseQuality(unsigned int subtrahend, Audio::AudioData data) {
+//Audio::AudioData decreaseQuality(unsigned int subtrahend, Audio::AudioData& data) {
+void decreaseQuality(unsigned int subtrahend, Audio::AudioData& data) {
   data.audioQuality -= subtrahend;
   fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
-  return data;
 }
 
 uintmax_t calculateTotalSize(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
@@ -122,19 +122,19 @@ uintmax_t calculateTotalSize(Audio::AudioData data, fs::path audioFilePath, fs::
   return totalSize;
 }
 
-string encodeAudioFile(Audio::AudioData data, fs::path audioFilePath, fs::path imageFilePath) {
+string encodeAudioFile(Audio::AudioData& data, fs::path audioFilePath, fs::path imageFilePath) {
   string cmdOutput = exec(encodeAudio(data).c_str(), data);
   size_t maxFileSize    = 1024 * 1024 * 4; 
   uintmax_t totalSize   = calculateTotalSize(data, audioFilePath, imageFilePath);
   if (totalSize > maxFileSize) {
     if (data.audioQuality == 10) {
-      Audio::AudioData newData = decreaseQuality(6, data);
-      encodeAudioFile(newData, audioFilePath, imageFilePath);
+      decreaseQuality(6, data);
+      encodeAudioFile(data, audioFilePath, imageFilePath);
     } else if (data.audioQuality <= 4 && data.audioQuality > 0) {
-      Audio::AudioData newData = decreaseQuality(1, data);
-      newData.lowQuality = true;
+      decreaseQuality(1, data);
+      data.lowQuality = true;
       fmt::print("Setting -ac 1 option \n");
-      encodeAudioFile(newData, audioFilePath, imageFilePath);
+      encodeAudioFile(data, audioFilePath, imageFilePath);
     } else {
       fmt::print("Audio file too big, try running with -f or --fast\n");
       throw exception();
@@ -179,6 +179,6 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
   } 
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
   encodeAudioFile(audioData, audioFilePath, imageFilePath);
-  encodeImage(imageFilePath, soundTag, "temp.ogg");
+  encodeImage(imageFilePath, soundTag, audioData.tempAudioFile);
   return 0;
 } 
