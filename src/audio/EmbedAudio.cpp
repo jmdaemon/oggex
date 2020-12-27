@@ -27,10 +27,10 @@ bool fileExists(fs::path filepath) {
   if (!file.is_open()) {
     fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
     file.close();
-    return true; 
+    return false; 
   } 
   file.close();
-  return false; 
+  return true; 
 }
 
 void cleanTempFiles(fs::path tempLogFile, fs::path tempAudioFile) {
@@ -109,7 +109,7 @@ uintmax_t calculateTotalSize(Audio::AudioData data, fs::path audioFilePath, fs::
   size_t soundTagSize   = data.soundTag.size();
   uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
 
-  if (fileExists(data.audioFile) || (tempFileSize <= 0)) {
+  if (!fileExists(data.audioFile) || (tempFileSize <= 0)) {
     fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
@@ -153,13 +153,13 @@ fs::path createOutputFileName(fs::path imageFilePath) {
   return outputFilename;
 }
 
-void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, fs::path encodedAudioFilePath) { 
+void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioFilePath) { 
   fs::path outputFilename = createOutputFileName(imageFilePath);
 
-  if (fileExists(imageFilePath) || fileExists(encodedAudioFilePath)) { 
-  fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
-  // clean
-  throw exception();
+  if (!fileExists(encodedAudioFilePath)) { 
+    fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
+    // clean
+    throw exception();
   }
 
   ofstream outputFile(outputFilename, ifstream::out | ifstream::binary);
@@ -174,15 +174,11 @@ void encodeImage(fs::path imageFilePath, string encodedAudio, string soundTag, f
 
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
   bestQuality = quality;
-  if (!under4MiB(imageFilePath) 
-      && fileExists(imageFilePath) 
-      && fileExists(audioFilePath)) { 
+  if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { 
     return -1; 
   } 
   Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
-  string encodedAudio = encodeAudioFile(audioData, audioFilePath, imageFilePath);
-  //if (encodedAudio.empty()) { return -1; }
-  encodeImage(imageFilePath, encodedAudio, soundTag, "temp.ogg");
-
+  encodeAudioFile(audioData, audioFilePath, imageFilePath);
+  encodeImage(imageFilePath, soundTag, "temp.ogg");
   return 0;
 } 
