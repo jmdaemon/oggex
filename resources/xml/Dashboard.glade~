@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkWindow">
+  <object class="GtkWindow" id="Dashboard">
     <property name="can-focus">False</property>
     <property name="default-width">600</property>
     <property name="default-height">400</property>
@@ -410,7 +410,6 @@
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="margin-end">18</property>
-            <property name="margin-bottom">18</property>
             <child>
               <object class="GtkMenuItem">
                 <property name="visible">True</property>
