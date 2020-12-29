@@ -34,7 +34,7 @@ namespace {
   }
 
   void onQualityChange() { 
-    pSetQualitySpinButton->set_digits( pSetQualitySpinButton->get_value_as_int() );
+    pSetQualitySpinButton->set_value( pSetQualitySpinButton->get_value_as_int() );
   }
 
 void on_app_activate() {

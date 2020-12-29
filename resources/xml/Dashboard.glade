@@ -26,7 +26,6 @@
     <property name="value">4</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="page-size">-2.2351741811588166e-10</property>
   </object>
   <object class="GtkWindow" id="Dashboard">
     <property name="can-focus">False</property>
@@ -312,9 +311,10 @@
                 <property name="max-length">2</property>
                 <property name="width-chars">8</property>
                 <property name="placeholder-text" translatable="yes">Quality</property>
-                <property name="input-purpose">digits</property>
+                <property name="input-purpose">number</property>
                 <property name="adjustment">qualityAdjustment</property>
-                <property name="value">1</property>
+                <property name="numeric">True</property>
+                <property name="value">4</property>
               </object>
               <packing>
                 <property name="left-attach">1</property>
