@@ -626,17 +626,8 @@
       </object>
     </child>
   </object>
-  <object class="GtkOverlay" id="browseFiles">
-    <property name="visible">True</property>
+  <object class="GtkFileChooserDialog" id="browseFiles">
     <property name="can-focus">False</property>
-    <child>
-      <object class="GtkFileChooserWidget" id="selectFile">
-        <property name="visible">True</property>
-        <property name="can-focus">False</property>
-      </object>
-      <packing>
-        <property name="index">-1</property>
-      </packing>
-    </child>
+    <property name="type-hint">dialog</property>
   </object>
 </interface>
