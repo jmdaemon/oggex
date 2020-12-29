@@ -1,4 +1,4 @@
-//#include "Dashboard.h"
+#include "Dashboard.h"
 
 #include <iostream>
 #include <string>
@@ -78,7 +78,10 @@ void on_app_activate() {
 }
 
 int main(int argc, char *argv[]) {
-  app = Gtk::Application::create("com.github.jmdaemon.oggex");
-  app->signal_activate().connect([] () { on_app_activate(); });
-  return app->run(argc, argv);
+  auto application = DashboardController::create();
+  return application->run(argc, argv);
+
+  //app = Gtk::Application::create("com.github.jmdaemon.oggex");
+  //app->signal_activate().connect([] () { on_app_activate(); });
+  //return app->run(argc, argv);
 }

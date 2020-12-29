@@ -1,11 +1,12 @@
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/ui")
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file")
+set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/ui")
+#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file")
 set(OGGEX oggex)
 
 add_executable(${OGGEX})
 target_sources(${OGGEX}
     PRIVATE oggex.cpp
-    #PRIVATE controller/DashboardController.cpp
+    PRIVATE controller/DashboardController.cpp
+    PRIVATE controller/DashboardWindow.cpp
     PUBLIC ${HEADER_LIST}
     )
 
