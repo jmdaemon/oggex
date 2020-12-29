@@ -60,7 +60,7 @@ void on_app_activate() {
 }
 
 int main(int argc, char *argv[]) {
-  app = Gtk::Application::create("oggex");
+  app = Gtk::Application::create("com.github.jmdaemon.oggex");
   app->signal_activate().connect([] () { on_app_activate(); });
   return app->run(argc, argv);
 }
