@@ -49,8 +49,8 @@ add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
 target_sources(${OGGEX}
     PRIVATE oggex.cpp
-    PRIVATE DashboardController.cpp
-    PRIVATE DashboardWindow.cpp
+    PRIVATE controller/DashboardController.cpp
+    PRIVATE controller/DashboardWindow.cpp
     PUBLIC ${HEADER_LIST}
     )
 
