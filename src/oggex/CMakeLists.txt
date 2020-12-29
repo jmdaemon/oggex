@@ -44,17 +44,11 @@ add_custom_target(
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}
 ) # End of GResource
 
-
 add_executable(${OGGEX})
-#set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C} PROPERTIES GENERATED TRUE)
 add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
 target_sources(${OGGEX}
-    #PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}
     PRIVATE oggex.cpp
-    #PRIVATE ${GRESOURCE_C}
-    #PRIVATE controller/DashboardController.cpp
-    #PRIVATE controller/DashboardWindow.cpp
     PRIVATE DashboardController.cpp
     PRIVATE DashboardWindow.cpp
     PUBLIC ${HEADER_LIST}
@@ -63,15 +57,8 @@ target_sources(${OGGEX}
 target_include_directories(${OGGEX} PUBLIC ${HEADER_LIST} ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(${OGGEX} PRIVATE fmt  PkgConfig::GTKMM) 
 
-#FILE(COPY "../../resources/xml/Dashboard.glade" DESTINATION "${CMAKE_BINARY_DIR}")
 set_target_properties(${OGGEX} PROPERTIES
     RESOURCE "${GLADE_FILES}" RESOURCE ${GRESOURCE_FILES})
-#set_target_properties(${OGGEX} PROPERTIES
-    #RESOURCE "${GLADE_FILES}" RESOURCE ${GRESOURCE_FILES})
-
-#add_dependencies(${OGGEX} dashboard-resource)
-    #RESOURCE "${GLADE_FILES}" RESOURCE ${GRESOURCE})
-    #RESOURCE "${GLADE_FILES}" RESOURCE ${GRESOURCE} GENERATED TRUE)
 
 target_compile_features(${OGGEX} PUBLIC cxx_std_20)
 source_group(
