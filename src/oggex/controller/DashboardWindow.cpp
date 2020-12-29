@@ -18,7 +18,6 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject,
 //static
 DashboardWindow* DashboardWindow::create() {
   //auto refBuilder = Gtk::Builder::create_from_file("../../Dashboard.glade");
-  //auto refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/dashboard/Dashboard.glade");
   auto refBuilder = Gtk::Builder::create_from_resource(Dashboard::DASHBOARD_RESOURCE_FILE);
   
   DashboardWindow* window = nullptr;
@@ -31,4 +30,13 @@ DashboardWindow* DashboardWindow::create() {
 
 
 void DashboardWindow::open_file_view(const Glib::RefPtr<Gio::File>&) { }
+
+//void on_button_clicked() { 
+  //if (pWindow) 
+    //pWindow->hide();
+//}
+
+//void onQualityChange() { 
+  //pSetQualitySpinButton->set_value( pSetQualitySpinButton->get_value_as_int() );
+//}
 
