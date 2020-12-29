@@ -1,4 +1,5 @@
 #include "DashboardWindow.h"
+#include "DashboardID.h"
 #include "oggex.gresource.c"
 
 #include <gtkmm.h>
@@ -17,10 +18,11 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject,
 //static
 DashboardWindow* DashboardWindow::create() {
   //auto refBuilder = Gtk::Builder::create_from_file("../../Dashboard.glade");
-  auto refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/dashboard/Dashboard.glade");
+  //auto refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/dashboard/Dashboard.glade");
+  auto refBuilder = Gtk::Builder::create_from_resource(Dashboard::DASHBOARD_RESOURCE_FILE);
   
   DashboardWindow* window = nullptr;
-  refBuilder->get_widget_derived("Dashboard", window);
+  refBuilder->get_widget_derived(Dashboard::dashboardID, window);
   if (!window)
     throw std::runtime_error("No \"Dashboard\" object in Dashboard.glade");
 
