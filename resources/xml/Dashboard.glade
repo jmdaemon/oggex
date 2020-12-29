@@ -36,7 +36,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="imageFilePath">
                 <property name="width-request">-1</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -64,7 +64,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="audioFilePath">
                 <property name="width-request">-1</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -104,7 +104,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="remove">
                 <property name="label" translatable="yes">Remove</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -116,7 +116,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="reset">
                 <property name="label" translatable="yes">Reset</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -128,7 +128,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="readSound">
                 <property name="label" translatable="yes">Read</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -140,7 +140,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="addSound">
                 <property name="label" translatable="yes">Add File</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -263,7 +263,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkEntry">
+              <object class="GtkEntry" id="outputFileName">
                 <property name="width-request">-1</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -279,7 +279,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSpinButton">
+              <object class="GtkSpinButton" id="quality">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="halign">start</property>
@@ -295,7 +295,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="embed">
                 <property name="label" translatable="yes">Embed</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -307,7 +307,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="browseSaveOutput">
                 <property name="label" translatable="yes">Browse</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -319,7 +319,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="extract">
                 <property name="label" translatable="yes">Extract</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
@@ -331,7 +331,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkProgressBar">
+              <object class="GtkProgressBar" id="progressBar">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
               </object>
@@ -626,11 +626,11 @@
       </object>
     </child>
   </object>
-  <object class="GtkOverlay">
+  <object class="GtkOverlay" id="browseFiles">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <child>
-      <object class="GtkFileChooserWidget">
+      <object class="GtkFileChooserWidget" id="selectFile">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
       </object>
