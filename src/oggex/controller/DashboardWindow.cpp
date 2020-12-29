@@ -17,7 +17,7 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject,
 //static
 DashboardWindow* DashboardWindow::create() {
   //auto refBuilder = Gtk::Builder::create_from_file("../../Dashboard.glade");
-  auto refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/dashboard/dashboard.glade");
+  auto refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/dashboard/Dashboard.glade");
   
   DashboardWindow* window = nullptr;
   refBuilder->get_widget_derived("Dashboard", window);
