@@ -26,7 +26,6 @@
     <property name="value">4</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
-    <property name="page-size">-0.009999999776482582</property>
   </object>
   <object class="GtkWindow" id="Dashboard">
     <property name="can-focus">False</property>
