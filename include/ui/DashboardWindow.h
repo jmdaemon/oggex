@@ -4,9 +4,14 @@
 #include <gtkmm.h>
 
 class DashboardWindow : public Gtk::ApplicationWindow {
-  public:
-  DashboardWindow();
-  void open_file_view(const Glib::RefPtr<Gio::File>& file);
+  protected:
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
+
+  public: 
+    DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
+    static DashboardWindow* create();
+
+    void open_file_view(const Glib::RefPtr<Gio::File>& file);
 };
 
 #endif
