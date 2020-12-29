@@ -51,9 +51,9 @@ void DashboardController::on_open(const Gio::Application::type_vec_files& files,
 
     appwindow->present();
   } catch (const Glib::Error& ex) {
-    std::cerr << "ExampleApplication::on_open(): " << ex.what() << std::endl;
+    std::cerr << "DashboardController::on_open(): " << ex.what() << std::endl;
   } catch (const std::exception& ex) {
-    std::cerr << "ExampleApplication::on_open(): " << ex.what() << std::endl;
+    std::cerr << "DashboardController::on_open(): " << ex.what() << std::endl;
   }
 }
 
