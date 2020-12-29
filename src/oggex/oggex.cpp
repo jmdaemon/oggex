@@ -5,9 +5,8 @@
 
 #include <gtkmm.h>
 
-#include <gtkmm/application.h>
-#include <gtkmm/builder.h>
-#include <gtkmm/main.h>
+#include <fmt/core.h>
+#include <fmt/printf.h>
 
 using namespace std;
 
@@ -33,19 +32,19 @@ void on_app_activate() {
   try { 
     refBuilder->add_from_file(DASHBOARD_UI);
     } catch(const Glib::FileError& ex) { 
-      std::cerr << "FileError: " << ex.what() << std::endl; 
+      fmt::fprintf(cerr, "FileError: {}\n", ex.what());
       return; 
     } catch(const Glib::MarkupError& ex) { 
-      std::cerr << "MarkupError: " << ex.what() << std::endl; 
+      fmt::fprintf(cerr, "MarkupError: {}\n", ex.what());
       return; 
     } catch(const Gtk::BuilderError& ex) { 
-      std::cerr << "BuilderError: " << ex.what() << std::endl; 
+      fmt::fprintf(cerr, "BuilderError: {}\n", ex.what());
       return; 
     }
 
   refBuilder->get_widget<Gtk::Window>(dashboardID, pWindow);
   if (!pWindow) {
-    std::cerr << "Could not get the window" << std::endl;
+    fmt::fprintf(cerr, "Could not get the window");
     return; 
   }
 
@@ -59,7 +58,6 @@ void on_app_activate() {
   pWindow->show(); 
   }
 }
-
 
 int main(int argc, char *argv[]) {
   app = Gtk::Application::create("oggex");
