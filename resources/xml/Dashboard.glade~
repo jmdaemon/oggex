@@ -417,20 +417,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFileChooserButton" id="imageFilePath">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="filter">showImages</property>
-                <property name="dialog">browseImageFiles</property>
-                <property name="title" translatable="yes">Please choose an image file</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-                <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkFileChooserButton" id="audioFilePath">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -441,6 +427,20 @@
               <packing>
                 <property name="left-attach">1</property>
                 <property name="top-attach">1</property>
+                <property name="width">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFileChooserButton" id="imageFilePath">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="filter">showImages</property>
+                <property name="dialog">browseImageFiles</property>
+                <property name="title" translatable="yes">Please choose an image file</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
                 <property name="width">3</property>
               </packing>
             </child>

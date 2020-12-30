@@ -370,7 +370,6 @@
             <child>
               <object class="GtkButton" id="browseSaveOutput">
                 <property name="label" translatable="yes">Browse</property>
-                <property name="related-action"/>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
