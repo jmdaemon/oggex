@@ -2,65 +2,6 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkFileChooserDialog" id="browseAudioFiles">
-    <property name="can-focus">False</property>
-    <property name="title" translatable="yes">Please choose a file</property>
-    <property name="modal">True</property>
-    <property name="type-hint">dialog</property>
-    <property name="decorated">False</property>
-    <property name="transient-for">Dashboard</property>
-    <child internal-child="vbox">
-      <object class="GtkBox">
-        <property name="can-focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox">
-            <property name="can-focus">False</property>
-            <property name="layout-style">end</property>
-            <child>
-              <object class="GtkButton" id="Cancel1">
-                <property name="label" translatable="yes">Cancel</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="Select1">
-                <property name="label" translatable="yes">Select</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-      </object>
-    </child>
-    <action-widgets>
-      <action-widget response="-6">Cancel1</action-widget>
-      <action-widget response="-5">Select1</action-widget>
-    </action-widgets>
-  </object>
   <object class="GtkAdjustment" id="qualityAdjustment">
     <property name="upper">10</property>
     <property name="value">4</property>
@@ -108,18 +49,6 @@
             <property name="row-spacing">6</property>
             <property name="column-spacing">6</property>
             <child>
-              <object class="GtkButton" id="browseImage">
-                <property name="label" translatable="yes">Browse</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkLabel">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -164,42 +93,6 @@
               </object>
               <packing>
                 <property name="left-attach">5</property>
-                <property name="top-attach">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="reset">
-                <property name="label" translatable="yes">Reset</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="readSound">
-                <property name="label" translatable="yes">Read</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="addSound">
-                <property name="label" translatable="yes">Add File</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
                 <property name="top-attach">1</property>
               </packing>
             </child>
@@ -361,18 +254,6 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="browseSaveOutput">
-                <property name="label" translatable="yes">Browse</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">4</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkButton" id="extract">
                 <property name="label" translatable="yes">Extract</property>
                 <property name="visible">True</property>
@@ -396,6 +277,19 @@
               </packing>
             </child>
             <child>
+              <object class="GtkFileChooserButton" id="audioFilePath">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="filter">showAudio</property>
+                <property name="dialog">browseAudioFiles</property>
+                <property name="title" translatable="yes">Please choose an audio file</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">1</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkFileChooserButton" id="imageFilePath">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -409,17 +303,55 @@
               </packing>
             </child>
             <child>
-              <object class="GtkFileChooserButton" id="audioFilePath">
+              <object class="GtkButton" id="remove1">
+                <property name="label" translatable="yes">Remove</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="filter">showAudio</property>
-                <property name="dialog">browseAudioFiles</property>
-                <property name="title" translatable="yes">Please choose an audio file</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
               </object>
               <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
+                <property name="left-attach">5</property>
+                <property name="top-attach">0</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="readSound1">
+                <property name="label" translatable="yes">Read</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">5</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="reset1">
+                <property name="label" translatable="yes">Reset</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">5</property>
+                <property name="top-attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="browseSaveOutput">
+                <property name="label" translatable="yes">Browse</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">4</property>
+                <property name="top-attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>
@@ -705,6 +637,65 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkFileChooserDialog" id="browseAudioFiles">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Please choose a file</property>
+    <property name="modal">True</property>
+    <property name="type-hint">dialog</property>
+    <property name="decorated">False</property>
+    <property name="transient-for">Dashboard</property>
+    <child internal-child="vbox">
+      <object class="GtkBox">
+        <property name="can-focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox">
+            <property name="can-focus">False</property>
+            <property name="layout-style">end</property>
+            <child>
+              <object class="GtkButton" id="Cancel1">
+                <property name="label" translatable="yes">Cancel</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="Select1">
+                <property name="label" translatable="yes">Select</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+      <action-widget response="-6">Cancel1</action-widget>
+      <action-widget response="-5">Select1</action-widget>
+    </action-widgets>
   </object>
   <object class="GtkFileChooserDialog" id="browseImageFiles">
     <property name="can-focus">False</property>
