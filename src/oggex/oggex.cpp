@@ -2,49 +2,50 @@
 
 //#include <gtkmm.h>
 #include <gtk/gtk.h>
+#include <glib/gstdio.h>
 
-static void
-print_hello (GtkWidget *widget, gpointer data) {
+#include <fmt/core.h>
+#include <fmt/printf.h> 
+
+using namespace std;
+
+static void print_hello (GtkWidget *widget, gpointer data) {
   g_print ("Hello World\n");
 }
 
-static void activate (GtkApplication *app, gpointer user_data) {
-  GtkWidget *window;
-  GtkWidget *grid;
-  GtkWidget *button;
-
-  window = gtk_application_window_new (app);
-  gtk_window_set_title (GTK_WINDOW (window), "Dashboard");
-
-  // Setup
-  grid = gtk_grid_new();
-  gtk_window_set_child (GTK_WINDOW (window), grid);
-
-  button = gtk_button_new_with_label ("Button 1");
-  g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
-  gtk_grid_attach (GTK_GRID (grid), button, 0, 0, 1, 1);
-
-  button = gtk_button_new_with_label ("Button 2");
-  g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
-  gtk_grid_attach (GTK_GRID (grid), button, 1, 0, 1, 1);
-
-  button = gtk_button_new_with_label ("Quit");
-  g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_window_destroy), window);
-
-  gtk_grid_attach (GTK_GRID (grid), button, 0, 1, 2, 1);
-
-  gtk_widget_show (window);
+static void quit_cb (GtkWindow *window) {
+  gtk_window_close (window);
 }
 
+static void activate (GtkApplication *app, gpointer user_data) {
+  GtkBuilder *builder = gtk_builder_new();
+  gtk_builder_add_from_file (builder, "builder.ui", NULL);
 
-#include <fmt/core.h>
-#include <fmt/printf.h>
+  GObject *window = gtk_builder_get_object (builder, "window");
+  gtk_window_set_application (GTK_WINDOW (window), app);
 
-using namespace std;
+  GObject *button = gtk_builder_get_object (builder, "button1");
+  g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+
+  button = gtk_builder_get_object (builder, "button2");
+  g_signal_connect (button, "clicked", G_CALLBACK (print_hello), NULL);
+
+  button = gtk_builder_get_object (builder, "quit");
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (quit_cb), window);
+
+  gtk_widget_show (GTK_WIDGET (window));
+
+  g_object_unref (builder);
+}
+
 
 int main(int argc, char *argv[]) {
   //auto application = DashboardController::create();
   //return application->run(argc, argv);
+#ifdef GTK_SRCDIR
+  g_chdir (GTK_SRCDIR);
+#endif
+
   GtkApplication *app;
   int status;
 
