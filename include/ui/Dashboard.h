@@ -15,9 +15,7 @@ class DashboardController : public Gtk::Application {
   protected:
     DashboardController();
 
-    // Override default signal handlers:
     void on_activate() override;
-    void on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& hint) override;
 
     void on_button_embed_clicked();
     void on_button_extract_clicked();
