@@ -4,8 +4,6 @@
 #include <iostream>
 #include <exception>
 
-//#include <giomm/application.h>
-//#include <gio/gio.h>
 DashboardController::DashboardController() : Gtk::Application("com.github.jmdaemon.oggex", Gio::APPLICATION_HANDLES_OPEN) {
 }
 
@@ -21,6 +19,13 @@ DashboardWindow* DashboardController::create_appwindow() {
   appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
     &DashboardController::on_hide_window), appwindow));
 
+  //refBuilder->get_widget("embedWindowButton", embedWindow);
+  //refBuilder->get_widget("extractWindowButton", extractWindow);
+
+  //embedWindow->signal_clicked().connect(sigc::bind(*this, &DashboardWindow::on_button_embed_clicked), &window);
+  //extractWindow->signal_clicked().connect(sigc::bind(*this, &DashboardWindow::on_button_extract_clicked), &window);
+
+
   return appwindow;
 }
 
@@ -35,6 +40,18 @@ void DashboardController::on_activate() {
   }
 
 }
+
+//void DashboardWindow::on_button_embed_clicked() {
+  //EmbedWindow* newWindow = nullptr;
+  //refBuilder->add_from_file("resources/xml/Embed.glade");
+  //refBuilder->get_widget_derived("Embed", newWindow);
+  //window.add(newWindow);
+  //window.show_all();
+  //window.destroy();
+//}
+
+//void DashboardWindow::on_button_extract_clicked() {
+//}
 
 void DashboardController::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& ) {
   DashboardWindow* appwindow = nullptr;
