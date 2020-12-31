@@ -18,7 +18,7 @@ DashboardWindow* DashboardController::create_appwindow() {
 
   add_window(*appwindow);
 
-  appwindow->signal_hide().connect(sigc::bind<Gtk::Window*>(sigc::mem_fun(*this,
+  appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
     &DashboardController::on_hide_window), appwindow));
 
   return appwindow;
