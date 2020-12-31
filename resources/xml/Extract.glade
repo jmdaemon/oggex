@@ -2,27 +2,15 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkAdjustment" id="qualityAdjustment">
-    <property name="upper">10</property>
-    <property name="value">4</property>
-    <property name="step-increment">1</property>
-    <property name="page-increment">10</property>
-  </object>
-  <object class="GtkApplicationWindow" id="Dashboard">
+  <object class="GtkApplicationWindow" id="Extract">
     <property name="can-focus">False</property>
-    <property name="default-width">600</property>
-    <property name="default-height">400</property>
-    <signal name="action-added::About Oggex" handler="about" swapped="no"/>
-    <signal name="action-added::Help" handler="help" swapped="no"/>
-    <signal name="action-added::Preferences" handler="preferences" swapped="no"/>
-    <signal name="action-added::Keyboard Shortcuts" handler="shortcuts" swapped="no"/>
     <child>
-      <!-- n-columns=6 n-rows=5 -->
+      <!-- n-columns=5 n-rows=5 -->
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <child>
-          <!-- n-columns=6 n-rows=8 -->
+          <!-- n-columns=4 n-rows=5 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -46,29 +34,27 @@
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkButton" id="removeSource">
+                <property name="label" translatable="yes">Remove</property>
                 <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">end</property>
-                <property name="label" translatable="yes">Sound Tag</property>
-                <property name="justify">right</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
               </object>
               <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">2</property>
+                <property name="left-attach">3</property>
+                <property name="top-attach">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkLabel">
+              <object class="GtkFileChooserButton" id="imageFilePath">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="halign">end</property>
-                <property name="label" translatable="yes">Audio File</property>
-                <property name="justify">right</property>
+                <property name="title" translatable="yes">Please choose an image file</property>
               </object>
               <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+                <property name="width">2</property>
               </packing>
             </child>
             <child>
@@ -78,7 +64,7 @@
                 <property name="margin-top">18</property>
                 <property name="margin-bottom">18</property>
                 <child>
-                  <!-- n-columns=3 n-rows=4 -->
+                  <!-- n-columns=2 n-rows=4 -->
                   <object class="GtkGrid">
                     <property name="height-request">400</property>
                     <property name="visible">True</property>
@@ -87,31 +73,6 @@
                     <property name="vexpand">False</property>
                     <property name="row-homogeneous">True</property>
                     <property name="column-homogeneous">True</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="halign">center</property>
-                        <property name="valign">start</property>
-                        <property name="label" translatable="yes">Audio File Size</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">2</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="valign">start</property>
-                        <property name="label" translatable="yes">Audio File Path</property>
-                      </object>
-                      <packing>
-                        <property name="left-attach">1</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
@@ -125,13 +86,16 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
-                    <child>
-                      <placeholder/>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="valign">start</property>
+                        <property name="label" translatable="yes">Audio File Size</property>
+                      </object>
+                      <packing>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">0</property>
+                      </packing>
                     </child>
                     <child>
                       <placeholder/>
@@ -156,8 +120,8 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">3</property>
-                <property name="width">6</property>
+                <property name="top-attach">1</property>
+                <property name="width">4</property>
               </packing>
             </child>
             <child>
@@ -170,20 +134,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">end</property>
-                <property name="label" translatable="yes">Audio Quality</property>
-                <property name="justify">right</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">2</property>
               </packing>
             </child>
             <child>
@@ -199,73 +150,7 @@
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">4</property>
-                <property name="width">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkSpinButton" id="quality">
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="halign">start</property>
-                <property name="max-length">2</property>
-                <property name="width-chars">8</property>
-                <property name="placeholder-text" translatable="yes">Quality</property>
-                <property name="input-purpose">number</property>
-                <property name="adjustment">qualityAdjustment</property>
-                <property name="numeric">True</property>
-                <property name="value">4</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkProgressBar" id="progressBar">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">6</property>
-                <property name="width">6</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="extract">
-                <property name="label" translatable="yes">Extract</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">5</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="reset1">
-                <property name="label" translatable="yes">Reset</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="embed">
-                <property name="label" translatable="yes">Embed</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">2</property>
               </packing>
             </child>
             <child>
@@ -276,20 +161,32 @@
                 <property name="receives-default">True</property>
               </object>
               <packing>
-                <property name="left-attach">4</property>
-                <property name="top-attach">4</property>
+                <property name="left-attach">2</property>
+                <property name="top-attach">2</property>
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="remove">
-                <property name="label" translatable="yes">Remove</property>
+              <object class="GtkButton" id="reset1">
+                <property name="label" translatable="yes">Reset</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
               </object>
               <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">1</property>
+                <property name="left-attach">3</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="extract">
+                <property name="label" translatable="yes">Extract</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
@@ -300,91 +197,58 @@
                 <property name="receives-default">True</property>
               </object>
               <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">2</property>
+                <property name="left-attach">2</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
-              <object class="GtkFileChooserButton" id="imageFilePath">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="title" translatable="yes">Please choose an image file</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-                <property name="width">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFileChooserButton" id="audioFilePath">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="title" translatable="yes">Please choose an audio file</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
-                <property name="width">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="remove1">
-                <property name="label" translatable="yes">Remove</property>
+              <object class="GtkSpinButton" id="quality">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
+                <property name="halign">start</property>
+                <property name="max-length">2</property>
+                <property name="width-chars">8</property>
+                <property name="text" translatable="yes">4</property>
+                <property name="placeholder-text" translatable="yes">Quality</property>
+                <property name="input-purpose">number</property>
+                <property name="adjustment">qualityAdjustment</property>
+                <property name="numeric">True</property>
+                <property name="value">4</property>
               </object>
               <packing>
-                <property name="left-attach">5</property>
-                <property name="top-attach">0</property>
+                <property name="left-attach">1</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkProgressBar" id="progressBar">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">4</property>
+                <property name="width">4</property>
+              </packing>
             </child>
             <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="halign">end</property>
+                <property name="label" translatable="yes">Audio Quality</property>
+                <property name="justify">right</property>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">3</property>
+              </packing>
             </child>
           </object>
           <packing>
             <property name="left-attach">1</property>
-            <property name="top-attach">2</property>
-            <property name="width">5</property>
+            <property name="top-attach">1</property>
           </packing>
-        </child>
-        <child>
-          <placeholder/>
         </child>
         <child>
           <placeholder/>
@@ -460,5 +324,10 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkAdjustment" id="qualityAdjustment">
+    <property name="upper">10</property>
+    <property name="step-increment">1</property>
+    <property name="page-increment">10</property>
   </object>
 </interface>
