@@ -53,13 +53,14 @@ add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
 target_sources(${OGGEX}
     PRIVATE oggex.cpp
-    PRIVATE controller/DashboardController.cpp
-    PRIVATE controller/DashboardWindow.cpp
+    #PRIVATE controller/DashboardController.cpp
+    #PRIVATE controller/DashboardWindow.cpp
     PUBLIC ${HEADER_LIST}
     )
 
 target_include_directories(${OGGEX} PUBLIC ${HEADER_LIST} ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(${OGGEX} PRIVATE fmt  PkgConfig::GTKMM) 
+#target_link_libraries(${OGGEX} PRIVATE fmt PkgConfig::GTKMM PkgConfig::GTK4) 
+target_link_libraries(${OGGEX} PRIVATE fmt PkgConfig::GTK4) 
 
 set_target_properties(${OGGEX} PROPERTIES
     RESOURCE "${GLADE_FILES}" RESOURCE ${GRESOURCE_FILES})

@@ -45,6 +45,7 @@ FetchContent_MakeAvailable(libfmt)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
+pkg_check_modules(GTK4 REQUIRED IMPORTED_TARGET gtk4)
 
 add_subdirectory(src)
 add_subdirectory(app)
