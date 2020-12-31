@@ -19,9 +19,9 @@ static void quit_cb (GtkWindow *window) {
 
 static void activate (GtkApplication *app, gpointer user_data) {
   GtkBuilder *builder = gtk_builder_new();
-  gtk_builder_add_from_file (builder, "builder.ui", NULL);
+  gtk_builder_add_from_file (builder, "dashboard.ui", NULL);
 
-  GObject *window = gtk_builder_get_object (builder, "window");
+  GObject *window = gtk_builder_get_object (builder, "oggex");
   gtk_window_set_application (GTK_WINDOW (window), app);
 
   GObject *button = gtk_builder_get_object (builder, "button1");
