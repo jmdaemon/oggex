@@ -2,6 +2,9 @@
 <gresources>
     <gresource prefix="/com/github/jmd/dashboard">
         <file preprocess="xml-stripblanks">Dashboard.glade</file>
+        <file preprocess="xml-stripblanks">Embed.glade</file>
+        <file preprocess="xml-stripblanks">Extract.glade</file>
+        <file preprocess="xml-stripblanks">FileSelect.glade</file>
   </gresource>
 </gresources>
 
