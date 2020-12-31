@@ -43,6 +43,7 @@
                     <property name="height-request">400</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">center</property>
                     <property name="valign">start</property>
                     <property name="vexpand">False</property>
                     <property name="column-homogeneous">True</property>
@@ -141,7 +142,28 @@
                       </packing>
                     </child>
                     <child>
-                      <placeholder/>
+                      <object class="GtkScrolledWindow">
+                        <property name="width-request">400</property>
+                        <property name="height-request">400</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="vexpand">False</property>
+                        <property name="hscrollbar-policy">never</property>
+                        <property name="shadow-type">in</property>
+                        <child>
+                          <object class="GtkViewport">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">3</property>
+                      </packing>
                     </child>
                     <child>
                       <placeholder/>
@@ -170,7 +192,7 @@
               <packing>
                 <property name="left-attach">0</property>
                 <property name="top-attach">1</property>
-                <property name="width">3</property>
+                <property name="width">4</property>
               </packing>
             </child>
             <child>
@@ -198,78 +220,6 @@
                 <property name="left-attach">0</property>
                 <property name="top-attach">5</property>
                 <property name="width">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="browseSaveOutput">
-                <property name="label" translatable="yes">Browse</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkFileChooserButton" id="imageFilePath">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="title" translatable="yes">Please choose an image file</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
-                <property name="width">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="removeImageFile">
-                <property name="label" translatable="yes">Remove</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="reset1">
-                <property name="label" translatable="yes">Reset</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="embed">
-                <property name="label" translatable="yes">Embed</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">3</property>
-                <property name="top-attach">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="readSound">
-                <property name="label" translatable="yes">Read</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
@@ -336,11 +286,25 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="halign">end</property>
+                <property name="image-position">right</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
                 <property name="top-attach">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkFileChooserButton" id="imageFilePath">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="title" translatable="yes">Please choose an image file</property>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">0</property>
+                <property name="width">2</property>
               </packing>
             </child>
             <child>
@@ -357,7 +321,64 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkButton" id="readSound">
+                <property name="label" translatable="yes">Read</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="embed">
+                <property name="label" translatable="yes">Embed</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="browseSaveOutput">
+                <property name="label" translatable="yes">Browse</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">2</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="reset1">
+                <property name="label" translatable="yes">Reset</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="removeImageFile">
+                <property name="label" translatable="yes">Remove</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="left-attach">3</property>
+                <property name="top-attach">0</property>
+              </packing>
             </child>
             <child>
               <placeholder/>
@@ -440,6 +461,71 @@
         <child>
           <placeholder/>
         </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkListStore" id="soundTableColumns">
+    <columns>
+      <!-- column-name selected -->
+      <column type="gboolean"/>
+      <!-- column-name soundTag -->
+      <column type="gchararray"/>
+      <!-- column-name filePath -->
+      <column type="gchararray"/>
+      <!-- column-name fileSize -->
+      <column type="gchararray"/>
+      <!-- column-name delete -->
+      <column type="gboolean"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">False</col>
+        <col id="1" translatable="yes"/>
+        <col id="2" translatable="yes"/>
+        <col id="3" translatable="yes"/>
+        <col id="4">False</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkTreeView" id="soundTagTable">
+    <property name="visible">True</property>
+    <property name="can-focus">True</property>
+    <property name="model">soundTableColumns</property>
+    <property name="reorderable">True</property>
+    <property name="search-column">0</property>
+    <property name="fixed-height-mode">True</property>
+    <property name="show-expanders">False</property>
+    <child>
+      <object class="GtkTreeViewColumn" id="selected"/>
+    </child>
+    <child>
+      <object class="GtkTreeViewColumn" id="soundTag">
+        <property name="title" translatable="yes">Sound Tag</property>
+        <property name="clickable">True</property>
+        <property name="reorderable">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkTreeViewColumn" id="filePath">
+        <property name="title" translatable="yes">File Path</property>
+        <property name="clickable">True</property>
+        <property name="reorderable">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkTreeViewColumn" id="fileSize">
+        <property name="resizable">True</property>
+        <property name="title" translatable="yes">File Size</property>
+        <property name="clickable">True</property>
+        <property name="reorderable">True</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkTreeViewColumn" id="delete">
+        <property name="resizable">True</property>
+        <property name="title" translatable="yes">Delete</property>
+        <property name="clickable">True</property>
+        <property name="reorderable">True</property>
       </object>
     </child>
   </object>
