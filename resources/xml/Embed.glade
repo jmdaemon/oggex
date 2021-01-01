@@ -232,42 +232,8 @@
                     <property name="can-focus">True</property>
                     <property name="reorderable">True</property>
                     <property name="search-column">0</property>
-                    <property name="fixed-height-mode">True</property>
                     <property name="show-expanders">False</property>
                     <property name="rubber-banding">True</property>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="m_selected">
-                        <property name="sizing">fixed</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="m_soundTag">
-                        <property name="sizing">fixed</property>
-                        <property name="title" translatable="yes">Sound Tag</property>
-                        <property name="clickable">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="m_filePath">
-                        <property name="sizing">fixed</property>
-                        <property name="title" translatable="yes">File Path</property>
-                        <property name="clickable">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="m_fileSize">
-                        <property name="sizing">fixed</property>
-                        <property name="title" translatable="yes">File Size</property>
-                        <property name="clickable">True</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkTreeViewColumn" id="m_deleteEntry">
-                        <property name="sizing">fixed</property>
-                        <property name="title" translatable="yes">Delete</property>
-                        <property name="clickable">True</property>
-                      </object>
-                    </child>
                   </object>
                 </child>
               </object>

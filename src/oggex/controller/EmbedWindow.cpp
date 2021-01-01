@@ -18,6 +18,27 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   row[m_Columns.m_fileSize] = "156.6 kB";
   row[m_Columns.m_deleteEntry] = true;
 
+  row = *(m_refTreeModel->append());
+  row[m_Columns.m_selected] = false;
+  row[m_Columns.m_soundTag] = "[audio03]";
+  row[m_Columns.m_filePath] = "/home/user/some/directory/";
+  row[m_Columns.m_fileSize] = "452.9 kB";
+  row[m_Columns.m_deleteEntry] = false;
+
+  row = *(m_refTreeModel->append());
+  row[m_Columns.m_selected] = true;
+  row[m_Columns.m_soundTag] = "[audio04]";
+  row[m_Columns.m_filePath] = "/home/user/some/directory/";
+  row[m_Columns.m_fileSize] = "1553.9 kB";
+  row[m_Columns.m_deleteEntry] = false;
+
+
+  (*m_TreeView).append_column_editable("", m_Columns.m_selected);
+  (*m_TreeView).append_column_editable("Sound Tag", m_Columns.m_soundTag);
+  (*m_TreeView).append_column_editable("File Path", m_Columns.m_filePath);
+  (*m_TreeView).append_column("File Size", m_Columns.m_fileSize);
+  (*m_TreeView).append_column_editable("Delete", m_Columns.m_deleteEntry);
+
   show_all_children();
   //refBuilder
 }
