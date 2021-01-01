@@ -15,6 +15,7 @@ class EmbedController : public Gtk::Application {
     void on_activate() override;
 
   public:
+    //EmbedWindow* create_appwindow();
     static Glib::RefPtr<EmbedController> create();
 };
 

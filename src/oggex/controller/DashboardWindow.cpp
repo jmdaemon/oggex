@@ -1,7 +1,8 @@
 #include "DashboardWindow.h"
 #include "DashboardID.h"
-//#include "Embed.h"
-//#include "EmbedWindow.h"
+
+#include "Embed.h"
+#include "EmbedWindow.h"
 #include "oggex.gresource.c"
 
 #include <gtkmm.h>
@@ -11,10 +12,12 @@
 #include <glibmm/fileutils.h>
 
 DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
-  //m_Button_File.signal_clicked().connect(sigc::mem_fun(*this, &DashboardWindow::on_button_file_clicked) );
-  //m_Button_Folder.signal_clicked().connect(sigc::mem_fun(*this, &DashboardWindow::on_button_folder_clicked) );
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
+    //refBuilder->add_from_resource("");
+    //refBuilder->add_from_file("Embed", embedWindow);
 
+    //refBuilder->get_widget("embedWindow", embedWindowButton);
+    //embedWindowButton->signal_clicked().connect(sigc::bind(*this, &EmbedController::create));
 }
 
 //static
@@ -26,6 +29,20 @@ DashboardWindow* DashboardWindow::create() {
   refBuilder->get_widget_derived(Dashboard::dashboardID, window);
   if (!window)
     throw std::runtime_error("No \"Dashboard\" object in Dashboard.glade");
+
+  //refBuilder->add_from_file("resources/xml/Embed.glade");
+  //refBuilder->get_widget("appSidebar", sidebar);
+  //refBuilder->add_from_file("resources/xml/Extract.glade");
+  //refBuilder->add_from_file("resources/xml/FileSelect.glade");
+  //EmbedWindow* embedWindow = nullptr;
+  //refBuilder->get_widget_derived("Embed", embedWindow);
+  //window->set_application(embedWindow);
+  //embedWindow->show();
+
+  //window->add_window(embedWindow);
+  //gtk_application_add_window(embedWindow)
+  //if (!embedWindow)
+    //throw std::runtime_error("No \"Embed\" object in Embed.glade");
 
   return window;
 }
