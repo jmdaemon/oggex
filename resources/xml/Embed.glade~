@@ -32,95 +32,6 @@
             <property name="row-spacing">6</property>
             <property name="column-spacing">12</property>
             <child>
-              <object class="GtkViewport">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="margin-top">18</property>
-                <property name="margin-bottom">18</property>
-                <child>
-                  <!-- n-columns=1 n-rows=1 -->
-                  <object class="GtkGrid">
-                    <property name="height-request">400</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="valign">start</property>
-                    <property name="vexpand">False</property>
-                    <property name="column-homogeneous">True</property>
-                    <child>
-                      <object class="GtkScrolledWindow" id="soundsWindow">
-                        <property name="width-request">400</property>
-                        <property name="height-request">400</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="hexpand">False</property>
-                        <property name="vexpand">False</property>
-                        <property name="hscrollbar-policy">never</property>
-                        <property name="shadow-type">in</property>
-                        <child>
-                          <object class="GtkTreeView" id="soundTagMetadata">
-                            <property name="visible">True</property>
-                            <property name="can-focus">True</property>
-                            <property name="reorderable">True</property>
-                            <property name="search-column">0</property>
-                            <property name="fixed-height-mode">True</property>
-                            <property name="show-expanders">False</property>
-                            <property name="rubber-banding">True</property>
-                            <child internal-child="selection">
-                              <object class="GtkTreeSelection"/>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="selected">
-                                <property name="sizing">fixed</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="soundTag">
-                                <property name="sizing">fixed</property>
-                                <property name="title" translatable="yes">Sound Tag</property>
-                                <property name="clickable">True</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="filePath">
-                                <property name="resizable">True</property>
-                                <property name="sizing">fixed</property>
-                                <property name="title" translatable="yes">File Path</property>
-                                <property name="clickable">True</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="fileSize">
-                                <property name="sizing">fixed</property>
-                                <property name="title" translatable="yes">File Size</property>
-                                <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkTreeViewColumn" id="delete">
-                                <property name="sizing">fixed</property>
-                                <property name="title" translatable="yes">Delete</property>
-                                <property name="clickable">True</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">0</property>
-                      </packing>
-                    </child>
-                  </object>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
-                <property name="width">4</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkEntry" id="outputFileName">
                 <property name="width-request">-1</property>
                 <property name="visible">True</property>
@@ -303,6 +214,70 @@
               <packing>
                 <property name="left-attach">3</property>
                 <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow" id="soundsWindow">
+                <property name="width-request">400</property>
+                <property name="height-request">400</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hexpand">False</property>
+                <property name="vexpand">False</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="shadow-type">in</property>
+                <child>
+                  <object class="GtkTreeView" id="soundTagMetadata">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="reorderable">True</property>
+                    <property name="search-column">0</property>
+                    <property name="fixed-height-mode">True</property>
+                    <property name="show-expanders">False</property>
+                    <property name="rubber-banding">True</property>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="m_selected">
+                        <property name="sizing">fixed</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="m_soundTag">
+                        <property name="sizing">fixed</property>
+                        <property name="title" translatable="yes">Sound Tag</property>
+                        <property name="clickable">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="m_filePath">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="title" translatable="yes">File Path</property>
+                        <property name="clickable">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="m_fileSize">
+                        <property name="resizable">True</property>
+                        <property name="sizing">fixed</property>
+                        <property name="title" translatable="yes">File Size</property>
+                        <property name="clickable">True</property>
+                        <property name="reorderable">True</property>
+                      </object>
+                    </child>
+                    <child>
+                      <object class="GtkTreeViewColumn" id="m_deleteEntry">
+                        <property name="sizing">fixed</property>
+                        <property name="title" translatable="yes">Delete</property>
+                        <property name="clickable">True</property>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">1</property>
+                <property name="width">4</property>
               </packing>
             </child>
             <child>
