@@ -60,6 +60,7 @@
                           <object class="GtkTreeView" id="soundTagMetadata">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
+                            <property name="reorderable">True</property>
                             <property name="search-column">0</property>
                             <property name="fixed-height-mode">True</property>
                             <property name="show-expanders">False</property>
@@ -77,15 +78,14 @@
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">Sound Tag</property>
                                 <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
                               </object>
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="filePath">
+                                <property name="resizable">True</property>
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">File Path</property>
                                 <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
                               </object>
                             </child>
                             <child>
@@ -99,11 +99,9 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="delete">
-                                <property name="resizable">True</property>
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">Delete</property>
                                 <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
                               </object>
                             </child>
                           </object>

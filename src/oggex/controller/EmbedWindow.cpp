@@ -18,6 +18,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   row[m_Columns.m_fileSize] = "156.6 kB";
   row[m_Columns.m_deleteEntry] = true;
 
+  show_all_children();
   //refBuilder
 }
 

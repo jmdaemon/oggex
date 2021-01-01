@@ -2,29 +2,6 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
-  <object class="GtkListStore" id="embedSoundTableColumns">
-    <columns>
-      <!-- column-name selected -->
-      <column type="gboolean"/>
-      <!-- column-name soundTag -->
-      <column type="gchararray"/>
-      <!-- column-name filePath -->
-      <column type="gchararray"/>
-      <!-- column-name fileSize -->
-      <column type="gchararray"/>
-      <!-- column-name delete -->
-      <column type="gboolean"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">False</col>
-        <col id="1" translatable="yes"/>
-        <col id="2" translatable="yes"/>
-        <col id="3" translatable="yes"/>
-        <col id="4">False</col>
-      </row>
-    </data>
-  </object>
   <object class="GtkAdjustment" id="qualityAdjustment">
     <property name="upper">10</property>
     <property name="step-increment">1</property>
@@ -83,11 +60,11 @@
                           <object class="GtkTreeView" id="soundTagMetadata">
                             <property name="visible">True</property>
                             <property name="can-focus">True</property>
-                            <property name="model">embedSoundTableColumns</property>
                             <property name="reorderable">True</property>
                             <property name="search-column">0</property>
                             <property name="fixed-height-mode">True</property>
                             <property name="show-expanders">False</property>
+                            <property name="rubber-banding">True</property>
                             <child internal-child="selection">
                               <object class="GtkTreeSelection"/>
                             </child>
@@ -101,20 +78,18 @@
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">Sound Tag</property>
                                 <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
                               </object>
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="filePath">
+                                <property name="resizable">True</property>
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">File Path</property>
                                 <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
                               </object>
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="fileSize">
-                                <property name="resizable">True</property>
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">File Size</property>
                                 <property name="clickable">True</property>
@@ -123,11 +98,9 @@
                             </child>
                             <child>
                               <object class="GtkTreeViewColumn" id="delete">
-                                <property name="resizable">True</property>
                                 <property name="sizing">fixed</property>
                                 <property name="title" translatable="yes">Delete</property>
                                 <property name="clickable">True</property>
-                                <property name="reorderable">True</property>
                               </object>
                             </child>
                           </object>
