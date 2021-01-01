@@ -6,6 +6,7 @@
 class EmbedWindow : public Gtk::ApplicationWindow {
   protected:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
+    Gtk::FileChooserButton* imageFilePath;
 
   public: 
     EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
