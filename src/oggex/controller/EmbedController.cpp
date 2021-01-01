@@ -1,4 +1,8 @@
 #include "Embed.h"
+#include "EmbedWindow.h"
+
+#include <iostream>
+#include <exception>
 
 #include <gtkmm.h>
 
@@ -10,12 +14,13 @@ Glib::RefPtr<EmbedController> EmbedController::create() {
 }
 
 EmbedWindow* EmbedController::create_appwindow() {
-  auto appwindow = DashboardWindow::create();
+  auto appwindow = EmbedWindow::create();
 
   add_window(*appwindow);
 
   appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
     &EmbedController::on_hide_window), appwindow));
+  return appwindow;
 }
 
 

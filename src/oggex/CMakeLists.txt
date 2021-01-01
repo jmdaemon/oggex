@@ -1,5 +1,4 @@
 set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/ui")
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file")
 set(OGGEX oggex)
 
 # GResources
@@ -57,12 +56,13 @@ target_sources(${OGGEX}
     PRIVATE controller/DashboardWindow.cpp
     PRIVATE controller/FileSelect.cpp
     PRIVATE controller/FileSelectWindow.cpp
+    PRIVATE controller/EmbedController.cpp
+    PRIVATE controller/EmbedWindow.cpp
     PUBLIC ${HEADER_LIST}
     )
 
 target_include_directories(${OGGEX} PUBLIC ${HEADER_LIST} ${CMAKE_CURRENT_BINARY_DIR})
 target_link_libraries(${OGGEX} PRIVATE fmt PkgConfig::GTKMM) 
-#target_link_libraries(${OGGEX} PRIVATE fmt PkgConfig::GTK4) 
 
 set_target_properties(${OGGEX} PROPERTIES
     RESOURCE "${GLADE_FILES}" RESOURCE ${GRESOURCE_FILES})
