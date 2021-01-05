@@ -54,8 +54,8 @@ target_sources(${OGGEX}
     PRIVATE oggex.cpp
     PRIVATE controller/DashboardController.cpp
     PRIVATE controller/DashboardWindow.cpp
-    PRIVATE controller/FileSelect.cpp
-    PRIVATE controller/FileSelectWindow.cpp
+    #PRIVATE controller/FileSelect.cpp
+    #PRIVATE controller/FileSelectWindow.cpp
     PRIVATE controller/EmbedController.cpp
     PRIVATE controller/EmbedWindow.cpp
     PUBLIC ${HEADER_LIST}

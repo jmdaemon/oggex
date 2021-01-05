@@ -5,12 +5,14 @@
 
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
+  //m_refBuilder->get_widget("quality", pAudioQuality);
   refBuilder->get_widget("imageFilePath", imageFilePath);
   refBuilder->get_widget("outputFileName", outputFileName);
   refBuilder->get_widget("embed", embed);
 
   refBuilder->get_widget("soundsWindow",m_ScrolledWindow);
   refBuilder->get_widget("soundTagMetadata", m_TreeView);
+
 
   m_refTreeModel = Gtk::ListStore::create(m_Columns);
   (*m_TreeView).set_model(m_refTreeModel);
@@ -94,3 +96,8 @@ EmbedWindow* EmbedWindow::create() {
     //auto filePath = row[m_Columns.m_filePath];
   //}
 //}
+
+void EmbedWindow::on_quality_change_value() {
+  std::cout << "audioQuality" << pAudioQuality->get_value_as_int() << std::endl;
+  //pSetQualitySpinButton->set_value( pSetQualitySpinButton->get_value_as_int() );
+}

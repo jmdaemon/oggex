@@ -13,7 +13,6 @@
 
 DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
-    m_refBuilder->get_widget("audioQuality", pAudioQuality);
 }
 
 DashboardWindow* DashboardWindow::create() {
@@ -32,8 +31,3 @@ DashboardWindow* DashboardWindow::create() {
   //if (pWindow) 
     //pWindow->hide();
 //}
-
-void DashboardWindow::onQualityChange() {
-  std::cout << "audioQuality" << pAudioQuality->get_value_as_int() << std::endl;
-  //pSetQualitySpinButton->set_value( pSetQualitySpinButton->get_value_as_int() );
-}

@@ -11,6 +11,7 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;
     Gtk::Button* embed;
+    Gtk::SpinButton* pAudioQuality;
 
     std::vector<std::string> audioFilePaths;
     std::vector<std::string> soundTags;
@@ -38,6 +39,8 @@ class EmbedWindow : public Gtk::ApplicationWindow {
 
     void on_button_embed_clicked();
     void on_button_extract_clicked();
+
+    void on_quality_change_value();
 };
 
 

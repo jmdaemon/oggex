@@ -71,6 +71,7 @@
                 <property name="adjustment">qualityAdjustment</property>
                 <property name="numeric">True</property>
                 <property name="value">4</property>
+                <signal name="value-changed" handler="on_quality_change_value" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
@@ -250,7 +251,18 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkCheckButton">
+                <property name="label" translatable="yes">Mono</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+                <signal name="toggled" handler="toggleMonoAudioChannel" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">4</property>
+              </packing>
             </child>
           </object>
           <packing>

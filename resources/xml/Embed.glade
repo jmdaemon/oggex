@@ -71,6 +71,7 @@
                 <property name="adjustment">qualityAdjustment</property>
                 <property name="numeric">True</property>
                 <property name="value">4</property>
+                <signal name="changed" handler="on_quality_change_value" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
