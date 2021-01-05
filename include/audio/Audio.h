@@ -17,6 +17,11 @@ namespace Audio {
       audioQuality(10), lowQuality(false), 
       soundTag(soundTag), audioFile(audioFile), 
       tempAudioFile("out.ogg"), tempLogFile("Log.txt") {}
+
+    AudioData(): 
+      audioQuality(10), lowQuality(false), 
+      soundTag(""), audioFile(""), 
+      tempAudioFile("out.ogg"), tempLogFile("Log.txt") {}
     int audioQuality;
     bool lowQuality;
     std::string soundTag;
