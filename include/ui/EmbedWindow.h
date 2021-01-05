@@ -11,6 +11,8 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;
     Gtk::Button* embed;
+
+    Glib::RefPtr<Gtk::Adjustment> qualityAdjustment;
     Gtk::SpinButton* pAudioQuality;
 
     std::vector<std::string> audioFilePaths;

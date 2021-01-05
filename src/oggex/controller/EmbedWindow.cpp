@@ -5,7 +5,11 @@
 
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
-  //m_refBuilder->get_widget("quality", pAudioQuality);
+  refBuilder->get_widget("quality", pAudioQuality); 
+  Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
+  qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
+  qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_quality_change_value));
+
   refBuilder->get_widget("imageFilePath", imageFilePath);
   refBuilder->get_widget("outputFileName", outputFileName);
   refBuilder->get_widget("embed", embed);

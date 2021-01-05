@@ -6,6 +6,7 @@
     <property name="upper">10</property>
     <property name="step-increment">1</property>
     <property name="page-increment">10</property>
+    <signal name="value-changed" handler="on_quality_change_value" swapped="no"/>
   </object>
   <object class="GtkApplicationWindow" id="Embed">
     <property name="can-focus">False</property>
@@ -66,12 +67,14 @@
                 <property name="max-length">2</property>
                 <property name="width-chars">8</property>
                 <property name="text" translatable="yes">4</property>
+                <property name="caps-lock-warning">False</property>
                 <property name="placeholder-text" translatable="yes">Quality</property>
                 <property name="input-purpose">number</property>
                 <property name="adjustment">qualityAdjustment</property>
+                <property name="snap-to-ticks">True</property>
                 <property name="numeric">True</property>
+                <property name="wrap">True</property>
                 <property name="value">4</property>
-                <signal name="value-changed" handler="on_quality_change_value" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">1</property>
