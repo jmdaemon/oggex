@@ -5,7 +5,7 @@
 #include <gtkmm.h>
 
 namespace Dashboard {
-  const static std::string DASHBOARD_RESOURCE_FILE = "/com/github/jmd/dashboard/Dashboard.glade";
+  const static std::string DASHBOARD_RESOURCE_FILE = "/com/github/jmd/oggex/Dashboard.glade";
 
   const static Glib::ustring dashboardID   = "Dashboard";
   const static Glib::ustring browseImageID = "browseImage";
@@ -14,6 +14,10 @@ namespace Dashboard {
   const static Glib::ustring setQualityID  = "quality";
   const static Glib::ustring qualityAdjustmentID  = "qualityAdjustment";
 
+};
+
+namespace Embed {
+  const static std::string EMBED_RESOURCE_FILE = "/com/github/jmd/oggex/Embed.glade";
 };
 
 #endif

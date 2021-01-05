@@ -1,5 +1,5 @@
 #include "DashboardWindow.h"
-#include "DashboardID.h"
+#include "InterfaceID.h"
 
 #include "Embed.h"
 #include "EmbedWindow.h"

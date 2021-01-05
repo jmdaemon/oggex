@@ -1,5 +1,6 @@
 #include "Embed.h"
 #include "EmbedWindow.h"
+#include "InterfaceID.h"
 #include "EmbedAudio.h"
 
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
@@ -75,7 +76,8 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
 EmbedWindow* EmbedWindow::create() {
   //auto refBuilder = Gtk::Builder::create_from_resource(Dashboard::DASHBOARD_RESOURCE_FILE);
-  auto refBuilder = Gtk::Builder::create_from_file("resources/xml/Embed.glade");
+  //auto refBuilder = Gtk::Builder::create_from_file("resources/xml/Embed.glade");
+  auto refBuilder = Gtk::Builder::create_from_resource(Embed::EMBED_RESOURCE_FILE);
   refBuilder->add_from_file("resources/xml/FileSelect.glade");
   
   EmbedWindow* window = nullptr;
