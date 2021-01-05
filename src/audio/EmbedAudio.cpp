@@ -153,7 +153,8 @@ void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioF
 int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
   bestQuality = quality;
   if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { return -1; } 
-  Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
+  //Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
+  Audio::AudioData audioData = createAudioData(soundTag, audioFilePath);
   encodeAudioFile(audioData, imageFilePath);
   encodeImage(imageFilePath, soundTag, audioData.tempAudioFile);
   return 0;
