@@ -24,33 +24,17 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("soundsWindow",m_ScrolledWindow);
   refBuilder->get_widget("soundTagMetadata", m_TreeView);
 
-
   m_refTreeModel = Gtk::ListStore::create(m_Columns);
   (*m_TreeView).set_model(m_refTreeModel);
 
   Gtk::TreeModel::Row row = *(m_refTreeModel->append());
-  //row[m_Columns.m_selected] = true;
-  //row[m_Columns.m_soundTag] = "[audio02]";
-  //row[m_Columns.m_filePath] = "/home/user/directory/";
-  //row[m_Columns.m_fileSize] = "156.6 kB";
-  //row[m_Columns.m_deleteEntry] = true;
   createNewSoundTag(row, true, "[audio02]", "/home/user/directory", "156.6kB", true);
 
-
+  row = *(m_refTreeModel->append());
+  createNewSoundTag(row, false, "[audio03]", "/home/user/some/directory/", "452.9 kB", false);
 
   row = *(m_refTreeModel->append());
-  row[m_Columns.m_selected] = false;
-  row[m_Columns.m_soundTag] = "[audio03]";
-  row[m_Columns.m_filePath] = "/home/user/some/directory/";
-  row[m_Columns.m_fileSize] = "452.9 kB";
-  row[m_Columns.m_deleteEntry] = false;
-
-  row = *(m_refTreeModel->append());
-  row[m_Columns.m_selected] = true;
-  row[m_Columns.m_soundTag] = "[audio04]";
-  row[m_Columns.m_filePath] = "/home/user/some/directory/";
-  row[m_Columns.m_fileSize] = "1553.9 kB";
-  row[m_Columns.m_deleteEntry] = false;
+  createNewSoundTag(row, true, "[audio04]", "/home/user/some/directory/", "1553.9 kB", false);
 
   (*m_TreeView).append_column_editable("", m_Columns.m_selected);
   //Gtk::CellRendererToggle toggleSelected = Gtk::make_managed<Gtk::CellRendererToggle>();

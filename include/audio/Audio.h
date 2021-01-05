@@ -24,6 +24,13 @@ namespace Audio {
       fileSize(getFileSize(audioFile))
     {}
 
+    AudioData():
+      audioQuality(DEFAULT_AUDIO_QUALITY), lowQuality(ENABLE_LOW_QUALITY), 
+      soundTag(""), audioFile(""),
+      tempAudioFile(TEMP_AUDIO_FILE), tempLogFile(TEMP_LOG_FILE),
+      fileSize(0)
+    {}
+
     int audioQuality;
     bool lowQuality;
     std::string soundTag;
