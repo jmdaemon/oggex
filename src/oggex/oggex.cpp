@@ -9,7 +9,7 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  //auto application = DashboardController::create();
-  auto application = EmbedController::create();
+  auto application = DashboardController::create();
+  //auto application = EmbedController::create();
   return application->run(argc, argv);
 }
