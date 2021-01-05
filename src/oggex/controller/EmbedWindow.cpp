@@ -5,10 +5,13 @@
 
 #include <filesystem>
 
+using namespace std;
 namespace fs = std::filesystem;
+
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
-  data = Audio::AudioData("", fs::path(""));
+
+  data = Audio::AudioData();
   refBuilder->get_widget("quality", pAudioQuality); 
   Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
   qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
@@ -26,11 +29,14 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   (*m_TreeView).set_model(m_refTreeModel);
 
   Gtk::TreeModel::Row row = *(m_refTreeModel->append());
-  row[m_Columns.m_selected] = true;
-  row[m_Columns.m_soundTag] = "[audio02]";
-  row[m_Columns.m_filePath] = "/home/user/directory/";
-  row[m_Columns.m_fileSize] = "156.6 kB";
-  row[m_Columns.m_deleteEntry] = true;
+  //row[m_Columns.m_selected] = true;
+  //row[m_Columns.m_soundTag] = "[audio02]";
+  //row[m_Columns.m_filePath] = "/home/user/directory/";
+  //row[m_Columns.m_fileSize] = "156.6 kB";
+  //row[m_Columns.m_deleteEntry] = true;
+  createNewSoundTag(row, true, "[audio02]", "/home/user/directory", "156.6kB", true);
+
+
 
   row = *(m_refTreeModel->append());
   row[m_Columns.m_selected] = false;
@@ -106,4 +112,12 @@ EmbedWindow* EmbedWindow::create() {
 void EmbedWindow::on_quality_change_value() {
   fmt::print("Setting audioQuality to: {}\n", pAudioQuality->get_value_as_int());
   data.audioQuality = pAudioQuality->get_value_as_int();
+}
+
+void EmbedWindow::createNewSoundTag(Gtk::TreeModel::Row row, bool isSelected, string soundTag, string filePath, string fileSize, bool deleteEntry) {
+  row[m_Columns.m_selected]       = isSelected;
+  row[m_Columns.m_soundTag]       = soundTag;
+  row[m_Columns.m_filePath]       = filePath;
+  row[m_Columns.m_fileSize]       = fileSize;
+  row[m_Columns.m_deleteEntry]    = deleteEntry;
 }

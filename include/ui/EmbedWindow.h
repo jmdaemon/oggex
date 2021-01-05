@@ -8,8 +8,7 @@
 #include "Audio.h"
 
 class EmbedWindow : public Gtk::ApplicationWindow {
-  protected:
-    Glib::RefPtr<Gtk::Builder> m_refBuilder;
+  protected: Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;
     Gtk::Button* embed;
@@ -46,6 +45,8 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     void on_button_extract_clicked();
 
     void on_quality_change_value();
+    void createNewSoundTag(Gtk::TreeModel::Row row, bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);
+
 };
 
 
