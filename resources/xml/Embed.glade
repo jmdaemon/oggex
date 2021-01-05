@@ -149,6 +149,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_deleteSelected" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -162,6 +163,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_readSound" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -174,6 +176,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="on_embed_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">3</property>
@@ -234,6 +237,9 @@
                     <property name="search-column">0</property>
                     <property name="show-expanders">False</property>
                     <property name="rubber-banding">True</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection"/>
+                    </child>
                   </object>
                 </child>
               </object>
@@ -244,7 +250,18 @@
               </packing>
             </child>
             <child>
-              <placeholder/>
+              <object class="GtkCheckButton">
+                <property name="label" translatable="yes">Mono</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+                <signal name="toggled" handler="toggleMonoAudioChannel" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">4</property>
+              </packing>
             </child>
           </object>
           <packing>

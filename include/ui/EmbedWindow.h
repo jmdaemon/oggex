@@ -2,11 +2,18 @@
 #define EMBED_WINDOW_H
 
 #include <gtkmm.h>
+#include <vector>
+#include <string>
 
 class EmbedWindow : public Gtk::ApplicationWindow {
   protected:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Gtk::FileChooserButton* imageFilePath;
+    Gtk::Entry* outputFileName;
+    Gtk::Button* embed;
+
+    std::vector<std::string> audioFilePaths;
+    std::vector<std::string> soundTags;
 
     class ModelColumns : public Gtk::TreeModelColumnRecord { 
       public: 
