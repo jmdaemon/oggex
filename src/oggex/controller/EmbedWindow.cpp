@@ -92,7 +92,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
 EmbedWindow* EmbedWindow::create() {
   auto refBuilder = Gtk::Builder::create_from_resource(Embed::EMBED_RESOURCE_FILE);
-  refBuilder->add_from_file("resources/xml/FileSelect.glade");
+  refBuilder->add_from_file("resources/xml/FileSelect.ui");
   
   EmbedWindow* window = nullptr;
   refBuilder->get_widget_derived("Embed", window);

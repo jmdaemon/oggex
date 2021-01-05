@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
     <gresource prefix="/com/github/jmd/oggex">
-        <file preprocess="xml-stripblanks">Dashboard.glade</file>
-        <file preprocess="xml-stripblanks">Embed.glade</file>
-        <file preprocess="xml-stripblanks">Extract.glade</file>
-        <!--<file preprocess="xml-stripblanks">FileSelect.glade</file>-->
+        <file preprocess="xml-stripblanks">Dashboard.ui</file>
+        <file preprocess="xml-stripblanks">Embed.ui</file>
+        <file preprocess="xml-stripblanks">Extract.ui</file>
+        <file preprocess="xml-stripblanks">FileSelect.ui</file>
   </gresource>
 </gresources>
 
