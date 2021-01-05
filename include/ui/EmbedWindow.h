@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 
+#include "Audio.h"
+
 class EmbedWindow : public Gtk::ApplicationWindow {
   protected:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
@@ -18,6 +20,7 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     std::vector<std::string> audioFilePaths;
     std::vector<std::string> soundTags;
 
+    Audio::AudioData data;
     class ModelColumns : public Gtk::TreeModelColumnRecord { 
       public: 
         ModelColumns() 

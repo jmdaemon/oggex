@@ -3,8 +3,12 @@
 #include "InterfaceID.h"
 #include "EmbedAudio.h"
 
+#include <filesystem>
+
+namespace fs = std::filesystem;
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
+  data = Audio::AudioData("", fs::path(""));
   refBuilder->get_widget("quality", pAudioQuality); 
   Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
   qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
@@ -81,8 +85,6 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 }
 
 EmbedWindow* EmbedWindow::create() {
-  //auto refBuilder = Gtk::Builder::create_from_resource(Dashboard::DASHBOARD_RESOURCE_FILE);
-  //auto refBuilder = Gtk::Builder::create_from_file("resources/xml/Embed.glade");
   auto refBuilder = Gtk::Builder::create_from_resource(Embed::EMBED_RESOURCE_FILE);
   refBuilder->add_from_file("resources/xml/FileSelect.glade");
   
@@ -102,6 +104,6 @@ EmbedWindow* EmbedWindow::create() {
 //}
 
 void EmbedWindow::on_quality_change_value() {
-  std::cout << "audioQuality" << pAudioQuality->get_value_as_int() << std::endl;
-  //pSetQualitySpinButton->set_value( pSetQualitySpinButton->get_value_as_int() );
+  fmt::print("Setting audioQuality to: {}\n", pAudioQuality->get_value_as_int());
+  data.audioQuality = pAudioQuality->get_value_as_int();
 }
