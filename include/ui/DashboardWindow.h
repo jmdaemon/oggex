@@ -7,9 +7,6 @@ class DashboardWindow : public Gtk::ApplicationWindow {
   protected:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Gtk::Button* embedWindowButton;
-    Gtk::SpinButton* pAudioQuality;
-
-    void onQualityChange();
 
   public: 
     DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
