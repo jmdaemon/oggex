@@ -43,15 +43,11 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   createNewSoundTag(true, "[audio02]", "/home/user/directory", "156.6kB", true);
   createNewSoundTag(false, "[audio03]", "/home/user/some/directory/", "452.9 kB", false);
   createNewSoundTag(true, "[audio04]", "/home/user/some/directory/", "1553.9 kB", false);
+
+  createModelColumns();
   
-  m_TreeView->append_column_editable("", m_Columns.m_selected);
   //Gtk::CellRendererToggle toggleSelected = Gtk::make_managed<Gtk::CellRendererToggle>();
   //(*m_TreeView).append_column(, m_Columns.m_selected);
-
-  m_TreeView->append_column_editable("Sound Tag", m_Columns.m_soundTag);
-  m_TreeView->append_column_editable("File Path", m_Columns.m_filePath);
-  m_TreeView->append_column("File Size", m_Columns.m_fileSize);
-  m_TreeView->append_column_editable("Delete", m_Columns.m_deleteEntry);
 
   //auto cols_count = m_TreeView.append_column_editable(, m_columns.alex);
   //auto pColumn = m_TreeView.get_column(cols_count-1);
@@ -142,6 +138,14 @@ void EmbedWindow::on_removeImageFile() {
   fmt::print("Remove image file\n");
 }
 
+void EmbedWindow::createModelColumns() {
+  m_TreeView->append_column_editable("", m_Columns.m_selected);
+  m_TreeView->append_column_editable("Sound Tag", m_Columns.m_soundTag);
+  m_TreeView->append_column_editable("File Path", m_Columns.m_filePath);
+  m_TreeView->append_column("File Size", m_Columns.m_fileSize);
+  m_TreeView->append_column_editable("Delete", m_Columns.m_deleteEntry);
+}
+
 void EmbedWindow::createNewSoundTag(bool isSelected, string soundTag, string filePath, string fileSize, bool deleteEntry) {
   Gtk::TreeModel::Row row = *(m_refTreeModel->append());
   row[m_Columns.m_selected]       = isSelected;
@@ -150,3 +154,5 @@ void EmbedWindow::createNewSoundTag(bool isSelected, string soundTag, string fil
   row[m_Columns.m_fileSize]       = fileSize;
   row[m_Columns.m_deleteEntry]    = deleteEntry;
 }
+
+
