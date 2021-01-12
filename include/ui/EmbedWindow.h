@@ -69,7 +69,9 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     void on_removeImageFile();
 
     void createModelColumns();
+    void createInputColumns();
     void createNewSoundTag(bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);
+    void inputSounds(std::string soundTag, std::string filePath);
 
 };
 
