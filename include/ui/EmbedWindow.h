@@ -48,10 +48,7 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
     static EmbedWindow* create();
 
-    void on_button_embed_clicked();
-    void on_button_extract_clicked();
-
-    void on_quality_change_value();
+    void on_qualityChange();
     void toggleMonoAudioChannel();
     void toggle4MiBLimit();
     void on_deleteSelected();

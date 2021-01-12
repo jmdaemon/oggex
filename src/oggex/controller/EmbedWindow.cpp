@@ -12,10 +12,11 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
 
   data = Audio::AudioData();
+
   refBuilder->get_widget("quality", pAudioQuality); 
   Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
   qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
-  qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_quality_change_value));
+  qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_qualityChange));
 
   refBuilder->get_widget("imageFilePath", imageFilePath);
   refBuilder->get_widget("outputFileName", outputFileName);
@@ -35,7 +36,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("removeImageFile", removeImageFile);
   removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_removeImageFile));
 
-  refBuilder->get_widget("soundsWindow",m_ScrolledWindow);
+  refBuilder->get_widget("soundsWindow", m_ScrolledWindow);
   refBuilder->get_widget("soundTagMetadata", m_TreeView);
 
   m_refTreeModel = Gtk::ListStore::create(m_Columns);
@@ -62,7 +63,7 @@ EmbedWindow* EmbedWindow::create() {
   return window;
 }
 
-void EmbedWindow::on_quality_change_value() {
+void EmbedWindow::on_qualityChange() {
   fmt::print("Set audioQuality to: {}\n", pAudioQuality->get_value_as_int());
   data.audioQuality = pAudioQuality->get_value_as_int();
 }
