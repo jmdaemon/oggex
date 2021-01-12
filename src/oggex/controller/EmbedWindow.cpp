@@ -46,36 +46,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
   createModelColumns();
   
-  //Gtk::CellRendererToggle toggleSelected = Gtk::make_managed<Gtk::CellRendererToggle>();
-  //(*m_TreeView).append_column(, m_Columns.m_selected);
-
-  //auto cols_count = m_TreeView.append_column_editable(, m_columns.alex);
-  //auto pColumn = m_TreeView.get_column(cols_count-1);
-  //if(pColumn)
-  //{
-    //auto pRenderer = static_cast<Gtk::CellRendererToggle*>(pColumn->get_first_cell());
-    //pColumn->add_attribute(pRenderer->property_visible(), m_columns.visible);
-    //pColumn->add_attribute(pRenderer->property_activatable(), m_columns.world);
-  //}
-
-  //embed.signal_clicked().connect(sigc::ptr_fun(&on_embed_button_clicked));
-
-
-  //Gtk::CellRendererToggle toggleSelected = new Gtk::CellRendererToggle;
-  //toggleSelected->signal_changed().connect(sigc::men_func(*this, &EmbedWindow::on_toggleSelected_changed);
-
-
-  //Gtk::CellRendererCombo *combo = manage (new Gtk::CellRendererCombo);
-  //combo->signal_changed ().connect (sigc::mem_fun (*this, &EmbedWindow::on_combo_changed);
-
-  //Gtk::TreeViewColumn *column = manage (new Gtk::TreeViewColumn ("Title", *combo));
-
-  //column->add_attribute (*combo, "model", model_column_record.combo_model);
-  //column->add_attribute (*combo, "text-column", model_column_record.combo_text_column);
-  //treeview.append_column (*column);
-
   show_all_children();
-  //refBuilder
 }
 
 EmbedWindow* EmbedWindow::create() {
@@ -89,13 +60,6 @@ EmbedWindow* EmbedWindow::create() {
 
   return window;
 }
-
-//void on_embed_button_clicked() {
-  //for (auto row: refModel->children()) {
-    //auto soundTag = row[m_Columns.m_soundTag];
-    //auto filePath = row[m_Columns.m_filePath];
-  //}
-//}
 
 void EmbedWindow::on_quality_change_value() {
   fmt::print("Set audioQuality to: {}\n", pAudioQuality->get_value_as_int());
@@ -130,6 +94,10 @@ void EmbedWindow::on_readSound() {
 }
 
 void EmbedWindow::on_embed() {
+  //for (auto row: refModel->children()) {
+    //auto soundTag = row[m_Columns.m_soundTag];
+    //auto filePath = row[m_Columns.m_filePath];
+  //}
 }
 
 void EmbedWindow::on_removeImageFile() {
@@ -154,5 +122,3 @@ void EmbedWindow::createNewSoundTag(bool isSelected, string soundTag, string fil
   row[m_Columns.m_fileSize]       = fileSize;
   row[m_Columns.m_deleteEntry]    = deleteEntry;
 }
-
-
