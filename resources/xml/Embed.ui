@@ -128,7 +128,9 @@
                 <property name="receives-default">False</property>
                 <property name="halign">end</property>
                 <property name="image-position">right</property>
+                <property name="active">True</property>
                 <property name="draw-indicator">True</property>
+                <signal name="toggled" handler="toggle4MiBLimit" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -148,12 +150,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="deleteSelected">
                 <property name="label" translatable="yes">Delete Selected</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_deleteSelected" swapped="no"/>
+                <signal name="clicked" handler="deleteSelected" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -167,7 +169,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_readSound" swapped="no"/>
+                <signal name="clicked" handler="readSound" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -180,7 +182,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_embed_clicked" swapped="no"/>
+                <signal name="clicked" handler="on_embed" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">3</property>
@@ -193,6 +195,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="browseSaveOutput" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -217,6 +220,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="removeImageFile" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">3</property>
@@ -254,7 +258,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton">
+              <object class="GtkCheckButton" id="audioChannel">
                 <property name="label" translatable="yes">Mono</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>

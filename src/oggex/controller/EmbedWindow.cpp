@@ -21,6 +21,15 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("outputFileName", outputFileName);
   refBuilder->get_widget("embed", embed);
 
+  refBuilder->get_widget("audioChannel", pAudioChannel);
+  pAudioChannel->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggleMonoAudioChannel));
+
+  refBuilder->get_widget("limit4MiB", limit4MiB);
+  limit4MiB->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggle4MiBLimit));
+
+  refBuilder->get_widget("deleteSelected", deleteSelected);
+  deleteSelected->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_deleteSelected));
+
   refBuilder->get_widget("soundsWindow",m_ScrolledWindow);
   refBuilder->get_widget("soundTagMetadata", m_TreeView);
 
@@ -94,8 +103,45 @@ EmbedWindow* EmbedWindow::create() {
 //}
 
 void EmbedWindow::on_quality_change_value() {
-  fmt::print("Setting audioQuality to: {}\n", pAudioQuality->get_value_as_int());
+  fmt::print("Set audioQuality to: {}\n", pAudioQuality->get_value_as_int());
   data.audioQuality = pAudioQuality->get_value_as_int();
+}
+
+void EmbedWindow::toggleMonoAudioChannel() {
+  fmt::print("Set Mono Audio Channel: {}\n", pAudioChannel->get_active());
+  data.lowQuality = pAudioChannel->get_active();
+}
+
+void EmbedWindow::toggle4MiBLimit() {
+  fmt::print("Toggle 4MiB Limit\n"); // Use defaults
+  //data.audioQuality = pAudioQuality->get_value_as_int();
+}
+
+void EmbedWindow::on_deleteSelected() {
+  auto children = m_refTreeModel->children();
+  //for (auto iter = children.end(), end = children.begin(); iter != end; --iter) {
+  //for (auto iter = children.begin(), end = children.end(); iter != end; iter++) {
+  for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
+    //auto row = *iter;
+    auto row = *iter;
+    bool isSelected = row[m_Columns.m_selected];
+    fmt::print("isSelected: {}\n", isSelected);
+    if (isSelected == true) {
+      //int index = iter - children.begin();
+      //int index = std::distance(end, iter);
+      //int index = iter - end;
+      //fmt::print("Deleting row: {}", index);
+      fmt::print("Deleting row\n");
+      m_refTreeModel->erase(iter);
+      iter = children.begin();
+    }
+  }
+}
+
+void EmbedWindow::on_readSound() {
+}
+
+void EmbedWindow::on_embed() {
 }
 
 void EmbedWindow::createNewSoundTag(Gtk::TreeModel::Row row, bool isSelected, string soundTag, string filePath, string fileSize, bool deleteEntry) {

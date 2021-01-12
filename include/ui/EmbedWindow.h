@@ -16,6 +16,12 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     Glib::RefPtr<Gtk::Adjustment> qualityAdjustment;
     Gtk::SpinButton* pAudioQuality;
 
+    Gtk::CheckButton* limit4MiB;
+    Gtk::CheckButton* pAudioChannel;
+    Gtk::Button* browseSaveOutput;
+    Gtk::Button* readSound;
+    Gtk::Button* deleteSelected;
+
     std::vector<std::string> audioFilePaths;
     std::vector<std::string> soundTags;
 
@@ -45,6 +51,12 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     void on_button_extract_clicked();
 
     void on_quality_change_value();
+    void toggleMonoAudioChannel();
+    void toggle4MiBLimit();
+    void on_deleteSelected();
+    void on_readSound();
+    void on_embed();
+
     void createNewSoundTag(Gtk::TreeModel::Row row, bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);
 
 };
