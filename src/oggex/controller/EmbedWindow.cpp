@@ -75,7 +75,7 @@ void EmbedWindow::toggleMonoAudioChannel() {
 
 void EmbedWindow::toggle4MiBLimit() {
   fmt::print("Toggle 4MiB Limit\n"); // Use defaults
-  //data.audioQuality = pAudioQuality->get_value_as_int();
+  // Toggle under4MiB Flag
 }
 
 void EmbedWindow::on_deleteSelected() {
@@ -112,8 +112,7 @@ void EmbedWindow::on_embed() {
 }
 
 void EmbedWindow::on_removeImageFile() {
-  //imageFilePath->gtk_file_chooser_unselect_file(imageFilePath.dialog, imageFilePath);
-  //imageFilePath->gtk_file_chooser_unselect_file(*this, imageFilePath->gtk_file_chooser_get_file());
+  imageFilePath->unselect_file(imageFilePath->get_file());
   fmt::print("Remove image file\n");
 }
 
