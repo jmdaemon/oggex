@@ -20,6 +20,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("imageFilePath", imageFilePath);
   refBuilder->get_widget("outputFileName", outputFileName);
   refBuilder->get_widget("embed", embed);
+  embed->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_embed));
 
   refBuilder->get_widget("audioChannel", pAudioChannel);
   pAudioChannel->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggleMonoAudioChannel));
@@ -81,6 +82,8 @@ void EmbedWindow::on_deleteSelected() {
   for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
     auto row = *iter;
     bool isSelected = row[m_Columns.m_selected];
+    int index = std::distance(children.begin(), iter);
+    fmt::print("Row: {}\n", index);
     fmt::print("isSelected: {}\n", isSelected);
     if (isSelected == true) {
       fmt::print("Deleting row\n");
@@ -94,10 +97,17 @@ void EmbedWindow::on_readSound() {
 }
 
 void EmbedWindow::on_embed() {
-  //for (auto row: refModel->children()) {
-    //auto soundTag = row[m_Columns.m_soundTag];
-    //auto filePath = row[m_Columns.m_filePath];
-  //}
+  auto children = m_refTreeModel->children();
+  //for (auto row: m_refTreeModel->children()) {
+  for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
+    auto row = *iter;
+    auto soundTag = row[m_Columns.m_soundTag];
+    auto filePath = row[m_Columns.m_filePath];
+    int index = std::distance(children.begin(), iter);
+    fmt::print("row: {}\n", index);
+    fmt::print("soundTag: {}\n", soundTag);
+    fmt::print("filePath: {}\n\n", filePath);
+  }
 }
 
 void EmbedWindow::on_removeImageFile() {
