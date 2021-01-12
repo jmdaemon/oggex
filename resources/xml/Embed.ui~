@@ -150,12 +150,12 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton">
+              <object class="GtkButton" id="deleteSelected">
                 <property name="label" translatable="yes">Delete Selected</property>
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="deleteSelected" swapped="no"/>
+                <signal name="clicked" handler="on_deleteSelected" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -169,7 +169,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="readSound" swapped="no"/>
+                <signal name="clicked" handler="on_readSound" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>

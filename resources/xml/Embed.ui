@@ -155,7 +155,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="deleteSelected" swapped="no"/>
+                <signal name="clicked" handler="on_deleteSelected" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -169,7 +169,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="readSound" swapped="no"/>
+                <signal name="clicked" handler="on_readSound" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -220,7 +220,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="removeImageFile" swapped="no"/>
+                <signal name="clicked" handler="on_removeImageFile" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">3</property>

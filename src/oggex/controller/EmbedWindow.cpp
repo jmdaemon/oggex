@@ -30,21 +30,20 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("deleteSelected", deleteSelected);
   deleteSelected->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_deleteSelected));
 
+  refBuilder->get_widget("imageFilePath", imageFilePath);
+  refBuilder->get_widget("removeImageFile", removeImageFile);
+  removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_removeImageFile));
+
   refBuilder->get_widget("soundsWindow",m_ScrolledWindow);
   refBuilder->get_widget("soundTagMetadata", m_TreeView);
 
   m_refTreeModel = Gtk::ListStore::create(m_Columns);
   m_TreeView->set_model(m_refTreeModel);
 
-  Gtk::TreeModel::Row row = *(m_refTreeModel->append());
-  createNewSoundTag(row, true, "[audio02]", "/home/user/directory", "156.6kB", true);
-
-  row = *(m_refTreeModel->append());
-  createNewSoundTag(row, false, "[audio03]", "/home/user/some/directory/", "452.9 kB", false);
-
-  row = *(m_refTreeModel->append());
-  createNewSoundTag(row, true, "[audio04]", "/home/user/some/directory/", "1553.9 kB", false);
-
+  createNewSoundTag(true, "[audio02]", "/home/user/directory", "156.6kB", true);
+  createNewSoundTag(false, "[audio03]", "/home/user/some/directory/", "452.9 kB", false);
+  createNewSoundTag(true, "[audio04]", "/home/user/some/directory/", "1553.9 kB", false);
+  
   m_TreeView->append_column_editable("", m_Columns.m_selected);
   //Gtk::CellRendererToggle toggleSelected = Gtk::make_managed<Gtk::CellRendererToggle>();
   //(*m_TreeView).append_column(, m_Columns.m_selected);
@@ -119,18 +118,11 @@ void EmbedWindow::toggle4MiBLimit() {
 
 void EmbedWindow::on_deleteSelected() {
   auto children = m_refTreeModel->children();
-  //for (auto iter = children.end(), end = children.begin(); iter != end; --iter) {
-  //for (auto iter = children.begin(), end = children.end(); iter != end; iter++) {
   for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
-    //auto row = *iter;
     auto row = *iter;
     bool isSelected = row[m_Columns.m_selected];
     fmt::print("isSelected: {}\n", isSelected);
     if (isSelected == true) {
-      //int index = iter - children.begin();
-      //int index = std::distance(end, iter);
-      //int index = iter - end;
-      //fmt::print("Deleting row: {}", index);
       fmt::print("Deleting row\n");
       m_refTreeModel->erase(iter);
       iter = children.begin();
@@ -144,7 +136,14 @@ void EmbedWindow::on_readSound() {
 void EmbedWindow::on_embed() {
 }
 
-void EmbedWindow::createNewSoundTag(Gtk::TreeModel::Row row, bool isSelected, string soundTag, string filePath, string fileSize, bool deleteEntry) {
+void EmbedWindow::on_removeImageFile() {
+  //imageFilePath->gtk_file_chooser_unselect_file(imageFilePath.dialog, imageFilePath);
+  //imageFilePath->gtk_file_chooser_unselect_file(*this, imageFilePath->gtk_file_chooser_get_file());
+  fmt::print("Remove image file\n");
+}
+
+void EmbedWindow::createNewSoundTag(bool isSelected, string soundTag, string filePath, string fileSize, bool deleteEntry) {
+  Gtk::TreeModel::Row row = *(m_refTreeModel->append());
   row[m_Columns.m_selected]       = isSelected;
   row[m_Columns.m_soundTag]       = soundTag;
   row[m_Columns.m_filePath]       = filePath;

@@ -21,6 +21,7 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     Gtk::Button* browseSaveOutput;
     Gtk::Button* readSound;
     Gtk::Button* deleteSelected;
+    Gtk::Button* removeImageFile;
 
     std::vector<std::string> audioFilePaths;
     std::vector<std::string> soundTags;
@@ -56,8 +57,9 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     void on_deleteSelected();
     void on_readSound();
     void on_embed();
+    void on_removeImageFile();
 
-    void createNewSoundTag(Gtk::TreeModel::Row row, bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);
+    void createNewSoundTag(bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);
 
 };
 
