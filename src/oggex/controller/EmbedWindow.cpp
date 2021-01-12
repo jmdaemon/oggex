@@ -29,6 +29,9 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("limit4MiB", limit4MiB);
   limit4MiB->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggle4MiBLimit));
 
+  refBuilder->get_widget("readSound", readSound);
+  readSound->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_readSound));
+
   refBuilder->get_widget("deleteSelected", deleteSelected);
   deleteSelected->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_deleteSelected));
 
@@ -95,11 +98,26 @@ void EmbedWindow::on_deleteSelected() {
 }
 
 void EmbedWindow::on_readSound() {
+  auto children = m_refTreeModel->children();
+  for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
+    auto row = *iter;
+    int index = std::distance(children.begin(), iter);
+    Glib::ustring soundTag = row[m_Columns.m_soundTag];
+    Glib::ustring filePath = row[m_Columns.m_filePath];
+    if (!soundTag.empty() && !filePath.empty()) {
+      fmt::print("row: {}\n", index);
+      fmt::print("soundTag: {}\n", soundTag);
+      fmt::print("filePath: {}\n", filePath);
+      fmt::print("Reading Sounds...\n\n");
+      // Read audio file path
+      // Create AudioData object with soundTag and fileSize
+      // Call createNewSoundTag with the data
+    }
+  }
 }
 
 void EmbedWindow::on_embed() {
   auto children = m_refTreeModel->children();
-  //for (auto row: m_refTreeModel->children()) {
   for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
     auto row = *iter;
     auto soundTag = row[m_Columns.m_soundTag];
