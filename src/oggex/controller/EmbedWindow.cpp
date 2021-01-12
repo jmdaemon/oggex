@@ -44,12 +44,21 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
   m_refTreeModel = Gtk::ListStore::create(m_Columns);
   m_TreeView->set_model(m_refTreeModel);
-
   createNewSoundTag(true, "[audio02]", "/home/user/directory", "156.6kB", true);
   createNewSoundTag(false, "[audio03]", "/home/user/some/directory/", "452.9 kB", false);
   createNewSoundTag(true, "[audio04]", "/home/user/some/directory/", "1553.9 kB", false);
-
   createModelColumns();
+
+  refBuilder->get_widget("inputSoundsWindow", inputSoundsWindow);
+  refBuilder->get_widget("inputSounds", inputSoundsTreeView);
+
+  inputSoundsTreeModel = Gtk::ListStore::create(inputSoundsColumns);
+  inputSoundsTreeView->set_model(inputSoundsTreeModel);
+  Gtk::TreeModel::Row row = *(inputSoundsTreeModel->append());
+  row[inputSoundsColumns.m_soundTag]       = "[testAudioTag]";
+  row[inputSoundsColumns.m_filePath]       = "/home/user/path/to/audio/file";
+  inputSoundsTreeView->append_column_editable("Sound Tag", inputSoundsColumns.m_soundTag);
+  inputSoundsTreeView->append_column_editable("File Path", inputSoundsColumns.m_filePath);
   
   show_all_children();
 }

@@ -40,9 +40,21 @@ class EmbedWindow : public Gtk::ApplicationWindow {
     };
     ModelColumns m_Columns;
 
+    class InputSoundsColumns : public Gtk::TreeModelColumnRecord {
+      public:
+        InputSoundsColumns() { add(m_soundTag); add(m_filePath); }
+        Gtk::TreeModelColumn<Glib::ustring> m_soundTag;
+        Gtk::TreeModelColumn<Glib::ustring> m_filePath;
+    };
+    InputSoundsColumns inputSoundsColumns;
+
     Gtk::ScrolledWindow* m_ScrolledWindow;
+    Gtk::ScrolledWindow* inputSoundsWindow;
+
     Gtk::TreeView* m_TreeView;
+    Gtk::TreeView* inputSoundsTreeView;
     Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
+    Glib::RefPtr<Gtk::ListStore> inputSoundsTreeModel;
 
   public: 
     EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);

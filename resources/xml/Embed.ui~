@@ -22,7 +22,7 @@
         <property name="margin-top">18</property>
         <property name="margin-bottom">18</property>
         <child>
-          <!-- n-columns=4 n-rows=6 -->
+          <!-- n-columns=4 n-rows=7 -->
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
@@ -45,7 +45,7 @@
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
@@ -55,7 +55,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">5</property>
+                <property name="top-attach">6</property>
                 <property name="width">4</property>
               </packing>
             </child>
@@ -78,7 +78,7 @@
               </object>
               <packing>
                 <property name="left-attach">1</property>
-                <property name="top-attach">3</property>
+                <property name="top-attach">4</property>
               </packing>
             </child>
             <child>
@@ -104,7 +104,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
@@ -117,7 +117,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">3</property>
+                <property name="top-attach">4</property>
               </packing>
             </child>
             <child>
@@ -134,7 +134,7 @@
               </object>
               <packing>
                 <property name="left-attach">0</property>
-                <property name="top-attach">4</property>
+                <property name="top-attach">5</property>
               </packing>
             </child>
             <child>
@@ -159,7 +159,7 @@
               </object>
               <packing>
                 <property name="left-attach">2</property>
-                <property name="top-attach">4</property>
+                <property name="top-attach">5</property>
                 <property name="width">2</property>
               </packing>
             </child>
@@ -173,7 +173,7 @@
               </object>
               <packing>
                 <property name="left-attach">2</property>
-                <property name="top-attach">3</property>
+                <property name="top-attach">4</property>
               </packing>
             </child>
             <child>
@@ -186,7 +186,7 @@
               </object>
               <packing>
                 <property name="left-attach">3</property>
-                <property name="top-attach">3</property>
+                <property name="top-attach">4</property>
               </packing>
             </child>
             <child>
@@ -199,7 +199,7 @@
               </object>
               <packing>
                 <property name="left-attach">2</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
@@ -211,7 +211,7 @@
               </object>
               <packing>
                 <property name="left-attach">3</property>
-                <property name="top-attach">2</property>
+                <property name="top-attach">3</property>
               </packing>
             </child>
             <child>
@@ -220,11 +220,25 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="removeImageFile" swapped="no"/>
+                <signal name="clicked" handler="on_removeImageFile" swapped="no"/>
               </object>
               <packing>
                 <property name="left-attach">3</property>
                 <property name="top-attach">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkCheckButton" id="audioChannel">
+                <property name="label" translatable="yes">Mono</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">False</property>
+                <property name="draw-indicator">True</property>
+                <signal name="toggled" handler="toggleMonoAudioChannel" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">5</property>
               </packing>
             </child>
             <child>
@@ -245,6 +259,32 @@
                     <property name="search-column">0</property>
                     <property name="show-expanders">False</property>
                     <property name="rubber-banding">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">0</property>
+                <property name="top-attach">2</property>
+                <property name="width">4</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkScrolledWindow">
+                <property name="width-request">400</property>
+                <property name="height-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hexpand">False</property>
+                <property name="vexpand">False</property>
+                <property name="hscrollbar-policy">never</property>
+                <property name="shadow-type">in</property>
+                <child>
+                  <object class="GtkTreeView" id="inputSounds">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="reorderable">True</property>
+                    <property name="show-expanders">False</property>
+                    <property name="rubber-banding">True</property>
                     <child internal-child="selection">
                       <object class="GtkTreeSelection"/>
                     </child>
@@ -255,20 +295,6 @@
                 <property name="left-attach">0</property>
                 <property name="top-attach">1</property>
                 <property name="width">4</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="audioChannel">
-                <property name="label" translatable="yes">Mono</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="draw-indicator">True</property>
-                <signal name="toggled" handler="toggleMonoAudioChannel" swapped="no"/>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">4</property>
               </packing>
             </child>
           </object>
