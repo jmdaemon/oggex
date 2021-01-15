@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.19) # CMake 3.9
 
 project(
     oggex 
@@ -29,6 +29,8 @@ set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
 
+set( GLADE_FILES resources/xml/Dashboard.glade )
+
 configure_file (
   "${PROJECT_SOURCE_DIR}/oggex.hpp.in"
   "${PROJECT_BINARY_DIR}/oggex.hpp"
@@ -40,6 +42,9 @@ FetchContent_Declare(
     libfmt
     GIT_REPOSITORY "https://github.com/fmtlib/fmt")
 FetchContent_MakeAvailable(libfmt)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
 
 add_subdirectory(src)
 add_subdirectory(app)
