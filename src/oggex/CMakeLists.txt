@@ -26,7 +26,7 @@ endif()
 
 add_custom_command(
     OUTPUT ${GRESOURCE_C}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/gtk3
     COMMAND ${GLIB_COMPILE_RESOURCES}
     ARGS
         --target=${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}
@@ -50,14 +50,18 @@ set_source_files_properties(
 add_executable(${OGGEX})
 add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
-target_sources(${OGGEX}
-    PRIVATE oggex.cpp
+set (GTK3_SOURCES
     PRIVATE controller/DashboardController.cpp
     PRIVATE controller/DashboardWindow.cpp
     #PRIVATE controller/FileSelect.cpp
     #PRIVATE controller/FileSelectWindow.cpp
     PRIVATE controller/EmbedController.cpp
     PRIVATE controller/EmbedWindow.cpp
+    )
+
+target_sources(${OGGEX}
+    PRIVATE oggex.cpp
+    ${GTK3_SOURCES}
     PUBLIC ${HEADER_LIST}
     )
 
