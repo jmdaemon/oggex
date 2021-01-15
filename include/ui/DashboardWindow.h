@@ -11,8 +11,8 @@ class DashboardWindow : public Gtk::ApplicationWindow {
     Gtk::Stack* pages;
     //Gtk::StackSwitcher* navigationPanel;
     Gtk::StackSidebar* navigationPanel;
-    //Gtk::Grid* embedGrid;
-    Glib::RefPtr<Gtk::Grid> embedGrid;
+    Gtk::Grid* embedGrid;
+    //Glib::RefPtr<Gtk::Grid> embedGrid;
 
   public: 
     DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);

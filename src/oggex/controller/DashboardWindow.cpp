@@ -16,10 +16,12 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk
     m_refBuilder->get_widget("pages", pages);
     m_refBuilder->get_widget("navigationPanel", navigationPanel);
 
-    navigationPanel->set_stack(*pages); 
-    //Gtk::Label home("Home");
-    //pages->add(home, "Home");
-    //pages->add(home, "Home", "Home");
+    //Gtk::Label home("Embed");
+    ////pages->add(home, "Embed");
+    ////pages->add(home, "Embed", "Embed");
+    //pages->add(home, "Embed", "Embed");
+
+    //navigationPanel->set_stack(*pages); 
 
     //m_refBuilder->add_from_resource("resources/xml/FileSelect.ui");
     //m_refBuilder->add_from_file("resources/xml/FileSelect.ui");
@@ -31,6 +33,10 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk
     //Gtk::Label embedLabel("Embed");
     //pages->add(embedLabel, "Embed", "Embed");
     //gtk_stack_add_titled (*pages, home, "Home", "Home")
+
+    //m_refBuilder->add_from_file("resources/xml/Embed.ui");
+    //m_refBuilder->get_widget("embedGrid", embedGrid);
+    //pages->add(*(Gtk::Widget *) (embedGrid), "Embed", "Embed");
 
     //pages->add("Home", "Home");
     //m_refBuilder->add_from_resource()
@@ -49,5 +55,12 @@ DashboardWindow* DashboardWindow::create() {
   if (!window)
     throw std::runtime_error("No \"Dashboard\" object in Dashboard.glade");
 
+  //m_refBuilder->add_from_file("resources/xml/Embed.ui");
+  //EmbedWindow* embedWindow = nullptr;
+  //refBuilder->get_widget_derived("Embed", embedWindow);
+
   return window;
 }
+
+//DashboardWindow::on_navigate() {
+//}

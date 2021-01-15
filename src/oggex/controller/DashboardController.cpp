@@ -15,8 +15,10 @@ Glib::RefPtr<DashboardController> DashboardController::create() {
 
 DashboardWindow* DashboardController::create_appwindow() {
   auto appwindow = DashboardWindow::create();
+  auto embedWindow = EmbedWindow::create();
 
   add_window(*appwindow);
+  add_window(*embedWindow);
 
   appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
     &DashboardController::on_hide_window), appwindow));
@@ -52,7 +54,7 @@ void DashboardController::on_navigate() {
   try {
     if (!appwindow) {
       appwindow = create_appwindow();
-      //appwindow->add_to_stack();
+      // appwindow->add_to_stack();
     }
     appwindow->present();
   }
