@@ -23,6 +23,8 @@ DashboardWindow* DashboardController::create_appwindow() {
   appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
     &DashboardController::on_hide_window), appwindow));
 
+  embedWindow->present();
+
   return appwindow;
 }
 
@@ -45,17 +47,18 @@ void DashboardController::on_hide_window(Gtk::Window* window) {
 void DashboardController::on_navigate() {
 
   //DashboardWindow* appwindow = nullptr;
-  Gtk::ApplicationWindow* appwindow = nullptr;
+  //Gtk::ApplicationWindow* appwindow = nullptr;
+  EmbedWindow* appwindow = nullptr;
   auto windows = get_windows();
   if (windows.size() > 0)
-    appwindow = dynamic_cast<Gtk::ApplicationWindow*>(windows[0]);
+    appwindow = dynamic_cast<EmbedWindow*>(windows[1]);
     //appwindow = dynamic_cast<EmbedWindow*>(windows[0]);
 
   try {
-    if (!appwindow) {
-      appwindow = create_appwindow();
-      // appwindow->add_to_stack();
-    }
+    //if (!appwindow) {
+      //appwindow = create_appwindow();
+      //// appwindow->add_to_stack();
+    //}
     appwindow->present();
   }
   catch (const Glib::Error& ex) {

@@ -21,7 +21,7 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk
     ////pages->add(home, "Embed", "Embed");
     //pages->add(home, "Embed", "Embed");
 
-    //navigationPanel->set_stack(*pages); 
+    navigationPanel->set_stack(*pages); 
 
     //m_refBuilder->add_from_resource("resources/xml/FileSelect.ui");
     //m_refBuilder->add_from_file("resources/xml/FileSelect.ui");
