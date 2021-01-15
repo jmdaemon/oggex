@@ -1,8 +1,8 @@
 #include "DashboardWindow.h"
 #include "InterfaceID.h"
 
-#include "Embed.h"
 #include "EmbedWindow.h"
+
 #include "oggex.gresource.c"
 
 #include <gtkmm.h>
@@ -13,6 +13,31 @@
 
 DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
+    m_refBuilder->get_widget("pages", pages);
+    m_refBuilder->get_widget("navigationPanel", navigationPanel);
+
+    navigationPanel->set_stack(*pages); 
+    //Gtk::Label home("Home");
+    //pages->add(home, "Home");
+    //pages->add(home, "Home", "Home");
+
+    //m_refBuilder->add_from_resource("resources/xml/FileSelect.ui");
+    //m_refBuilder->add_from_file("resources/xml/FileSelect.ui");
+    //m_refBuilder->get_widget("EmbedGrid", embedGrid);
+
+    //m_refBuilder->add_from_file("resources/xml/Embed.ui");
+    //Glib::RefPtr<Glib::Object> embedGridObj = m_refBuilder->get_object("EmbedGrid");
+    //embedGrid = Glib::RefPtr<Gtk::Grid>::cast_dynamic(embedGridObj);
+    //Gtk::Label embedLabel("Embed");
+    //pages->add(embedLabel, "Embed", "Embed");
+    //gtk_stack_add_titled (*pages, home, "Home", "Home")
+
+    //pages->add("Home", "Home");
+    //m_refBuilder->add_from_resource()
+    
+    //pages->set_visible_child_name("Home");
+    //pages->visible-child-name("Home");
+
 }
 
 DashboardWindow* DashboardWindow::create() {
@@ -26,8 +51,3 @@ DashboardWindow* DashboardWindow::create() {
 
   return window;
 }
-
-//void on_button_clicked() { 
-  //if (pWindow) 
-    //pWindow->hide();
-//}

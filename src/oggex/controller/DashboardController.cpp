@@ -1,5 +1,7 @@
 #include "Dashboard.h"
 #include "DashboardWindow.h"
+#include "Embed.h"
+#include "EmbedWindow.h"
 
 #include <iostream>
 #include <exception>
@@ -36,5 +38,28 @@ void DashboardController::on_activate() {
 
 void DashboardController::on_hide_window(Gtk::Window* window) {
   delete window;
+}
+
+void DashboardController::on_navigate() {
+
+  //DashboardWindow* appwindow = nullptr;
+  Gtk::ApplicationWindow* appwindow = nullptr;
+  auto windows = get_windows();
+  if (windows.size() > 0)
+    appwindow = dynamic_cast<Gtk::ApplicationWindow*>(windows[0]);
+    //appwindow = dynamic_cast<EmbedWindow*>(windows[0]);
+
+  try {
+    if (!appwindow) {
+      appwindow = create_appwindow();
+      //appwindow->add_to_stack();
+    }
+    appwindow->present();
+  }
+  catch (const Glib::Error& ex) {
+    std::cerr << "DashboardController::on_navigate(): " << ex.what() << std::endl;
+  } catch (const std::exception& ex) {
+    std::cerr << "DashboardController::on_navigate(): " << ex.what() << std::endl;
+  }
 }
 
