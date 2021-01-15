@@ -14,7 +14,7 @@
     <property name="default-height">400</property>
     <child>
       <!-- n-columns=5 n-rows=5 -->
-      <object class="GtkGrid">
+      <object class="GtkGrid" id="EmbedGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="margin-start">18</property>
@@ -259,6 +259,9 @@
                     <property name="search-column">0</property>
                     <property name="show-expanders">False</property>
                     <property name="rubber-banding">True</property>
+                    <child internal-child="selection">
+                      <object class="GtkTreeSelection"/>
+                    </child>
                   </object>
                 </child>
               </object>

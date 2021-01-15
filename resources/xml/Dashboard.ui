@@ -19,12 +19,15 @@
         <property name="margin-end">18</property>
         <property name="margin-top">18</property>
         <property name="margin-bottom">18</property>
+        <property name="hexpand">False</property>
         <property name="row-spacing">6</property>
         <property name="column-spacing">12</property>
         <child>
           <object class="GtkStack" id="pages">
+            <property name="width-request">100</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="hexpand">False</property>
             <child>
               <!-- n-columns=2 n-rows=3 -->
               <object class="GtkGrid">
@@ -88,8 +91,10 @@ Version 1.0 </property>
         </child>
         <child>
           <object class="GtkStackSidebar" id="navigationPanel">
+            <property name="width-request">200</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="hexpand">False</property>
           </object>
           <packing>
             <property name="left-attach">0</property>
