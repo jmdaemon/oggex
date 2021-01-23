@@ -13,18 +13,6 @@ SoundTagManager::SoundTagManager(const Glib::RefPtr<Gtk::Builder>& refBuilder): 
   createNewSoundTag(false, "[audio03]", "/home/user/some/directory/", "452.9 kB", false);
   createNewSoundTag(true, "[audio04]", "/home/user/some/directory/", "1553.9 kB", false);
   createModelColumns();
-
-  refBuilder->get_widget("inputSoundsWindow", inputSoundsWindow);
-  refBuilder->get_widget("inputSounds", inputSoundsTreeView);
-
-  inputSoundsTreeModel = Gtk::ListStore::create(inputSoundsColumns);
-  inputSoundsTreeView->set_model(inputSoundsTreeModel);
-  inputSounds("[testAudioTag]", "/home/user/path/to/audio/file");
-  inputSounds("[audio01]", "/home/user/audio01.ogg");
-  inputSounds("[audio02]", "/home/user/audio02.ogg");
-  inputSounds("[ominous01]", "/home/user/ominous.ogg");
-  inputSounds("[cave01]", "/home/user/cave.ogg");
-  createInputColumns();
 }
 
 
@@ -87,12 +75,7 @@ void SoundTagManager::createModelColumns() {
   m_TreeView->append_column_editable("File Path", m_Columns.m_filePath);
   m_TreeView->append_column("File Size", m_Columns.m_fileSize);
   m_TreeView->append_column_editable("Delete", m_Columns.m_deleteEntry);
-}
-
-void SoundTagManager::createInputColumns() {
-  inputSoundsTreeView->append_column_editable("Sound Tag", inputSoundsColumns.m_soundTag);
-  inputSoundsTreeView->append_column_editable("File Path", inputSoundsColumns.m_filePath);
-}
+} 
 
 void SoundTagManager::createNewSoundTag(bool isSelected, string soundTag, string filePath, string fileSize, bool deleteEntry) {
   Gtk::TreeModel::Row row = *(m_refTreeModel->append());
@@ -102,9 +85,3 @@ void SoundTagManager::createNewSoundTag(bool isSelected, string soundTag, string
   row[m_Columns.m_fileSize]       = fileSize;
   row[m_Columns.m_deleteEntry]    = deleteEntry;
 }
-
-void SoundTagManager::inputSounds(string soundTag, string filePath) {
-  Gtk::TreeModel::Row row = *(inputSoundsTreeModel->append());
-  row[inputSoundsColumns.m_soundTag]       = soundTag;
-  row[inputSoundsColumns.m_filePath]       = filePath;
-} 

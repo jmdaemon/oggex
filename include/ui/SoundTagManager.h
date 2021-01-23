@@ -19,11 +19,8 @@ class SoundTagManager {
   Audio::AudioData data;
 
   Gtk::TreeView* m_TreeView;
-  Gtk::TreeView* inputSoundsTreeView;
   Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
-  Glib::RefPtr<Gtk::ListStore> inputSoundsTreeModel;
   Gtk::ScrolledWindow* m_ScrolledWindow;
-  Gtk::ScrolledWindow* inputSoundsWindow;
 
   SoundTagManager(const Glib::RefPtr<Gtk::Builder>& refBuilder);
   
@@ -40,23 +37,13 @@ class SoundTagManager {
   };
   ModelColumns m_Columns;
 
-  class InputSoundsColumns : public Gtk::TreeModelColumnRecord {
-    public:
-      InputSoundsColumns() { add(m_soundTag); add(m_filePath); }
-      Gtk::TreeModelColumn<Glib::ustring> m_soundTag;
-      Gtk::TreeModelColumn<Glib::ustring> m_filePath;
-  };
-  InputSoundsColumns inputSoundsColumns;
-
   void on_deleteSelected();
   void on_readSound();
   void on_embed();
   void on_removeImageFile();
 
   void createModelColumns();
-  void createInputColumns();
   void createNewSoundTag(bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);
-  void inputSounds(std::string soundTag, std::string filePath);
 };
 
 #endif
