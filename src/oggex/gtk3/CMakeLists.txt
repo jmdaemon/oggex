@@ -33,7 +33,7 @@ add_custom_command(
         --generate-source ${NEW}
     VERBATIM
     MAIN_DEPENDENCY ${GRESOURCE_XML}
-    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/${GRESOURCE_DEPENDENCIES}"
+    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/gtk3/${GRESOURCE_DEPENDENCIES}"
 )
 
 set(GRESOURCE_FILES dashboard-resource) 
