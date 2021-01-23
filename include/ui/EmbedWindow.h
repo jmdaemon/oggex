@@ -8,7 +8,17 @@
 #include "Audio.h"
 
 class EmbedWindow : public Gtk::ApplicationWindow {
-  protected: Glib::RefPtr<Gtk::Builder> m_refBuilder;
+  protected: 
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
+
+    Gtk::Box m_Box;
+    //Two sets of choices:
+    Glib::RefPtr<Gio::SimpleAction> m_refChoice;
+    Glib::RefPtr<Gio::SimpleAction> m_refChoiceOther;
+
+    Glib::RefPtr<Gio::SimpleAction> m_refToggle;
+
+
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;
     Gtk::Button* embed;
@@ -59,6 +69,14 @@ class EmbedWindow : public Gtk::ApplicationWindow {
   public: 
     EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
     static EmbedWindow* create();
+
+    //Signal handlers:
+    void on_menu_others();
+
+    void on_menu_choices(const Glib::ustring& parameter);
+    void on_menu_choices_other(int parameter);
+    void on_menu_toggle();
+
 
     void on_qualityChange();
     void toggleMonoAudioChannel();
