@@ -57,6 +57,7 @@ set (GTK3_SOURCES
     #PRIVATE controller/FileSelectWindow.cpp
     PRIVATE controller/EmbedController.cpp
     PRIVATE controller/EmbedWindow.cpp
+    PRIVATE view/SoundTagManager.cpp
     )
 
 target_sources(${OGGEX}
