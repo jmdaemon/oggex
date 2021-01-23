@@ -11,14 +11,6 @@ class EmbedWindow : public Gtk::ApplicationWindow {
   protected: 
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
-    Gtk::Box m_Box;
-    //Two sets of choices:
-    Glib::RefPtr<Gio::SimpleAction> m_refChoice;
-    Glib::RefPtr<Gio::SimpleAction> m_refChoiceOther;
-
-    Glib::RefPtr<Gio::SimpleAction> m_refToggle;
-
-
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;
     Gtk::Button* embed;
