@@ -15,7 +15,6 @@ SoundTagManager::SoundTagManager(const Glib::RefPtr<Gtk::Builder>& refBuilder): 
   createModelColumns();
 }
 
-
 void SoundTagManager::on_deleteSelected() {
   auto children = m_refTreeModel->children();
   for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
@@ -30,26 +29,7 @@ void SoundTagManager::on_deleteSelected() {
       iter = children.begin();
     }
   }
-}
-
-void SoundTagManager::on_readSound() {
-  auto children = m_refTreeModel->children();
-  for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
-    auto row = *iter;
-    int index = std::distance(children.begin(), iter);
-    Glib::ustring soundTag = row[m_Columns.m_soundTag];
-    Glib::ustring filePath = row[m_Columns.m_filePath];
-    if (!soundTag.empty() && !filePath.empty()) {
-      fmt::print("row: {}\n", index);
-      fmt::print("soundTag: {}\n", soundTag);
-      fmt::print("filePath: {}\n", filePath);
-      fmt::print("Reading Sounds...\n\n");
-      // Read audio file path
-      // Create AudioData object with soundTag and fileSize
-      // Call createNewSoundTag with the data
-    }
-  }
-}
+} 
 
 void SoundTagManager::on_embed() {
   auto children = m_refTreeModel->children();
@@ -63,11 +43,6 @@ void SoundTagManager::on_embed() {
     fmt::print("filePath: {}\n\n", filePath);
   }
 }
-
-//void SoundTagManager::on_removeImageFile() {
-  //imageFilePath->unselect_file(imageFilePath->get_file());
-  //fmt::print("Remove image file\n");
-//}
 
 void SoundTagManager::createModelColumns() {
   m_TreeView->append_column_editable("", m_Columns.m_selected);

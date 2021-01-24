@@ -20,8 +20,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   refBuilder->get_widget("outputFileName", outputFileName);
 
   //refBuilder->get_widget("embed", embed);
-  //embed->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_embed));
-
+  //embed->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_embed)); 
   //refBuilder->get_widget("audioChannel", pAudioChannel);
   //pAudioChannel->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggleMonoAudioChannel));
 
@@ -53,11 +52,6 @@ EmbedWindow* EmbedWindow::create() {
 
   return window;
 }
-
-//void EmbedWindow::on_qualityChange() {
-  //fmt::print("Set audioQuality to: {}\n", pAudioQuality->get_value_as_int());
-  //data.audioQuality = pAudioQuality->get_value_as_int();
-//}
 
 //void EmbedWindow::toggleMonoAudioChannel() {
   //fmt::print("Set Mono Audio Channel: {}\n", pAudioChannel->get_active());
