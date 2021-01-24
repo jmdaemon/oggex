@@ -12,7 +12,6 @@ class Panel {
   public:
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Label* imageFileLabel;
-    //Gtk::Entry* outputFileName;
     Gtk::Button* removeImageFile;
 
     Glib::RefPtr<Gtk::Adjustment> qualityAdjustment;

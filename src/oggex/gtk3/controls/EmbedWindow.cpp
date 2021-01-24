@@ -31,24 +31,18 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   AudioInputManager audioInputManager;
   SoundTagManager soundTagManager;
 
-  //EmbedGrid.attach(((Gtk::Widget&) panel.imageFilePath), 0, 0, 1, 1);
-  //GtkWidget widget = Gtk::Widget(GTK_WIDGET(panel.imageFilePath));
-
-  //Gtk::Widget widget = std::dynamic_pointer_cast<Gtk::Widget>(panel.imageFilePath);
-  //Gtk::Widget widget = std::dynamic_pointer_cast<Gtk::Widget>(panel.imageFilePath);
-  //Gtk::Widget widget(*panel.imageFilePath);
-  //Gtk::Widget widget = *Glib::RefPtr<Gtk
-  //EmbedGrid->attach(widget, 0, 0, 1, 1);
-  //EmbedGrid->attach(*panel.outputFileName, 0, 0, 2, 1);
-
   // 1: Left:   the column number to attach the left side of child to 
   // 2: Top:    the row number to attach the top side of child to 
   // 3: Width   the number of columns that child will span
   // 4: Height: the number of rows that child will span
-  EmbedGrid->attach(*panel.imageFileLabel, 0, 1, 1, 1);
-  EmbedGrid->attach(*panel.imageFilePath, 1, 1, 2, 1);
-  EmbedGrid->attach(*panel.removeImageFile, 3, 1, 1, 1);
-  //EmbedGrid->attach(*audioInputManager.inputSoundsWindow, 0, 1, 4, 4);
+
+  // Row 1:
+  EmbedGrid->attach(*panel.imageFileLabel, 0, 0, 1, 1);
+  EmbedGrid->attach(*panel.imageFilePath, 1, 0, 2, 1);
+  EmbedGrid->attach(*panel.removeImageFile, 3, 0, 1, 1);
+
+  // Row 2:
+  EmbedGrid->attach(*audioInputManager.inputSoundsWindow, 0, 1, 4, 4);
 
   //EmbedGrid->attach(*audioInputManager.inputSoundsWindow, 0, 1, 4, 1);
   //EmbedGrid->attach(*soundTagManager.m_ScrolledWindow, 0, 2, 4, 1);
