@@ -51,7 +51,7 @@ add_executable(${OGGEX})
 add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
 set(VIEW_DIR view)
-set(CONTROL_DIR controller)
+set(CONTROL_DIR controls)
 
 set (GTK3_SOURCES
     PRIVATE ${CONTROL_DIR}/DashboardWindow.cpp
