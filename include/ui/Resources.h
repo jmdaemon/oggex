@@ -1,12 +1,18 @@
-#ifndef DASHBOARD_ID_H
-#define DASHBOARD_ID_H
+#ifndef RESOURCE_H
+#define RESOURCE_H
 
 #include <string>
 #include <gtkmm.h>
 
+#include <fmt/core.h>
+#include <fmt/format.h>
+
 namespace Resource {
+  const static std::string PREFIX="/com/github/jmd/oggex";
+  static std::string formatResourceID(std::string xmlFile) { return fmt::format("{}/{}", PREFIX, xmlFile); }
+
   namespace Dashboard {
-    const static std::string DASHBOARD_RESOURCE_FILE = "/com/github/jmd/oggex/Dashboard.ui";
+    const static std::string RESOURCE_FILE = formatResourceID("Dashboard.ui");
 
     const static Glib::ustring dashboardID   = "Dashboard";
     const static Glib::ustring browseImageID = "browseImage";
@@ -17,7 +23,7 @@ namespace Resource {
   };
 
   namespace Embed {
-    const static std::string EMBED_RESOURCE_FILE = "/com/github/jmd/oggex/Embed.ui";
+    const static std::string RESOURCE_FILE = formatResourceID("Embed.ui");
   };
 };
 
