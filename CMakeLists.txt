@@ -29,7 +29,7 @@ set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
 
-set( GLADE_FILES resources/xml/Dashboard.glade )
+set( GLADE_FILES resources/xml/gtk3/ )
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/oggex.hpp.in"
@@ -45,6 +45,7 @@ FetchContent_MakeAvailable(libfmt)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
+pkg_check_modules(GTK4 REQUIRED IMPORTED_TARGET gtk4)
 
 add_subdirectory(src)
 add_subdirectory(app)
