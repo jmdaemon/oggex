@@ -45,7 +45,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 }
 
 EmbedWindow* EmbedWindow::create() {
-  auto refBuilder = Gtk::Builder::create_from_resource(Resource::Embed::RESOURCE_FILE);
+  auto refBuilder = Gtk::Builder::create_from_resource(Resource::EMBED);
   //refBuilder->add_from_file("resources/xml/FileSelect.ui");
   refBuilder->add_from_file("resources/xml/gtk3/FileSelect.ui");
   
