@@ -15,6 +15,7 @@ class SoundTagManager {
   private:
   Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
+  public:
   std::vector<std::string> audioFilePaths;
   std::vector<std::string> soundTags;
   Audio::AudioData data;
@@ -23,7 +24,7 @@ class SoundTagManager {
   Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
   Gtk::ScrolledWindow* m_ScrolledWindow;
 
-  SoundTagManager(const Glib::RefPtr<Gtk::Builder>& refBuilder);
+  SoundTagManager();
   
   class ModelColumns : public Gtk::TreeModelColumnRecord { 
     public: 

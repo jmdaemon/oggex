@@ -16,6 +16,10 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   //qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
   //qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_qualityChange));
 
+  //m_refBuilder->add_from_file("resources/xml/gtk3/Panel.ui");
+  //m_refBuilder->add_from_file("resources/xml/gtk3/AudioInputView.ui");
+  //m_refBuilder->add_from_file("resources/xml/gtk3/SoundTagView.ui");
+
   refBuilder->get_widget("imageFilePath", imageFilePath);
   refBuilder->get_widget("outputFileName", outputFileName);
 
@@ -41,7 +45,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 }
 
 EmbedWindow* EmbedWindow::create() {
-  auto refBuilder = Gtk::Builder::create_from_resource(Embed::EMBED_RESOURCE_FILE);
+  auto refBuilder = Gtk::Builder::create_from_resource(Resource::Embed::EMBED_RESOURCE_FILE);
   //refBuilder->add_from_file("resources/xml/FileSelect.ui");
   refBuilder->add_from_file("resources/xml/gtk3/FileSelect.ui");
   

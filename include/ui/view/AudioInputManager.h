@@ -12,8 +12,10 @@
 #include <fmt/printf.h> 
 
 class AudioInputManager {
-  Glib::RefPtr<Gtk::Builder> m_refBuilder;
+  private: 
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
+  public:
   Gtk::TreeView* inputSoundsTreeView;
   Glib::RefPtr<Gtk::ListStore> inputSoundsTreeModel;
   Gtk::ScrolledWindow* inputSoundsWindow;

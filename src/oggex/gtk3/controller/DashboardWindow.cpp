@@ -51,10 +51,10 @@ DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk
 
 DashboardWindow* DashboardWindow::create() {
   //auto refBuilder = Gtk::Builder::create_from_file("../../Dashboard.glade");
-  auto refBuilder = Gtk::Builder::create_from_resource(Dashboard::DASHBOARD_RESOURCE_FILE);
+  auto refBuilder = Gtk::Builder::create_from_resource(Resource::Dashboard::DASHBOARD_RESOURCE_FILE);
   
   DashboardWindow* window = nullptr;
-  refBuilder->get_widget_derived(Dashboard::dashboardID, window);
+  refBuilder->get_widget_derived(Resource::Dashboard::dashboardID, window);
   if (!window)
     throw std::runtime_error("No \"Dashboard\" object in Dashboard.glade");
 

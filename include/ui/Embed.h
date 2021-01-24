@@ -5,7 +5,9 @@
 
 class EmbedWindow;
 class Embed : public Gtk::Application {
-  private:
+  private: 
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
+    Gtk::Grid EmbedGrid;
     EmbedWindow* create_appwindow();
     void on_hide_window(Gtk::Window* window);
 
@@ -13,6 +15,7 @@ class Embed : public Gtk::Application {
     Embed();
 
     void on_activate() override;
+    void on_startup() override;
 
   public:
     //EmbedWindow* create_appwindow();

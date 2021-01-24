@@ -36,6 +36,9 @@ void Embed::on_activate() {
 
 }
 
+void Embed::on_startup() {
+}
+
 void Embed::on_hide_window(Gtk::Window* window) {
   delete window;
 }
