@@ -2,17 +2,16 @@
 
 Panel::Panel() {
   m_refBuilder = Gtk::Builder::create_from_resource(Resource::PANEL);
+
   m_refBuilder->get_widget("imageFileLabel", imageFileLabel);
   m_refBuilder->get_widget("imageFilePath", imageFilePath);
-
   m_refBuilder->get_widget("readSound", readSound);
-  readSound->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_readSound));
-
   m_refBuilder->get_widget("reset", reset);
-
   m_refBuilder->get_widget("imageFilePath", imageFilePath);
   m_refBuilder->get_widget("removeImageFile", removeImageFile);
-  removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_removeImageFile)); 
+
+  readSound->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_readSound));
+  removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_removeImageFile));
 
 } 
 
@@ -35,10 +34,13 @@ Panel::Panel() {
   //}
 //} 
 
-//void Panel::on_removeImageFile() {
-  //imageFilePath->unselect_file(imageFilePath->get_file());
-  //fmt::print("Remove image file\n");
-//}
+void Panel::on_removeImageFile() {
+  if (imageFilePath->get_file()) {
+    //imageFilePath->unselect_file(imageFilePath->get_file());
+    imageFilePath->unselect_all();
+    fmt::print("Remove image file\n");
+  }
+}
 
 void Panel::on_readSound() {}
-void Panel::on_removeImageFile() {}
+//void Panel::on_removeImageFile() {}

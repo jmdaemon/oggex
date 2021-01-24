@@ -7,30 +7,22 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
-  : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) { 
+EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder): 
+  Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) { 
 
   Glib::RefPtr<Glib::Object> object = m_refBuilder->get_object("EmbedGrid"); 
-  //auto pEmbedGrid = Glib::RefPtr<Gtk::Grid>::cast_dynamic(object);
   EmbedGrid = Glib::RefPtr<Gtk::Grid>::cast_dynamic(object);
-  //EmbedGrid = &pEmbedGrid;
-  //refBuilder->get_widget("quality", pAudioQuality); 
-  //Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
-  //qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
-  //qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_qualityChange));
 
-  //m_refBuilder->add_from_file("resources/xml/gtk3/EmbedWindow.ui");
-  //m_refBuilder->add_from_file("resources/xml/gtk3/AudioInputView.ui");
-  //m_refBuilder->add_from_file("resources/xml/gtk3/SoundTagView.ui");
   m_refBuilder->get_widget("quality", pAudioQuality); 
   Glib::RefPtr<Glib::Object> adjustmentObject  = m_refBuilder->get_object("qualityAdjustment"); 
   qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
   qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_qualityChange));
 
-  Panel panel;
-  AudioInputManager audioInputManager;
-  SoundTagManager soundTagManager;
+  //Panel panel;
+  //AudioInputManager audioInputManager;
+  //SoundTagManager soundTagManager;
 
+  //panel.removeImageFile->signal_clicked().connect(sigc::mem_fun(&panel, &Panel::on_removeImageFile));
   // 1: Left:   the column number to attach the left side of child to 
   // 2: Top:    the row number to attach the top side of child to 
   // 3: Width   the number of columns that child will span
@@ -50,6 +42,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   // Row 4:
   EmbedGrid->attach(*panel.reset, 3, 3, 1, 1);
   EmbedGrid->attach(*panel.readSound, 2, 4, 1, 1);
+
 
   //refBuilder->get_widget("imageFilePath", imageFilePath);
   //refBuilder->get_widget("outputFileName", outputFileName);
