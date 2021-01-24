@@ -26,7 +26,7 @@ endif()
 
 add_custom_command(
     OUTPUT ${GRESOURCE_C}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/gtk3
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/gtk3/
     COMMAND ${GLIB_COMPILE_RESOURCES}
     ARGS
         --target=${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}
