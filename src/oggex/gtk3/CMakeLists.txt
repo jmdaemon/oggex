@@ -1,4 +1,5 @@
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/ui" "${OGGEX_SOURCE_DIR}/include/ui/view")
+set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" 
+    "${OGGEX_SOURCE_DIR}/include/ui" "${OGGEX_SOURCE_DIR}/include/ui/view" "${OGGEX_SOURCE_DIR}/include/ui/window")
 set(OGGEX oggex)
 
 # GResources
