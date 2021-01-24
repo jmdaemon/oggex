@@ -15,7 +15,12 @@
 class EmbedWindow : public Gtk::ApplicationWindow {
   protected: 
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
-    Gtk::Grid EmbedGrid;
+    Glib::RefPtr<Gtk::Grid> EmbedGrid;
+
+    Audio::AudioData data;
+    //Panel panel;
+    //AudioInputManager audioInputManager;
+    //SoundTagManager soundTagManager;
 
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;

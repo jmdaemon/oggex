@@ -2,29 +2,18 @@
 
 Panel::Panel() {
   m_refBuilder = Gtk::Builder::create_from_resource(Resource::PANEL);
+  m_refBuilder->get_widget("imageFilePath", imageFilePath);
 
-  refBuilder->get_widget("quality", pAudioQuality); 
-  Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
-  qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
-  qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &Panel::on_qualityChange));
-
-  refBuilder->get_widget("imageFilePath", imageFilePath);
-
-  refBuilder->get_widget("readSound", readSound);
+  m_refBuilder->get_widget("readSound", readSound);
   readSound->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_readSound));
 
-  refBuilder->get_widget("imageFilePath", imageFilePath);
-  refBuilder->get_widget("removeImageFile", removeImageFile);
+  m_refBuilder->get_widget("imageFilePath", imageFilePath);
+  m_refBuilder->get_widget("removeImageFile", removeImageFile);
   removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_removeImageFile)); 
 
-}
+} 
 
-void Panel::on_qualityChange() {
-  fmt::print("Set audioQuality to: {}\n", pAudioQuality->get_value_as_int());
-  data.audioQuality = pAudioQuality->get_value_as_int();
-}
-
-//void SoundTagManager::on_readSound() {
+//void Panel::on_readSound() {
   //auto children = m_refTreeModel->children();
   //for (auto iter = children.begin(), end = children.end(); iter != end; ++iter) {
     //auto row = *iter;
@@ -43,7 +32,10 @@ void Panel::on_qualityChange() {
   //}
 //} 
 
-//void SoundTagManager::on_removeImageFile() {
+//void Panel::on_removeImageFile() {
   //imageFilePath->unselect_file(imageFilePath->get_file());
   //fmt::print("Remove image file\n");
 //}
+
+void Panel::on_readSound() {}
+void Panel::on_removeImageFile() {}

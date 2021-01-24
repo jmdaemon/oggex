@@ -63,6 +63,7 @@ set (GTK3_SOURCES
     PRIVATE ${CONTROL_DIR}/EmbedWindow.cpp
     PRIVATE ${VIEW_DIR}/SoundTagManager.cpp
     PRIVATE ${VIEW_DIR}/AudioInputManager.cpp
+    PRIVATE ${VIEW_DIR}/Panel.cpp
     )
 
 target_sources(${OGGEX}

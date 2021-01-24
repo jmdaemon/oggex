@@ -2,6 +2,7 @@
 #include "EmbedAudio.h"
 
 #include <filesystem>
+#include <memory>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -9,14 +10,36 @@ namespace fs = std::filesystem;
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) { 
 
+  Glib::RefPtr<Glib::Object> object = m_refBuilder->get_object("EmbedGrid"); 
+  //auto pEmbedGrid = Glib::RefPtr<Gtk::Grid>::cast_dynamic(object);
+  EmbedGrid = Glib::RefPtr<Gtk::Grid>::cast_dynamic(object);
+  //EmbedGrid = &pEmbedGrid;
   //refBuilder->get_widget("quality", pAudioQuality); 
   //Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 
   //qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
   //qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_qualityChange));
 
-  //m_refBuilder->add_from_file("resources/xml/gtk3/Panel.ui");
+  //m_refBuilder->add_from_file("resources/xml/gtk3/EmbedWindow.ui");
   //m_refBuilder->add_from_file("resources/xml/gtk3/AudioInputView.ui");
   //m_refBuilder->add_from_file("resources/xml/gtk3/SoundTagView.ui");
+  m_refBuilder->get_widget("quality", pAudioQuality); 
+  Glib::RefPtr<Glib::Object> adjustmentObject  = m_refBuilder->get_object("qualityAdjustment"); 
+  qualityAdjustment = Glib::RefPtr<Gtk::Adjustment>::cast_dynamic(adjustmentObject);
+  qualityAdjustment->signal_value_changed().connect(sigc::mem_fun(*this, &EmbedWindow::on_qualityChange));
+
+  Panel panel;
+  AudioInputManager audioInputManager;
+  SoundTagManager soundTagManager;
+
+  //EmbedGrid.attach(((Gtk::Widget&) panel.imageFilePath), 0, 0, 1, 1);
+  //GtkWidget widget = Gtk::Widget(GTK_WIDGET(panel.imageFilePath));
+
+  //Gtk::Widget widget = std::dynamic_pointer_cast<Gtk::Widget>(panel.imageFilePath);
+  //Gtk::Widget widget = std::dynamic_pointer_cast<Gtk::Widget>(panel.imageFilePath);
+  //Gtk::Widget widget(*panel.imageFilePath);
+  //Gtk::Widget widget = *Glib::RefPtr<Gtk
+  //EmbedGrid->attach(widget, 0, 0, 1, 1);
+  EmbedGrid->attach(*panel.imageFilePath, 0, 0, 1, 1);
 
   //refBuilder->get_widget("imageFilePath", imageFilePath);
   //refBuilder->get_widget("outputFileName", outputFileName);
@@ -63,4 +86,9 @@ EmbedWindow* EmbedWindow::create() {
 void EmbedWindow::toggle4MiBLimit() {
   fmt::print("Toggle 4MiB Limit\n"); // Use defaults
   // Toggle under4MiB Flag
+}
+
+void EmbedWindow::on_qualityChange() {
+  fmt::print("Set audioQuality to: {}\n", pAudioQuality->get_value_as_int());
+  data.audioQuality = pAudioQuality->get_value_as_int();
 }
