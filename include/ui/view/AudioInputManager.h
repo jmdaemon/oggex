@@ -18,7 +18,7 @@ class AudioInputManager {
   Glib::RefPtr<Gtk::ListStore> inputSoundsTreeModel;
   Gtk::ScrolledWindow* inputSoundsWindow;
 
-  AudioInputManager(const Glib::RefPtr<Gtk::Builder>& refBuilder);
+  AudioInputManager();
 
   class InputSoundsColumns : public Gtk::TreeModelColumnRecord {
     public:
