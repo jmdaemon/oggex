@@ -1,6 +1,4 @@
-#include "Embed.h"
 #include "EmbedWindow.h"
-#include "Resources.h"
 #include "EmbedAudio.h"
 
 #include <filesystem>
@@ -20,16 +18,16 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   //m_refBuilder->add_from_file("resources/xml/gtk3/AudioInputView.ui");
   //m_refBuilder->add_from_file("resources/xml/gtk3/SoundTagView.ui");
 
-  refBuilder->get_widget("imageFilePath", imageFilePath);
-  refBuilder->get_widget("outputFileName", outputFileName);
+  //refBuilder->get_widget("imageFilePath", imageFilePath);
+  //refBuilder->get_widget("outputFileName", outputFileName);
 
   //refBuilder->get_widget("embed", embed);
   //embed->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_embed)); 
   //refBuilder->get_widget("audioChannel", pAudioChannel);
   //pAudioChannel->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggleMonoAudioChannel));
 
-  refBuilder->get_widget("limit4MiB", limit4MiB);
-  limit4MiB->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggle4MiBLimit));
+  //refBuilder->get_widget("limit4MiB", limit4MiB);
+  //limit4MiB->signal_toggled().connect(sigc::mem_fun(*this, &EmbedWindow::toggle4MiBLimit));
 
   //refBuilder->get_widget("readSound", readSound);
   //readSound->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_readSound));
@@ -37,7 +35,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   //refBuilder->get_widget("deleteSelected", deleteSelected);
   //deleteSelected->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_deleteSelected));
 
-  refBuilder->get_widget("imageFilePath", imageFilePath);
+  //refBuilder->get_widget("imageFilePath", imageFilePath);
   //refBuilder->get_widget("removeImageFile", removeImageFile);
   //removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &EmbedWindow::on_removeImageFile)); 
 

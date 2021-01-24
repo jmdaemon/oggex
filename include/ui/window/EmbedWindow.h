@@ -5,12 +5,17 @@
 #include <vector>
 #include <string>
 
+#include "Panel.h"
+#include "AudioInputManager.h"
+#include "SoundTagManager.h"
+
 #include "Audio.h"
 #include "Resources.h"
 
 class EmbedWindow : public Gtk::ApplicationWindow {
   protected: 
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
+    Gtk::Grid EmbedGrid;
 
     Gtk::FileChooserButton* imageFilePath;
     Gtk::Entry* outputFileName;
