@@ -1,13 +1,10 @@
 #include "DashboardWindow.h"
-#include "Resources.h"
 
 #include "EmbedWindow.h"
-
 #include "oggex.gresource.c"
 
-#include <gtkmm.h>
-#include <stdexcept>
 #include <iostream>
+#include <stdexcept>
 #include <giomm/resource.h>
 #include <glibmm/fileutils.h>
 

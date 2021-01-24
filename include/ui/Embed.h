@@ -2,6 +2,7 @@
 #define EMBED_H
 
 #include <gtkmm.h>
+#include "EmbedWindow.h"
 
 class EmbedWindow;
 class Embed : public Gtk::Application {

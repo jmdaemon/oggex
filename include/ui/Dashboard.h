@@ -2,6 +2,7 @@
 #define DASHBOARD_H
 
 #include <gtkmm.h>
+#include "DashboardWindow.h"
 
 class DashboardWindow;
 class Dashboard : public Gtk::Application {
