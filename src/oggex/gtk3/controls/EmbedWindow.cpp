@@ -49,6 +49,7 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
   // Row 4:
   EmbedGrid->attach(*panel.reset, 3, 3, 1, 1);
+  EmbedGrid->attach(*panel.readSound, 2, 4, 1, 1);
 
   //refBuilder->get_widget("imageFilePath", imageFilePath);
   //refBuilder->get_widget("outputFileName", outputFileName);
