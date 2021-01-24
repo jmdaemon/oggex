@@ -1,59 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
-<interface>
-  <requires lib="gtk+" version="3.24"/>
-  <!-- n-columns=3 n-rows=3 -->
-  <object class="GtkGrid">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-  </object>
+<interface> 
   <object class="GtkLabel">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
     <property name="halign">end</property>
     <property name="label" translatable="yes">Image File</property>
     <property name="justify">right</property>
-  </object>
-  <object class="GtkBox">
-    <property name="visible">True</property>
-    <property name="can-focus">False</property>
-    <property name="orientation">vertical</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
   </object>
   <object class="GtkFileChooserButton" id="imageFilePath">
     <property name="visible">True</property>
@@ -74,17 +26,20 @@
     <property name="visible">True</property>
     <property name="can-focus">True</property>
     <property name="receives-default">True</property>
+    <signal name="clicked" handler="on_readSound" object="Panel"/>
   </object>
   <object class="GtkButton" id="removeImageFile">
     <property name="label" translatable="yes">Remove</property>
     <property name="visible">True</property>
     <property name="can-focus">True</property>
     <property name="receives-default">True</property>
+    <signal name="clicked" handler="on_removeImageFile" object="Panel"/>
   </object>
-  <object class="GtkButton" id="reset1">
+  <object class="GtkButton" id="reset">
     <property name="label" translatable="yes">Reset</property>
     <property name="visible">True</property>
     <property name="can-focus">True</property>
     <property name="receives-default">True</property>
+    <signal name="clicked" handler="on_reset" object="Panel"/>
   </object>
 </interface>
