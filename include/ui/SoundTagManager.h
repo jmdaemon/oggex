@@ -12,6 +12,7 @@
 #include <fmt/printf.h> 
 
 class SoundTagManager { 
+  private:
   Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
   std::vector<std::string> audioFilePaths;

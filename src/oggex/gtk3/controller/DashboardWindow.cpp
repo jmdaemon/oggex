@@ -13,6 +13,9 @@
 
 DashboardWindow::DashboardWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder)
   : Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) {
+
+    //m_refBuilder->add_from_file("resources/xml/gtk3/MenuBar.ui");
+    //set_menubar(m_refBuilder->get_object("MenuBar"))
     m_refBuilder->get_widget("pages", pages);
     m_refBuilder->get_widget("navigationPanel", navigationPanel);
 

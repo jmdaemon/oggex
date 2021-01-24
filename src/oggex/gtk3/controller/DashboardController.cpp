@@ -40,6 +40,20 @@ void DashboardController::on_activate() {
 
 }
 
+void DashboardController::on_startup() {
+  Gtk::Application::on_startup();
+
+  m_refBuilder = Gtk::Builder::create();
+  m_refBuilder->add_from_file("resources/xml/gtk3/MenuBar.ui");
+  auto object = m_refBuilder->get_object("MenuBar");
+  //auto gmenu = std::dynamic_pointer_cast<Gio::Menu>(object);
+  auto gmenu = Glib::RefPtr<Gio::Menu>::cast_dynamic(object);
+  if (!gmenu)
+    g_warning("GMenu not found");
+  else
+    set_menubar(gmenu);
+}
+
 void DashboardController::on_hide_window(Gtk::Window* window) {
   delete window;
 }

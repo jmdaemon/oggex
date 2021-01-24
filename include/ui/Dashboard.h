@@ -5,7 +5,8 @@
 
 class DashboardWindow;
 class DashboardController : public Gtk::Application {
-  private:
+  private: 
+    Glib::RefPtr<Gtk::Builder> m_refBuilder;
     //Gtk::Button* embedWindow;
     //Gtk::Button* extractWindow;
 
@@ -15,7 +16,9 @@ class DashboardController : public Gtk::Application {
   protected:
     DashboardController();
 
+    void on_startup() override;
     void on_activate() override;
+
     void on_navigate();
 
     void on_button_embed_clicked();
