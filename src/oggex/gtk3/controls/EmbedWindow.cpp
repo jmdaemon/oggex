@@ -42,7 +42,8 @@ EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
   EmbedGrid->attach(*panel.removeImageFile, 3, 0, 1, 1);
 
   // Row 2:
-  EmbedGrid->attach(*audioInputManager.inputSoundsWindow, 0, 1, 4, 4);
+  EmbedGrid->attach(*audioInputManager.inputSoundsWindow, 0, 1, 4, 1);
+  EmbedGrid->attach(*soundTagManager.m_ScrolledWindow, 0, 2, 4, 1);
 
   //EmbedGrid->attach(*audioInputManager.inputSoundsWindow, 0, 1, 4, 1);
   //EmbedGrid->attach(*soundTagManager.m_ScrolledWindow, 0, 2, 4, 1);
