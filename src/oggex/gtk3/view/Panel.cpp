@@ -2,6 +2,8 @@
 
 Panel::Panel() {
   m_refBuilder = Gtk::Builder::create_from_resource(Resource::PANEL);
+  //m_refBuilder->get_widget("outputFileName", outputFileName);
+  m_refBuilder->get_widget("imageFileLabel", imageFileLabel);
   m_refBuilder->get_widget("imageFilePath", imageFilePath);
 
   m_refBuilder->get_widget("readSound", readSound);
