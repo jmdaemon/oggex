@@ -1,15 +1,11 @@
 #ifndef SOUND_TAG_MANGER_H
 #define SOUND_TAG_MANGER_H
 
-#include <gtkmm.h>
-#include <vector>
-#include <string>
-
-#include <filesystem>
+#include "Resources.h"
 #include "Audio.h"
-
-#include <fmt/core.h>
-#include <fmt/printf.h> 
+#include <vector>
+#include <filesystem>
+#include <fmt/printf.h>
 
 class SoundTagManager { 
   private:

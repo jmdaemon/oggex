@@ -2,6 +2,7 @@
 #define DASHBOARD_WINDOW_H
 
 #include <gtkmm.h>
+#include "Resources.h"
 
 class DashboardWindow : public Gtk::ApplicationWindow {
   protected:

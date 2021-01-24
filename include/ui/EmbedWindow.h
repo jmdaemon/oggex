@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Audio.h"
+#include "Resources.h"
 
 class EmbedWindow : public Gtk::ApplicationWindow {
   protected: 

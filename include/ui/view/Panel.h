@@ -1,7 +1,7 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-#include <gtkmm.h>
+#include "Resources.h"
 
 class Panel {
   private:

@@ -1,15 +1,10 @@
 #ifndef AUDIO_INPUT_MANAGER_H
 #define AUDIO_INPUT_MANAGER_H
 
-#include <gtkmm.h>
-#include <vector>
-#include <string>
-
-#include <filesystem>
+#include "Resources.h"
 #include "Audio.h"
-
-#include <fmt/core.h>
-#include <fmt/printf.h> 
+#include <vector>
+#include <filesystem>
 
 class AudioInputManager {
   private: 
