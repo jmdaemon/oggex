@@ -8,6 +8,8 @@ Panel::Panel() {
   m_refBuilder->get_widget("readSound", readSound);
   readSound->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_readSound));
 
+  m_refBuilder->get_widget("reset", reset);
+
   m_refBuilder->get_widget("imageFilePath", imageFilePath);
   m_refBuilder->get_widget("removeImageFile", removeImageFile);
   removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_removeImageFile)); 

@@ -11,6 +11,7 @@ class Panel {
 
   public:
     Gtk::FileChooserButton* imageFilePath;
+    Gtk::Entry* outputFileName;
     Gtk::Label* imageFileLabel;
     Gtk::Button* removeImageFile;
 
@@ -18,6 +19,7 @@ class Panel {
     Gtk::SpinButton* pAudioQuality;
 
     Gtk::Button* readSound;
+    Gtk::Button* reset;
 
   public:
     Panel();
