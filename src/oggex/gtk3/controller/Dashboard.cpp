@@ -6,14 +6,14 @@
 #include <iostream>
 #include <exception>
 
-DashboardController::DashboardController() : Gtk::Application("com.github.jmdaemon.oggex", Gio::APPLICATION_HANDLES_OPEN) {
+Dashboard::Dashboard() : Gtk::Application("com.github.jmdaemon.oggex", Gio::APPLICATION_HANDLES_OPEN) {
 }
 
-Glib::RefPtr<DashboardController> DashboardController::create() {
-  return Glib::RefPtr<DashboardController>(new DashboardController());
+Glib::RefPtr<Dashboard> Dashboard::create() {
+  return Glib::RefPtr<Dashboard>(new Dashboard());
 }
 
-DashboardWindow* DashboardController::create_appwindow() {
+DashboardWindow* Dashboard::create_appwindow() {
   auto appwindow = DashboardWindow::create();
   auto embedWindow = EmbedWindow::create();
 
@@ -21,26 +21,26 @@ DashboardWindow* DashboardController::create_appwindow() {
   add_window(*embedWindow);
 
   appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
-    &DashboardController::on_hide_window), appwindow));
+    &Dashboard::on_hide_window), appwindow));
 
   embedWindow->present();
 
   return appwindow;
 }
 
-void DashboardController::on_activate() {
+void Dashboard::on_activate() {
   try {
   auto appwindow = create_appwindow();
   appwindow->present();
   } catch (const Glib::Error& ex) {
-    std::cerr << "DashboardController::on_activate(): " << ex.what() << std::endl;
+    std::cerr << "Dashboard::on_activate(): " << ex.what() << std::endl;
   } catch (const std::exception& ex) {
-    std::cerr << "DashboardController::on_activate(): " << ex.what() << std::endl;
+    std::cerr << "Dashboard::on_activate(): " << ex.what() << std::endl;
   }
 
 }
 
-void DashboardController::on_startup() {
+void Dashboard::on_startup() {
   Gtk::Application::on_startup();
 
   m_refBuilder = Gtk::Builder::create();
@@ -54,11 +54,11 @@ void DashboardController::on_startup() {
     set_menubar(gmenu);
 }
 
-void DashboardController::on_hide_window(Gtk::Window* window) {
+void Dashboard::on_hide_window(Gtk::Window* window) {
   delete window;
 }
 
-void DashboardController::on_navigate() {
+void Dashboard::on_navigate() {
 
   //DashboardWindow* appwindow = nullptr;
   //Gtk::ApplicationWindow* appwindow = nullptr;
@@ -76,9 +76,9 @@ void DashboardController::on_navigate() {
     appwindow->present();
   }
   catch (const Glib::Error& ex) {
-    std::cerr << "DashboardController::on_navigate(): " << ex.what() << std::endl;
+    std::cerr << "Dashboard::on_navigate(): " << ex.what() << std::endl;
   } catch (const std::exception& ex) {
-    std::cerr << "DashboardController::on_navigate(): " << ex.what() << std::endl;
+    std::cerr << "Dashboard::on_navigate(): " << ex.what() << std::endl;
   }
 }
 

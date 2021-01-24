@@ -1,4 +1,4 @@
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/ui")
+set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" "${OGGEX_SOURCE_DIR}/include/ui" "${OGGEX_SOURCE_DIR}/include/ui/view")
 set(OGGEX oggex)
 
 # GResources
@@ -50,15 +50,18 @@ set_source_files_properties(
 add_executable(${OGGEX})
 add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
+set(VIEW_DIR view)
+set(CONTROL_DIR controller)
+
 set (GTK3_SOURCES
-    PRIVATE controller/DashboardController.cpp
-    PRIVATE controller/DashboardWindow.cpp
-    #PRIVATE controller/FileSelect.cpp
-    #PRIVATE controller/FileSelectWindow.cpp
-    PRIVATE controller/EmbedController.cpp
-    PRIVATE controller/EmbedWindow.cpp
-    PRIVATE view/SoundTagManager.cpp
-    PRIVATE view/AudioInputManager.cpp
+    PRIVATE ${CONTROL_DIR}/DashboardWindow.cpp
+    PRIVATE ${CONTROL_DIR}/Dashboard.cpp
+    #PRIVATE ${CONTROL_DIR}/FileSelect.cpp
+    #PRIVATE ${CONTROL_DIR}/FileSelectWindow.cpp
+    PRIVATE ${CONTROL_DIR}/Embed.cpp
+    PRIVATE ${CONTROL_DIR}/EmbedWindow.cpp
+    PRIVATE ${VIEW_DIR}/SoundTagManager.cpp
+    PRIVATE ${VIEW_DIR}/AudioInputManager.cpp
     )
 
 target_sources(${OGGEX}
