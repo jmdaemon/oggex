@@ -4,7 +4,7 @@ using namespace std;
 
 AudioInputManager::AudioInputManager() {
 
-  m_refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/oggex/AudioInputView.ui");
+  m_refBuilder = Gtk::Builder::create_from_resource(Resource::AudioInputManager::RESOURCE_FILE);
   m_refBuilder->get_widget("inputSoundsWindow", inputSoundsWindow);
   m_refBuilder->get_widget("inputSounds", inputSoundsTreeView);
 

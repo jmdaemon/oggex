@@ -1,7 +1,7 @@
 #include "Panel.h"
 
 Panel::Panel() {
-  m_refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/oggex/Panel.ui");
+  m_refBuilder = Gtk::Builder::create_from_resource(Resource::Panel::RESOURCE_FILE);
 
   refBuilder->get_widget("quality", pAudioQuality); 
   Glib::RefPtr<Glib::Object> adjustmentObject  = refBuilder->get_object("qualityAdjustment"); 

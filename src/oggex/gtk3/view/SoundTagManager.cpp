@@ -2,7 +2,7 @@
 
 using namespace std;
 SoundTagManager::SoundTagManager() {
-  m_refBuilder = Gtk::Builder::create_from_resource("/com/github/jmd/oggex/SoundTagManager.ui");
+  m_refBuilder = Gtk::Builder::create_from_resource(Resource::SoundTagManager::RESOURCE_FILE);
 
   data = Audio::AudioData();
   m_refBuilder->get_widget("soundsWindow", m_ScrolledWindow);
