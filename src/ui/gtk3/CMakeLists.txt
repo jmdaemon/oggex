@@ -1,6 +1,12 @@
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTKMM REQUIRED IMPORTED_TARGET gtkmm-3.0)
+#pkg_check_modules(GTK4 REQUIRED IMPORTED_TARGET gtk4)
+
 set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" 
     "${OGGEX_SOURCE_DIR}/include/ui" "${OGGEX_SOURCE_DIR}/include/ui/view" "${OGGEX_SOURCE_DIR}/include/ui/window")
 set(OGGEX oggex)
+
+set( UI_FILES resources/xml/gtk3/ )
 
 # GResources
 find_program(GLIB_COMPILE_RESOURCES NAMES glib-compile-resources REQUIRED)
@@ -27,14 +33,14 @@ endif()
 
 add_custom_command(
     OUTPUT ${GRESOURCE_C}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/gtk3/
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/${UI_FILES}
     COMMAND ${GLIB_COMPILE_RESOURCES}
     ARGS
         --target=${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}
         --generate-source ${NEW}
     VERBATIM
     MAIN_DEPENDENCY ${GRESOURCE_XML}
-    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/resources/xml/gtk3/${GRESOURCE_DEPENDENCIES}"
+    DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/${UI_FILES}/${GRESOURCE_DEPENDENCIES}"
 )
 
 set(GRESOURCE_FILES dashboard-resource) 
