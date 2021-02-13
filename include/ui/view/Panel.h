@@ -5,7 +5,7 @@
 #include "Resources.h"
 #include "View.h"
 
-class Panel {
+class Panel : public View {
   private:
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
     Audio::AudioData data;
@@ -25,6 +25,7 @@ class Panel {
   public:
     Panel();
     //void on_qualityChange();
+    virtual void create();
     void on_readSound();
     void on_removeImageFile();
 };

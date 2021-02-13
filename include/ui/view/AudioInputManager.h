@@ -3,10 +3,11 @@
 
 #include "Resources.h"
 #include "Audio.h"
+#include "View.h"
 #include <vector>
 #include <filesystem>
 
-class AudioInputManager {
+class AudioInputManager : public View {
   private: 
     Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
@@ -25,6 +26,7 @@ class AudioInputManager {
   };
   InputSoundsColumns inputSoundsColumns;
 
+  virtual void create();
   void createInputColumns();
   void inputSounds(std::string soundTag, std::string filePath);
 };

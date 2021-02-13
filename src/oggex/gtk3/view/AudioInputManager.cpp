@@ -2,8 +2,9 @@
 
 using namespace std;
 
-AudioInputManager::AudioInputManager() {
+AudioInputManager::AudioInputManager() { }
 
+void AudioInputManager::create() {
   m_refBuilder = Gtk::Builder::create_from_resource(Resource::AUDIO_INPUT_VIEW);
   m_refBuilder->get_widget("inputSoundsWindow", inputSoundsWindow);
   m_refBuilder->get_widget("inputSounds", inputSoundsTreeView);
@@ -16,6 +17,7 @@ AudioInputManager::AudioInputManager() {
   inputSounds("[ominous01]", "/home/user/ominous.ogg");
   inputSounds("[cave01]", "/home/user/cave.ogg");
   createInputColumns();
+
 }
 
 void AudioInputManager::createInputColumns() {

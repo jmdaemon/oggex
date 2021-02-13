@@ -10,7 +10,9 @@ namespace fs = std::filesystem;
 EmbedWindow::EmbedWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder): 
   Gtk::ApplicationWindow(cobject), m_refBuilder(refBuilder) { 
 
+  audioInputManager.create();
   soundTagManager.create();
+  panel.create();
   Glib::RefPtr<Glib::Object> object = m_refBuilder->get_object("EmbedGrid"); 
   EmbedGrid = Glib::RefPtr<Gtk::Grid>::cast_dynamic(object);
 

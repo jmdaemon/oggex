@@ -1,6 +1,8 @@
 #include "Panel.h"
 
-Panel::Panel() {
+Panel::Panel() { } 
+
+void Panel::create() {
   m_refBuilder = Gtk::Builder::create_from_resource(Resource::PANEL);
 
   m_refBuilder->get_widget("imageFileLabel", imageFileLabel);
@@ -12,8 +14,7 @@ Panel::Panel() {
 
   readSound->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_readSound));
   removeImageFile->signal_clicked().connect(sigc::mem_fun(*this, &Panel::on_removeImageFile));
-
-} 
+}
 
 //void Panel::on_readSound() {
   //auto children = m_refTreeModel->children();
