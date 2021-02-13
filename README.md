@@ -14,7 +14,7 @@ The following dependencies are required:
 - ffmpeg
 
 ## Installation
-You can download the latest release from the [Releases](https://github.com/jmdaemon/oggex/releases/latest/download/oggex-1.0.tar.gz) page.
+You can download it [here](https://github.com/jmdaemon/oggex/releases/latest/download/oggex-1.0.tar.gz) or get the latest release from the [Releases](https://github.com/jmdaemon/oggex/releases/) page.
 
 # Building
 The following dependencies are required for building:
@@ -69,4 +69,4 @@ that the sound tag is less than 100 characters, and the image file contains a va
 
 `$ extract [meow01.png]`
 
-The binary will extract a `meow01.ogg` file in the same directory as the image file. 
+A `meow01.ogg` will be extracted in the same directory as the image file. 
