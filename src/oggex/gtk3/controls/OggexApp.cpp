@@ -1,6 +1,6 @@
 #include "OggexApp.h"
 #include "OggexWin.h"
-#include "Embed.h"
+
 #include "EmbedWindow.h"
 
 #include <iostream>

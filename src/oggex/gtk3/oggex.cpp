@@ -1,6 +1,4 @@
 #include "OggexApp.h"
-#include "Dashboard.h"
-#include "Embed.h"
 
 #include <gtkmm.h>
 
