@@ -53,14 +53,15 @@ add_dependencies(${OGGEX} ${GRESOURCE_FILES})
 
 set(VIEW_DIR view)
 set(CONTROL_DIR controls)
+set(WINDOW_DIR window)
 
 set (GTK3_SOURCES
-    PRIVATE ${CONTROL_DIR}/DashboardWindow.cpp
+    PRIVATE ${WINDOW_DIR}/DashboardWindow.cpp
     PRIVATE ${CONTROL_DIR}/Dashboard.cpp
     #PRIVATE ${CONTROL_DIR}/FileSelect.cpp
-    #PRIVATE ${CONTROL_DIR}/FileSelectWindow.cpp
+    #PRIVATE ${WINDOW_DIR}/FileSelectWindow.cpp
     PRIVATE ${CONTROL_DIR}/Embed.cpp
-    PRIVATE ${CONTROL_DIR}/EmbedWindow.cpp
+    PRIVATE ${WINDOW_DIR}/EmbedWindow.cpp
     PRIVATE ${VIEW_DIR}/SoundTagManager.cpp
     PRIVATE ${VIEW_DIR}/AudioInputManager.cpp
     PRIVATE ${VIEW_DIR}/Panel.cpp
