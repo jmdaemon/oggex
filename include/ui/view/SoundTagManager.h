@@ -3,11 +3,12 @@
 
 #include "Resources.h"
 #include "Audio.h"
+#include "View.h"
 #include <vector>
 #include <filesystem>
 #include <fmt/printf.h>
 
-class SoundTagManager { 
+class SoundTagManager : public View {
   private:
   Glib::RefPtr<Gtk::Builder> m_refBuilder;
 
@@ -39,6 +40,7 @@ class SoundTagManager {
   void on_readSound();
   void on_embed();
   void on_removeImageFile();
+  virtual void create();
 
   void createModelColumns();
   void createNewSoundTag(bool isSelected, std::string soundTag, std::string filePath, std::string fileSize, bool deleteEntry);

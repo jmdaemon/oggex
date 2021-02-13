@@ -3,6 +3,7 @@
 
 #include "Audio.h"
 #include "Resources.h"
+#include "View.h"
 
 class Panel {
   private:

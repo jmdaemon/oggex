@@ -1,7 +1,9 @@
 #include "SoundTagManager.h"
 
 using namespace std;
-SoundTagManager::SoundTagManager() {
+SoundTagManager::SoundTagManager() {}
+
+void SoundTagManager::create() {
   m_refBuilder = Gtk::Builder::create_from_resource(Resource::SOUND_TAG_VIEW);
 
   data = Audio::AudioData();
