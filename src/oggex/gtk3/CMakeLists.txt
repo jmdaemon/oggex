@@ -56,13 +56,9 @@ set(CONTROL_DIR controls)
 set(WINDOW_DIR window)
 
 set (GTK3_SOURCES
-    PRIVATE ${WINDOW_DIR}/OggexWin.cpp
     PRIVATE ${CONTROL_DIR}/OggexApp.cpp
+    PRIVATE ${WINDOW_DIR}/OggexWin.cpp
     PRIVATE ${WINDOW_DIR}/DashboardWindow.cpp
-    #PRIVATE ${CONTROL_DIR}/Dashboard.cpp
-    #PRIVATE ${CONTROL_DIR}/FileSelect.cpp
-    #PRIVATE ${WINDOW_DIR}/FileSelectWindow.cpp
-    #PRIVATE ${CONTROL_DIR}/Embed.cpp
     PRIVATE ${WINDOW_DIR}/EmbedWindow.cpp
     PRIVATE ${VIEW_DIR}/SoundTagManager.cpp
     PRIVATE ${VIEW_DIR}/AudioInputManager.cpp
