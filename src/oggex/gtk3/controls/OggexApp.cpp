@@ -1,46 +1,46 @@
-#include "Oggex.h"
-#include "OggexWindow.h"
+#include "OggexApp.h"
+#include "OggexWin.h"
 #include "Embed.h"
 #include "EmbedWindow.h"
 
 #include <iostream>
 #include <exception>
 
-Oggex::Oggex() : Gtk::Application("com.github.jmdaemon.oggex", Gio::APPLICATION_HANDLES_OPEN) {
+OggexApp::OggexApp() : Gtk::Application("com.github.jmdaemon.oggex", Gio::APPLICATION_HANDLES_OPEN) {
 }
 
-Glib::RefPtr<Oggex> Oggex::create() {
-  return Glib::RefPtr<Oggex>(new Oggex());
+Glib::RefPtr<OggexApp> OggexApp::create() {
+  return Glib::RefPtr<OggexApp>(new OggexApp());
 }
 
-OggexWindow* Oggex::create_appwindow() {
-  auto appwindow = OggexWindow::create();
+OggexWin* OggexApp::create_appwindow() {
+  auto appwindow = OggexWin::create();
   auto embedWindow = EmbedWindow::create();
 
   add_window(*appwindow);
   add_window(*embedWindow);
 
   appwindow->signal_hide().connect(sigc::bind<Gtk::ApplicationWindow*>(sigc::mem_fun(*this,
-    &Oggex::on_hide_window), appwindow));
+    &OggexApp::on_hide_window), appwindow));
 
   embedWindow->present();
 
   return appwindow;
 }
 
-void Oggex::on_activate() {
+void OggexApp::on_activate() {
   try {
   auto appwindow = create_appwindow();
   appwindow->present();
   } catch (const Glib::Error& ex) {
-    std::cerr << "Oggex::on_activate(): " << ex.what() << std::endl;
+    std::cerr << "OggexApp::on_activate(): " << ex.what() << std::endl;
   } catch (const std::exception& ex) {
-    std::cerr << "Oggex::on_activate(): " << ex.what() << std::endl;
+    std::cerr << "OggexApp::on_activate(): " << ex.what() << std::endl;
   }
 
 }
 
-void Oggex::on_startup() {
+void OggexApp::on_startup() {
   Gtk::Application::on_startup();
 
   m_refBuilder = Gtk::Builder::create();
@@ -54,13 +54,13 @@ void Oggex::on_startup() {
     set_menubar(gmenu);
 }
 
-void Oggex::on_hide_window(Gtk::Window* window) {
+void OggexApp::on_hide_window(Gtk::Window* window) {
   delete window;
 }
 
-void Oggex::on_navigate() {
+void OggexApp::on_navigate() {
 
-  //OggexWindow* appwindow = nullptr;
+  //OggexWin* appwindow = nullptr;
   //Gtk::ApplicationWindow* appwindow = nullptr;
   EmbedWindow* appwindow = nullptr;
   auto windows = get_windows();
@@ -76,9 +76,9 @@ void Oggex::on_navigate() {
     appwindow->present();
   }
   catch (const Glib::Error& ex) {
-    std::cerr << "Oggex::on_navigate(): " << ex.what() << std::endl;
+    std::cerr << "OggexApp::on_navigate(): " << ex.what() << std::endl;
   } catch (const std::exception& ex) {
-    std::cerr << "Oggex::on_navigate(): " << ex.what() << std::endl;
+    std::cerr << "OggexApp::on_navigate(): " << ex.what() << std::endl;
   }
 }
 

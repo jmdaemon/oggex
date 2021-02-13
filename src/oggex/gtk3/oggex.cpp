@@ -1,3 +1,4 @@
+#include "OggexApp.h"
 #include "Dashboard.h"
 #include "Embed.h"
 
@@ -9,7 +10,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-  auto application = Dashboard::create();
+  auto application = OggexApp::create();
+  //auto application = Dashboard::create();
   //auto application = EmbedController::create();
   return application->run(argc, argv);
 }

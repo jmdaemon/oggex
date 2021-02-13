@@ -1,7 +1,7 @@
 #include "DashboardWindow.h"
 
 #include "EmbedWindow.h"
-#include "oggex.gresource.c"
+//#include "oggex.gresource.c"
 
 #include <iostream>
 #include <stdexcept>
