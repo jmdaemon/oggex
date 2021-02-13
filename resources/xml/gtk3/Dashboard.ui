@@ -11,17 +11,35 @@
     <signal name="action-added::Preferences" handler="preferences" swapped="no"/>
     <signal name="action-added::Keyboard Shortcuts" handler="shortcuts" swapped="no"/>
     <child>
-      <!-- n-columns=5 n-rows=5 -->
-      <object class="GtkGrid">
+      <object class="GtkBox">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="margin-start">18</property>
-        <property name="margin-end">18</property>
-        <property name="margin-top">18</property>
-        <property name="margin-bottom">18</property>
-        <property name="hexpand">False</property>
-        <property name="row-spacing">6</property>
-        <property name="column-spacing">12</property>
+        <child>
+          <object class="GtkPaned">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <child>
+              <object class="GtkStackSidebar" id="navigationPanel">
+                <property name="width-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="hexpand">False</property>
+              </object>
+              <packing>
+                <property name="resize">False</property>
+                <property name="shrink">True</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkStack" id="pages">
             <property name="width-request">100</property>
@@ -53,6 +71,18 @@
                   <object class="GtkLabel">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">By Joseph Diza - 2020-2021</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">0</property>
+                    <property name="top-attach">2</property>
+                    <property name="width">2</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
                     <property name="label" translatable="yes">Oggex 
 Version 1.0 </property>
                     <property name="justify">center</property>
@@ -63,18 +93,6 @@ Version 1.0 </property>
                     <property name="height">2</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">By Joseph Diza - 2020-2021</property>
-                  </object>
-                  <packing>
-                    <property name="left-attach">0</property>
-                    <property name="top-attach">2</property>
-                    <property name="width">2</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="name">Home</property>
@@ -83,81 +101,10 @@ Version 1.0 </property>
             </child>
           </object>
           <packing>
-            <property name="left-attach">1</property>
-            <property name="top-attach">1</property>
-            <property name="width">2</property>
-            <property name="height">2</property>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
-        </child>
-        <child>
-          <object class="GtkStackSidebar" id="navigationPanel">
-            <property name="width-request">200</property>
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="hexpand">False</property>
-          </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">1</property>
-            <property name="height">2</property>
-          </packing>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
         </child>
       </object>
     </child>

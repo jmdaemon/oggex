@@ -1,0 +1,6 @@
+# ninja log v5
+0	388	1610690703122354428	oggex_autogen/timestamp	ba1767bb615aed88
+388	2875	1610690705609028780	CMakeFiles/oggex.dir/oggex_autogen/mocs_compilation.cpp.o	28bde58dc574a71b
+388	3170	1610690705902363020	CMakeFiles/oggex.dir/mainwindow.cpp.o	8161b1d51bf7d2bf
+388	3339	1610690706072363544	CMakeFiles/oggex.dir/main.cpp.o	c0f9b7afc01def35
+3339	3696	1610690706425697970	oggex	b7196fa7a4946fcd
