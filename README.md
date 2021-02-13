@@ -32,7 +32,7 @@ There will be two binaries, `embed` and `extract` which will be found in the ./b
 
 ## Usage
 
-Output files are formatting like this:
+Output files are formatted like this:
 
 `[image.png] +[sound_tag] + [audio.ogg]`
 
