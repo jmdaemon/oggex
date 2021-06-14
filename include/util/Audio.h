@@ -16,7 +16,7 @@ namespace Audio {
   const static std::filesystem::path TEMP_AUDIO_FILE  = "out.ogg";
   const static std::filesystem::path TEMP_LOG_FILE    = "Log.txt";
   
-  class AudioData {
+  class AudioData : public File::File {
     private:
     int audioQuality;
     bool lowQuality;
@@ -56,6 +56,9 @@ namespace Audio {
     void setTempAudio(std::filesystem::path tempAudioFile)  { this->tempAudioFile = tempAudioFile; }
     void setTempLog(std::filesystem::path tempLogFile)      { this->tempLogFile = tempLogFile; }
     void setAudioFileSize(size_t fileSize)                  { this->fileSize = fileSize; }
+
+    virtual bool isValid(std::string file);
+    virtual bool isValid(std::filesystem::path filepath);
   };
 
   bool isAudio(std::string file);
