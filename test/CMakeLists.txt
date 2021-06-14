@@ -22,6 +22,5 @@ target_compile_features(${DOCTEST_MAIN} PRIVATE cxx_std_20)
 target_include_directories(${DOCTEST_MAIN} PUBLIC ${DOCTEST_LIB})
 target_link_libraries(${DOCTEST_MAIN} PRIVATE image_library doctest)
 
-add_subdirectory(image)
+add_subdirectory(util)
 add_subdirectory(audio)
-add_subdirectory(extract)
