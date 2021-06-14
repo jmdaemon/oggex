@@ -5,7 +5,7 @@ set(TARGET audio)
 add_library(${TARGET})
 target_sources(${TARGET}
     PRIVATE ExtractAudio.cpp
-    PRIVATE Audio.cpp
+    #PRIVATE Audio.cpp
     PRIVATE EmbedAudio.cpp
     #PRIVATE Mask.cpp
     #PRIVATE Cmd.cpp

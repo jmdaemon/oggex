@@ -44,6 +44,7 @@ set(TARGET audio_library)
 
 add_library(${TARGET})
 target_sources(${TARGET}
+    PRIVATE Audio.cpp
     PRIVATE Mask.cpp
     PRIVATE Cmd.cpp
     PUBLIC  ${AUDIO_LIBRARY_HEADERS}
