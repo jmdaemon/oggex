@@ -18,7 +18,7 @@ TEST_CASE("Testing extract()") {
   ifstream file(filepath, ifstream::in | ios::binary);
 
   SUBCASE("Retrieve the file, and filesize") {
-  REQUIRE(getFileSize(file) != 0);
+  REQUIRE(sizeOf(file) != 0);
 
   //Make sure you open this file only once at the same time, c++ will block the file otherwise
   string filedata = dataToString(file);

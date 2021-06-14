@@ -20,8 +20,8 @@ namespace File {
   };
 }
 
-size_t getFileSize(std::ifstream& file);
-size_t getFileSize(std::filesystem::path filepath);
+size_t sizeOf(std::ifstream& file);
+size_t sizeOf(std::filesystem::path filepath);
 
 std::string dataToString(std::ifstream& file);
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg = "File too large to fit sounds.");

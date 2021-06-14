@@ -84,8 +84,8 @@ void decreaseQuality(unsigned int subtrahend, Audio::AudioData& data) {
 }
 
 uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
-  size_t tempFileSize   = getFileSize(data.getTempAudio());
-  size_t imageFileSize  = getFileSize(imageFilePath);
+  size_t tempFileSize   = sizeOf(data.getTempAudio());
+  size_t imageFileSize  = sizeOf(imageFilePath);
   size_t soundTagSize   = data.getSoundTag().size();
   uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
 

@@ -33,20 +33,20 @@ namespace File {
   }
 }
 
-size_t getFileSize(std::ifstream& file) {
+size_t sizeOf(std::ifstream& file) {
   file.seekg(0, std::ios::end);
   size_t file_size = file.tellg();
   file.seekg(0, std::ios::beg);
   return file_size;
 }
 
-size_t getFileSize(std::filesystem::path filepath) {
+size_t sizeOf(std::filesystem::path filepath) {
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
-  return getFileSize(file); 
+  return sizeOf(file); 
 }
 
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
-  size_t fileSize = getFileSize(filepath);
+  size_t fileSize = sizeOf(filepath);
   size_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
   if (fileSize > maxFileSize) {
     std::cerr << errorMsg << std::endl;

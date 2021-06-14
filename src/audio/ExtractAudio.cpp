@@ -15,7 +15,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
-  size_t file_size = getFileSize(file);
+  size_t file_size = sizeOf(file);
   fmt::print("Size of embedded file: \t\t{} bytes\n", file_size);
 
   string filedata = dataToString(file);
@@ -32,7 +32,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
 
 string readFile(fs::path filepath, size_t offset) {
   ifstream file(filepath, ifstream::in | ifstream::binary);
-  size_t file_size = getFileSize(file);
+  size_t file_size = sizeOf(file);
   fmt::print("Audio File Size in readFile(): \t{} bytes\n", file_size); 
   file.seekg(offset, ios::beg);
 

@@ -31,7 +31,7 @@ namespace Audio {
       audioQuality(DEFAULT_AUDIO_QUALITY), lowQuality(ENABLE_LOW_QUALITY), 
       soundTag(soundTag), audioFile(audioFile),
       tempAudioFile(TEMP_AUDIO_FILE), tempLogFile(TEMP_LOG_FILE),
-      fileSize(getFileSize(audioFile))
+      fileSize(sizeOf(audioFile))
     {}
 
     AudioData():
