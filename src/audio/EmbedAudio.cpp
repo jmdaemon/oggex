@@ -4,8 +4,9 @@
 #include <iostream>
 #include <string>
 
-#include <fmt/core.h>
-#include <fmt/printf.h>
+//#include <fmt/core.h>
+//#include <fmt/printf.h>
+//#include <fmt/format.h>
 
 #include "EmbedAudio.h"
 #include "Image.h"
@@ -36,13 +37,14 @@ string createCommand(Audio::AudioData data, string cmd) {
   string command;
   string setAudioChannel = "";
   if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
-  command = fmt::format(cmd,
-      data.audioFile.string(),
-      data.audioQuality,
-      setAudioChannel,
-      data.tempAudioFile.string(),
-      data.tempLogFile.string()
-      );
+  //command = fmt::format(cmd,
+      //data.audioFile.string(),
+      //data.audioQuality,
+      //setAudioChannel,
+      //data.tempAudioFile.string(),
+      //data.tempLogFile.string()
+      //);
+  command = "NA";
   fmt::print("{}\n", command);
   return command;
 }
@@ -59,14 +61,14 @@ string exec(const char* cmd, Audio::AudioData data) {
 
   unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
   if (!pipe) { 
-    fmt::fprintf(cerr, "Error: could not execute ffmpeg");
+    //fmt::fprintf(cerr, "Error: could not execute ffmpeg");
     clean({ data.tempLogFile, data.tempAudioFile});
     throw runtime_error("popen() failed!");
   } 
 
   string monoEncoding = "";
   if (data.lowQuality) { monoEncoding = "/mono"; }
-  fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.audioFile, data.audioQuality, monoEncoding);
+  //fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.audioFile, data.audioQuality, monoEncoding);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   dataContents.close();
 
@@ -88,7 +90,7 @@ uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size
   uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
 
   if (!fileExists(data.audioFile) || (tempFileSize <= 0)) {
-    fmt::fprintf(cerr, "Error: encoding failed\n");
+    //fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
     fmt::print("Encoding completed.\n\n");
@@ -134,7 +136,7 @@ fs::path createOutputFileName(fs::path imageFilePath) {
 void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioFilePath) { 
   fs::path outputFilename = createOutputFileName(imageFilePath);
   if (!fileExists(encodedAudioFilePath)) { 
-    fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
+    //fmt::fprintf(cerr, "Image or Audio file does not exist or is being blocked\n");
     clean({imageFilePath, encodedAudioFilePath});
     throw exception();
   }

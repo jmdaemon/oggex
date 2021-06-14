@@ -65,7 +65,7 @@ std::string dataToString(std::ifstream& file) {
 bool fileExists(std::filesystem::path filepath) { 
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
   if (!file.is_open()) {
-    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    //fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
     file.close();
     return false; 
   } 
