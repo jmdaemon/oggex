@@ -1,5 +1,5 @@
 set(TARGET testimage)
-add_executable(${TARGET} image-tests.cpp)
+add_executable(${TARGET} ImageTests.cpp)
 
 target_compile_features(${TARGET} PRIVATE cxx_std_17)
 target_link_libraries(${TARGET} PRIVATE audio audio_library image_library file_library fmt doctest)
