@@ -18,7 +18,6 @@ source_group(
   FILES ${FILE_LIBRARY_HEADERS})
 
 # ================ Image Library ================
-#set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/image" "${OGGEX_SOURCE_DIR}/include/util")
 set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
 set(TARGET image_library)
 
@@ -36,7 +35,6 @@ source_group(
   TREE "${PROJECT_SOURCE_DIR}/include"
   PREFIX "Header Files"
   FILES ${IMAGE_LIBRARY_HEADERS})
-
 
 # ================ Audio Library ================
 set(AUDIO_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
