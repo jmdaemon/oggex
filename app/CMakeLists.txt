@@ -1,4 +1,4 @@
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/file" )
+set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util" )
 
 set(EXTRACT extract)
 set(EMBED embed)
