@@ -20,7 +20,7 @@ namespace Image {
   struct ImageData {
   };
 
-  class Image {
+  class Image : public File::File {
     private:
       std::string imagePath;
 
@@ -32,6 +32,8 @@ namespace Image {
       std::string getImg() {
         return this->imagePath;
       }
+      virtual bool isValid(std::string file);
+      virtual bool isValid(std::filesystem::path filepath);
   };
   bool isImage(std::string file);
   bool isImage(std::filesystem::path filepath);

@@ -17,6 +17,9 @@ namespace Image {
     return 0;
   }
 
+  bool Image::Image::isValid(std::string file) { return isImage(file); }
+  bool Image::Image::isValid(std::filesystem::path filepath) { return isImage(filepath); }
+
   bool isImage(std::string file) { return File::isFile(file, FileExtensions); }
   bool isImage(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
 

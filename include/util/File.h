@@ -13,6 +13,11 @@ namespace File {
   std::string getFileExtension(std::string file);
   bool isFile(std::string file, const std::map<int, std::string> FileExtensions);
 
+  class File {
+    public:
+    virtual bool isValid(std::string file) = 0;
+    virtual bool isValid(std::filesystem::path filepath) = 0;
+  };
 }
 
 size_t getFileSize(std::ifstream& file);
