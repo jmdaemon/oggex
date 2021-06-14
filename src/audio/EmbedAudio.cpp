@@ -36,13 +36,13 @@ vector<string> formatAudioTags(string tag) {
 string createCommand(Audio::AudioData data, string cmd) {
   string command;
   string setAudioChannel = "";
-  if (data.lowQuality) { setAudioChannel = " -ac 1"; } 
+  if (data.getEncodingQuality()) { setAudioChannel = " -ac 1"; } 
   //command = fmt::format(cmd,
-      //data.audioFile.string(),
-      //data.audioQuality,
+      //data.getAudio().string(),
+      //data.getAudioQuality(),
       //setAudioChannel,
-      //data.tempAudioFile.string(),
-      //data.tempLogFile.string()
+      //data.getTempAudio().string(),
+      //data.getTempLog().string()
       //);
   command = "NA";
   fmt::print("{}\n", command);
@@ -56,40 +56,40 @@ string encodeAudio(Audio::AudioData data) {
 }
 
 string exec(const char* cmd, Audio::AudioData data) {
-  ifstream dataContents(data.audioFile, ifstream::in | ifstream::binary);
+  ifstream dataContents(data.getAudio(), ifstream::in | ifstream::binary);
   vector<char> buffer(4096);
 
   unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
   if (!pipe) { 
     //fmt::fprintf(cerr, "Error: could not execute ffmpeg");
-    clean({ data.tempLogFile, data.tempAudioFile});
+    clean({ data.getTempLog(), data.getTempAudio()});
     throw runtime_error("popen() failed!");
   } 
 
   string monoEncoding = "";
-  if (data.lowQuality) { monoEncoding = "/mono"; }
-  //fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.audioFile, data.audioQuality, monoEncoding);
+  if (data.getEncodingQuality()) { monoEncoding = "/mono"; }
+  //fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.getAudio(), data.getAudioQuality(), monoEncoding);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   dataContents.close();
 
-  ifstream tempFile(data.tempAudioFile, ifstream::in | ifstream::binary);
+  ifstream tempFile(data.getTempAudio(), ifstream::in | ifstream::binary);
   string filedata = dataToString(tempFile);
   tempFile.close();
   return filedata;
 }
 
 void decreaseQuality(unsigned int subtrahend, Audio::AudioData& data) {
-  data.audioQuality -= subtrahend;
-  fmt::print("Decreasing quality. Quality = {}\n", data.audioQuality);
+  data.setAudioQuality(data.getAudioQuality() - subtrahend);
+  fmt::print("Decreasing quality. Quality = {}\n", data.getAudioQuality());
 }
 
 uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
-  size_t tempFileSize   = getFileSize(data.tempAudioFile);
+  size_t tempFileSize   = getFileSize(data.getTempAudio());
   size_t imageFileSize  = getFileSize(imageFilePath);
-  size_t soundTagSize   = data.soundTag.size();
+  size_t soundTagSize   = data.getSoundTag().size();
   uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
 
-  if (!fileExists(data.audioFile) || (tempFileSize <= 0)) {
+  if (!fileExists(data.getAudio()) || (tempFileSize <= 0)) {
     //fmt::fprintf(cerr, "Error: encoding failed\n");
     throw exception();
   } else 
@@ -107,12 +107,12 @@ string encodeAudioFile(Audio::AudioData& data, fs::path imageFilePath) {
   size_t maxFileSize    = 1024 * 1024 * 4; 
   uintmax_t totalSize   = calculateTotalSize(data, imageFilePath);
   if (totalSize > maxFileSize) {
-    if (data.audioQuality == 10) {
+    if (data.getAudioQuality() == 10) {
       decreaseQuality(6, data);
       encodeAudioFile(data, imageFilePath);
-    } else if (data.audioQuality <= 4 && data.audioQuality > 0) {
+    } else if (data.getAudioQuality() <= 4 && data.getAudioQuality() > 0) {
       decreaseQuality(1, data);
-      data.lowQuality = true;
+      data.setEncodingQuality(true);
       fmt::print("Setting -ac 1 option \n");
       encodeAudioFile(data, imageFilePath);
     } else {
@@ -120,8 +120,8 @@ string encodeAudioFile(Audio::AudioData& data, fs::path imageFilePath) {
       throw exception();
     }
   } else {
-    fs::rename(data.tempAudioFile, "temp.ogg");
-    data.tempAudioFile = "temp.ogg";
+    fs::rename(data.getTempAudio(), "temp.ogg");
+    data.getTempAudio() = "temp.ogg";
   }
   return cmdOutput;
 }
@@ -158,6 +158,6 @@ int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool 
   //Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
   Audio::AudioData audioData = createAudioData(soundTag, audioFilePath);
   encodeAudioFile(audioData, imageFilePath);
-  encodeImage(imageFilePath, soundTag, audioData.tempAudioFile);
+  encodeImage(imageFilePath, soundTag, audioData.getTempAudio());
   return 0;
 } 

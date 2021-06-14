@@ -16,7 +16,17 @@ namespace Audio {
   const static std::filesystem::path TEMP_AUDIO_FILE  = "out.ogg";
   const static std::filesystem::path TEMP_LOG_FILE    = "Log.txt";
   
-  struct AudioData {
+  class AudioData {
+    private:
+    int audioQuality;
+    bool lowQuality;
+    std::string soundTag;
+    std::filesystem::path audioFile;
+    std::filesystem::path tempAudioFile;
+    std::filesystem::path tempLogFile;
+    size_t fileSize;
+
+    public:
     AudioData(std::string soundTag, std::filesystem::path audioFile) : 
       audioQuality(DEFAULT_AUDIO_QUALITY), lowQuality(ENABLE_LOW_QUALITY), 
       soundTag(soundTag), audioFile(audioFile),
@@ -31,13 +41,21 @@ namespace Audio {
       fileSize(0)
     {}
 
-    int audioQuality;
-    bool lowQuality;
-    std::string soundTag;
-    std::filesystem::path audioFile;
-    std::filesystem::path tempAudioFile;
-    std::filesystem::path tempLogFile;
-    size_t fileSize;
+    int getAudioQuality()                 { return this->audioQuality; }
+    bool getEncodingQuality()             { return this->lowQuality; }
+    std::string getSoundTag()             { return this->soundTag; }
+    std::filesystem::path getAudio()      { return this->audioFile; }
+    std::filesystem::path getTempAudio()  { return this->tempAudioFile; }
+    std::filesystem::path getTempLog()    { return this->tempLogFile; }
+    size_t getAudioFileSize()             { return this->fileSize; }
+
+    void setAudioQuality(int quality)                       { this->audioQuality = quality; }
+    void setEncodingQuality(bool quality)                   { this->lowQuality = quality; }
+    void setSoundTag(std::string soundTag)                  { this->soundTag = soundTag; }
+    void setAudio(std::filesystem::path audioFile)          { this->audioFile = audioFile; }
+    void setTempAudio(std::filesystem::path tempAudioFile)  { this->tempAudioFile = tempAudioFile; }
+    void setTempLog(std::filesystem::path tempLogFile)      { this->tempLogFile = tempLogFile; }
+    void setAudioFileSize(size_t fileSize)                  { this->fileSize = fileSize; }
   };
 
   bool isAudio(std::string file);
