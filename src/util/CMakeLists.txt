@@ -18,7 +18,8 @@ source_group(
   FILES ${FILE_LIBRARY_HEADERS})
 
 # ================ Image Library ================
-set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/image" "${OGGEX_SOURCE_DIR}/include/util")
+#set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/image" "${OGGEX_SOURCE_DIR}/include/util")
+set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
 set(TARGET image_library)
 
 add_library(${TARGET})
