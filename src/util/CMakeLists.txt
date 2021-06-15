@@ -44,7 +44,6 @@ add_library(${TARGET})
 target_sources(${TARGET}
     PRIVATE Audio.cpp
     PRIVATE Mask.cpp
-    PRIVATE Cmd.cpp
     PUBLIC  ${AUDIO_LIBRARY_HEADERS}
 )
 
@@ -56,3 +55,24 @@ source_group(
   TREE "${PROJECT_SOURCE_DIR}/include"
   PREFIX "Header Files"
   FILES ${AUDIO_LIBRARY_HEADERS})
+
+# ================ Command Library ================
+set(CMD_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
+set(TARGET cmd_library)
+
+add_library(${TARGET})
+target_sources(${TARGET}
+    PRIVATE Cmd.cpp
+    PRIVATE InputParser.cpp
+    PUBLIC  ${CMD_LIBRARY_HEADERS}
+)
+
+target_include_directories(${TARGET} PUBLIC ${CMD_LIBRARY_HEADERS})
+target_link_libraries(${TARGET} PRIVATE fmt)
+target_compile_features(${TARGET} PUBLIC cxx_std_20)
+
+source_group(
+  TREE "${PROJECT_SOURCE_DIR}/include"
+  PREFIX "Header Files"
+  FILES ${CMD_LIBRARY_HEADERS})
+
