@@ -17,17 +17,13 @@ namespace Image {
     {4, ".webm"},
   };
 
-  struct ImageData {
-  };
-
-  class Image : public File::File {
+  class ImageData : public File::File {
     private:
       std::string imagePath;
 
     public:
 
-      Image(std::string imagePath);
-      int readImage();
+      ImageData(std::string imagePath);
 
       std::string getImg() {
         return this->imagePath;

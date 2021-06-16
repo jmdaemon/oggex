@@ -11,14 +11,10 @@
 using namespace std;
 
 namespace Image {
-  Image::Image(std::string imagePath) : imagePath{imagePath} { } 
+  ImageData::ImageData(std::string imagePath) : imagePath{imagePath} { } 
 
-  int Image::readImage() {
-    return 0;
-  }
-
-  bool Image::Image::isValid(std::string file) { return isImage(file); }
-  bool Image::Image::isValid(std::filesystem::path filepath) { return isImage(filepath); }
+  bool Image::ImageData::isValid(std::string file) { return isImage(file); }
+  bool Image::ImageData::isValid(std::filesystem::path filepath) { return isImage(filepath); }
 
   bool isImage(std::string file) { return File::isFile(file, FileExtensions); }
   bool isImage(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
