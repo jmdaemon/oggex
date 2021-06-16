@@ -106,7 +106,7 @@ void encodeImage(Data& data) {
   ifstream imageFileData(data.image.getImage(), ifstream::in | ifstream::binary);
   ifstream audioFileData(audio.getTempAudio(), ifstream::in | ifstream::binary);
 
-  outputFile << imageFileData.rdbuf() << audio.getSoundTag() << audioFileData.rdbuf();
+  outputFile << imageFileData.rdbuf() << formatSoundTag(audio.getSoundTag()) << audioFileData.rdbuf();
   outputFile.close();
   imageFileData.close();
   audioFileData.close();

@@ -62,6 +62,7 @@ int main(int argc, char **argv) {
   } else if (input.argExists("extract") || input.argExists("-x")) {
     const std::string &imageFilename = input.getArg("-i");
     if (isEmpty(imageFilename, "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.")) { return -1; }
+    if (!fileExists(imageFilename)) { return -1; }
     Image::ImageData imageData = Image::ImageData(imageFilename);
     Data data;
     data.image = imageData;
@@ -71,4 +72,3 @@ int main(int argc, char **argv) {
       showUsage("oggex");
   return 0;
 }
-
