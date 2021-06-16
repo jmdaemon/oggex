@@ -29,7 +29,7 @@ namespace Image {
       virtual bool isValid(std::string file);
       virtual bool isValid(std::filesystem::path filepath);
 
-      std::string getImg() { return this->imagePath; }
+      std::string getImage() { return this->imagePath; }
       void setImage(std::string imagePath) { this->imagePath = imagePath; }
   };
   bool isImage(std::string file);
