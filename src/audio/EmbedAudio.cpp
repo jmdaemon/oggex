@@ -3,26 +3,21 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-string createCommand(Audio::AudioData data, string cmd) {
+string createCommand(Audio::AudioData data) {
   string command;
-  string setAudioChannel = "";
-  if (data.getEncodingQuality()) { setAudioChannel = " -ac 1"; } 
-  //command = fmt::format(cmd,
-      //data.getAudio().string(),
-      //data.getAudioQuality(),
-      //setAudioChannel,
-      //data.getTempAudio().string(),
-      //data.getTempLog().string()
-      //);
-  command = "NA";
+  if (data.getEncodingQuality()) { 
+    command = fmt::format(
+        "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+      data.getAudio().string(), data.getAudioQuality(), data.getTempAudio().string(), data.getTempLog().string()
+        );
+  } else {
+    command = fmt::format(
+        "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
+      data.getAudio().string(), data.getAudioQuality(), data.getTempAudio().string(), data.getTempLog().string()
+        );
+    }
   fmt::print("{}\n", command);
   return command;
-}
-
-string buildCommand(Audio::AudioData data) { return createCommand(data); }
-string encodeAudio(Audio::AudioData data) {
-  return createCommand(data, 
-      "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1");
 }
 
 string exec(const char* cmd, Audio::AudioData data) {
@@ -78,7 +73,7 @@ string encodeAudioFile(Data data) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
 
-  string cmdOutput      = exec(encodeAudio(audio).c_str(), audio);
+  string cmdOutput      = exec(createCommand(audio).c_str(), audio);
   size_t maxFileSize    = 1024 * 1024 * 4; 
   uintmax_t totalSize   = calculateTotalSize(data, maxFileSize);
 

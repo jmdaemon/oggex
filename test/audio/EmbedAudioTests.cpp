@@ -52,12 +52,12 @@ TEST_CASE("Audio files can be embedded into image files") {
     string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
 
     Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    string legacyCMD  = createCommand(audioData, legacyCMDFormat);
-    REQUIRE(!legacyCMD.empty());
+    //string legacyCMD  = createCommand(audioData, legacyCMDFormat);
+    //REQUIRE(!legacyCMD.empty());
     //REQUIRE(legacyCMD == formatCMD(legacyCMDFormat, audioData)); 
 
-    string buildLegacyCMD = encodeAudio(audioData);
-    string buildMaskCMD   = buildCommand(audioData);
+    //string buildLegacyCMD = encodeAudio(audioData);
+    //string buildMaskCMD   = buildCommand(audioData);
 
     //REQUIRE(buildLegacyCMD == formatCMD(legacyCMD, audioData));
     //REQUIRE(buildMaskCMD == formatCMD(maskCMDFormat, audioData));
