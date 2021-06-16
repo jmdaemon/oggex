@@ -5,7 +5,6 @@
 #include <string>
 
 #include <fmt/core.h>
-#include <fmt/printf.h> 
 
 #include "Audio.h"
 #include "Image.h"
@@ -14,11 +13,15 @@ using namespace std;
 namespace fs = std::filesystem;
 
 void showUsage(std::string programName) { 
-  fmt::fprintf(cerr, 
-      "Usage: %s [audio_file] [sound_tag] [image_file]\n %s %s %s", programName, 
-      "Options:\n", 
-      "\t-h, --help\t\tShow this help message\n", 
-      "\t-f, --fast\t\tLower image quality\n");
+  fmt::print(stderr, 
+      "Usage: {} [audio_file] [sound_tag] [image_file]\n{}\n{}\n{}\n{}\n{}\n{}\n \n\n", programName, 
+      "Options:", 
+      "\t-h, --help\t\tShow this help message", 
+      "\t-f, --fast\t\tLower image quality",
+      "\t-a, \t\tSpecify path to audio file",
+      "\t-i, \t\tSpecify path to image file",
+      "\t-t, \t\tProvide the name of the audio sound tag"
+      );
 } 
 
 bool meetsReq(int argc, char** argv) {
@@ -52,12 +55,25 @@ map<int, string> parseOptions(int argc, char** argv, bool bestQuality = true) {
     if (arg.compare("-f") || arg.compare("--fast")) { bestQuality = false; }
     if (regex_search(arg, match, exp)) 
       soundTag = arg;
-    if (Image::isImage(arg)) { imageFilePath = arg; }
-    if (Audio::isAudio(arg)) { audioFilePath = arg; } 
+    //if (Image::isImage(arg)) { imageFilePath = arg; }
+    //if (Audio::isAudio(arg)) { audioFilePath = arg; } 
   } 
-
+  imageFilePath = "";
+  audioFilePath = "";
   if (imageFilePath.empty() || audioFilePath.empty() || soundTag.empty()) { throw std::exception(); }
+  //if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { return -1; } 
 
   map<int, string> result = {{0, imageFilePath}, {1, audioFilePath}, {2, soundTag}};
+  //Audio::AudioData audioData = createAudioData(soundTag, audioFilePath);
   return result; 
+}
+
+bool isEmpty(string arg, string errorMsg) {
+  if (arg.empty()) { 
+    showUsage("embed");
+    fmt::print(stderr, "{}\n", errorMsg);
+    return true;
+  }
+  else
+    return false;
 }
