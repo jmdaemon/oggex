@@ -31,7 +31,9 @@ int main(int argc, char **argv) {
     const std::string &soundTag = input.getArg("-t");
     if (isEmpty(soundTag, "You must provide a sound tag.")) { return -1; }
 
-    // Check if the audio and image files exist, and that the image is under 4 MiB 
+    // Check the following:
+    // Audio and Image files exist on system
+    // That the Audio, Image and SoundTag combined, are all less than MAX_SIZE = 4 MiB
 
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
@@ -46,8 +48,7 @@ int main(int argc, char **argv) {
         fmt::print ("Key: [{}] {:^16} Value: [{}]\n", key, "", value);
       }
     }
-    // Pass hashmap inputs, and bestQuality to embed or
-    // Create data object with comprises of an Audio and Image component to pass to embed 
+
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
     Data data = { audioData, imageData, bestQuality };

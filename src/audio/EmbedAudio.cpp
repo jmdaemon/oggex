@@ -70,14 +70,17 @@ void decreaseQuality(unsigned int subtrahend, Audio::AudioData& audio) {
   fmt::print("Decreasing quality. Quality = {}\n", audio.getAudioQuality());
 }
 
-uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size_t maxFileSize = 1024 * 1024 * 4) {
-  size_t tempFileSize   = sizeOf(data.getTempAudio());
-  size_t imageFileSize  = sizeOf(imageFilePath);
-  size_t soundTagSize   = data.getSoundTag().size();
+uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
+  Audio::AudioData& audio = data.audio;
+  Image::ImageData& image = data.image;
+
+  size_t tempFileSize   = sizeOf(audio.getTempAudio());
+  size_t imageFileSize  = sizeOf(image.getImage());
+  size_t soundTagSize   = audio.getSoundTag().size();
   uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
 
-  if (!fileExists(data.getAudio()) || (tempFileSize <= 0)) {
-    //fmt::fprintf(cerr, "Error: encoding failed\n");
+  if (!fileExists(audio.getAudio()) || (tempFileSize <= 0)) {
+    fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } else 
     fmt::print("Encoding completed.\n\n");
@@ -85,7 +88,6 @@ uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size
   fmt::print("File Sizes: \n==========\n");
   fmt::print("Max File Size: {}\nTemp File Size: {}\nImage File Size: {}\nSound Tag Size: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
   fmt::print("Total size: {}\n", totalSize);
-
   return totalSize;
 }
 
@@ -95,7 +97,8 @@ string encodeAudioFile(Data data) {
 
   string cmdOutput      = exec(encodeAudio(audio).c_str(), audio);
   size_t maxFileSize    = 1024 * 1024 * 4; 
-  uintmax_t totalSize   = calculateTotalSize(audio, image.getImage());
+  uintmax_t totalSize   = calculateTotalSize(data, maxFileSize);
+
   if (totalSize > maxFileSize) {
     if (audio.getAudioQuality() == 10) {
       decreaseQuality(6, audio);
