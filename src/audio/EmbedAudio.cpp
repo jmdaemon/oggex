@@ -20,24 +20,24 @@ string createCommand(Audio::AudioData data) {
   return command;
 }
 
-string exec(const char* cmd, Audio::AudioData data) {
-  ifstream dataContents(data.getAudio(), ifstream::in | ifstream::binary);
+string exec(const string cmd, Audio::AudioData audio) {
+  ifstream audioFileData(audio.getAudio(), ifstream::in | ifstream::binary);
   vector<char> buffer(4096);
 
-  unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
+  unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
   if (!pipe) { 
     fmt::print(stderr, "Error: could not execute ffmpeg");
-    clean({ data.getTempLog(), data.getTempAudio()});
+    clean({ audio.getTempLog(), audio.getTempAudio()});
     throw runtime_error("popen() failed!");
   } 
 
   string monoEncoding = "";
-  if (data.getEncodingQuality()) { monoEncoding = "/mono"; }
-  fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.getAudio().string(), data.getAudioQuality(), monoEncoding);
+  if (audio.getEncodingQuality()) { monoEncoding = "/mono"; }
+  fmt::print("Encoding \"{}\" at quality = {} {}\n\n", audio.getAudio().string(), audio.getAudioQuality(), monoEncoding);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
-  dataContents.close();
+  audioFileData.close();
 
-  ifstream tempFile(data.getTempAudio(), ifstream::in | ifstream::binary);
+  ifstream tempFile(audio.getTempAudio(), ifstream::in | ifstream::binary);
   string filedata = dataToString(tempFile);
   tempFile.close();
   return filedata;
@@ -73,7 +73,7 @@ string encodeAudio(Data data) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
 
-  string cmdOutput      = exec(createCommand(audio).c_str(), audio);
+  string cmdOutput      = exec(createCommand(audio), audio);
   size_t maxFileSize    = 1024 * 1024 * 4; 
   uintmax_t totalSize   = calculateTotalSize(data, maxFileSize);
 
