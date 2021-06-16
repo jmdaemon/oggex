@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
     Data data = { audioData, imageData, bestQuality };
+    embed(data);
     return 0;
 }
 

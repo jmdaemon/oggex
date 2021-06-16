@@ -1,17 +1,4 @@
-#include <exception>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <string>
-
-//#include <fmt/core.h>
-//#include <fmt/printf.h>
-//#include <fmt/format.h>
-
 #include "EmbedAudio.h"
-#include "Image.h"
-#include "Audio.h"
-#include "Mask.h"
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -102,26 +89,32 @@ uintmax_t calculateTotalSize(Audio::AudioData data, fs::path imageFilePath, size
   return totalSize;
 }
 
-string encodeAudioFile(Audio::AudioData& data, fs::path imageFilePath) {
-  string cmdOutput = exec(encodeAudio(data).c_str(), data);
+//string encodeAudioFile(Audio::AudioData& data, fs::path imageFilePath) {
+string encodeAudioFile(Data data) {
+  Audio::AudioData& audio = data.audio;
+  Image::ImageData& image = data.image;
+
+  string cmdOutput = exec(encodeAudio(audio).c_str(), audio);
   size_t maxFileSize    = 1024 * 1024 * 4; 
-  uintmax_t totalSize   = calculateTotalSize(data, imageFilePath);
+  uintmax_t totalSize   = calculateTotalSize(audio, image.getImage());
   if (totalSize > maxFileSize) {
-    if (data.getAudioQuality() == 10) {
-      decreaseQuality(6, data);
-      encodeAudioFile(data, imageFilePath);
-    } else if (data.getAudioQuality() <= 4 && data.getAudioQuality() > 0) {
-      decreaseQuality(1, data);
-      data.setEncodingQuality(true);
+    if (audio.getAudioQuality() == 10) {
+      decreaseQuality(6, audio);
+      //encodeAudioFile(audio, image.getImage());
+      encodeAudioFile(data);
+    } else if (audio.getAudioQuality() <= 4 && audio.getAudioQuality() > 0) {
+      decreaseQuality(1, audio);
+      audio.setEncodingQuality(true);
       fmt::print("Setting -ac 1 option \n");
-      encodeAudioFile(data, imageFilePath);
+      //encodeAudioFile(audio, imageFilePath);
+      encodeAudioFile(data);
     } else {
       fmt::print("Audio file too big, try running with -f or --fast\n");
       throw exception();
     }
   } else {
-    fs::rename(data.getTempAudio(), "temp.ogg");
-    data.getTempAudio() = "temp.ogg";
+    fs::rename(audio.getTempAudio(), "temp.ogg");
+    audio.getTempAudio() = "temp.ogg";
   }
   return cmdOutput;
 }
@@ -152,12 +145,17 @@ void encodeImage(fs::path imageFilePath, string soundTag, fs::path encodedAudioF
   clean({encodedAudioFilePath});
 }
 
-int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
-  bestQuality = quality;
-  if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { return -1; } 
-  //Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
-  Audio::AudioData audioData = createAudioData(soundTag, audioFilePath);
-  encodeAudioFile(audioData, imageFilePath);
-  encodeImage(imageFilePath, soundTag, audioData.getTempAudio());
+//int embed(fs::path imageFilePath, fs::path audioFilePath, string soundTag, bool quality) {
+  //bestQuality = quality;
+  //if (!under4MiB(imageFilePath) || !fileExists(imageFilePath) || !fileExists(audioFilePath)) { return -1; } 
+  ////Audio::AudioData audioData = Audio::AudioData(soundTag, audioFilePath);
+  //Audio::AudioData audioData = createAudioData(soundTag, audioFilePath);
+  //encodeAudioFile(audioData, imageFilePath);
+  //encodeImage(imageFilePath, soundTag, audioData.getTempAudio());
+  //return 0;
+//} 
+
+int embed(Data data) {
+  encodeAudioFile(data);
   return 0;
-} 
+}
