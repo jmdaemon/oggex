@@ -1,12 +1,12 @@
 # Oggex
-Embed OGG audio files in images and extract audio from images.
+Embed and extract OGG audio files in images using sound tags.
 
 1. [Requirements](#Requirements)
 2. [Installation](#Installation)
-3. [Building](#Building)
+3. [Building from Source](#Building)
 2. [Usage](#Usage)
-    1. [Embedding Audio](#Embedding%20Audio)
-    2. [Extracting Audio](#Extract)
+    1. [Embedding](#Embedding)
+    2. [Extracting](#Extracting)
 
 
 ## Requirements 
@@ -16,8 +16,8 @@ The following dependencies are required:
 ## Installation
 You can download it [here](https://github.com/jmdaemon/oggex/releases/latest/download/oggex-1.0.tar.gz) or get the latest release from the [Releases](https://github.com/jmdaemon/oggex/releases/) page.
 
-# Building
-The following dependencies are required for building:
+## Building
+The following build dependencies are required:
 - clang
 - cmake
 - ninja
@@ -25,48 +25,37 @@ The following dependencies are required for building:
 ``` bash
 git clone https://github.com/jmdaemon/oggex.git 
 cd oggex
-bash build_cmake.sh && bash ninja_make.sh
+./scripts/build_cmake.sh && ./scripts/ninja_make.sh
 ```
 
-There will be two binaries, `embed` and `extract` which will be found in the ./build/app/ directory.
+There will be two binaries, `embed` and `extract` which will be found in the `./build/app/` directory.
 
 ## Usage
 
-Output files are formatted like this:
+### Embedding
+```
+Usage: embed -a [audio] -t [soundtag] -i [image]
+Options:
+	-h,  	--help		Show this help message
+	-f,  	--fast		Enable Mono Audio Channel encoding
+	-ig, 	--ignore-limit	Allows you to encode files greater than 4 MiB
+	-v,  	--verbose	Display program output and debugging information
+	-a,  			The file path to the audio file
+	-i,  			The file path to the image file
+	-t,  			The caption or tag for the audio file
 
-`[image.png] +[sound_tag] + [audio.ogg]`
+```
 
-## Embedding Audio
+Note that the maximum size of the final embedded output file includes the size of the image and audio files, as well as the length of the sound tag.
 
-To embed audio files, you need to provide a `[sound_tag]` and an `[audio.ogg]` file.
-Note that there is an output file limit of 4MiB (includes the size of the image, audio and length of the sound tag).
-
-#### Example
-
-`$ embed [siamese_cat.png] + [meow01] + [meow01.ogg]`
-
-The output file will be named `[sound_tag].png`. Currently the supported image file formats are:
+Currently the supported image file formats are:
 - jpg/jpeg
 - gif
 - png
 - webm
 
-#### Optional Arguments 
-``` bash
-$ embed --help
-Usage: embed [audio_file] [sound_tag] [image_file]
- Options:
- 	-h, --help		Show this help message
- 	-f, --fast		Lower image quality
-```
-The `-f/--fast` argument sets mono audio encoding in ffmpeg.
+The output file will be named `[image]-embed.png`
 
-### Extract
-To extract OGG audio files from images, the only requirement is 
-that the sound tag is less than 100 characters, and the image file contains a valid OGG audio.
+### Extracting
 
-#### Example
-
-`$ extract [meow01.png]`
-
-A `meow01.ogg` will be extracted in the same directory as the image file. 
+The extracted output file will be called `[soundtag].ogg` and there will also be the original `[image]` file to re-embed if needed.
