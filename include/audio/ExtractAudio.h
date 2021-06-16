@@ -15,7 +15,7 @@
 
 size_t getFileSize(Data& data, size_t offset = 0);
 std::string readFile(Data& data, size_t offset);
-size_t getAudioOffset(Data& data, const char* search_term = "OggS");
+size_t getAudioOffset(Data& data, const char* searchTerm = "OggS");
 std::string findSoundTag(Data& data, std::string fileData, size_t offset);
 int extract(Data data);
 

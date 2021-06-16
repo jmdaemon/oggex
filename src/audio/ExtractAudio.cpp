@@ -10,9 +10,9 @@ size_t getFileSize(Data& data, size_t offset) {
   return fileSize;
 }
 
-size_t getAudioOffset(Data& data, const char* search_term) { 
+size_t getAudioOffset(Data& data, const char* searchTerm) { 
   ifstream file(data.image.getImage(), ifstream::in | ifstream::binary);
-  size_t audioOffset = dataToString(file).find(search_term);
+  size_t audioOffset = dataToString(file).find(searchTerm);
   if (getFileSize(data, 0) == audioOffset) {
     fmt::print(stderr, "Audio offset not found");
     audioOffset = 0;
