@@ -44,45 +44,47 @@ string exec(const string cmd, Data data) {
   return filedata;
 }
 
-uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
+uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
 
   size_t tempFileSize   = sizeOf(audio.getTempAudio());
   size_t imageFileSize  = sizeOf(image.getImage());
   size_t soundTagSize   = audio.getSoundTag().size();
-  uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
+  uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
 
   if (tempFileSize <= 0) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
-  } else 
-    fmt::print("Encoding completed.\n\n");
-
+  } 
   fmt::print("File Sizes: \n==========\n");
-  fmt::print("Max File Size: {}\nTemp File Size: {}\nImage File Size: {}\nSound Tag Size: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
-  fmt::print("Total size: {}\n", totalSize);
-  return totalSize;
+  fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
+  fmt::print("Final Size \t: {}\n", finalSize);
+  return finalSize;
 }
 
 string encodeAudio(Data data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
   string cmdOutput      = exec(createCommand(data), data);
-  uintmax_t finalSize   = calculateTotalSize(data, MAX_FILE_SIZE);
+  uintmax_t finalSize   = calcFinalSize(data, MAX_FILE_SIZE);
 
   if (!data.ignoreSizeLimit) {
     if (finalSize < MAX_FILE_SIZE) { 
-      encodeAudio(data);
-    } else if (decreaseQuality && audio.getAudioQuality() > 0) { 
-      audio.decreaseQuality(6); // Decrease sound quality if file size exceeds our limit
-      encodeAudio(data);
+      fmt::print("Audio Encoding completed.\n\n");
+      fs::rename(audio.getTempAudio(), "temp.ogg");
+      audio.getTempAudio() = "temp.ogg"; 
+      return cmdOutput;
+    } else if (decreaseQuality) { 
+      if (audio.getAudioQuality() > 0) {
+        audio.decreaseQuality(6); // Decrease sound quality if file size exceeds our limit
+        encodeAudio(data);
+      }
     } else {
         fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
         throw exception();
       }
-  } else { // Ignore file size limits
-    encodeAudio(data);
-  }
+  } // Ignore file size limits
+  encodeAudio(data);
   fs::rename(audio.getTempAudio(), "temp.ogg");
   audio.getTempAudio() = "temp.ogg";
   return cmdOutput;
