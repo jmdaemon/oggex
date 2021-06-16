@@ -3,24 +3,26 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-string createCommand(Audio::AudioData data) {
+string createCommand(Data data) {
+  Audio::AudioData& audio = data.audio;
   string command;
-  if (data.getEncodingQuality()) { 
+  if (data.enableMonoAudio) { 
     command = fmt::format(
         "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      data.getAudio().string(), data.getAudioQuality(), data.getTempAudio().string(), data.getTempLog().string()
+      audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
         );
   } else {
     command = fmt::format(
         "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      data.getAudio().string(), data.getAudioQuality(), data.getTempAudio().string(), data.getTempLog().string()
+      audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
         );
     }
   fmt::print("{}\n", command);
   return command;
 }
 
-string exec(const string cmd, Audio::AudioData audio) {
+string exec(const string cmd, Data data) {
+  Audio::AudioData& audio = data.audio;
   ifstream audioFileData(audio.getAudio(), ifstream::in | ifstream::binary);
   vector<char> buffer(4096);
 
@@ -31,9 +33,8 @@ string exec(const string cmd, Audio::AudioData audio) {
     throw runtime_error("popen() failed!");
   } 
 
-  string monoEncoding = "";
-  if (audio.getEncodingQuality()) { monoEncoding = "/mono"; }
-  fmt::print("Encoding \"{}\" at quality = {} {}\n\n", audio.getAudio().string(), audio.getAudioQuality(), monoEncoding);
+  string monoAudioEnabled = (data.enableMonoAudio) ? "In Mono Audio Channel" : "";
+  fmt::print("Encoding \"{}\" at quality = {} {}\n\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   audioFileData.close();
 
@@ -66,9 +67,7 @@ uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
 
 string encodeAudio(Data data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
-  Image::ImageData& image = data.image;
-
-  string cmdOutput      = exec(createCommand(audio), audio);
+  string cmdOutput      = exec(createCommand(data), data);
   uintmax_t finalSize   = calculateTotalSize(data, MAX_FILE_SIZE);
 
   if (!data.ignoreSizeLimit) {
