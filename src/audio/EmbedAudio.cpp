@@ -45,19 +45,16 @@ string exec(const string cmd, Data data) {
 }
 
 uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
-  Audio::AudioData& audio = data.audio;
-  //Image::ImageData& image = data.image;
-
-  size_t tempFileSize   = sizeOf(audio.getTempAudio());
+  size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
   size_t imageFileSize  = sizeOf(data.image.getImage());
-  size_t soundTagSize   = audio.getSoundTag().size();
+  size_t soundTagSize   = data.audio.getSoundTag().size();
   uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
 
   if (tempFileSize <= 0) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
-  fmt::print("File Sizes: \n==========\n");
+  fmt::print("\n================ File Sizes ================\n");
   fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
   fmt::print("Final Size \t: {}\n", finalSize);
   return finalSize;
@@ -94,7 +91,6 @@ string encodeAudio(Data& data, bool decreaseQuality) {
 
 void encodeImage(Data& data) {
   Audio::AudioData& audio = data.audio;
-  Image::ImageData& image = data.image;
 
   if (!fileExists(audio.getTempAudio())) { 
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
@@ -102,8 +98,8 @@ void encodeImage(Data& data) {
     throw exception();
   }
 
-  ofstream outputFile(image.createOutputFilename(), ifstream::out | ifstream::binary);
-  ifstream imageFileData(image.getImage(), ifstream::in | ifstream::binary);
+  ofstream outputFile(data.image.createOutputFilename(), ifstream::out | ifstream::binary);
+  ifstream imageFileData(data.image.getImage(), ifstream::in | ifstream::binary);
   ifstream audioFileData(audio.getTempAudio(), ifstream::in | ifstream::binary);
 
   outputFile << imageFileData.rdbuf() << audio.getSoundTag() << audioFileData.rdbuf();
