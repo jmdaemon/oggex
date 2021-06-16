@@ -33,6 +33,8 @@ int main(int argc, char **argv) {
     // Check the following:
     // Audio and Image files exist on system
     // That the Audio, Image and SoundTag combined, are all less than MAX_SIZE = 4 MiB
+    if (!fileExists(audioFilename)) { return -1; }
+    if (!fileExists(imageFilename)) { return -1; }
 
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
