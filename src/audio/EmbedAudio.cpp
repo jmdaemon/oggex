@@ -43,11 +43,6 @@ string exec(const string cmd, Audio::AudioData audio) {
   return filedata;
 }
 
-void decreaseQuality(unsigned int subtrahend, Audio::AudioData& audio) {
-  audio.setAudioQuality(audio.getAudioQuality() - subtrahend);
-  fmt::print("Decreasing quality. Quality = {}\n", audio.getAudioQuality());
-}
-
 uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
@@ -80,7 +75,7 @@ string encodeAudio(Data data, bool decreaseQuality) {
   if (finalSize < maxFileSize) { 
     encodeAudio(data);
   } else if (decreaseQuality && audio.getAudioQuality() > 0) { 
-    ::decreaseQuality(6, audio); 
+    audio.decreaseQuality(6);
     encodeAudio(data);
   } else {
       fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");

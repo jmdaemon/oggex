@@ -5,6 +5,11 @@ namespace Audio {
   bool Audio::AudioData::isValid(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
 }
 
+void Audio::AudioData::decreaseQuality(unsigned int subtrahend) {
+  this->setAudioQuality(this->getAudioQuality() - subtrahend);
+  fmt::print("Decreasing quality. Quality = {}\n", this->getAudioQuality());
+}
+
 std::string formatSoundTag(std::string tag) { return ("[" + tag + "]"); }
 bool tagUnder100(unsigned int tagLength) {
   unsigned int maxTagLength = 100;

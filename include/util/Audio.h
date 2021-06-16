@@ -61,6 +61,8 @@ namespace Audio {
 
     virtual bool isValid(std::string file);
     virtual bool isValid(std::filesystem::path filepath);
+
+    void decreaseQuality(unsigned int subtrahend);
   };
 }
 
