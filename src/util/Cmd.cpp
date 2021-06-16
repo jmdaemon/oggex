@@ -2,8 +2,8 @@
 
 void showUsage(std::string programName) { 
   fmt::print(stderr, 
-      "Usage: {} -a [audio] -t [soundtag] -i [image]\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n \n\n", programName, 
-      "Options:", 
+      "Usage: {} [embed/extract] -a [audio] -t [soundtag] -i [image]\nOptions:\n    Embedding:\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n    Encoding:\n \n\n", programName, 
+      "\tembed, \t-m\t\tEmbed an audio file",
       "\t-h,  \t--help\t\tShow this help message",
       "\t-f,  \t--fast\t\tEnable Mono Audio Channel encoding",
       "\t-ig, \t--ignore-limit\tAllows you to encode files greater than 4 MiB",

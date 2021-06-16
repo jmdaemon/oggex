@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
   InputParser input(argc, argv);
 
     if (input.argExists("-h") || input.argExists("--help")) {
-      showUsage("embed");
+      showUsage("oggex");
       return 0;
     }
 
