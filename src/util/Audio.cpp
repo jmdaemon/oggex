@@ -6,5 +6,13 @@ namespace Audio {
 }
 
 std::string formatSoundTag(std::string tag) { return ("[" + tag + "]"); }
+bool tagUnder100(unsigned int tagLength) {
+  unsigned int maxTagLength = 100;
+  if (tagLength < maxTagLength) {
+    return true;
+  }
+  return false;
+}
+
 Audio::AudioData createAudioData(std::string soundTag, std::filesystem::path audioFile) { return Audio::AudioData(soundTag, audioFile); }
 Audio::AudioData createAudioData() { return Audio::AudioData("", ""); }

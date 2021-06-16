@@ -3,14 +3,6 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-bool tagUnder100(unsigned int tagLength) {
-  unsigned int maxTagLength = 100;
-  if (tagLength < maxTagLength) {
-    return true;
-  }
-  return false;
-}
-
 string createCommand(Audio::AudioData data, string cmd) {
   string command;
   string setAudioChannel = "";
