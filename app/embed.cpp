@@ -7,6 +7,7 @@
 
 #include "Cmd.h"
 #include "InputParser.h"
+#include "Data.h"
 #include "EmbedAudio.h"
 
 int main(int argc, char **argv) { 
@@ -44,7 +45,10 @@ int main(int argc, char **argv) {
       }
     }
     // Pass hashmap inputs, and bestQuality to embed or
-    // Create data object with comprises of an Audio and Image component to pass to embed
+    // Create data object with comprises of an Audio and Image component to pass to embed 
+    Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
+    Image::ImageData imageData = Image::ImageData(imageFilename);
+    Data data = { audioData, imageData };
     return 0;
 }
 

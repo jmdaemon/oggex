@@ -1,11 +1,3 @@
-#include <iostream>
-#include <vector>
-
-#include <string>
-#include <map>
-#include <cstdint>
-
-
 #include "Image.h"
 
 using namespace std;

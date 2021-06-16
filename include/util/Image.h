@@ -1,11 +1,12 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
+#include <iostream>
 #include <string>
 #include <map>
+#include <vector>
 #include <cstdint>
 
-//#include "../file/File.h"
 #include "File.h"
 
 namespace Image {
@@ -22,14 +23,14 @@ namespace Image {
       std::string imagePath;
 
     public:
-
       ImageData(std::string imagePath);
+      ImageData(): imagePath{""} {}
 
-      std::string getImg() {
-        return this->imagePath;
-      }
       virtual bool isValid(std::string file);
       virtual bool isValid(std::filesystem::path filepath);
+
+      std::string getImg() { return this->imagePath; }
+      void setImage(std::string imagePath) { this->imagePath = imagePath; }
   };
   bool isImage(std::string file);
   bool isImage(std::filesystem::path filepath);
