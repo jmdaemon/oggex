@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
     // Create data object with comprises of an Audio and Image component to pass to embed 
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data = { audioData, imageData };
+    Data data = { audioData, imageData, bestQuality };
     return 0;
 }
 

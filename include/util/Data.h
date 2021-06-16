@@ -8,6 +8,7 @@ struct Data {
   public:
     Audio::AudioData audio{};
     Image::ImageData image{};
+    bool bestQuality{};
 };
 
 #endif
