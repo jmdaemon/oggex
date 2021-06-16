@@ -1,3 +1,6 @@
+#ifndef   FILE_TYPE_H
+#define   FILE_TYPE_H
+
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -27,3 +30,5 @@ int getFileSize(FileType& file) {
   int contentSize = contents.tellp();
   return contentSize;
 }
+
+#endif
