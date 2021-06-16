@@ -38,8 +38,8 @@ size_t sizeOf(std::filesystem::path filepath) {
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
   size_t fileSize = sizeOf(filepath);
   size_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-  if (fileSize > maxFileSize) {
-    std::cerr << errorMsg << std::endl;
+  if (fileSize > maxFileSize) { 
+    fmt::print(stderr, "{}\n", errorMsg);
     return false;
   } else
   return true;

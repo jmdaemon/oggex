@@ -1,11 +1,8 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include <iostream>
 #include <string>
 #include <map>
-#include <vector>
-#include <cstdint>
 
 #include "File.h"
 
