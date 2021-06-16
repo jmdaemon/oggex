@@ -21,7 +21,7 @@ bool InputParser::argExists(const std::string &option) const {
 }
 
 bool InputParser::toggleOption(std::string shortFlag, std::string longFlag) const {
-    if (this->argExists("-f") || this->argExists("--fast")) {
+    if (this->argExists(shortFlag) || this->argExists(longFlag)) {
       return true;
     }
     return false;
