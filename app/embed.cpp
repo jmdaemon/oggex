@@ -16,9 +16,14 @@ int main(int argc, char **argv) {
       return 0;
     }
 
-    bool bestQuality = true;
+    bool enableMonoAudio = false;
     if (input.argExists("-f") || input.argExists("--fast")) {
-      bestQuality = false;
+      enableMonoAudio = true;
+    }
+
+    bool ignoreSizeLimit = false;
+    if (input.argExists("-ig") || input.argExists("--ignore-limit")) {
+      ignoreSizeLimit = true;
     }
 
     const std::string &audioFilename = input.getArg("-a");
@@ -52,7 +57,7 @@ int main(int argc, char **argv) {
 
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data = { audioData, imageData, bestQuality };
+    Data data = { audioData, imageData, enableMonoAudio, ignoreSizeLimit };
     embed(data);
     return 0;
 }

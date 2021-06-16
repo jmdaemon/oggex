@@ -5,13 +5,14 @@ namespace fs = std::filesystem;
 
 void showUsage(std::string programName) { 
   fmt::print(stderr, 
-      "Usage: {} [audio_file] [sound_tag] [image_file]\n{}\n{}\n{}\n{}\n{}\n{}\n \n\n", programName, 
+      "Usage: {} -a [audio] -t [soundtag] -i [image]\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n \n\n", programName, 
       "Options:", 
-      "\t-h, --help\t\tShow this help message",
-      "\t-f, --fast\t\tLower image quality",
-      "\t-a, \t\tThe file path to the audio file",
-      "\t-i, \t\tThe file path to the image file",
-      "\t-t, \t\tThe caption or tag for the audio file"
+      "\t-h,  \t--help\t\tShow this help message",
+      "\t-f,  \t--fast\t\tEnable Mono Audio Channel encoding",
+      "\t-ig, \t--ignore-limit\tAllows you to encode files >4MiB",
+      "\t-a,  \t\t\tThe file path to the audio file",
+      "\t-i,  \t\t\tThe file path to the image file",
+      "\t-t,  \t\t\tThe caption or tag for the audio file"
       );
 } 
 

@@ -8,7 +8,8 @@ struct Data {
   public:
     Audio::AudioData audio{};
     Image::ImageData image{};
-    bool bestQuality{};
+    bool enableMonoAudio{};
+    bool ignoreSizeLimit{};
 };
 
 #endif

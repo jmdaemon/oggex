@@ -69,18 +69,21 @@ string encodeAudio(Data data, bool decreaseQuality) {
   Image::ImageData& image = data.image;
 
   string cmdOutput      = exec(createCommand(audio), audio);
-  size_t maxFileSize    = 1024 * 1024 * 4; 
-  uintmax_t finalSize   = calculateTotalSize(data, maxFileSize);
+  uintmax_t finalSize   = calculateTotalSize(data, MAX_FILE_SIZE);
 
-  if (finalSize < maxFileSize) { 
+  if (!data.ignoreSizeLimit) {
+    if (finalSize < MAX_FILE_SIZE) { 
+      encodeAudio(data);
+    } else if (decreaseQuality && audio.getAudioQuality() > 0) { 
+      audio.decreaseQuality(6); // Decrease sound quality if file size exceeds our limit
+      encodeAudio(data);
+    } else {
+        fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
+        throw exception();
+      }
+  } else { // Ignore file size limits
     encodeAudio(data);
-  } else if (decreaseQuality && audio.getAudioQuality() > 0) { 
-    audio.decreaseQuality(6);
-    encodeAudio(data);
-  } else {
-      fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
-      throw exception();
-    }
+  }
   fs::rename(audio.getTempAudio(), "temp.ogg");
   audio.getTempAudio() = "temp.ogg";
   return cmdOutput;
