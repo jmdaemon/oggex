@@ -3,21 +3,12 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-static bool bestQuality = true;
-
 bool tagUnder100(unsigned int tagLength) {
   unsigned int maxTagLength = 100;
   if (tagLength < maxTagLength) {
     return true;
   }
   return false;
-}
-
-vector<string> formatAudioTags(string tag) {
-  vector<string> soundTags;
-  string soundTag = "[" + tag + "]";
-  soundTags.push_back(soundTag); // audio.ogg ==> [audio] 
-  return soundTags;
 }
 
 string createCommand(Audio::AudioData data, string cmd) {

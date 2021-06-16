@@ -43,7 +43,7 @@ TEST_CASE("Audio files can be embedded into image files") {
     string soundTag = "audio02";
     string overflowTag = "====================================================================================================";
     REQUIRE(tagUnder100(soundTag.length()));
-    REQUIRE(formatAudioTags(soundTag)[0] == "[audio02]");
+    REQUIRE(formatSoundTag(soundTag) == "[audio02]");
     CHECK(!tagUnder100(overflowTag.length()));
   }
 

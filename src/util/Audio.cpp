@@ -8,6 +8,6 @@ namespace Audio {
   bool Audio::AudioData::isValid(std::filesystem::path filepath) { return isAudio(filepath); }
 }
 
+std::string formatSoundTag(std::string tag) { return ("[" + tag + "]"); }
 Audio::AudioData createAudioData(std::string soundTag, std::filesystem::path audioFile) { return Audio::AudioData(soundTag, audioFile); }
 Audio::AudioData createAudioData() { return Audio::AudioData("", ""); }
-
