@@ -69,31 +69,25 @@ uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
   return totalSize;
 }
 
-string encodeAudio(Data data) {
+string encodeAudio(Data data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
 
   string cmdOutput      = exec(createCommand(audio), audio);
   size_t maxFileSize    = 1024 * 1024 * 4; 
-  uintmax_t totalSize   = calculateTotalSize(data, maxFileSize);
+  uintmax_t finalSize   = calculateTotalSize(data, maxFileSize);
 
-  if (totalSize > maxFileSize) {
-    if (audio.getAudioQuality() == 10) {
-      decreaseQuality(6, audio);
-      encodeAudio(data);
-    } else if (audio.getAudioQuality() <= 4 && audio.getAudioQuality() > 0) {
-      decreaseQuality(1, audio);
-      audio.setEncodingQuality(true);
-      fmt::print("Setting -ac 1 option \n");
-      encodeAudio(data);
-    } else {
-      fmt::print("Audio file too big, try running with -f or --fast\n");
+  if (finalSize < maxFileSize) { 
+    encodeAudio(data);
+  } else if (decreaseQuality && audio.getAudioQuality() > 0) { 
+    ::decreaseQuality(6, audio); 
+    encodeAudio(data);
+  } else {
+      fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
       throw exception();
     }
-  } else {
-    fs::rename(audio.getTempAudio(), "temp.ogg");
-    audio.getTempAudio() = "temp.ogg";
-  }
+  fs::rename(audio.getTempAudio(), "temp.ogg");
+  audio.getTempAudio() = "temp.ogg";
   return cmdOutput;
 }
 
