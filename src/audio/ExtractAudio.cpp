@@ -3,13 +3,17 @@
 using namespace std;
 namespace fs = std::filesystem;
 
+size_t getFileSize(Data& data, size_t offset) {
+  ifstream file(data.image.getImage(), ifstream::in | ifstream::binary);
+  size_t fileSize = sizeOf(file) - offset;
+  file.close();
+  return fileSize;
+}
+
 size_t getAudioOffset(Data& data, const char* search_term) { 
   ifstream file(data.image.getImage(), ifstream::in | ifstream::binary);
-  size_t file_size = sizeOf(file);
-  if (data.showDebugInfo) { fmt::print("Size of Embedded File \t\t: {} \tbytes\n", file_size); }
   size_t audioOffset = dataToString(file).find(search_term);
-
-  if (file_size == audioOffset) {
+  if (getFileSize(data, 0) == audioOffset) {
     fmt::print(stderr, "Audio offset not found");
     audioOffset = 0;
   }
@@ -19,29 +23,23 @@ size_t getAudioOffset(Data& data, const char* search_term) {
 
 string readFile(Data& data, size_t offset) {
   ifstream file(data.image.getImage(), ifstream::in | ifstream::binary);
-  if (data.showDebugInfo) { fmt::print("Audio File Size \t\t: {} \tbytes\n", sizeOf(file) - offset); }
-
   file.seekg(offset, ios::beg);
   string result = dataToString(file);
   file.close();
   return result;
 }
 
-string findSoundTag(Data& data, size_t offset) {
-  ifstream file(data.image.getImage(), ifstream::in | ifstream::binary);
-  string fileData = dataToString(file);
-  file.close();
-
+string findSoundTag(Data& data, string fileData, size_t offset) {
   string tag = fileData.substr(offset - 100, offset);
   //regex exp("(\\[\\w+\\])(\?!OggS)");
   regex exp("(\\[\\w+\\])");
 
-  if (data.showDebugInfo) { fmt::print("\n================ Sound Tag ================\n"); }
   string soundTag = "";
   smatch match;
   if (regex_search(tag, match, exp)) { 
     soundTag = match[0]; // tag = [audio02].ogg
-    if (data.showDebugInfo) {
+    if (data.showDebugInfo) { 
+      fmt::print("\n================ Sound Tag ================\n");
       fmt::print("Tag: \t\t\t\t: {}\n", soundTag);
     }
   }
@@ -58,14 +56,20 @@ string findSoundTag(Data& data, size_t offset) {
 }
 
 int extract(Data data) {
-  size_t audioOffset = getAudioOffset(data);
+  size_t embeddedFileSize   = getFileSize(data);
+  size_t audioOffset        = getAudioOffset(data);
+  size_t audioFileSize      = getFileSize(data, audioOffset);
   if (data.showDebugInfo) {
-    fmt::print("\n================ File Sizes ================\n");
-    fmt::print("Audio File Offset \t\t: {} \tbytes\n", audioOffset); 
+    fmt::print("\n================ File Sizes ================\n"); 
+    fmt::print("Size of Embedded File \t\t: {} \tbytes\n" , embeddedFileSize);
+    fmt::print("Audio File Size \t\t: {} \tbytes\n\n"     , audioFileSize);
+    fmt::print("\n================ File Offsets ================\n"); 
+    fmt::print("Audio File Offset \t\t: {} \tbytes\n"     , audioOffset); 
   }
 
+  string embeddedFileData   = readFile(data, 0);
   string audioContent       = readFile(data, audioOffset);
-  string soundTag           = findSoundTag(data, audioOffset); 
+  string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
   if (soundTag.empty()) { 
     return -1; 
   } else { 
