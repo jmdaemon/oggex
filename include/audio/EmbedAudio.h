@@ -20,7 +20,7 @@ void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tem
 std::string createCommand(Audio::AudioData data);
 std::string exec(const char* cmd, Audio::AudioData data);
 
-std::string encodeAudioFile(Data data);
+std::string encodeAudio(Data data);
 void encodeImage(Data data);
 int embed(Data data);
 

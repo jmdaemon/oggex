@@ -69,7 +69,7 @@ uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
   return totalSize;
 }
 
-string encodeAudioFile(Data data) {
+string encodeAudio(Data data) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
 
@@ -80,12 +80,12 @@ string encodeAudioFile(Data data) {
   if (totalSize > maxFileSize) {
     if (audio.getAudioQuality() == 10) {
       decreaseQuality(6, audio);
-      encodeAudioFile(data);
+      encodeAudio(data);
     } else if (audio.getAudioQuality() <= 4 && audio.getAudioQuality() > 0) {
       decreaseQuality(1, audio);
       audio.setEncodingQuality(true);
       fmt::print("Setting -ac 1 option \n");
-      encodeAudioFile(data);
+      encodeAudio(data);
     } else {
       fmt::print("Audio file too big, try running with -f or --fast\n");
       throw exception();
@@ -119,7 +119,7 @@ void encodeImage(Data data) {
 }
 
 int embed(Data data) {
-  encodeAudioFile(data);
+  encodeAudio(data);
   encodeImage(data);
   return 0;
 }
