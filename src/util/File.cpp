@@ -23,14 +23,15 @@ namespace File {
   }
 }
 
-size_t sizeOf(std::ifstream& file) {
+size_t sizeOf(std::ifstream& file, size_t offset) {
   file.seekg(0, std::ios::end);
-  size_t file_size = file.tellg();
+  size_t fileSize = file.tellg();
   file.seekg(0, std::ios::beg);
-  return file_size;
+  file.close();
+  return fileSize - offset;
 }
 
-size_t sizeOf(std::filesystem::path filepath) {
+size_t sizeOf(std::filesystem::path filepath, size_t offset) {
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
   return sizeOf(file); 
 }
