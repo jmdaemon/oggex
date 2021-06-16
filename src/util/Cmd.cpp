@@ -7,11 +7,11 @@ void showUsage(std::string programName) {
   fmt::print(stderr, 
       "Usage: {} [audio_file] [sound_tag] [image_file]\n{}\n{}\n{}\n{}\n{}\n{}\n \n\n", programName, 
       "Options:", 
-      "\t-h, --help\t\tShow this help message", 
+      "\t-h, --help\t\tShow this help message",
       "\t-f, --fast\t\tLower image quality",
-      "\t-a, \t\tSpecify path to audio file",
-      "\t-i, \t\tSpecify path to image file",
-      "\t-t, \t\tProvide the name of the audio sound tag"
+      "\t-a, \t\tThe file path to the audio file",
+      "\t-i, \t\tThe file path to the image file",
+      "\t-t, \t\tThe caption or tag for the audio file"
       );
 } 
 
