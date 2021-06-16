@@ -6,7 +6,6 @@
 #include <initializer_list>
 
 #include <fmt/core.h>
-#include <fmt/printf.h>
 
 #include "File.h"
 
@@ -65,7 +64,7 @@ std::string dataToString(std::ifstream& file) {
 bool fileExists(std::filesystem::path filepath) { 
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
   if (!file.is_open()) {
-    //fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
     file.close();
     return false; 
   } 

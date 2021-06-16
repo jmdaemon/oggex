@@ -1,15 +1,14 @@
+#include <iostream>
 #include <filesystem>
 #include <fstream>
 #include <map>
 #include <string>
 
-//#include <fmt/core.h>
-//#include <fmt/printf.h> 
-#include <fmt/format.h>
+#include <fmt/core.h>
 
 template<typename FileType> bool isCorrupted(std::filesystem::path filepath, FileType& file) {
   if (!file.is_open()) {
-    //fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
     return true;
   } else
     return false;

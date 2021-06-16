@@ -48,14 +48,14 @@ string exec(const char* cmd, Audio::AudioData data) {
 
   unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd, "r"), pclose);
   if (!pipe) { 
-    //fmt::fprintf(cerr, "Error: could not execute ffmpeg");
+    fmt::print(stderr, "Error: could not execute ffmpeg");
     clean({ data.getTempLog(), data.getTempAudio()});
     throw runtime_error("popen() failed!");
   } 
 
   string monoEncoding = "";
   if (data.getEncodingQuality()) { monoEncoding = "/mono"; }
-  //fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.getAudio(), data.getAudioQuality(), monoEncoding);
+  fmt::print("Encoding \"{}\" at quality = {} {}\n\n", data.getAudio().string(), data.getAudioQuality(), monoEncoding);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   dataContents.close();
 

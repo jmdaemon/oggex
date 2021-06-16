@@ -23,7 +23,7 @@ size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
   size_t found_at = filedata.find(search_term);
 
   if (file_size == found_at) {
-    //fmt::fprintf(cerr, "file_size: {} == found_at: {}. Search term not found", file_size, found_at);
+    fmt::print(stderr, "file_size: {} == found_at: {}. Search term not found", file_size, found_at);
     found_at = 0;
   }
 
