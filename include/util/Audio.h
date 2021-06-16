@@ -41,14 +41,16 @@ namespace Audio {
       fileSize(0)
     {}
 
-    int getAudioQuality()                 { return this->audioQuality; }
-    bool getEncodingQuality()             { return this->lowQuality; }
-    std::string getSoundTag()             { return this->soundTag; }
-    std::filesystem::path getAudio()      { return this->audioFile; }
-    std::filesystem::path getTempAudio()  { return this->tempAudioFile; }
-    std::filesystem::path getTempLog()    { return this->tempLogFile; }
-    size_t getAudioFileSize()             { return this->fileSize; }
+    // Getters
+    int getAudioQuality()                                   { return this->audioQuality; }
+    bool getEncodingQuality()                               { return this->lowQuality; }
+    std::string getSoundTag()                               { return this->soundTag; }
+    std::filesystem::path getAudio()                        { return this->audioFile; }
+    std::filesystem::path getTempAudio()                    { return this->tempAudioFile; }
+    std::filesystem::path getTempLog()                      { return this->tempLogFile; }
+    size_t getAudioFileSize()                               { return this->fileSize; }
 
+    // Setters
     void setAudioQuality(int quality)                       { this->audioQuality = quality; }
     void setEncodingQuality(bool quality)                   { this->lowQuality = quality; }
     void setSoundTag(std::string soundTag)                  { this->soundTag = soundTag; }

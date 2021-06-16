@@ -31,6 +31,8 @@ int main(int argc, char **argv) {
     const std::string &soundTag = input.getArg("-t");
     if (isEmpty(soundTag, "You must provide a sound tag.")) { return -1; }
 
+    // Check if the audio and image files exist, and that the image is under 4 MiB 
+
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
       {"Image", imageFilename},
