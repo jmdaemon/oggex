@@ -17,25 +17,22 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
   //regex exp("(\\[\\w+\\])(\?!OggS)");
   regex exp("(\\[\\w+\\])");
 
+  string unstrippedTag = "";
   string soundTag = "";
   smatch match;
   if (regex_search(tag, match, exp)) { 
-    soundTag = match[0]; // tag = [audio02].ogg
+    unstrippedTag = match[0]; // soundTag = [audio02] => audio02
+
+    soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
+      ?  unstrippedTag.substr(1,  unstrippedTag.length() - 2) : ""; 
+
     if (data.showDebugInfo) { 
       fmt::print("\n================ Sound Tag ================\n");
-      fmt::print("Tag: \t\t\t\t: {}\n", soundTag);
+      fmt::print("Tag: \t\t\t\t: {}\n", unstrippedTag);
+      fmt::print("Stripped Tag: \t\t\t: {}\n", soundTag);
     }
   }
-  string result = "";
-  if (!soundTag.empty()) {
-    result = soundTag.substr(1,  soundTag.length() - 2); // tag = audio02.ogg
-    if (data.showDebugInfo) {
-      fmt::print("Stripped Tag: \t\t\t: {}\n", result);
-    }
-  } else {
-    fmt::print(stderr, "Sound Tag was not found.\n");
-  }
-  return result; 
+  return soundTag; 
 }
 
 int extract(Data data) {
