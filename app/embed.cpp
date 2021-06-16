@@ -5,7 +5,7 @@
 
 #include <fmt/core.h>
 
-#include "EmbedAudio.h"
+#include "EmbedAudio.h" 
 #include "InputParser.h"
 #include "Cmd.h"
 
@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
       {"SoundTag", soundTag}
     };
 
+    fmt::print("\n================ Inputs ================\n");
     for ( const auto& [key, value] : inputs ) {
       if (key.length() > 5) {
         fmt::print ("Key: [{}] {:^13} Value: [{}]\n", key, "", value);
@@ -54,6 +55,7 @@ int main(int argc, char **argv) {
         fmt::print ("Key: [{}] {:^16} Value: [{}]\n", key, "", value);
       }
     }
+    fmt::print("\n");
 
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
