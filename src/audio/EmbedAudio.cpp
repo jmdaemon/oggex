@@ -57,7 +57,7 @@ uintmax_t calculateTotalSize(Data data, size_t maxFileSize) {
   size_t soundTagSize   = audio.getSoundTag().size();
   uintmax_t totalSize   = tempFileSize + imageFileSize + soundTagSize;
 
-  if (!fileExists(audio.getAudio()) || (tempFileSize <= 0)) {
+  if (tempFileSize <= 0) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } else 
