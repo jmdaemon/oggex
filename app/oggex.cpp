@@ -12,16 +12,16 @@
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
+  if (input.argExists("-h") || input.argExists("--help")) {
+    showUsage("oggex");
+    return 0;
+  } 
 
-    if (input.argExists("-h") || input.argExists("--help")) {
-      showUsage("oggex");
-      return 0;
-    }
+  bool enableMonoAudio  = input.toggleOption("-f", "--fast");
+  bool ignoreSizeLimit  = input.toggleOption("-ig", "--ignore-limit");
+  bool showDebugInfo    = input.toggleOption("-v", "--verbose");
 
-    bool enableMonoAudio  = input.toggleOption("-f", "--fast");
-    bool ignoreSizeLimit  = input.toggleOption("-ig", "--ignore-limit");
-    bool showDebugInfo    = input.toggleOption("-v", "--verbose");
-
+  if (input.argExists("embed") || input.argExists("-m")) { 
     const std::string &audioFilename = input.getArg("-a");
     if (isEmpty(audioFilename, "You must provide a valid .ogg audio file.")) { return -1; }
     
@@ -59,6 +59,16 @@ int main(int argc, char **argv) {
       fmt::print("\n");
     } 
     embed(data); 
-    return 0;
+  } else if (input.argExists("extract") || input.argExists("-x")) {
+    const std::string &imageFilename = input.getArg("-i");
+    if (isEmpty(imageFilename, "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.")) { return -1; }
+    Image::ImageData imageData = Image::ImageData(imageFilename);
+    Data data;
+    data.image = imageData;
+    data.showDebugInfo = showDebugInfo;
+    extract(data);
+  } else 
+      showUsage("oggex");
+  return 0;
 }
 

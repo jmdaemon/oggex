@@ -1,16 +1,23 @@
 #include "Cmd.h"
 
 void showUsage(std::string programName) { 
+  fmt::print(stderr, "Usage: {} [embed/extract] -a [audio] -t [soundtag] -i [image]\n", programName);
   fmt::print(stderr, 
-      "Usage: {} [embed/extract] -a [audio] -t [soundtag] -i [image]\nOptions:\n    Embedding:\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n    Encoding:\n \n\n", programName, 
-      "\tembed, \t-m\t\tEmbed an audio file",
-      "\t-h,  \t--help\t\tShow this help message",
-      "\t-f,  \t--fast\t\tEnable Mono Audio Channel encoding",
-      "\t-ig, \t--ignore-limit\tAllows you to encode files greater than 4 MiB",
-      "\t-v,  \t--verbose\tDisplay program output and debugging information",
-      "\t-a,  \t\t\tThe file path to the audio file",
-      "\t-i,  \t\t\tThe file path to the image file",
-      "\t-t,  \t\t\tThe caption or tag for the audio file"
+      "Options:\n\n{}\n{}\n{}\n{}\n{}\n\n", 
+        "\t-h,  \t--help\t\tShow this help message",
+        "\t-v,  \t--verbose\tDisplay program output and debugging information",
+        "\t-a,  \t\t\tThe file path to the audio file",
+        "\t-i,  \t\t\tThe file path to the image file",
+        "\t-t,  \t\t\tThe caption or tag for the audio file"
+      );
+  fmt::print(stderr, 
+      "{:>4}\n{}\n{}\n{}\n\n{:>4}\n{}\n \n\n", 
+        "    Embedding:", 
+              "\tembed, \t-m\t\tEmbed an audio file", 
+              "\t-f,  \t--fast\t\tEnable Mono Audio Channel encoding",
+              "\t-ig, \t--ignore-limit\tAllows you to encode files greater than 4 MiB", 
+        "    Encoding:", 
+              "\textract, -x\t\tExtract audio from an image"
       );
 } 
 
