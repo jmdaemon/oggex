@@ -31,4 +31,4 @@ bool isEmpty(std::string arg, std::string errorMsg) {
   }
   else
     return false;
-}
+} 

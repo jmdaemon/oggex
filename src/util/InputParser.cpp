@@ -19,3 +19,10 @@ bool InputParser::argExists(const std::string &option) const {
     return std::find(this->tokens.begin(), this->tokens.end(), option)
            != this->tokens.end();
 }
+
+bool InputParser::toggleOption(std::string shortFlag, std::string longFlag) const {
+    if (this->argExists("-f") || this->argExists("--fast")) {
+      return true;
+    }
+    return false;
+}

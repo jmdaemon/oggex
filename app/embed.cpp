@@ -6,30 +6,21 @@
 #include <fmt/core.h>
 
 #include "EmbedAudio.h" 
+#include "ExtractAudio.h"
 #include "InputParser.h"
 #include "Cmd.h"
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
-    if(input.argExists("-h") || input.argExists("--help")) {
+
+    if (input.argExists("-h") || input.argExists("--help")) {
       showUsage("embed");
       return 0;
     }
 
-    bool enableMonoAudio = false;
-    if (input.argExists("-f") || input.argExists("--fast")) {
-      enableMonoAudio = true;
-    }
-
-    bool ignoreSizeLimit = false;
-    if (input.argExists("-ig") || input.argExists("--ignore-limit")) {
-      ignoreSizeLimit = true;
-    }
-
-    bool showDebugInfo = false;
-    if (input.argExists("-v") || input.argExists("--verbose")) {
-      showDebugInfo = true;
-    }
+    bool enableMonoAudio  = input.toggleOption("-f", "--fast");
+    bool ignoreSizeLimit  = input.toggleOption("-ig", "--ignore-limit");
+    bool showDebugInfo    = input.toggleOption("-v", "--verbose");
 
     const std::string &audioFilename = input.getArg("-a");
     if (isEmpty(audioFilename, "You must provide a valid .ogg audio file.")) { return -1; }
@@ -67,7 +58,7 @@ int main(int argc, char **argv) {
       }
       fmt::print("\n");
     } 
-    embed(data);
+    embed(data); 
     return 0;
 }
 

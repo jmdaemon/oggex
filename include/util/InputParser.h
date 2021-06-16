@@ -10,7 +10,8 @@ class InputParser {
     public:
         InputParser (int &argc, char **argv);
         const std::string& getArg(const std::string &option) const;
-        bool argExists(const std::string &option) const;
+        bool argExists(const std::string &option) const; 
+        bool toggleOption(std::string shortFlag, std::string longFlag) const;
 };
 
 #endif
