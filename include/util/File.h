@@ -7,6 +7,10 @@
 #include <map>
 #include <cstdint>
 #include <initializer_list>
+#include <iostream>
+#include <fstream>
+
+#include <fmt/core.h>
 
 namespace File {
   std::string toLowerCase(const std::filesystem::path& filePath);

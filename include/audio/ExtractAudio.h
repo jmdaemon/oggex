@@ -4,6 +4,12 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <cstdio>
+#include <exception>
+#include <iostream>
+#include <regex>
+
+#include <fmt/core.h>
 
 size_t getFileSize(std::ifstream& file);
 std::string dataToString(std::ifstream& file);

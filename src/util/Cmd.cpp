@@ -1,13 +1,4 @@
-#include <filesystem>
-#include <iostream>
-#include <map>
-#include <regex>
-#include <string>
-
-#include <fmt/core.h>
-
-#include "Audio.h"
-#include "Image.h"
+#include "Cmd.h"
 
 using namespace std;
 namespace fs = std::filesystem;

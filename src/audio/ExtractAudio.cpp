@@ -1,20 +1,10 @@
-#include <cstdio>
-#include <exception>
-#include <filesystem>
-#include <fstream>
-#include <iostream>
-#include <regex>
-#include <string>
-
-#include <fmt/core.h>
-#include <fmt/printf.h>
-
+#include "ExtractAudio.h"
 #include "EmbedAudio.h"
 
 using namespace std;
 namespace fs = std::filesystem;
 
-size_t getAudioOffset(ifstream& file, const char* search_term = "OggS") {
+size_t getAudioOffset(ifstream& file, const char* search_term) {
   size_t file_size = sizeOf(file);
   fmt::print("Size of embedded file: \t\t{} bytes\n", file_size);
 
