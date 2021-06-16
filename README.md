@@ -28,25 +28,35 @@ cd oggex
 ./scripts/build_cmake.sh && ./scripts/ninja_make.sh
 ```
 
-There will be two binaries, `embed` and `extract` which will be found in the `./build/app/` directory.
+The `oggex` binary will be found under `./build/app`.
 
 ## Usage
 
+```
+Usage: oggex [embed/extract] -a [audio] -t [soundtag] -i [image]
+Options:
+
+          -h,  	--help		Show this help message
+          -v,  	--verbose	Display program output and debugging information
+          -a,  			The file path to the audio file
+          -i,  			The file path to the image file
+          -t,  			The caption or tag for the audio file
+
+    Embedding:
+          embed, 	-m		Embed an audio file
+          -f,  	--fast		Enable Mono Audio Channel encoding
+          -ig, 	--ignore-limit	Allows you to encode files greater than 4 MiB
+
+    Encoding:
+          extract, -x		        Extract audio from an image
+```
+
 ### Embedding
 ```
-Usage: embed -a [audio] -t [soundtag] -i [image]
-Options:
-	-h,  	--help		Show this help message
-	-f,  	--fast		Enable Mono Audio Channel encoding
-	-ig, 	--ignore-limit	Allows you to encode files greater than 4 MiB
-	-v,  	--verbose	Display program output and debugging information
-	-a,  			The file path to the audio file
-	-i,  			The file path to the image file
-	-t,  			The caption or tag for the audio file
-
+$ oggex embed -a audio.ogg -i image.png -t "soundtag"
 ```
 
-Note that the maximum size of the final embedded output file includes the size of the image and audio files, as well as the length of the sound tag.
+**Note:** The maximum output file size, includes the size of the image, audio, and the length of the sound tag.
 
 Currently the supported image file formats are:
 - jpg/jpeg
@@ -57,5 +67,9 @@ Currently the supported image file formats are:
 The output file will be named `[image]-embed.png`
 
 ### Extracting
+
+```
+$ oggex extract -i inputFile-embed.png
+```
 
 The extracted output file will be called `[soundtag].ogg` and there will also be the original `[image]` file to re-embed if needed.
