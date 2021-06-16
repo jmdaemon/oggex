@@ -13,9 +13,6 @@
 
 #include "FileType.tpp"
 
-
-const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
-
 bool fileExists(std::filesystem::path filepath);
 void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);
 

@@ -5,12 +5,12 @@
 #include <string>
 #include <filesystem>
 #include <map>
-//#include <cstdint>
 #include <initializer_list>
-//#include <iostream>
 #include <fstream>
 
 #include <fmt/core.h>
+
+const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
 
 namespace File {
   std::string toLowerCase(const std::filesystem::path& filePath);
