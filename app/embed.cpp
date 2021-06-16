@@ -22,8 +22,13 @@ int main(int argc, char **argv) {
     }
 
     bool ignoreSizeLimit = false;
-    if (input.argExists("-l") || input.argExists("--ignore-limit")) {
+    if (input.argExists("-ig") || input.argExists("--ignore-limit")) {
       ignoreSizeLimit = true;
+    }
+
+    bool showDebugInfo = false;
+    if (input.argExists("-v") || input.argExists("--verbose")) {
+      showDebugInfo = true;
     }
 
     const std::string &audioFilename = input.getArg("-a");
@@ -47,19 +52,21 @@ int main(int argc, char **argv) {
       {"SoundTag", soundTag}
     };
 
-    fmt::print("\n================ Inputs ================\n");
-    for ( const auto& [key, value] : inputs ) {
-      if (key.length() > 5) {
-        fmt::print ("Key: [{}] {:^13} Value: [{}]\n", key, "", value);
-      } else {
-        fmt::print ("Key: [{}] {:^16} Value: [{}]\n", key, "", value);
-      }
-    }
-    fmt::print("\n");
-
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data = { audioData, imageData, enableMonoAudio, ignoreSizeLimit };
+    Data data = { audioData, imageData, enableMonoAudio, ignoreSizeLimit, showDebugInfo };
+
+    if (data.showDebugInfo) {
+      fmt::print("\n================ Inputs ================\n");
+      for ( const auto& [key, value] : inputs ) {
+        if (key.length() > 5) {
+          fmt::print ("Key: [{}] {:^13} Value: [{}]\n", key, "", value);
+        } else {
+          fmt::print ("Key: [{}] {:^16} Value: [{}]\n", key, "", value);
+        }
+      }
+      fmt::print("\n");
+    } 
     embed(data);
     return 0;
 }

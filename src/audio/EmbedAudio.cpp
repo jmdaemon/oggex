@@ -17,7 +17,9 @@ string createCommand(Data data) {
       audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
         );
     }
-  fmt::print("{}\n", command);
+  if (data.showDebugInfo) {
+    fmt::print("{}\n", command);
+  }
   return command;
 }
 
@@ -54,9 +56,11 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
-  fmt::print("\n================ File Sizes ================\n");
-  fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
-  fmt::print("Final Size \t: {}\n", finalSize);
+  if (data.showDebugInfo) {
+    fmt::print("\n================ File Sizes ================\n");
+    fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
+    fmt::print("Final Size \t: {}\n", finalSize);
+  }
   return finalSize;
 }
 

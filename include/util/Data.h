@@ -10,6 +10,7 @@ struct Data {
     Image::ImageData image{};
     bool enableMonoAudio{};
     bool ignoreSizeLimit{};
+    bool showDebugInfo{};
 };
 
 #endif
