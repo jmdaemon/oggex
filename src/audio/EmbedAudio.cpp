@@ -46,10 +46,10 @@ string exec(const string cmd, Data data) {
 
 uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
   Audio::AudioData& audio = data.audio;
-  Image::ImageData& image = data.image;
+  //Image::ImageData& image = data.image;
 
   size_t tempFileSize   = sizeOf(audio.getTempAudio());
-  size_t imageFileSize  = sizeOf(image.getImage());
+  size_t imageFileSize  = sizeOf(data.image.getImage());
   size_t soundTagSize   = audio.getSoundTag().size();
   uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
 
@@ -63,16 +63,20 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
   return finalSize;
 }
 
-string encodeAudio(Data data, bool decreaseQuality) {
+void removeTemp(Data& data) {
+  fmt::print("Audio Encoding completed.\n\n");
+  fs::rename(data.audio.getTempAudio(), "temp.ogg");
+  data.audio.setTempAudio(fs::path("temp.ogg"));
+}
+
+string encodeAudio(Data& data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
   string cmdOutput      = exec(createCommand(data), data);
   uintmax_t finalSize   = calcFinalSize(data, MAX_FILE_SIZE);
 
   if (!data.ignoreSizeLimit) {
     if (finalSize < MAX_FILE_SIZE) { 
-      fmt::print("Audio Encoding completed.\n\n");
-      fs::rename(audio.getTempAudio(), "temp.ogg");
-      audio.getTempAudio() = "temp.ogg"; 
+      removeTemp(data);
       return cmdOutput;
     } else if (decreaseQuality) { 
       if (audio.getAudioQuality() > 0) {
@@ -84,19 +88,17 @@ string encodeAudio(Data data, bool decreaseQuality) {
         throw exception();
       }
   } // Ignore file size limits
-  encodeAudio(data);
-  fs::rename(audio.getTempAudio(), "temp.ogg");
-  audio.getTempAudio() = "temp.ogg";
+  removeTemp(data);
   return cmdOutput;
 }
 
-void encodeImage(Data data) {
+void encodeImage(Data& data) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
 
   if (!fileExists(audio.getTempAudio())) { 
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
-    clean({image.getImage(), audio.getTempAudio()});
+    clean({audio.getTempAudio()});
     throw exception();
   }
 
@@ -111,7 +113,7 @@ void encodeImage(Data data) {
   clean({audio.getTempAudio()});
 }
 
-int embed(Data data) {
+int embed(Data& data) {
   encodeAudio(data);
   encodeImage(data);
   return 0;

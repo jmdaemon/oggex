@@ -9,7 +9,7 @@ void showUsage(std::string programName) {
       "Options:", 
       "\t-h,  \t--help\t\tShow this help message",
       "\t-f,  \t--fast\t\tEnable Mono Audio Channel encoding",
-      "\t-ig, \t--ignore-limit\tAllows you to encode files >4MiB",
+      "\t-l,  \t--ignore-limit\tAllows you to encode files >4MiB",
       "\t-a,  \t\t\tThe file path to the audio file",
       "\t-i,  \t\t\tThe file path to the image file",
       "\t-t,  \t\t\tThe caption or tag for the audio file"

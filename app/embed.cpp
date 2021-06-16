@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     }
 
     bool ignoreSizeLimit = false;
-    if (input.argExists("-ig") || input.argExists("--ignore-limit")) {
+    if (input.argExists("-l") || input.argExists("--ignore-limit")) {
       ignoreSizeLimit = true;
     }
 
