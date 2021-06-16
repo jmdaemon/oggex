@@ -4,22 +4,12 @@ using namespace std;
 namespace fs = std::filesystem;
 
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm) { 
-  ifstream file(filepath, ifstream::in | ifstream::binary);
-  size_t offset = dataToString(file).find(searchTerm);
+  size_t offset = dataToString(filepath).find(searchTerm);
   if (sizeOf(filepath) == offset) {
     fmt::print(stderr, "Audio offset not found");
     offset = 0;
   }
-  file.close();
   return offset; 
-}
-
-string readFile(Data& data, size_t offset) {
-  ifstream file(data.image.getImage(), ifstream::in | ifstream::binary);
-  file.seekg(offset, ios::beg);
-  string result = dataToString(file);
-  file.close();
-  return result;
 }
 
 string findSoundTag(Data& data, string fileData, size_t offset) {
@@ -49,9 +39,10 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
 }
 
 int extract(Data data) {
-  size_t embeddedFileSize   = sizeOf(data.image.getImage());
-  size_t audioOffset        = getOffset(data.image.getImage());
-  size_t audioFileSize      = sizeOf(data.image.getImage(), audioOffset);
+  std::filesystem::path image = data.image.getImage();
+  size_t embeddedFileSize   = sizeOf(image);
+  size_t audioOffset        = getOffset(image);
+  size_t audioFileSize      = sizeOf(image, audioOffset);
   if (data.showDebugInfo) {
     fmt::print("\n================ File Sizes ================\n"); 
     fmt::print("Size of Embedded File \t\t: {} \tbytes\n" , embeddedFileSize);
@@ -60,8 +51,8 @@ int extract(Data data) {
     fmt::print("Audio File Offset \t\t: {} \tbytes\n"     , audioOffset); 
   }
 
-  string embeddedFileData   = readFile(data, 0);
-  string audioContent       = readFile(data, audioOffset);
+  string embeddedFileData   = dataToString(image, 0);
+  string audioContent       = dataToString(image, audioOffset);
   string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
   if (soundTag.empty()) { 
     return -1; 

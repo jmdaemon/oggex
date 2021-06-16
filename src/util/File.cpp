@@ -45,11 +45,14 @@ bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
   return true;
 } 
 
-std::string dataToString(std::ifstream& file) {
+std::string dataToString(std::filesystem::path filepath, size_t offset) { 
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+  file.seekg(offset, std::ios::beg);
   std::ostringstream fileContents;
   fileContents << file.rdbuf();
-  std::string filedata = fileContents.str();
-  return filedata;
+  std::string fileData = fileContents.str();
+  file.close();
+  return fileData;
 }
 
 bool fileExists(std::filesystem::path filepath) { 
