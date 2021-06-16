@@ -29,6 +29,8 @@ namespace Image {
       virtual bool isValid(std::string file);
       virtual bool isValid(std::filesystem::path filepath);
 
+      std::filesystem::path createOutputFilename();
+
       std::string getImage() { return this->imagePath; }
       void setImage(std::string imagePath) { this->imagePath = imagePath; }
   };

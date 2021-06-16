@@ -8,6 +8,10 @@ namespace Image {
   bool Image::ImageData::isValid(std::string file) { return isImage(file); }
   bool Image::ImageData::isValid(std::filesystem::path filepath) { return isImage(filepath); }
 
+  std::filesystem::path Image::ImageData::createOutputFilename() { 
+    std::filesystem::path imageFilePath = this->imagePath;
+    return (string(imageFilePath.stem()) + "-embed" + string(imageFilePath.extension()));
+  }
   bool isImage(std::string file) { return File::isFile(file, FileExtensions); }
   bool isImage(std::filesystem::path filepath) { return File::isFile(filepath.string(), FileExtensions); }
 

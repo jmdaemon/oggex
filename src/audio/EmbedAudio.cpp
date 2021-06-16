@@ -116,10 +116,6 @@ string encodeAudioFile(Data data) {
   return cmdOutput;
 }
 
-fs::path createOutputFileName(fs::path imageFilePath) {
-  return (string(imageFilePath.stem()) + "-embed" + string(imageFilePath.extension()));
-}
-
 void encodeImage(Data data) {
   Audio::AudioData& audio = data.audio;
   Image::ImageData& image = data.image;
@@ -130,7 +126,7 @@ void encodeImage(Data data) {
     throw exception();
   }
 
-  ofstream outputFile(createOutputFileName(image.getImage()), ifstream::out | ifstream::binary);
+  ofstream outputFile(image.createOutputFilename(), ifstream::out | ifstream::binary);
   ifstream imageFileData(image.getImage(), ifstream::in | ifstream::binary);
   ifstream audioFileData(audio.getTempAudio(), ifstream::in | ifstream::binary);
 
