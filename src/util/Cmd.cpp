@@ -47,7 +47,6 @@ map<int, string> parseOptions(int argc, char** argv, bool bestQuality = true) {
     if (regex_search(arg, match, exp)) 
       soundTag = arg;
     //if (Image::isImage(arg)) { imageFilePath = arg; }
-    //if (Audio::isAudio(arg)) { audioFilePath = arg; } 
   } 
   imageFilePath = "";
   audioFilePath = "";

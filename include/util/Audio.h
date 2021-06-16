@@ -62,8 +62,6 @@ namespace Audio {
     virtual bool isValid(std::string file);
     virtual bool isValid(std::filesystem::path filepath);
   };
-  bool isAudio(std::string file);
-  bool isAudio(std::filesystem::path filepath);
 }
 
 std::string formatSoundTag(std::string tag);
