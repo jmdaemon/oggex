@@ -27,10 +27,6 @@ int main(int argc, char **argv) {
   options.setAudioFile    (input.toggleOption("-ad"));
   options.setImageFile    (input.toggleOption("-id"));
 
-  const std::string &outputFile = input.getArg("-d");
-  const std::string &audioFile  = input.getArg("-ad");
-  const std::string &imageFile  = input.getArg("-id");
-
   std::unordered_map<std::string, std::string> Errors = {
     {"InvalidAudioFile", "You must provide a valid .ogg audio file."},
     {"InvalidImageFile", "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF."},
@@ -45,16 +41,16 @@ int main(int argc, char **argv) {
     if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
 
     const std::string &soundTag = input.getArg("-t");
-    if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; }
+    if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; } 
+
+    options.setOutputFile(input.getArg("-d"));
 
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
       {"Image", imageFilename},
       {"SoundTag", soundTag}
     };
-    //Data data = createEmbedData(createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), 
-        //enableMonoAudio, ignoreSizeLimit, showDebugInfo, setOutputFilename);
-    Data data = Data{ createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), options };
+    Data data = createEmbedData( createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), options );
 
     if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
@@ -70,9 +66,12 @@ int main(int argc, char **argv) {
     embed(data); 
   } else if (input.toggleOption("-x", "extract")) {
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
-    //Data data = createExtractData(Image::ImageData(imageFilename), showDebugInfo, setAudioFilename, setImageFilename);
-    Data data = Data{ createAudioData("", ""), Image::ImageData(imageFilename), options };
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; } 
+
+    options.setOutputFile(input.getArg("-ad"));
+    options.setOutputFile(input.getArg("-id"));
+
+    Data data = createExtractData( Image::ImageData(imageFilename), options );
     extract(data);
   } else 
       showUsage("oggex");
