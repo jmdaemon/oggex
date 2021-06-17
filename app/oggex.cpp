@@ -24,21 +24,21 @@ int main(int argc, char **argv) {
   bool setAudioFilename   = input.toggleOption("-ad");
   bool setImageFilename   = input.toggleOption("-id");
 
+  std::unordered_map<std::string, std::string> Errors = {
+    {"InvalidAudioFile", "You must provide a valid .ogg audio file."},
+    {"InvalidImageFile", "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF."},
+    {"EmptySoundTag", "You must provide a sound tag."}
+  };
+
   if (input.argExists("embed") || input.argExists("-m")) { 
     const std::string &audioFilename = input.getArg("-a");
-    if (isEmpty(audioFilename, "You must provide a valid .ogg audio file.")) { return -1; }
+    if (isEmpty(audioFilename, Errors["InvalidAudioFile"]) || !fileExists(audioFilename)) { return -1; }
     
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.")) { return -1; }
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
 
     const std::string &soundTag = input.getArg("-t");
-    if (isEmpty(soundTag, "You must provide a sound tag.")) { return -1; }
-
-    // Check the following:
-    // Audio and Image files exist on system
-    // That the Audio, Image and SoundTag combined, are all less than MAX_SIZE = 4 MiB
-    if (!fileExists(audioFilename)) { return -1; }
-    if (!fileExists(imageFilename)) { return -1; }
+    if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; }
 
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
@@ -65,8 +65,8 @@ int main(int argc, char **argv) {
     embed(data); 
   } else if (input.argExists("extract") || input.argExists("-x")) {
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.")) { return -1; }
-    if (!fileExists(imageFilename)) { return -1; }
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
+
     Image::ImageData imageData = Image::ImageData(imageFilename);
     Data data;
     data.image = imageData;
