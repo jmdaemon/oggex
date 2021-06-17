@@ -68,10 +68,10 @@ int extract(Data data) {
     data.audio.setAudio(fs::path(data.options.getAudioFile()));
   }
 
-  //if (data.options.imageFileEnabled()) {
-    //fs::rename(fs::path(data.options.getImage()), data.options.getImageFile());
-    //data.image.setImage(fs::path(data.options.getImageFile()));
-  //}
+  if (data.options.imageFileEnabled()) {
+    fs::rename(fs::path(data.image.getImage() + ".png"), data.options.getImageFile());
+    data.image.setImage(fs::path(data.options.getImageFile()));
+  }
 
    return 0;
 }
