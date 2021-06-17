@@ -27,9 +27,12 @@ class Options {
     bool isMonoEnabled()              { return getOption("Mono"); }
     bool ignoreLimitEnabled()         { return getOption("IgnoreLimit"); }
     bool showVerboseEnabled()         { return getOption("Verbose"); }
-    bool getOutputFile()              { return getOption("Output"); }
-    bool getAudioFile()               { return getOption("AudioFile"); }
-    bool getImageFile()               { return getOption("ImageFile"); }
+    bool outputFileEnabled()          { return getOption("Output"); }
+    bool audioFileEnabled()           { return getOption("AudioFile"); }
+    bool imageFileEnabled()           { return getOption("ImageFile"); }
+    std::string getOutputFile()       { return outputFile; }
+    std::string getAudioFile()        { return audioFile; }
+    std::string getImageFile()        { return imageFile; }
 
     // Setters
     void enableMono(bool toggled)     { enable("Mono", toggled); }

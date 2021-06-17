@@ -107,6 +107,10 @@ void encodeImage(Data& data) {
   imageFileData.close();
   audioFileData.close();
   clean({audio.getTempAudio()});
+  if (data.options.outputFileEnabled()) {
+    fs::rename(data.image.createOutputFilename(), data.options.getOutputFile());
+    data.image.setImage(fs::path(data.options.getOutputFile()));
+  }
 }
 
 int embed(Data& data) {
