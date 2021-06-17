@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
     {"EmptySoundTag", "You must provide a sound tag."}
   };
 
-  if (input.argExists("embed") || input.argExists("-m")) { 
+  if (input.toggleOption("-m", "embed")) { 
     const std::string &audioFilename = input.getArg("-a");
     if (isEmpty(audioFilename, Errors["InvalidAudioFile"]) || !fileExists(audioFilename)) { return -1; }
     
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
       fmt::print("\n");
     } 
     embed(data); 
-  } else if (input.argExists("extract") || input.argExists("-x")) {
+  } else if (input.toggleOption("-x", "extract")) {
     const std::string &imageFilename = input.getArg("-i");
     if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
     Data data = createExtractData(Image::ImageData(imageFilename), showDebugInfo, setAudioFilename, setImageFilename);
