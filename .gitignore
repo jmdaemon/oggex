@@ -1,6 +1,3 @@
-# Ignore ctags generated tags files
-tags
-
 # Ignore bazel output
 bazel-*
 

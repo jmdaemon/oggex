@@ -3,9 +3,7 @@
 
 #include <string>
 #include <map>
-#include <cstdint>
 
-//#include "../file/File.h"
 #include "File.h"
 
 namespace Image {
@@ -17,21 +15,21 @@ namespace Image {
     {4, ".webm"},
   };
 
-  struct ImageData {
-  };
-
-  class Image {
+  class ImageData : public File::File {
     private:
       std::string imagePath;
 
     public:
+      ImageData(std::string imagePath);
+      ImageData(): imagePath{""} {}
 
-      Image(std::string imagePath);
-      int readImage();
+      virtual bool isValid(std::string file);
+      virtual bool isValid(std::filesystem::path filepath);
 
-      std::string getImg() {
-        return this->imagePath;
-      }
+      std::filesystem::path createOutputFilename();
+
+      std::string getImage() { return this->imagePath; }
+      void setImage(std::string imagePath) { this->imagePath = imagePath; }
   };
   bool isImage(std::string file);
   bool isImage(std::filesystem::path filepath);

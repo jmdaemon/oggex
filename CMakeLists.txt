@@ -42,6 +42,9 @@ FetchContent_Declare(
     GIT_REPOSITORY "https://github.com/fmtlib/fmt")
 FetchContent_MakeAvailable(libfmt)
 
+set(CMAKE_CXX_FLAGS -fdiagnostics-color=always)
+set(CMAKE_C_FLAGS -fdiagnostics-color=always)
+
 add_subdirectory(src)
 add_subdirectory(app)
 

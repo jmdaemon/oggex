@@ -1,13 +1,3 @@
-#include <iostream>
-#include <string>
-#include <filesystem>
-#include <map>
-#include <fstream>
-#include <initializer_list>
-
-#include <fmt/core.h>
-#include <fmt/printf.h>
-
 #include "File.h"
 
 namespace File {
@@ -22,8 +12,8 @@ namespace File {
     return (std::filesystem::path (file)).extension();
   }
 
-  bool isFile(std::string file, const std::map<int, std::string> FileExtensions) {
-    std::string extension = toLowerCase(File::getFileExtension(file));
+  bool File::isFile(std::string file, const std::map<int, std::string> FileExtensions) {
+    std::string extension = toLowerCase(getFileExtension(file));
     for (int i = 0; i < FileExtensions.size(); i++) {
       if(FileExtensions.at(i) == extension) {
         return true;
@@ -33,39 +23,42 @@ namespace File {
   }
 }
 
-size_t getFileSize(std::ifstream& file) {
+size_t sizeOf(std::ifstream& file, size_t offset) {
   file.seekg(0, std::ios::end);
-  size_t file_size = file.tellg();
+  size_t fileSize = file.tellg();
   file.seekg(0, std::ios::beg);
-  return file_size;
+  file.close();
+  return fileSize - offset;
 }
 
-size_t getFileSize(std::filesystem::path filepath) {
+size_t sizeOf(std::filesystem::path filepath, size_t offset) {
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
-  return getFileSize(file); 
+  return sizeOf(file); 
 }
 
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
-  size_t fileSize = getFileSize(filepath);
-  size_t maxFileSize = 1024 * 1024 * 4; // About 4MB or exactly 4MiB
-  if (fileSize > maxFileSize) {
-    std::cerr << errorMsg << std::endl;
+  size_t fileSize = sizeOf(filepath);
+  if (fileSize > MAX_FILE_SIZE) { 
+    fmt::print(stderr, "{}\n", errorMsg);
     return false;
   } else
   return true;
 } 
 
-std::string dataToString(std::ifstream& file) {
+std::string dataToString(std::filesystem::path filepath, size_t offset) { 
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+  file.seekg(offset, std::ios::beg);
   std::ostringstream fileContents;
   fileContents << file.rdbuf();
-  std::string filedata = fileContents.str();
-  return filedata;
+  std::string fileData = fileContents.str();
+  file.close();
+  return fileData;
 }
 
 bool fileExists(std::filesystem::path filepath) { 
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
   if (!file.is_open()) {
-    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
     file.close();
     return false; 
   } 

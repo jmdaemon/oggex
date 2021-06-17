@@ -5,21 +5,22 @@
 #include "Image.h"
 
 #include <fmt/core.h>
-#include <fmt/printf.h> 
+//#include <fmt/printf.h> 
+#include <fmt/format.h>
 
 using namespace std;
 namespace fs = std::filesystem;
 
-string formatCMD(string cmdFormat, Audio::AudioData data) {
-    string cmd = fmt::format(cmdFormat, 
-      data.audioFile.string(),
-      data.audioQuality,
-      "",
-      data.tempAudioFile.string(),
-      data.tempLogFile.string()
-      );
-    return cmd;
-}
+//string formatCMD(Audio::AudioData data, string cmdFormat = "NA") {
+    //string cmd = fmt::format(cmdFormat, 
+      //data.audioFile.string(),
+      //data.audioQuality,
+      //"",
+      //data.tempAudioFile.string(),
+      //data.tempLogFile.string()
+      //);
+    //return cmd;
+//}
 
 TEST_CASE("Audio files can be embedded into image files") {
   fs::path embeddedImage  = "../../inputFile1.png";
@@ -42,7 +43,7 @@ TEST_CASE("Audio files can be embedded into image files") {
     string soundTag = "audio02";
     string overflowTag = "====================================================================================================";
     REQUIRE(tagUnder100(soundTag.length()));
-    REQUIRE(formatAudioTags(soundTag)[0] == "[audio02]");
+    REQUIRE(formatSoundTag(soundTag) == "[audio02]");
     CHECK(!tagUnder100(overflowTag.length()));
   }
 
@@ -51,15 +52,15 @@ TEST_CASE("Audio files can be embedded into image files") {
     string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
 
     Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    string legacyCMD  = createCommand(audioData, legacyCMDFormat);
-    REQUIRE(!legacyCMD.empty());
-    REQUIRE(legacyCMD == formatCMD(legacyCMDFormat, audioData)); 
+    //string legacyCMD  = createCommand(audioData, legacyCMDFormat);
+    //REQUIRE(!legacyCMD.empty());
+    //REQUIRE(legacyCMD == formatCMD(legacyCMDFormat, audioData)); 
 
-    string buildLegacyCMD = encodeAudio(audioData);
-    string buildMaskCMD   = buildCommand(audioData);
+    //string buildLegacyCMD = encodeAudio(audioData);
+    //string buildMaskCMD   = buildCommand(audioData);
 
-    REQUIRE(buildLegacyCMD == formatCMD(legacyCMD, audioData));
-    REQUIRE(buildMaskCMD == formatCMD(maskCMDFormat, audioData));
+    //REQUIRE(buildLegacyCMD == formatCMD(legacyCMD, audioData));
+    //REQUIRE(buildMaskCMD == formatCMD(maskCMDFormat, audioData));
 
   }
 

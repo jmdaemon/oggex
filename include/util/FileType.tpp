@@ -1,14 +1,15 @@
+#ifndef   FILE_TYPE_H
+#define   FILE_TYPE_H
+
 #include <filesystem>
 #include <fstream>
-#include <map>
 #include <string>
 
 #include <fmt/core.h>
-#include <fmt/printf.h> 
 
 template<typename FileType> bool isCorrupted(std::filesystem::path filepath, FileType& file) {
   if (!file.is_open()) {
-    fmt::fprintf(std::cerr, "Error: couldn't open \"%s\"\n", filepath);
+    fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
     return true;
   } else
     return false;
@@ -29,3 +30,5 @@ int getFileSize(FileType& file) {
   int contentSize = contents.tellp();
   return contentSize;
 }
+
+#endif
