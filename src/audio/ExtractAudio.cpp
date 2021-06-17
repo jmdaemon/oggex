@@ -47,6 +47,12 @@ std::string readImageFile(std::filesystem::path filepath, size_t start, size_t e
   return "";
 }
 
+void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {
+  ofstream outputFile(outputFileName, ifstream::out | ifstream::binary); 
+  outputFile.write(outputData.c_str(), outputData.length());
+  outputFile.close();
+}
+
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
   size_t embeddedFileSize   = sizeOf(image);
@@ -73,14 +79,8 @@ int extract(Data data) {
   if (data.options.showVerboseEnabled()) { fmt::print("Output Audio File \t\t: {}\n\n", soundTag); }
   fmt::print("Extracting audio file as \"{}\"\n", soundTag);
 
-  ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
-  audioFile.write(audioContent.c_str(), audioContent.length());
-  audioFile.close();
-
-  std::filesystem::path newImagePath = fs::path(image.string() + ".png");
-  ofstream imageFile(newImagePath, ifstream::out | ifstream::binary); 
-  imageFile.write(imageFileData.c_str(), imageFileData.length());
-  imageFile.close();
+  writeToDisk(soundTag.c_str(), audioContent);
+  writeToDisk(fs::path(image.string() + ".png"), imageFileData);
 
   if (data.options.audioFileEnabled()) {
     fs::rename(fs::path(soundTag), data.options.getAudioFile());
