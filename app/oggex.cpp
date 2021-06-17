@@ -8,8 +8,8 @@
 #include "EmbedAudio.h" 
 #include "ExtractAudio.h"
 #include "InputParser.h"
-#include "Data.h"
 #include "Cmd.h"
+#include "Options.h"
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
@@ -18,12 +18,18 @@ int main(int argc, char **argv) {
     return 0;
   } 
 
-  bool enableMonoAudio    = input.toggleOption("-f", "--fast");
-  bool ignoreSizeLimit    = input.toggleOption("-ig", "--ignore-limit");
-  bool showDebugInfo      = input.toggleOption("-v", "--verbose");
-  bool setOutputFilename  = input.toggleOption("-d", "--dest");
-  bool setAudioFilename   = input.toggleOption("-ad");
-  bool setImageFilename   = input.toggleOption("-id");
+  Options options;
+
+  options.enableMono      (input.toggleOption("-f", "--fast"));
+  options.ignoreLimit     (input.toggleOption("-ig", "--ignore-limit"));
+  options.showVerbose     (input.toggleOption("-v", "--verbose"));
+  options.setOutputFile   (input.toggleOption("-d", "--dest"));
+  options.setAudioFile    (input.toggleOption("-ad"));
+  options.setImageFile    (input.toggleOption("-id"));
+
+  const std::string &outputFile = input.getArg("-d");
+  const std::string &audioFile  = input.getArg("-ad");
+  const std::string &imageFile  = input.getArg("-id");
 
   std::unordered_map<std::string, std::string> Errors = {
     {"InvalidAudioFile", "You must provide a valid .ogg audio file."},
@@ -46,10 +52,11 @@ int main(int argc, char **argv) {
       {"Image", imageFilename},
       {"SoundTag", soundTag}
     };
-    Data data = createEmbedData(createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), 
-        enableMonoAudio, ignoreSizeLimit, showDebugInfo, setOutputFilename);
+    //Data data = createEmbedData(createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), 
+        //enableMonoAudio, ignoreSizeLimit, showDebugInfo, setOutputFilename);
+    Data data = Data{ createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), options };
 
-    if (data.showDebugInfo) {
+    if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
       for ( const auto& [key, value] : inputs ) {
         if (key.length() > 5) {
@@ -64,7 +71,8 @@ int main(int argc, char **argv) {
   } else if (input.toggleOption("-x", "extract")) {
     const std::string &imageFilename = input.getArg("-i");
     if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
-    Data data = createExtractData(Image::ImageData(imageFilename), showDebugInfo, setAudioFilename, setImageFilename);
+    //Data data = createExtractData(Image::ImageData(imageFilename), showDebugInfo, setAudioFilename, setImageFilename);
+    Data data = Data{ createAudioData("", ""), Image::ImageData(imageFilename), options };
     extract(data);
   } else 
       showUsage("oggex");

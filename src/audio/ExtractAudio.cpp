@@ -26,7 +26,7 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
     soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
       ?  unstrippedTag.substr(1,  unstrippedTag.length() - 2) : ""; 
 
-    if (data.showDebugInfo) { 
+    if (data.options.showVerboseEnabled()) { 
       fmt::print("\n================ Sound Tag ================\n");
       fmt::print("Tag: \t\t\t\t: {}\n", unstrippedTag);
       fmt::print("Stripped Tag: \t\t\t: {}\n", soundTag);
@@ -40,7 +40,7 @@ int extract(Data data) {
   size_t embeddedFileSize   = sizeOf(image);
   size_t audioOffset        = getOffset(image);
   size_t audioFileSize      = sizeOf(image, audioOffset);
-  if (data.showDebugInfo) {
+  if (data.options.showVerboseEnabled()) {
     fmt::print("\n================ File Sizes ================\n"); 
     fmt::print("Size of Embedded File \t\t: {} \tbytes\n" , embeddedFileSize);
     fmt::print("Audio File Size \t\t: {} \tbytes\n\n"     , audioFileSize);
@@ -56,7 +56,7 @@ int extract(Data data) {
   } else { 
     soundTag += ".ogg";
   }
-  if (data.showDebugInfo) { fmt::print("Output Audio File \t\t: {}\n\n", soundTag); }
+  if (data.options.showVerboseEnabled()) { fmt::print("Output Audio File \t\t: {}\n\n", soundTag); }
   fmt::print("Extracting audio file as \"{}\"\n", soundTag);
 
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
