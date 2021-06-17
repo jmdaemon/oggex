@@ -33,25 +33,7 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
     }
   }
   return soundTag; 
-}
-
-std::string readImageFile(std::filesystem::path filepath, size_t start, size_t end) {
-  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary); 
-  if(file.is_open()) { 
-    file.seekg(start);
-    std::string imageFile;
-    imageFile.resize(end - start);
-    file.read(&imageFile[0], end - start); 
-    return imageFile;
-  }
-  return "";
-}
-
-void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {
-  ofstream outputFile(outputFileName, ifstream::out | ifstream::binary); 
-  outputFile.write(outputData.c_str(), outputData.length());
-  outputFile.close();
-}
+} 
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
@@ -67,8 +49,7 @@ int extract(Data data) {
   }
 
   string embeddedFileData   = dataToString(image, 0);
-  //string imageFileData      = dataToString(image, audioOffset, true);
-  string imageFileData      = readImageFile(image, 0, audioOffset);
+  string imageFileData      = readFile(image, 0, audioOffset);
   string audioContent       = dataToString(image, audioOffset);
   string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
   if (soundTag.empty()) { 
