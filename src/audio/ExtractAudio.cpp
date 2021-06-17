@@ -63,5 +63,15 @@ int extract(Data data) {
   audioFile.write(audioContent.c_str(), audioContent.length());
   audioFile.close();
 
+  if (data.options.audioFileEnabled()) {
+    fs::rename(fs::path(soundTag), data.options.getAudioFile());
+    data.audio.setAudio(fs::path(data.options.getAudioFile()));
+  }
+
+  //if (data.options.imageFileEnabled()) {
+    //fs::rename(fs::path(data.options.getImage()), data.options.getImageFile());
+    //data.image.setImage(fs::path(data.options.getImageFile()));
+  //}
+
    return 0;
 }
