@@ -35,6 +35,18 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
   return soundTag; 
 }
 
+std::string readImageFile(std::filesystem::path filepath, size_t start, size_t end) {
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary); 
+  if(file.is_open()) { 
+    file.seekg(start);
+    std::string imageFile;
+    imageFile.resize(end - start);
+    file.read(&imageFile[0], end - start); 
+    return imageFile;
+  }
+  return "";
+}
+
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
   size_t embeddedFileSize   = sizeOf(image);
@@ -49,6 +61,8 @@ int extract(Data data) {
   }
 
   string embeddedFileData   = dataToString(image, 0);
+  //string imageFileData      = dataToString(image, audioOffset, true);
+  string imageFileData      = readImageFile(image, 0, audioOffset);
   string audioContent       = dataToString(image, audioOffset);
   string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
   if (soundTag.empty()) { 
@@ -62,6 +76,11 @@ int extract(Data data) {
   ofstream audioFile(soundTag.c_str(), ifstream::out | ifstream::binary); 
   audioFile.write(audioContent.c_str(), audioContent.length());
   audioFile.close();
+
+  std::filesystem::path newImagePath = fs::path(image.string() + ".png");
+  ofstream imageFile(newImagePath, ifstream::out | ifstream::binary); 
+  imageFile.write(imageFileData.c_str(), imageFileData.length());
+  imageFile.close();
 
   if (data.options.audioFileEnabled()) {
     fs::rename(fs::path(soundTag), data.options.getAudioFile());
