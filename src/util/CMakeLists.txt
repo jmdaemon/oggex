@@ -62,6 +62,7 @@ set(TARGET cmd_library)
 
 add_library(${TARGET})
 target_sources(${TARGET}
+    PRIVATE Data.cpp
     PRIVATE Cmd.cpp
     PRIVATE InputParser.cpp
     PUBLIC  ${CMD_LIBRARY_HEADERS}

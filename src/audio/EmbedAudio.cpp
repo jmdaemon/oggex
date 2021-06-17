@@ -6,7 +6,7 @@ namespace fs = std::filesystem;
 string createCommand(Data data) {
   Audio::AudioData& audio = data.audio;
   string command;
-  if (data.enableMonoAudio) { 
+  if (data.options.isMonoEnabled()) { 
     command = fmt::format(
         "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
       audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
@@ -17,7 +17,7 @@ string createCommand(Data data) {
       audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
         );
     }
-  if (data.showDebugInfo) {
+  if (data.options.showVerboseEnabled()) {
     fmt::print("{}\n", command);
   }
   return command;
@@ -35,7 +35,7 @@ string exec(const string cmd, Data data) {
     throw runtime_error("popen() failed!");
   } 
 
-  string monoAudioEnabled = (data.enableMonoAudio) ? "In Mono Audio Channel" : "";
+  string monoAudioEnabled = (data.options.showVerboseEnabled()) ? "In Mono Audio Channel" : "";
   fmt::print("Encoding \"{}\" at quality = {} {}\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   audioFileData.close();
@@ -52,7 +52,7 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
-  if (data.showDebugInfo) {
+  if (data.options.showVerboseEnabled()) {
     fmt::print("\n================ File Sizes ================\n");
     fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
     fmt::print("Final Size \t: {}\n", finalSize);
@@ -71,7 +71,7 @@ string encodeAudio(Data& data, bool decreaseQuality) {
   string cmdOutput      = exec(createCommand(data), data);
   uintmax_t finalSize   = calcFinalSize(data, MAX_FILE_SIZE);
 
-  if (!data.ignoreSizeLimit) {
+  if (!data.options.ignoreLimitEnabled()) {
     if (finalSize < MAX_FILE_SIZE) { 
       removeTemp(data);
       return cmdOutput;
@@ -107,6 +107,10 @@ void encodeImage(Data& data) {
   imageFileData.close();
   audioFileData.close();
   clean({audio.getTempAudio()});
+  if (data.options.outputFileEnabled()) {
+    fs::rename(data.image.createOutputFilename(), data.options.getOutputFile());
+    data.image.setImage(fs::path(data.options.getOutputFile()));
+  }
 }
 
 int embed(Data& data) {

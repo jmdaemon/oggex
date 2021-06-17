@@ -3,14 +3,17 @@
 
 #include "Audio.h"
 #include "Image.h"
+#include "Options.h"
 
 struct Data {
   public:
     Audio::AudioData audio{};
     Image::ImageData image{};
-    bool enableMonoAudio{};
-    bool ignoreSizeLimit{};
-    bool showDebugInfo{};
+    Options options{};
 };
 
+Data createEmbedData(Audio::AudioData audio, Image::ImageData image, Options options);
+Data createExtractData(Image::ImageData image, Options options);
+
 #endif
+

@@ -11,13 +11,16 @@ void showUsage(std::string programName) {
         "\t-t,  \t\t\tThe caption or tag for the audio file"
       );
   fmt::print(stderr, 
-      "{:>4}\n{}\n{}\n{}\n\n{:>4}\n{}\n \n\n", 
+      "{:>4}\n{}\n{}\n{}\n{}\n\n{:>4}\n{}\n{}\n{}\n \n\n", 
         "    Embedding:", 
               "\tembed, \t-m\t\tEmbed an audio file", 
               "\t-f,  \t--fast\t\tEnable Mono Audio Channel encoding",
               "\t-ig, \t--ignore-limit\tAllows you to encode files greater than 4 MiB", 
+              "\t-d,  \t--dest \t\tChange the output file name.",
         "    Encoding:", 
-              "\textract, -x\t\tExtract audio from an image"
+              "\textract, -x\t\tExtract audio from an image",
+              "\t-ad, \t\t\tChange the audio file output file name.",
+              "\t-id, \t\t\tChange the image file output file name."
       );
 } 
 

@@ -9,6 +9,7 @@
 #include "ExtractAudio.h"
 #include "InputParser.h"
 #include "Cmd.h"
+#include "Options.h"
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
@@ -17,37 +18,41 @@ int main(int argc, char **argv) {
     return 0;
   } 
 
-  bool enableMonoAudio  = input.toggleOption("-f", "--fast");
-  bool ignoreSizeLimit  = input.toggleOption("-ig", "--ignore-limit");
-  bool showDebugInfo    = input.toggleOption("-v", "--verbose");
+  Options options; // Enable options
+  for ( const auto& [option, flag] : options.getOptions() ) {           // Get the hashmap of toggled options 
+    auto [ shortFlag, longFlag, enabled ] = flag;
+    if (!longFlag.empty()) {                                            // If LongFlag is not empty 
+      options.enable(option, input.toggleOption(shortFlag, longFlag));  // Use both flags, and enable the option 
+    } else {
+      options.enable(option, input.toggleOption(shortFlag));            // Use the ShortFlag to enable the option
+    }
+  }
 
-  if (input.argExists("embed") || input.argExists("-m")) { 
+  std::unordered_map<std::string, std::string> Errors = {
+    {"InvalidAudioFile", "You must provide a valid .ogg audio file."},
+    {"InvalidImageFile", "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF."},
+    {"EmptySoundTag", "You must provide a sound tag."}
+  };
+
+  if (input.toggleOption("-m", "embed")) { 
     const std::string &audioFilename = input.getArg("-a");
-    if (isEmpty(audioFilename, "You must provide a valid .ogg audio file.")) { return -1; }
+    if (isEmpty(audioFilename, Errors["InvalidAudioFile"]) || !fileExists(audioFilename)) { return -1; }
     
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.")) { return -1; }
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
 
     const std::string &soundTag = input.getArg("-t");
-    if (isEmpty(soundTag, "You must provide a sound tag.")) { return -1; }
+    if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; } 
 
-    // Check the following:
-    // Audio and Image files exist on system
-    // That the Audio, Image and SoundTag combined, are all less than MAX_SIZE = 4 MiB
-    if (!fileExists(audioFilename)) { return -1; }
-    if (!fileExists(imageFilename)) { return -1; }
-
+    options.setOutput(input.getArg("-d"));
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
       {"Image", imageFilename},
       {"SoundTag", soundTag}
     };
+    Data data = createEmbedData( createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), options );
 
-    Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
-    Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data = { audioData, imageData, enableMonoAudio, ignoreSizeLimit, showDebugInfo };
-
-    if (data.showDebugInfo) {
+    if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
       for ( const auto& [key, value] : inputs ) {
         if (key.length() > 5) {
@@ -59,14 +64,14 @@ int main(int argc, char **argv) {
       fmt::print("\n");
     } 
     embed(data); 
-  } else if (input.argExists("extract") || input.argExists("-x")) {
+  } else if (input.toggleOption("-x", "extract")) {
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.")) { return -1; }
-    if (!fileExists(imageFilename)) { return -1; }
-    Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data;
-    data.image = imageData;
-    data.showDebugInfo = showDebugInfo;
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; } 
+
+    options.setAudio(input.getArg("-ad"));
+    options.setImage(input.getArg("-id"));
+
+    Data data = createExtractData( Image::ImageData(imageFilename), options );
     extract(data);
   } else 
       showUsage("oggex");
