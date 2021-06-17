@@ -6,17 +6,17 @@
 #include <tuple>
 #include <unordered_map>
 
+typedef std::unordered_map<std::string, std::tuple<std::string, std::string, bool>> OptionsList;
 class Options {
-  private:
-
-std::unordered_map<std::string, std::tuple<std::string, std::string, bool>> options = {
-    {"Mono"       ,   std::make_tuple("-f",  "--fast"         , false)}, 
-    {"IgnoreLimit",   std::make_tuple("ig",  "--ignore-limit" , false)},
-    {"Verbose"    ,   std::make_tuple("-v",  "--verbose"      , false)},
-    {"Output"     ,   std::make_tuple("-d",  "--dest"         , false)},
-    {"AudioFile"  ,   std::make_tuple("-ad", ""               , false)},
-    {"ImageFile"  ,   std::make_tuple("-id", ""               , false)}
-  };
+  private: 
+    OptionsList options = {
+      {"Mono"       ,   std::make_tuple("-f",  "--fast"         , false)}, 
+      {"IgnoreLimit",   std::make_tuple("ig",  "--ignore-limit" , false)},
+      {"Verbose"    ,   std::make_tuple("-v",  "--verbose"      , false)},
+      {"Output"     ,   std::make_tuple("-d",  "--dest"         , false)},
+      {"AudioFile"  ,   std::make_tuple("-ad", ""               , false)},
+      {"ImageFile"  ,   std::make_tuple("-id", ""               , false)}
+    };
 
     std::string outputFile;
     std::string audioFile;
@@ -24,12 +24,12 @@ std::unordered_map<std::string, std::tuple<std::string, std::string, bool>> opti
 
   public:
     // Getters
-    bool isMonoEnabled()              { return std::get<2>(options["Mono"]); }
-    bool ignoreLimitEnabled()         { return std::get<2>(options["IgnoreLimit"]); }
-    bool showVerboseEnabled()         { return std::get<2>(options["Verbose"]); }
-    bool getOutputFile()              { return std::get<2>(options["Output"]); }
-    bool getAudioFile()               { return std::get<2>(options["AudioFile"]); }
-    bool getImageFile()               { return std::get<2>(options["ImageFile"]); }
+    bool isMonoEnabled()              { return getOption("Mono"); }
+    bool ignoreLimitEnabled()         { return getOption("IgnoreLimit"); }
+    bool showVerboseEnabled()         { return getOption("Verbose"); }
+    bool getOutputFile()              { return getOption("Output"); }
+    bool getAudioFile()               { return getOption("AudioFile"); }
+    bool getImageFile()               { return getOption("ImageFile"); }
 
     // Setters
     void enableMono(bool toggled)     { enable("Mono", toggled); }
@@ -41,10 +41,10 @@ std::unordered_map<std::string, std::tuple<std::string, std::string, bool>> opti
 
     void setOutput(std::string filename)  { outputFile = filename; }
     void setAudio(std::string filename)  { audioFile = filename; }
-    void setImage(std::string filename)  { imageFile = filename; }
+    void setImage(std::string filename)  { imageFile = filename; } 
 
-    std::unordered_map<std::string, std::tuple<std::string, std::string, bool>> getOptions() { return options; }
+    OptionsList getOptions() { return options; }
+    bool getOption(std::string option) { return std::get<2>(options[option]); }
     void enable(std::string option, bool toggled) { std::get<2>(this->options[option]) = toggled; }
 };
 #endif
-
