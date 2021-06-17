@@ -8,6 +8,7 @@
 #include "EmbedAudio.h" 
 #include "ExtractAudio.h"
 #include "InputParser.h"
+#include "Data.h"
 #include "Cmd.h"
 
 int main(int argc, char **argv) { 
@@ -45,11 +46,8 @@ int main(int argc, char **argv) {
       {"Image", imageFilename},
       {"SoundTag", soundTag}
     };
-
-    Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
-    Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data = { audioData, imageData, 
-      enableMonoAudio, ignoreSizeLimit, showDebugInfo, setOutputFilename, setAudioFilename, setImageFilename};
+    Data data = createEmbedData(createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), 
+        enableMonoAudio, ignoreSizeLimit, showDebugInfo, setOutputFilename);
 
     if (data.showDebugInfo) {
       fmt::print("\n================ Inputs ================\n");
@@ -66,14 +64,7 @@ int main(int argc, char **argv) {
   } else if (input.argExists("extract") || input.argExists("-x")) {
     const std::string &imageFilename = input.getArg("-i");
     if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
-
-    Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data;
-    data.image = imageData;
-    data.showDebugInfo = showDebugInfo;
-    data.setOutputFilename = setOutputFilename;
-    data.setAudioFilename = setAudioFilename;
-    data.setImageFilename = setImageFilename;
+    Data data = createExtractData(Image::ImageData(imageFilename), showDebugInfo, setAudioFilename, setImageFilename);
     extract(data);
   } else 
       showUsage("oggex");

@@ -15,4 +15,9 @@ struct Data {
     bool setAudioFilename{};
     bool setImageFilename{};
 };
+
+Data createEmbedData(Audio::AudioData audio, Image::ImageData image, bool enableMonoAudio, bool ignoreSizeLimit, bool showDebugInfo, bool setOutputFilename);
+Data createExtractData(Image::ImageData image, bool showDebugInfo, bool setAudioFilename, bool setImageFilename);
+
 #endif
+
