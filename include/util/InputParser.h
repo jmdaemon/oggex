@@ -12,6 +12,7 @@ class InputParser {
         const std::string& getArg(const std::string &option) const;
         bool argExists(const std::string &option) const; 
         bool toggleOption(std::string shortFlag, std::string longFlag) const;
+        bool toggleOption(std::string flag) const;
 };
 
 #endif

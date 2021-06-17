@@ -26,3 +26,10 @@ bool InputParser::toggleOption(std::string shortFlag, std::string longFlag) cons
     }
     return false;
 }
+
+bool InputParser::toggleOption(std::string flag) const {
+    if (this->argExists(flag)) {
+      return true;
+    }
+    return false;
+}

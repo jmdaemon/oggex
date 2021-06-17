@@ -17,9 +17,12 @@ int main(int argc, char **argv) {
     return 0;
   } 
 
-  bool enableMonoAudio  = input.toggleOption("-f", "--fast");
-  bool ignoreSizeLimit  = input.toggleOption("-ig", "--ignore-limit");
-  bool showDebugInfo    = input.toggleOption("-v", "--verbose");
+  bool enableMonoAudio    = input.toggleOption("-f", "--fast");
+  bool ignoreSizeLimit    = input.toggleOption("-ig", "--ignore-limit");
+  bool showDebugInfo      = input.toggleOption("-v", "--verbose");
+  bool setOutputFilename  = input.toggleOption("-d", "--dest");
+  bool setAudioFilename   = input.toggleOption("-ad");
+  bool setImageFilename   = input.toggleOption("-id");
 
   if (input.argExists("embed") || input.argExists("-m")) { 
     const std::string &audioFilename = input.getArg("-a");
@@ -45,7 +48,8 @@ int main(int argc, char **argv) {
 
     Audio::AudioData audioData = createAudioData(soundTag, audioFilename);
     Image::ImageData imageData = Image::ImageData(imageFilename);
-    Data data = { audioData, imageData, enableMonoAudio, ignoreSizeLimit, showDebugInfo };
+    Data data = { audioData, imageData, 
+      enableMonoAudio, ignoreSizeLimit, showDebugInfo, setOutputFilename, setAudioFilename, setImageFilename};
 
     if (data.showDebugInfo) {
       fmt::print("\n================ Inputs ================\n");
@@ -67,6 +71,9 @@ int main(int argc, char **argv) {
     Data data;
     data.image = imageData;
     data.showDebugInfo = showDebugInfo;
+    data.setOutputFilename = setOutputFilename;
+    data.setAudioFilename = setAudioFilename;
+    data.setImageFilename = setImageFilename;
     extract(data);
   } else 
       showUsage("oggex");

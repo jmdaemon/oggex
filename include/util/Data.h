@@ -11,6 +11,8 @@ struct Data {
     bool enableMonoAudio{};
     bool ignoreSizeLimit{};
     bool showDebugInfo{};
+    bool setOutputFilename{};
+    bool setAudioFilename{};
+    bool setImageFilename{};
 };
-
 #endif
