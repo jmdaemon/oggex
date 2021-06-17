@@ -18,14 +18,15 @@ int main(int argc, char **argv) {
     return 0;
   } 
 
-  Options options;
-
-  options.enableMono      (input.toggleOption("-f", "--fast"));
-  options.ignoreLimit     (input.toggleOption("-ig", "--ignore-limit"));
-  options.showVerbose     (input.toggleOption("-v", "--verbose"));
-  options.setOutputFile   (input.toggleOption("-d", "--dest"));
-  options.setAudioFile    (input.toggleOption("-ad"));
-  options.setImageFile    (input.toggleOption("-id"));
+  Options options; // Enable options
+  for ( const auto& [option, flag] : options.getOptions() ) {           // Get the hashmap of toggled options 
+    auto [ shortFlag, longFlag, enabled ] = flag;
+    if (!longFlag.empty()) {                                            // If LongFlag is not empty 
+      options.enable(option, input.toggleOption(shortFlag, longFlag));  // Use both flags, and enable the option 
+    } else {
+      options.enable(option, input.toggleOption(shortFlag));            // Use the ShortFlag to enable the option
+    }
+  }
 
   std::unordered_map<std::string, std::string> Errors = {
     {"InvalidAudioFile", "You must provide a valid .ogg audio file."},
@@ -43,8 +44,7 @@ int main(int argc, char **argv) {
     const std::string &soundTag = input.getArg("-t");
     if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; } 
 
-    options.setOutputFile(input.getArg("-d"));
-
+    options.setOutput(input.getArg("-d"));
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
       {"Image", imageFilename},
@@ -68,8 +68,8 @@ int main(int argc, char **argv) {
     const std::string &imageFilename = input.getArg("-i");
     if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; } 
 
-    options.setOutputFile(input.getArg("-ad"));
-    options.setOutputFile(input.getArg("-id"));
+    options.setAudio(input.getArg("-ad"));
+    options.setImage(input.getArg("-id"));
 
     Data data = createExtractData( Image::ImageData(imageFilename), options );
     extract(data);
