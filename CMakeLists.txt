@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19) # CMake 3.9
 
 project(
     oggex 
-    VERSION 1.2.1
+    VERSION 1.3.0
     DESCRIPTION "Encode and decode ogg audio files in images" 
     LANGUAGES CXX
     )
@@ -70,4 +70,6 @@ endif()
 
 #set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
 set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/install)
-install(TARGETS oggex DESTINATION bin)
+install(TARGETS ${OGGEX} DESTINATION bin)
+install(TARGETS ${OGGEX} CONFIGURATIONS Debug   RUNTIME DESTINATION Debug/bin)
+install(TARGETS ${OGGEX} CONFIGURATIONS Release RUNTIME DESTINATION Release/bin)

@@ -10,14 +10,14 @@ DEBUG_DIR="build/Debug"
 
 build_release() {
     mkdir $RELEASE_DIR 
-    CC=$1 CXX=$2 cmake -S . -B $RELEASE_DIR -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+    CC="${1}" CXX="${2}" cmake -S . -B $RELEASE_DIR -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
     cd $RELEASE_DIR
     ninja 
 }
 
 build_debug() {
     mkdir $DEBUG_DIR
-    CC=$1 CXX=$2 cmake -S . -B $DEBUG_DIR -G Ninja -DCMAKE_BUILD_TYPE=Debug
+    CC="${1}" CXX="${2}" cmake -S . -B $DEBUG_DIR -G Ninja -DCMAKE_BUILD_TYPE=Debug
     cd $DEBUG_DIR
     ninja 
 }
@@ -57,7 +57,7 @@ while true; do
 case $1 in 
     "-h" | --help) 
         show_usage 
-        break
+        break # Replace with die
         ;; 
     "-g" | --gcc) 
         CC="gcc"
@@ -69,8 +69,8 @@ case $1 in
         CXX="clang++"
         shift 
         ;;
-    "") 
-        CLANG="$(which clang)" 
+    * | "") 
+        CLANG="$(which clang++)" 
         GCC="$(which g++)"
         if [[ ( ! -z "$CLANG") ]]; then 
             CC="clang"
@@ -86,13 +86,13 @@ esac
 BUILT_DIR=${DEFAULT_DIR}
 case $1 in 
     "-r" | --release) 
-        build_release CC CXX 
+        build_release ${CC} ${CXX} 
         BUILT_DIR=${RELEASE_DIR}
         shift
         break
         ;; 
     "-d" | --debug) 
-        build_debug CC CXX
+        build_debug ${CC} ${CXX}
         BUILT_DIR=${DEBUG_DIR}
         shift
         break
