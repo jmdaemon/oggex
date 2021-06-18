@@ -33,6 +33,9 @@ show_usage() {
     echo "      -d, --debug         Build in Debug configuration"
     echo "      -c, --clang         Compile with Clang"
     echo "      -g, --gcc           Compile with GCC"
+    echo "      -m, --make          Make Oggex with Ninja"
+    echo "      -t, --test          Run tests in Ninja"
+    echo "      -v, --verbose       Show debugging information"
     echo ""
 }
 
@@ -63,42 +66,64 @@ case $1 in
         CXX="clang++"
         shift 
         ;;
-      "") 
-          CLANG="$(which clang)" 
-          GCC="$(which g++)"
-          if [[ ( ! -z "$CLANG") ]]; then 
-              CC="clang"
-              CXX="clang++"
-          elif [[ ( ! -z "$GCC") ]]; then 
-              CC="gcc"
-              CXX="g++"
-          else 
-              echo "No compatible compiler installed." 
-          fi
+    "") 
+        CLANG="$(which clang)" 
+        GCC="$(which g++)"
+        if [[ ( ! -z "$CLANG") ]]; then 
+            CC="clang"
+            CXX="clang++"
+        elif [[ ( ! -z "$GCC") ]]; then 
+            CC="gcc"
+            CXX="g++"
+        else 
+            echo "No compatible compiler installed." 
+        fi
+        ;;
+esac
+BUILT_DIR=${DEFAULT_DIR}
+case $1 in 
+    "-r" | --release) 
+        build_release CC CXX 
+        BUILT_DIR=${RELEASE_DIR}
+        shift
+        break
+        ;; 
+    "-d" | --debug) 
+        build_debug CC CXX
+        BUILT_DIR=${DEBUG_DIR}
+        shift
+        break
+        ;; 
+    "") 
+        build_default CC CXX
+        BUILT_DIR=${DEFAULT_DIR}
+        shift
+        break
+        ;;
+esac 
+  case $1 in 
+      "-m" | --make) 
+          THREADS=$(cat /proc/cpuinfo | grep processor | awk '{print $3}' | awk 'min == "" || $1<min{min=$1} $1>max{max=$1} END{print max}')
+          cd ${BUILT_DIR} 
+          ninja -j${THREADS}
+          break
+          ;; 
+      "-t" | --test)
+          cd ${BUILT_DIR}
+          shift
+          case $1 in
+              -v)
+                  ctest -V
+                  ;;
+              "")
+                  ctest
+                  ;;
+          esac
+          break
           ;;
       *) 
           show_usage
           break
           ;;
   esac
-case $1 in 
-  "-r" | --release) 
-      build_release CC CXX 
-      shift
-      break
-      ;; 
-  "-d" | --debug) 
-      build_debug CC CXX
-      shift
-      break
-      ;; 
-  "") 
-      build_default CC CXX
-      shift
-      break
-      ;;
-  *) show_usage
-      break
-      ;;
-  esac 
 done 
