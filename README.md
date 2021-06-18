@@ -18,8 +18,8 @@ You can download it [here](https://github.com/jmdaemon/oggex/releases/latest/dow
 
 ## Building
 The following build dependencies are required:
-- clang
-- cmake
+- clang or gcc
+- cmake (3.1.9)
 - ninja
 
 ``` bash
