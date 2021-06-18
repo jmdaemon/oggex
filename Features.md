@@ -10,23 +10,18 @@ Listed are some possible, and upcoming features for Oggex.
 
 #### Update Unit Tests
 - Update all the unit tests, and look into writing better, more effective tests
-- Properly configure doctest to compile itself with CMAKE, and make itself known.
 
 
 - - - - -
 ## Minor Features
 
-#### Install/Uninstall Oggex
-- Create install/uninstall scripts to install/uninstall oggex into usr/local/bin
-
 #### Support for Sound Tags Beyond 100 Characters
 - Read the entire embedded file from start to finish.
 - Improve the regex search in findSoundTag() to find the sound tag more easily.
 
-#### Create Debug/Release Config with CMake
-- Define debug/release versions with Cmake to ensure that user binaries are as fast as can be.
-- Install and setup profiler
-- Optimize for Clang & GCC
+### TODO
+- Setup profiler, and optimize binaries for Clang & GCC
+- Make `ninja -C build` and `ninja -C build install` for building local binaries, and for installing binaries to /usr/local
 
 
 - - - - -
