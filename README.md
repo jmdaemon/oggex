@@ -27,14 +27,33 @@ The following build dependencies are required:
 ``` bash
 git clone https://github.com/jmdaemon/oggex.git
 cd oggex
-./scripts/build.sh
-cd build
-sudo ninja install
+./scripts/build.sh --release
 ```
-The binary will be found under `/usr/local/bin`.
-To uninstall, write `sudo ninja uninstall ` in the same build directory.
+Additional configuration and build options can be specified to `build.sh`.
+
+Build Oggex (Release):
+
+``` bash
+ninja -C build/Release
+```
+
+Install Oggex to /usr/local/bin:
+``` bash
+sudo ninja -C build/Release install
+```
+
+Uninstall Oggex:
+``` bash
+sudo ninja -C build/Release uninstall
+```
+
+Install Oggex in a different directory:
+``` bash
+./scripts/build.sh -r -i --prefix [/path/to/your/directory]
+sudo ninja -C build/Release install
+```
+
 The `oggex` binary can also be found under `build/app`.
-Additional parameters can be specified to `build.sh` for greater flexibility.
 
 ## Usage
 
@@ -66,7 +85,8 @@ Options:
 $ oggex embed -a audio.ogg -i image.png -t "soundtag"
 ```
 
-**Note:** The maximum output file size, includes the size of the image, audio, and the length of the sound tag.
+**Note:** The maximum output file size is 4MiB and, includes the size of the image, audio, and the length of the sound tag.
+The sound tag cannot be greater than 100 characters.
 
 Currently the supported image file formats are:
 - jpg/jpeg

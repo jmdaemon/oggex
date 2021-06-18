@@ -40,9 +40,8 @@ show_usage() {
     echo "      -m, --make          Make Oggex with Ninja"
     echo ""
     echo "    Install "
-    echo "      -i, --install       Creates the Oggex binary in build/install/bin "
-    echo "                                                  or  build/Debug/install/bin"
-    echo "                                                  or  build/Release/install/bin"
+    echo "      -i, --install       Installs Oggex into /usr/local/bin"
+    echo "          --prefix        Change Oggex install directory"
     echo "    Test"
     echo "      -t, --test          Run tests in Ninja"
     echo "      -v, --verbose       Show debugging information"
@@ -61,7 +60,7 @@ CC=""
 CXX=""
 
 while true; do
-case $1 in 
+case $1 in
     "-h" | --help) 
         show_usage 
         break # Replace with die
@@ -133,9 +132,17 @@ esac
           ;;
   esac
   case $1 in
-      "-i" | --install)
-          cd ${BUILT_DIR}
-          cmake --install .
+      "-i" | --install) 
+          cd ${BUILT_DIR} 
+          shift
+          case $1 in 
+              "--prefix")
+                  cmake --install . --prefix "${2}"
+                  ;;
+              *) 
+                  cmake --install .
+                  ;;
+          esac
           break
           ;;
       *) 
