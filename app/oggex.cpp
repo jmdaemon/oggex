@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
     if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; } 
 
     options.setOutput(input.getArg("-d"));
+
     std::unordered_map<std::string, std::string> inputs = {
       {"Audio", audioFilename},
       {"Image", imageFilename},

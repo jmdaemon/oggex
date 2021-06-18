@@ -34,12 +34,6 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
   }
   return soundTag; 
 } 
-void rename(Data& data, std::string outputFile, std::string from, std::string to) {
-  if (data.options.isEnabled(outputFile)) {
-    std::filesystem::rename(std::filesystem::path(from), std::filesystem::path(to));
-    data.options.setFileName(outputFile, std::filesystem::path(to));
-  }
-}
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
@@ -66,11 +60,10 @@ int extract(Data data) {
   if (data.options.showVerboseEnabled()) { fmt::print("Output Audio File \t\t: {}\n\n", soundTag); }
   fmt::print("Extracting audio file as \"{}\"\n", soundTag);
 
-  writeToDisk(soundTag.c_str(), audioContent);
-  writeToDisk(fs::path(image.string() + ".png"), imageFileData);
-
-  rename(data, "AudioFile", soundTag, data.options.getAudioFile());
-  rename(data, "ImageFile", (image.string() + ".png"), data.options.getImageFile()); 
+  fs::path audioFileName = (data.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
+  fs::path imageFileName = (data.options.imageFileEnabled()) ?  fs::path(data.options.getImageFile()) : fs::path(image.string() + ".png");
+  writeToDisk(audioFileName, audioContent);
+  writeToDisk(imageFileName, imageFileData);
 
   return 0;
 }

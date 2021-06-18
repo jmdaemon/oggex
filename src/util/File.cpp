@@ -88,4 +88,4 @@ void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {
   std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary); 
   outputFile.write(outputData.c_str(), outputData.length());
   outputFile.close();
-}
+} 
