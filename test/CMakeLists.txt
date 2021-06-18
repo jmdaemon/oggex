@@ -9,6 +9,7 @@ set(RESOURCE_FILES
   resources/outputFile1.audio02.ogg
   )
 
+# https://stackoverflow.com/questions/49413898/how-to-use-cmake-with-catch2
 set(TESTS_MAIN tests-main)
 add_library(${TESTS_MAIN} doctest.cpp)
 target_include_directories(${TESTS_MAIN} PUBLIC ${DOCTEST_INCLUDE_DIR})
