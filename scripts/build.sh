@@ -8,7 +8,7 @@ DEFAULT_DIR="build"
 RELEASE_DIR="build/Release"
 DEBUG_DIR="build/Debug"
 
-build_release() { # $1 =>
+build_release() {
     mkdir $RELEASE_DIR 
     CC=$1 CXX=$2 cmake -S . -B $RELEASE_DIR -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
     cd $RELEASE_DIR
