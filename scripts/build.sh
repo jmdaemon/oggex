@@ -27,7 +27,7 @@ build_default() {
 }
 
 show_usage() {
-    echo "Usage: [config] [compiler] ./scripts/build.sh"
+    echo "Usage: ./scripts/build.sh [options]"
     echo ""
     echo "    Configure"
     echo "      ./scripts/build.sh  Build in Default configuration"
