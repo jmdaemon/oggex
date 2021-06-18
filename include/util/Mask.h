@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MASK_H
 #define MASK_H
 
