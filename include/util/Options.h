@@ -26,12 +26,12 @@ class Options {
 
   public:
     // Getters
-    bool isMonoEnabled()                  { return getOption("Mono"); }
-    bool ignoreLimitEnabled()             { return getOption("IgnoreLimit"); }
-    bool showVerboseEnabled()             { return getOption("Verbose"); }
-    bool outputFileEnabled()              { return getOption("Output"); }
-    bool audioFileEnabled()               { return getOption("AudioFile"); }
-    bool imageFileEnabled()               { return getOption("ImageFile"); }
+    bool isMonoEnabled()                  { return isEnabled("Mono"); }
+    bool ignoreLimitEnabled()             { return isEnabled("IgnoreLimit"); }
+    bool showVerboseEnabled()             { return isEnabled("Verbose"); }
+    bool outputFileEnabled()              { return isEnabled("Output"); }
+    bool audioFileEnabled()               { return isEnabled("AudioFile"); }
+    bool imageFileEnabled()               { return isEnabled("ImageFile"); }
     std::string getOutputFile()           { return getFileName("OutputFile"); }
     std::string getAudioFile()            { return getFileName("AudioFile"); }
     std::string getImageFile()            { return getFileName("ImageFile"); }
@@ -50,7 +50,7 @@ class Options {
 
     // options
     OptionsList getOptions()                                  { return options; }
-    bool getOption(std::string option)                        { return std::get<2>(options[option]); }
+    bool isEnabled(std::string option)                        { return std::get<2>(options[option]); }
     void enable(std::string option, bool toggled)             { std::get<2>(this->options[option]) = toggled; }
 
     // outputFiles

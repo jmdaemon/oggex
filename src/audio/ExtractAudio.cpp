@@ -34,6 +34,12 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
   }
   return soundTag; 
 } 
+void rename(Data& data, std::string outputFile, std::string from, std::string to) {
+  if (data.options.isEnabled(outputFile)) {
+    std::filesystem::rename(std::filesystem::path(from), std::filesystem::path(to));
+    data.options.setFileName(outputFile, std::filesystem::path(to));
+  }
+}
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
@@ -63,15 +69,8 @@ int extract(Data data) {
   writeToDisk(soundTag.c_str(), audioContent);
   writeToDisk(fs::path(image.string() + ".png"), imageFileData);
 
-  if (data.options.audioFileEnabled()) {
-    fs::rename(fs::path(soundTag), data.options.getAudioFile());
-    data.audio.setAudio(fs::path(data.options.getAudioFile()));
-  }
+  rename(data, "AudioFile", soundTag, data.options.getAudioFile());
+  rename(data, "ImageFile", (image.string() + ".png"), data.options.getImageFile()); 
 
-  if (data.options.imageFileEnabled()) {
-    fs::rename(fs::path(data.image.getImage() + ".png"), data.options.getImageFile());
-    data.image.setImage(fs::path(data.options.getImageFile()));
-  }
-
-   return 0;
+  return 0;
 }
