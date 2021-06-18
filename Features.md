@@ -4,11 +4,6 @@ Listed are some possible, and upcoming features for Oggex.
 
 ## Work in Progress
 
-#### Extract Original Image
-- Add feature to ExtractAudio/extract to get the original image file.
-- Read the embedded from its beginning, up to the audio offset to obtain the original image.
-- Be able to specify custom output filename for the original image file.
-
 #### Human Readable Sizes
 - Add feature to Extract/Embed Audio to toggle human readable numbers.
 - Sizes will be displayed in either (B, KB, MB, GB);
