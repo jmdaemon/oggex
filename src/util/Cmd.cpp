@@ -24,15 +24,6 @@ void showUsage(std::string programName) {
       );
 } 
 
-bool meetsReq(int argc, char** argv) {
-  if (argc <= 1) {
-    fmt::print("# of Arguments passed: \t{}\n", argc);
-    showUsage(argv[0]);
-    throw std::exception();
-  } 
-  return true;
-}
-
 bool isEmpty(std::string arg, std::string errorMsg) {
   if (arg.empty()) { 
     showUsage("embed");
