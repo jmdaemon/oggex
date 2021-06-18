@@ -28,15 +28,22 @@ build_default() {
 
 show_usage() {
     echo "Usage: [config] [compiler] ./scripts/build.sh"
-    echo "  Configure"
+    echo ""
+    echo "    Configure"
     echo "      ./scripts/build.sh  Build in Default configuration"
     echo "      -r, --release       Build in Release configuration"
     echo "      -d, --debug         Build in Debug configuration"
     echo "      -c, --clang         Compile with Clang"
     echo "      -g, --gcc           Compile with GCC"
-    echo "  Build "
+    echo ""
+    echo "    Build "
     echo "      -m, --make          Make Oggex with Ninja"
-    echo "  Test"
+    echo ""
+    echo "    Install "
+    echo "      -i, --install       Creates the Oggex binary in build/install/bin "
+    echo "                                                  or  build/Debug/install/bin"
+    echo "                                                  or  build/Release/install/bin"
+    echo "    Test"
     echo "      -t, --test          Run tests in Ninja"
     echo "      -v, --verbose       Show debugging information"
     echo ""
@@ -122,6 +129,13 @@ esac
                   ctest
                   ;;
           esac
+          break
+          ;;
+  esac
+  case $1 in
+      "-i" | --install)
+          cd ${BUILT_DIR}
+          cmake --install .
           break
           ;;
       *) 
