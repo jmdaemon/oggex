@@ -67,3 +67,7 @@ add_subdirectory(app)
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
+
+#set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
+set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR}/install)
+install(TARGETS oggex DESTINATION bin)

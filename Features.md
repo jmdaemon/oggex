@@ -19,15 +19,13 @@ Listed are some possible, and upcoming features for Oggex.
 #### Install/Uninstall Oggex
 - Create install/uninstall scripts to install/uninstall oggex into usr/local/bin
 
-#### Support for GCC compiler
-- Add simple if statement in bash script to toggle either clang or gcc, with preference to clang.
-
 #### Support for Sound Tags Beyond 100 Characters
 - Read the entire embedded file from start to finish.
 - Improve the regex search in findSoundTag() to find the sound tag more easily.
 
 #### Create Debug/Release Config with CMake
 - Define debug/release versions with Cmake to ensure that user binaries are as fast as can be.
+- Install and setup profiler
 - Optimize for Clang & GCC
 
 
