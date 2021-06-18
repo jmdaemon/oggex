@@ -1,3 +1,4 @@
+#pragma once
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
@@ -18,36 +19,43 @@ class Options {
       {"ImageFile"  ,   std::make_tuple("-id", ""               , false)}
     };
 
-    std::string outputFile;
-    std::string audioFile;
-    std::string imageFile;
+    std::unordered_map<std::string, std::string> outputFiles = {
+      {"OutputFile" , ""},
+      {"AudioFile"  , ""},
+      {"ImageFile"  , ""}
+    };
 
   public:
     // Getters
-    bool isMonoEnabled()              { return getOption("Mono"); }
-    bool ignoreLimitEnabled()         { return getOption("IgnoreLimit"); }
-    bool showVerboseEnabled()         { return getOption("Verbose"); }
-    bool outputFileEnabled()          { return getOption("Output"); }
-    bool audioFileEnabled()           { return getOption("AudioFile"); }
-    bool imageFileEnabled()           { return getOption("ImageFile"); }
-    std::string getOutputFile()       { return outputFile; }
-    std::string getAudioFile()        { return audioFile; }
-    std::string getImageFile()        { return imageFile; }
+    bool isMonoEnabled()                  { return isEnabled("Mono"); }
+    bool ignoreLimitEnabled()             { return isEnabled("IgnoreLimit"); }
+    bool showVerboseEnabled()             { return isEnabled("Verbose"); }
+    bool outputFileEnabled()              { return isEnabled("Output"); }
+    bool audioFileEnabled()               { return isEnabled("AudioFile"); }
+    bool imageFileEnabled()               { return isEnabled("ImageFile"); }
+    std::string getOutputFile()           { return getFileName("OutputFile"); }
+    std::string getAudioFile()            { return getFileName("AudioFile"); }
+    std::string getImageFile()            { return getFileName("ImageFile"); }
 
     // Setters
-    void enableMono(bool toggled)     { enable("Mono", toggled); }
-    void ignoreLimit(bool toggled)    { enable("IgnoreLimit", toggled); }
-    void showVerbose(bool toggled)    { enable("Verbose", toggled); }  
-    void setOutputFile(bool toggled)  { enable("Output", toggled); }
-    void setAudioFile(bool toggled)   { enable("AudioFile", toggled); }
-    void setImageFile(bool toggled)   { enable("ImageFile", toggled); }  
+    void enableMono(bool toggled)         { enable("Mono", toggled); }
+    void ignoreLimit(bool toggled)        { enable("IgnoreLimit", toggled); }
+    void showVerbose(bool toggled)        { enable("Verbose", toggled); }  
+    void setOutputFile(bool toggled)      { enable("Output", toggled); }
+    void setAudioFile(bool toggled)       { enable("AudioFile", toggled); }
+    void setImageFile(bool toggled)       { enable("ImageFile", toggled); }  
 
-    void setOutput(std::string filename)  { outputFile = filename; }
-    void setAudio(std::string filename)  { audioFile = filename; }
-    void setImage(std::string filename)  { imageFile = filename; } 
+    void setOutput(std::string filename)  { setFileName("OutputFile", filename); }
+    void setAudio(std::string filename)   { setFileName("AudioFile", filename); }
+    void setImage(std::string filename)   { setFileName("ImageFile", filename); } 
 
-    OptionsList getOptions() { return options; }
-    bool getOption(std::string option) { return std::get<2>(options[option]); }
-    void enable(std::string option, bool toggled) { std::get<2>(this->options[option]) = toggled; }
+    // options
+    OptionsList getOptions()                                  { return options; }
+    bool isEnabled(std::string option)                        { return std::get<2>(options[option]); }
+    void enable(std::string option, bool toggled)             { std::get<2>(this->options[option]) = toggled; }
+
+    // outputFiles
+    std::string getFileName(std::string file)                 { return outputFiles[file]; }
+    void setFileName(std::string file, std::string filename)  { outputFiles[file] = filename; }
 };
 #endif

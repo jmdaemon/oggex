@@ -1,4 +1,4 @@
-#include "../doctest-main.cpp"
+#include "doctest.h"
 
 #include <iostream>
 #include <string>

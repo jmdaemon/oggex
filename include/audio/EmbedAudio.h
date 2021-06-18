@@ -1,3 +1,4 @@
+#pragma once
 #ifndef EMBEDAUDIO_H
 #define EMBEDAUDIO_H
 

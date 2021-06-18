@@ -1,9 +1,3 @@
-FetchContent_Declare(
-    doctest
-    GIT_REPOSITORY "https://github.com/onqtam/doctest"
-    )
-FetchContent_MakeAvailable(doctest)
-
 set(RESOURCE_SOURCE_DIR "${PROJECT_SOURCE_DIR}/test/resources/")
 set(DOCTEST_LIB "${OGGEX_SOURCE_DIR}/include/")
 
@@ -15,12 +9,10 @@ set(RESOURCE_FILES
   resources/outputFile1.audio02.ogg
   )
 
-set (DOCTEST_MAIN doctest_library)
-
-add_executable(${DOCTEST_MAIN} doctest-main.cpp)
-target_compile_features(${DOCTEST_MAIN} PRIVATE cxx_std_20)
-target_include_directories(${DOCTEST_MAIN} PUBLIC ${DOCTEST_LIB})
-target_link_libraries(${DOCTEST_MAIN} PRIVATE image_library doctest)
+# https://stackoverflow.com/questions/49413898/how-to-use-cmake-with-catch2
+set(TESTS_MAIN tests-main)
+add_library(${TESTS_MAIN} doctest.cpp)
+target_include_directories(${TESTS_MAIN} PUBLIC ${DOCTEST_INCLUDE_DIR})
 
 add_subdirectory(util)
 add_subdirectory(audio)

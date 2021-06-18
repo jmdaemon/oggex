@@ -55,6 +55,18 @@ std::string dataToString(std::filesystem::path filepath, size_t offset) {
   return fileData;
 }
 
+std::string readFile(std::filesystem::path filepath, size_t start, size_t end) {
+  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary); 
+  if(file.is_open()) { 
+    file.seekg(start);
+    std::string imageFile;
+    imageFile.resize(end - start);
+    file.read(&imageFile[0], end - start); 
+    return imageFile;
+  }
+  return "";
+}
+
 bool fileExists(std::filesystem::path filepath) { 
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
   if (!file.is_open()) {
@@ -70,5 +82,10 @@ void clean(std::initializer_list<std::filesystem::path> filepaths) {
   for( auto filepath: filepaths) {
     std::filesystem::remove(filepath);
   }
-}
+} 
 
+void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {
+  std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary); 
+  outputFile.write(outputData.c_str(), outputData.length());
+  outputFile.close();
+} 

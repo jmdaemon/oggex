@@ -1,4 +1,4 @@
-#include "../doctest-main.cpp"
+#include "doctest.h"
 
 #include <iostream>
 #include <string>
@@ -10,4 +10,6 @@ using namespace std;
 namespace fs = std::filesystem;
 
 TEST_CASE("Testing Audio file class") {
+    SUBCASE("") {
+    }
 }

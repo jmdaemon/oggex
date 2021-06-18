@@ -1,4 +1,5 @@
 #include "Mask.h"
+#include <iostream>
 
 using namespace std;
 namespace fs = std::filesystem;

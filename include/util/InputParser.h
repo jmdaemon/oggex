@@ -1,3 +1,4 @@
+#pragma once
 #ifndef INPUT_PARSER_H
 #define INPUT_PARSER_H
 

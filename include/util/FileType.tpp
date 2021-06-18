@@ -1,3 +1,4 @@
+#pragma once
 #ifndef   FILE_TYPE_H
 #define   FILE_TYPE_H
 

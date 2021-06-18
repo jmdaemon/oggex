@@ -1,6 +1,6 @@
-#include "../doctest-main.cpp"
+#include "doctest.h"
 
-#include <stdlib.h> 
+//#include <stdlib.h> 
 #include <iostream>
 #include <string>
 

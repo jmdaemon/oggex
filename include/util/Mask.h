@@ -1,3 +1,4 @@
+#pragma once
 #ifndef MASK_H
 #define MASK_H
 
@@ -7,7 +8,6 @@
 #include <cstdint>
 #include <cstdio>
 #include <filesystem>
-#include <iostream>
 #include <memory>
 #include <string>
 

@@ -1,4 +1,5 @@
 #include "EmbedAudio.h"
+#include <iosfwd>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -96,9 +97,10 @@ void encodeImage(Data& data) {
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
     clean({audio.getTempAudio()});
     throw exception();
-  }
+  } 
 
-  ofstream outputFile(data.image.createOutputFilename(), ifstream::out | ifstream::binary);
+  fs::path outputFileName = (data.options.outputFileEnabled()) ?  fs::path(data.options.getOutputFile()) : data.image.createOutputFilename(); 
+  ofstream outputFile(outputFileName, ifstream::out | ifstream::binary);
   ifstream imageFileData(data.image.getImage(), ifstream::in | ifstream::binary);
   ifstream audioFileData(audio.getTempAudio(), ifstream::in | ifstream::binary);
 
@@ -107,10 +109,6 @@ void encodeImage(Data& data) {
   imageFileData.close();
   audioFileData.close();
   clean({audio.getTempAudio()});
-  if (data.options.outputFileEnabled()) {
-    fs::rename(data.image.createOutputFilename(), data.options.getOutputFile());
-    data.image.setImage(fs::path(data.options.getOutputFile()));
-  }
 }
 
 int embed(Data& data) {

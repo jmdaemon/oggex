@@ -1,3 +1,4 @@
+#pragma once
 #ifndef EXTRACTAUDIO_H
 #define EXTRACTAUDIO_H
 
