@@ -52,11 +52,10 @@ int extract(Data data) {
   string imageFileData      = readFile(image, 0, audioOffset);
   string audioContent       = dataToString(image, audioOffset);
   string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
-  if (soundTag.empty()) { 
+  if (soundTag.empty()) {
     return -1; 
-  } else { 
-    soundTag += ".ogg";
-  }
+  } else 
+      soundTag += ".ogg";
   if (data.options.showVerboseEnabled()) { fmt::print("Output Audio File \t\t: {}\n\n", soundTag); }
   fmt::print("Extracting audio file as \"{}\"\n", soundTag);
 
