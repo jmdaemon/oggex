@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19) # CMake 3.9
 
 project(
     oggex 
-    VERSION 1.2.0 
+    VERSION 1.2.1
     DESCRIPTION "Encode and decode ogg audio files in images" 
     LANGUAGES CXX
     )
@@ -28,7 +28,6 @@ set( OGGEX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
 set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
-
 
 configure_file (
   "${PROJECT_SOURCE_DIR}/oggex.hpp.in"
