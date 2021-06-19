@@ -104,9 +104,8 @@ case $1 in
         shift
         ;; 
     "") 
-        build_default CC CXX
+        build_default ${CC} ${CXX}
         BUILT_DIR=${DEFAULT_DIR}
-        shift
         ;;
 esac 
   case $1 in 
@@ -142,6 +141,8 @@ esac
                   ;;
           esac
           break
+          ;;
+      "") break
           ;;
       *) 
           show_usage
