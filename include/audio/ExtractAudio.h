@@ -5,7 +5,6 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
-#include <regex>
 
 #include <fmt/core.h>
 

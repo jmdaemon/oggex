@@ -14,21 +14,20 @@ size_t getOffset(std::filesystem::path filepath, const char* searchTerm) {
 
 string findSoundTag(Data& data, string fileData, size_t offset) {
   string tag = fileData.substr(0, offset);
-  regex exp("(\\[\\w+\\])\\.(\?!OggS)");
+  size_t endTag = tag.rfind("]"); 
+  size_t startTag = tag.rfind("[");
+  if (endTag == std::string::npos || startTag == std::string::npos) {
+    fmt::print("Sound Tag not found.\n");
+    return "";
+  }
+  string unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
+  string soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
+    ?  unstrippedTag.substr(1,  unstrippedTag.length() - 2) : ""; 
 
-  string unstrippedTag = "", soundTag = "";
-  smatch match;
-  if (regex_search(tag, match, exp)) { 
-    unstrippedTag = match[0]; // soundTag = [audio02] => audio02
-
-    soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
-      ?  unstrippedTag.substr(1,  unstrippedTag.length() - 2) : ""; 
-
-    if (data.options.showVerboseEnabled()) { 
-      fmt::print("\n================ Sound Tag ================\n");
-      fmt::print("Tag: \t\t\t\t: {}\n", unstrippedTag);
-      fmt::print("Stripped Tag: \t\t\t: {}\n", soundTag);
-    }
+  if (data.options.showVerboseEnabled()) { 
+    fmt::print("\n================ Sound Tag ================\n");
+    fmt::print("Tag: \t\t\t\t: {}\n", unstrippedTag);
+    fmt::print("Stripped Tag: \t\t\t: {}\n", soundTag);
   }
   return soundTag; 
 } 
