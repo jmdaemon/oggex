@@ -8,18 +8,20 @@ DEFAULT_DIR="build"
 RELEASE_DIR="build/Release"
 DEBUG_DIR="build/Debug"
 
-build_release() {
-    mkdir $RELEASE_DIR 
+build_release() { 
+    [[ ! -d $RELEASE_DIR ]] && mkdir $RELEASE_DIR || :
     CC="${1}" CXX="${2}" cmake -S . -B $RELEASE_DIR -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
     cd $RELEASE_DIR
     ninja 
+    cd ../../
 }
 
 build_debug() {
-    mkdir $DEBUG_DIR
+    [[ ! -d $DEBUG_DIR ]] && mkdir $DEBUG_DIR || :
     CC="${1}" CXX="${2}" cmake -S . -B $DEBUG_DIR -G Ninja -DCMAKE_BUILD_TYPE=Debug
     cd $DEBUG_DIR
     ninja 
+    cd ../..
 }
 
 build_default() {
@@ -95,19 +97,16 @@ case $1 in
         build_release ${CC} ${CXX} 
         BUILT_DIR=${RELEASE_DIR}
         shift
-        break
         ;; 
     "-d" | --debug) 
         build_debug ${CC} ${CXX}
         BUILT_DIR=${DEBUG_DIR}
         shift
-        break
         ;; 
     "") 
         build_default CC CXX
         BUILT_DIR=${DEFAULT_DIR}
         shift
-        break
         ;;
 esac 
   case $1 in 
@@ -133,14 +132,13 @@ esac
   esac
   case $1 in
       "-i" | --install) 
-          cd ${BUILT_DIR} 
           shift
           case $1 in 
               "--prefix")
-                  cmake --install . --prefix "${2}"
+                  cmake --install "${BUILT_DIR}" --prefix "${2}"
                   ;;
               *) 
-                  cmake --install .
+                  cmake --install "${BUILT_DIR}"
                   ;;
           esac
           break
