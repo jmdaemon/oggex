@@ -132,15 +132,13 @@ esac
   esac
   case $1 in
       "-i" | --install) 
-          cd "${BUILT_DIR}"
           shift
           case $1 in 
               "--prefix")
-                  # Generate in PROJECT_ROOT/build/, not PROJECT_ROOT/build/Release/build/bin/Release
-                  cmake --install . --prefix "$(pwd)/build/../../${2}"
+                  cmake --install "${BUILT_DIR}" --prefix "${2}"
                   ;;
               *) 
-                  cmake --install .
+                  cmake --install "${BUILT_DIR}"
                   ;;
           esac
           break
