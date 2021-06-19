@@ -14,11 +14,8 @@ Listed are some possible, and upcoming features for Oggex.
 
 - - - - -
 
-#### Support for Sound Tags Beyond 100 Characters
-- Read the entire embedded file from start to finish.
-- Improve the regex search in findSoundTag() to find the sound tag more easily.
 
-#### Minor Fixes
+#### Minor Tasks
 - Setup profiler, and optimize binaries for Clang & GCC
 
 

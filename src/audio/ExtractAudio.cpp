@@ -13,12 +13,10 @@ size_t getOffset(std::filesystem::path filepath, const char* searchTerm) {
 }
 
 string findSoundTag(Data& data, string fileData, size_t offset) {
-  string tag = fileData.substr(offset - 100, offset);
-  //regex exp("(\\[\\w+\\])(\?!OggS)");
-  regex exp("(\\[\\w+\\])");
+  string tag = fileData.substr(0, offset);
+  regex exp("(\\[\\w+\\])\\.(\?!OggS)");
 
-  string unstrippedTag = "";
-  string soundTag = "";
+  string unstrippedTag = "", soundTag = "";
   smatch match;
   if (regex_search(tag, match, exp)) { 
     unstrippedTag = match[0]; // soundTag = [audio02] => audio02
