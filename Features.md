@@ -32,9 +32,6 @@ Listed are some possible, and upcoming features for Oggex.
 - Create functionality for batch file embeding or extracting.
 - Make do with a bash script first, and then begin writing functionality once that isn't enough.
 
-#### Unicode sound tags
-- Try implementing better regex to support Unicode sound tags.
-
 #### Add Progress Bar
 - A progress bar would be nice for longer embeddings and extractions, however the program executes so quickly anyways that this is not top priority.
 
