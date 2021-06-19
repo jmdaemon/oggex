@@ -86,7 +86,8 @@ $ oggex embed -a audio.ogg -i image.png -t "soundtag"
 ```
 
 **Note:** The maximum output file size is 4MiB and, includes the size of the image, audio, and the length of the sound tag.
-The sound tag cannot be greater than 100 characters.
+The sound tag can however long you want it, although the final embedded image may be too big if you do so.
+Unicode characters are also supported with the sound tag.
 
 Currently the supported image file formats are:
 - jpg/jpeg
