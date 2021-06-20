@@ -64,9 +64,8 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     };
 
     fmt::print("\n================ File Sizes ================\n");
-    unsigned int rightPadding = (!data.options.isReadableEnabled()) ? 8 : 4;
     for (auto const& [key, sizeTuple] : sizes)
-      printSize(data, sizeTuple, 16, rightPadding); 
+      printSize(data, sizeTuple, 16); 
   }
   return finalSize;
 }

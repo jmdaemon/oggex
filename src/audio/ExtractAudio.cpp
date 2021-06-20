@@ -47,7 +47,7 @@ int extract(Data data) {
 
     fmt::print("\n================ File Sizes ================\n"); 
     for (auto const& [key, sizeTuple] : sizes)
-      printSize(data, sizeTuple, 24, 8); 
+      printSize(data, sizeTuple, 24); 
   }
 
   string embeddedFileData   = dataToString(image, 0);

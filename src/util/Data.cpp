@@ -25,7 +25,8 @@ void printSize(std::string key, std::string value) {
 }
 
 void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding) { 
-  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
+  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple)); 
+  rightPadding = (!data.options.isReadableEnabled()) ? 8 : 4;
   fmt::print("{:<{}} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
 }
 
