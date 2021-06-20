@@ -8,11 +8,11 @@ Data createExtractData(Image::ImageData image, Options options) {
   return Data{ .image = image, .options = options};
 }
 
-std::string formatBytes(Data& data, size_t bytes, bool si, unsigned int decimals) {
-    int unit = (si) ? 1000 : 1024; 
+std::string formatBytes(Data& data, size_t bytes, unsigned int decimals) {
+    int unit = (data.options.isSIEnabled()) ? 1000 : 1024; 
     const unsigned int dm = (decimals < 0) ? 0 : decimals;
     std::map<int, std::string> sizes;
-    if (si) {
+    if (data.options.isSIEnabled()) {
       sizes = {
         { 0, "Bytes"}, 
         { 1, "KB"}, 
@@ -56,4 +56,3 @@ std::string formatBytes(Data& data, size_t bytes, bool si, unsigned int decimals
     preciseValue.clear();
     return result;
 }
-

@@ -11,13 +11,14 @@ typedef std::unordered_map<std::string, std::tuple<std::string, std::string, boo
 class Options {
   private: 
     OptionsList options = {
-      {"Mono"           ,   std::make_tuple("-f",  "--fast"         , false)}, 
-      {"IgnoreLimit"    ,   std::make_tuple("ig",  "--ignore-limit" , false)},
-      {"Verbose"        ,   std::make_tuple("-v",  "--verbose"      , false)},
-      {"Output"         ,   std::make_tuple("-d",  "--dest"         , false)},
-      {"AudioFile"      ,   std::make_tuple("-ad", ""               , false)},
-      {"ImageFile"      ,   std::make_tuple("-id", ""               , false)},
-      {"HumanReadable"  ,   std::make_tuple("-r", "--readable"      , false)},
+      {"Mono"           ,   std::make_tuple("-f"  , "--fast"          , false)}, 
+      {"IgnoreLimit"    ,   std::make_tuple("ig"  , "--ignore-limit"  , false)},
+      {"Verbose"        ,   std::make_tuple("-v"  , "--verbose"       , false)},
+      {"Output"         ,   std::make_tuple("-d"  , "--dest"          , false)},
+      {"AudioFile"      ,   std::make_tuple("-ad" , ""                , false)},
+      {"ImageFile"      ,   std::make_tuple("-id" , ""                , false)},
+      {"HumanReadable"  ,   std::make_tuple("-r"  , "--readable"      , false)},
+      {"ShowSIUnits"    ,   std::make_tuple("-si" , ""                , false)}
     };
 
     std::unordered_map<std::string, std::string> outputFiles = {
@@ -30,6 +31,7 @@ class Options {
     // Getters
     bool isMonoEnabled()                  { return isEnabled("Mono"); }
     bool isReadableEnabled()              { return isEnabled("HumanReadable"); }
+    bool isSIEnabled()                    { return isEnabled("ShowSIUnits"); }
     bool ignoreLimitEnabled()             { return isEnabled("IgnoreLimit"); }
     bool showVerboseEnabled()             { return isEnabled("Verbose"); }
     bool outputFileEnabled()              { return isEnabled("Output"); }

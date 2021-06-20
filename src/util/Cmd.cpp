@@ -10,6 +10,8 @@ void showUsage(std::string programName) {
         "\t-i,  \t\t\tThe file path to the image file",
         "\t-t,  \t\t\tThe caption or tag for the audio file",
         "\t-r, --readable\t\tDisplay file sizes in human readable numbers"
+        "\t-si, \t\t\tDisplay file sizes using MB units"
+        "\t-bin, \t\t\tDisplay file sizes MiB units"
       );
   fmt::print(stderr, 
       "{:>4}\n{}\n{}\n{}\n{}\n\n{:>4}\n{}\n{}\n{}\n \n\n", 
