@@ -40,7 +40,7 @@ int extract(Data data) {
   if (data.options.showVerboseEnabled()) {
     fmt::print("\n================ File Sizes ================\n"); 
     fmt::print("Size of Embedded File \t\t: {}\n" , formatBytes(data, embeddedFileSize));
-    fmt::print("Audio File Size \t\t: {}\n"     , formatBytes(data, audioFileSize));
+    fmt::print("Audio File Size \t\t: {}\n"       , formatBytes(data, audioFileSize));
     fmt::print("\n================ File Offsets ================\n"); 
     fmt::print("Audio File Offset \t\t: {}\n"     , formatBytes(data, audioOffset)); 
   }
