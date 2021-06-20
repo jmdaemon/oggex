@@ -55,8 +55,11 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
   } 
   if (data.options.showVerboseEnabled()) {
     fmt::print("\n================ File Sizes ================\n");
-    fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
-    fmt::print("Final Size \t: {}\n", finalSize);
+    fmt::print("Max File Size \t: {}\n"   , formatBytes(data, maxFileSize,    data.options.isReadableEnabled()));
+    fmt::print("Temp File Size \t: {}\n"  , formatBytes(data, tempFileSize,   data.options.isReadableEnabled()));
+    fmt::print("Image File Size : {}\n"   , formatBytes(data, imageFileSize,  data.options.isReadableEnabled()));
+    fmt::print("Sound Tag Size \t: {}\n"  , formatBytes(data, soundTagSize,   data.options.isReadableEnabled()));
+    fmt::print("Final Size \t: {}\n"      , formatBytes(data, finalSize,      data.options.isReadableEnabled()));
   }
   return finalSize;
 }

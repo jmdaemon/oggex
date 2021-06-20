@@ -39,10 +39,10 @@ int extract(Data data) {
   size_t audioFileSize      = sizeOf(image, audioOffset);
   if (data.options.showVerboseEnabled()) {
     fmt::print("\n================ File Sizes ================\n"); 
-    fmt::print("Size of Embedded File \t\t: {}\n" , formatBytes(data, embeddedFileSize, false));
-    fmt::print("Audio File Size \t\t: {}\n"     , formatBytes(data, audioFileSize, false));
+    fmt::print("Size of Embedded File \t\t: {}\n" , formatBytes(data, embeddedFileSize, data.options.isReadableEnabled()));
+    fmt::print("Audio File Size \t\t: {}\n"     , formatBytes(data, audioFileSize, data.options.isReadableEnabled()));
     fmt::print("\n================ File Offsets ================\n"); 
-    fmt::print("Audio File Offset \t\t: {}\n"     , formatBytes(data, audioOffset, false)); 
+    fmt::print("Audio File Offset \t\t: {}\n"     , formatBytes(data, audioOffset, data.options.isReadableEnabled())); 
   }
 
   string embeddedFileData   = dataToString(image, 0);
