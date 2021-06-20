@@ -1,6 +1,5 @@
 #include "ExtractAudio.h"
 
-#include <tuple>
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -32,15 +31,6 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
   }
   return soundTag; 
 } 
-
-void printSize(std::string key, std::string value) {
-    fmt::print("{:<24} : {:<8}\n", key, value);
-}
-
-void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding) { 
-  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
-  fmt::print("{:<{}} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
-}
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();

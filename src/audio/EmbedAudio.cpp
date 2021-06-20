@@ -1,6 +1,5 @@
 #include "EmbedAudio.h"
 #include <iosfwd>
-#include <tuple>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -44,11 +43,6 @@ string exec(const string cmd, Data data) {
   return dataToString(audio.getTempAudio());
 }
 
-void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int rightPadding) { 
-  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
-  fmt::print("{:<16} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
-}
-
 uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
   size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
   size_t imageFileSize  = sizeOf(data.image.getImage());
@@ -70,9 +64,9 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     };
 
     fmt::print("\n================ File Sizes ================\n");
-    unsigned int padding = (!data.options.isReadableEnabled()) ? 8 : 4;
+    unsigned int rightPadding = (!data.options.isReadableEnabled()) ? 8 : 4;
     for (auto const& [key, sizeTuple] : sizes)
-      printSize(data, sizeTuple, padding); 
+      printSize(data, sizeTuple, 16, rightPadding); 
   }
   return finalSize;
 }

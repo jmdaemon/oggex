@@ -1,7 +1,6 @@
 #include "Data.h"
 
 #include <iosfwd>
-//#include <utility>
 #include <tuple>
 
 Data createEmbedData(Audio::AudioData audio, Image::ImageData image, Options options) { 
@@ -21,15 +20,15 @@ std::string byteToString(T bytes, unsigned int dm = 10) {
     return byteString;
 }
 
-//std::string byteToString(double bytes, unsigned int dm = 10) {
-    //std::stringstream ss; 
-    //ss.precision(dm); 
-    //ss << bytes; 
-    //std::string byteString = ss.str();
-    //return byteString;
-//}
+void printSize(std::string key, std::string value) {
+    fmt::print("{:<24} : {:<8}\n", key, value);
+}
 
-//std::string formatBytes(Data& data, size_t bytes, unsigned int decimals) {
+void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding) { 
+  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
+  fmt::print("{:<{}} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
+}
+
 std::tuple<std::string, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals) {
     int unit = (data.options.isSIEnabled()) ? 1000 : 1024; 
     const unsigned int dm = (decimals < 0) ? 0 : decimals;
