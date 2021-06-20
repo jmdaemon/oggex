@@ -13,8 +13,6 @@
 #include "Data.h"
 #include "Mask.h"
 
-#include "FileType.tpp"
-
 bool fileExists(std::filesystem::path filepath);
 void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);
 

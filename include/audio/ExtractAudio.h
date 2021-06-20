@@ -13,7 +13,6 @@
 #include "Image.h"
 #include "Data.h"
 #include "Cmd.h"
-#include "FileType.tpp"
 
 size_t getFileSize(Data& data, size_t offset = 0);
 std::string readFile(Data& data, size_t offset);
