@@ -18,7 +18,7 @@ struct Data {
 Data createEmbedData(Audio::AudioData audio, Image::ImageData image, Options options);
 Data createExtractData(Image::ImageData image, Options options);
 
-std::string formatBytes(Data& data, size_t bytes, unsigned int decimals = 2);
+std::tuple<std::string, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals = 2);
 
 #endif
 

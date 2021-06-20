@@ -1,5 +1,6 @@
 #include "EmbedAudio.h"
 #include <iosfwd>
+#include <tuple>
 
 using namespace std;
 namespace fs = std::filesystem;
@@ -53,13 +54,27 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
-  if (data.options.showVerboseEnabled()) {
+  if (data.options.showVerboseEnabled()) { 
+    auto MFS = formatBytes(data, maxFileSize   );
+    auto TFS = formatBytes(data, tempFileSize  );
+    auto IFS = formatBytes(data, imageFileSize );
+    auto STS = formatBytes(data, soundTagSize  );
+    auto FS  = formatBytes(data, finalSize     );
+
     fmt::print("\n================ File Sizes ================\n");
-    fmt::print("Max File Size \t: {}\n"   , formatBytes(data, maxFileSize   ));
-    fmt::print("Temp File Size \t: {}\n"  , formatBytes(data, tempFileSize  ));
-    fmt::print("Image File Size : {}\n"   , formatBytes(data, imageFileSize ));
-    fmt::print("Sound Tag Size \t: {}\n"  , formatBytes(data, soundTagSize  ));
-    fmt::print("Final Size \t: {}\n"      , formatBytes(data, finalSize     ));
+    //fmt::print("Max File Size   : {:<8} {}\n"   , std::get<0>(MFS), std::get<1>(MFS));
+    //fmt::print("Temp File Size  : {:<8} {}\n"   , std::get<0>(TFS), std::get<1>(TFS));
+    //fmt::print("Image File Size : {:<8} {}\n"   , std::get<0>(IFS), std::get<1>(IFS));
+    //fmt::print("Sound Tag Size  : {:<8} {}\n"   , std::get<0>(STS), std::get<1>(STS));
+    //fmt::print("Sound Tag Size  : {:<8} {}\n"   , std::get<0>(STS), std::get<1>(STS));
+    //fmt::print("Final Size      : {:<8} {}\n"   , std::get<0>(FS ), std::get<1>(FS ));
+
+    fmt::print("{:<16} : {:>8} {}\n"    , "Max File Size", std::get<0>(MFS), std::get<1>(MFS));
+    fmt::print("{:<16} : {:>8} {}\n"    , "Temp File Size", std::get<0>(TFS), std::get<1>(TFS));
+    fmt::print("{:<16} : {:>8} {}\n"    , "Image File Size", std::get<0>(IFS), std::get<1>(IFS));
+    fmt::print("{:<16} : {:>8} {}\n"    , "Sound Tag Size", std::get<0>(STS), std::get<1>(STS));
+    fmt::print("{:<16} : {:>8} {}\n"    , "Sound Tag Size" ,std::get<0>(STS), std::get<1>(STS));
+    fmt::print("{:<16} : {:>8} {}\n"    , "Final Size"   , std::get<0>(FS ), std::get<1>(FS ));
   }
   return finalSize;
 }
