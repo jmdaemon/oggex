@@ -38,32 +38,7 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
   return soundTag; 
 } 
 
-//std::string formatFileSize(size_t bytes, bool si) {
-    //int unit = (si) ? 1000 : 1024;
-    //string fileSize = "";
-    //if (bytes < unit) {
-      //return fmt::format("{} B", bytes);
-    //}
-
-    //std::map<int, std::string> FileSizes = {
-      //{0, "KB"},
-      //{1, "MB"},
-      //{2, "GB"},
-      //{3, "TB"}
-    //};
-    //size_t converted = bytes;
-    //for (int i = 0; i < 4; i++) {
-      //converted = converted / unit;
-      //fmt::format_to(std::back_inserter(fileSize), "{} {}", converted, FileSizes[i]);
-      //if (fileSize.length() >= 3 && fileSize.length() <= 6) {
-        //return fileSize;
-      //} else
-        //fileSize = ""; // Reset the string
-    //}
-    //return fileSize;
-//}
-
-std::string formatBytes(size_t bytes, bool si = true, unsigned int decimals = 2) {
+std::string formatBytes(Data& data, size_t bytes, bool si = true, unsigned int decimals = 2) {
     int unit = (si) ? 1000 : 1024; 
     const unsigned int dm = (decimals < 0) ? 0 : decimals;
     std::map<int, std::string> sizes;
@@ -92,7 +67,16 @@ std::string formatBytes(size_t bytes, bool si = true, unsigned int decimals = 2)
         { 8, "YiB"} 
       }; 
     }
-  const double i = floor(std::log(bytes) / std::log(unit)); 
+
+    if (!data.options.isReadableEnabled()) { 
+      std::stringstream ss; 
+      ss << bytes << " \t" << sizes[0]; 
+      std::string result = ss.str();
+      ss.clear();
+      return result;
+    } 
+
+    const double i = floor(std::log(bytes) / std::log(unit)); 
     double res = (bytes / std::pow(unit, i)); 
 
     std::stringstream preciseValue; 
@@ -115,17 +99,11 @@ int extract(Data data) {
     //fmt::print("\n================ File Offsets ================\n"); 
     //fmt::print("Audio File Offset \t\t: {} \tbytes\n"     , audioOffset); 
 
-    //fmt::print("\n================ File Sizes ================\n"); 
-    //fmt::print("Size of Embedded File \t\t: {} \n" , formatFileSize(embeddedFileSize, false));
-    //fmt::print("Audio File Size \t\t: {} \n\n"     , formatFileSize(audioFileSize, false));
-    //fmt::print("\n================ File Offsets ================\n"); 
-    //fmt::print("Audio File Offset \t\t: {} \n"     , formatFileSize(audioOffset, false)); 
-
     fmt::print("\n================ File Sizes ================\n"); 
-    fmt::print("Size of Embedded File \t\t: {}\n" , formatBytes(embeddedFileSize, false));
-    fmt::print("Audio File Size \t\t: {}\n"     , formatBytes(audioFileSize, false));
+    fmt::print("Size of Embedded File \t\t: {}\n" , formatBytes(data, embeddedFileSize, false));
+    fmt::print("Audio File Size \t\t: {}\n"     , formatBytes(data, audioFileSize, false));
     fmt::print("\n================ File Offsets ================\n"); 
-    fmt::print("Audio File Offset \t\t: {}\n"     , formatBytes(audioOffset, false)); 
+    fmt::print("Audio File Offset \t\t: {}\n"     , formatBytes(data, audioOffset, false)); 
   }
 
   string embeddedFileData   = dataToString(image, 0);
