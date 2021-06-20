@@ -65,14 +65,6 @@ TEST_CASE("Audio files can be embedded into image files") {
   file.close();
 }
 
-TEST_CASE("Sound tags should be formatted correctly") {
-    string soundTag = "audio02";
-    string overflowTag = "====================================================================================================";
-    //REQUIRE(tagUnder100(soundTag.length()));
-    REQUIRE(formatSoundTag(soundTag) == "[audio02]");
-    //CHECK(!tagUnder100(overflowTag.length()));
-}
-
 TEST_CASE("Capitalized file extensions should be converted to lowercase") {
   INFO("Current output of toLowerCase(): ");
   REQUIRE(File::toLowerCase("ABC") == "abc");
