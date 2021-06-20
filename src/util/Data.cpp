@@ -20,14 +20,14 @@ std::string byteToString(T bytes, unsigned int dm = 10) {
     return byteString;
 }
 
-void printSize(std::string key, std::string value) {
-    fmt::print("{:<24} : {:<8}\n", key, value);
+void printSize(std::string key, std::string value, unsigned int leftPadding, unsigned int rightPadding) { 
+  fmt::print("{:<{}} : {:<{}}\n", key, leftPadding, value, rightPadding);
 }
 
 void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding) { 
   auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple)); 
   rightPadding = (!data.options.isReadableEnabled()) ? 8 : 4;
-  fmt::print("{:<{}} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
+  fmt::print("{:<{}} : {:<{}} {}\n", std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
 }
 
 std::tuple<std::string, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals) {
