@@ -25,7 +25,7 @@ build_debug() {
 }
 
 build_default() {
-     CC=$1 CXX=$2 cmake -S . -B $DEFAULT_DIR -G Ninja
+     CC="${1}" CXX="${2}" cmake -S . -B $DEFAULT_DIR -G Ninja
 }
 
 show_usage() {
