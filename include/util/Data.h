@@ -3,7 +3,6 @@
 #define DATA_H
 
 #include <cmath>
-#include <sstream>
 
 #include "Audio.h"
 #include "Image.h"
@@ -19,7 +18,6 @@ struct Data {
 Data createEmbedData(Audio::AudioData audio, Image::ImageData image, Options options);
 Data createExtractData(Image::ImageData image, Options options);
 
-//std::string formatBytes(Data& data, size_t bytes, bool si = true, unsigned int decimals = 2);
 std::string formatBytes(Data& data, size_t bytes, unsigned int decimals = 2);
 
 #endif

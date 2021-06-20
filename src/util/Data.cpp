@@ -1,5 +1,7 @@
 #include "Data.h"
 
+#include <iosfwd>
+
 Data createEmbedData(Audio::AudioData audio, Image::ImageData image, Options options) { 
   return Data{ .audio = audio, .image = image, .options = options};
 }
