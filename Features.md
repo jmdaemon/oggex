@@ -4,10 +4,6 @@ Listed are some possible, and upcoming features for Oggex.
 
 ## Work in Progress
 
-#### Human Readable Sizes
-- Add feature to Extract/Embed Audio to toggle human readable numbers.
-- Sizes will be displayed in either (B, KB, MB, GB);
-
 #### Update Unit Tests
 - Update all the unit tests, and look into writing better, more effective tests
 
@@ -21,6 +17,9 @@ Listed are some possible, and upcoming features for Oggex.
 
 - - - - -
 ## Possible Features
+
+#### Remove dependency on ffmpeg
+- Dissect the ffmpeg command, and possibly replace ffmpeg with an included project bin or lib.
 
 #### Support for more audio files
 - Do research on possible popular audio file implementations, and be able to embed them using ffmpeg.

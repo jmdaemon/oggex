@@ -6,13 +6,12 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <tuple>
 
 #include "Image.h"
 #include "Audio.h"
 #include "Data.h"
 #include "Mask.h"
-
-#include "FileType.tpp"
 
 bool fileExists(std::filesystem::path filepath);
 void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);

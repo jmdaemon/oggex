@@ -10,6 +10,7 @@
 #include "InputParser.h"
 #include "Cmd.h"
 #include "Options.h"
+#include "Data.h"
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
@@ -55,12 +56,8 @@ int main(int argc, char **argv) {
 
     if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
-      for ( const auto& [key, value] : inputs ) {
-        if (key.length() > 5) {
-          fmt::print ("Key: [{}] {:^13} Value: [{}]\n", key, "", value);
-        } else {
-          fmt::print ("Key: [{}] {:^16} Value: [{}]\n", key, "", value);
-        }
+      for ( const auto& [key, value] : inputs ) { 
+        printSize("[" + key + "]", "[" + value + "]", 16);
       }
       fmt::print("\n");
     } 

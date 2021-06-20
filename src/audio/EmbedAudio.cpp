@@ -53,10 +53,19 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
-  if (data.options.showVerboseEnabled()) {
+
+  if (data.options.showVerboseEnabled()) { 
+    std::map<int, std::tuple<std::string, size_t>> sizes = {
+      { 0, std::make_tuple("Max File Size"  , maxFileSize)},
+      { 1, std::make_tuple("Temp File Size" , tempFileSize)},
+      { 2, std::make_tuple("Image File Size", imageFileSize)},
+      { 3, std::make_tuple("Sound Tag Size" , soundTagSize)},
+      { 4, std::make_tuple("Final Size"     , finalSize)}
+    };
+
     fmt::print("\n================ File Sizes ================\n");
-    fmt::print("Max File Size \t: {}\nTemp File Size \t: {}\nImage File Size : {}\nSound Tag Size \t: {}\n", maxFileSize, tempFileSize, imageFileSize, soundTagSize);
-    fmt::print("Final Size \t: {}\n", finalSize);
+    for (auto const& [key, sizeTuple] : sizes)
+      printSize(data, sizeTuple, 16); 
   }
   return finalSize;
 }
