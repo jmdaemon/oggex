@@ -39,7 +39,7 @@ void showUsage(std::string programName) {
   std::map<int, std::tuple<std::string, std::string, std::string>> embedFlags = {
     { 0, std::make_tuple("embed"  , ""              , "Embed an audio file")},
     { 1, std::make_tuple("-f"     , "--fast"        , "Enable Mono Audio Channel encoding")},
-    { 2, std::make_tuple("--ig"   , "--ignore-limit", "Allows you to encode files greater than 4 MiB")},
+    { 2, std::make_tuple("-ig"   , "--ignore-limit", "Allows you to encode files greater than 4 MiB")},
     { 3, std::make_tuple("-d"     , "--dest"        , "Change the output file name")},
   };
 
@@ -50,9 +50,9 @@ void showUsage(std::string programName) {
   };
   
   formatPrintUsage(flags);
-  fmt::print(stderr, "{:>4}{}:\n\n", "", "Embedding");
+  fmt::print(stderr, "\n{:>4}{}:\n\n", "", "Embedding");
   formatPrintUsage(embedFlags);
-  fmt::print(stderr, "{:>4}{}:\n\n", "", "Extracting");
+  fmt::print(stderr, "\n{:>4}{}:\n\n", "", "Extracting");
   formatPrintUsage(extractFlags);
 } 
 
