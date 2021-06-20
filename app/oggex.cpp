@@ -55,26 +55,8 @@ int main(int argc, char **argv) {
 
     if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
-      //fmt::print("[{}]", );
       for ( const auto& [key, value] : inputs ) { 
-        //std::string input = fmt::format("Input: [{}]", key);
-        //std::string val = fmt::format("Value: [{}]", value);
-        //fmt::print ("Key: [{}]{:<12} {:>8} Value: [{}]\n", key, " ","", value);
-        //fmt::print ("{} {:>28}\n", input, val);
-        //std::string input = "Key: [" + key + "]";
-        //std::string val   = "Value: [" + value + "]";
-        std::string Key = "[" + key + "]";
-        std::string Val = "[" + value + "]";
-        //fmt::print("[{:>12}] : {:<16} [{}]\n", key, " ", value);
-        fmt::print("{:<16} : {:<8}\n", Key, Val);
-
-        ////fmt::print ("{Key: [{}] {:<28}} Value: [{}]\n", key, " ", value);
-        //fmt::print ("{} {: ^16} \n", input, val);
-        //if (key.length() > 5) {
-          //fmt::print ("Key: [{}] {:^13} Value: [{}]\n", key, "", value);
-        //} else {
-          //fmt::print ("Key: [{}] {:^16} Value: [{}]\n", key, "", value);
-        //}
+        fmt::print("{:<16} : {:<8}\n", "[" + key + "]", "[" + value + "]");
       }
       fmt::print("\n");
     } 

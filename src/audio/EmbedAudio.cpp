@@ -46,7 +46,7 @@ string exec(const string cmd, Data data) {
 
 void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int rightPadding) { 
   auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
-  fmt::print("{:<16} : {:<{}} {}\n"    ,std::get<0>(sizeTuple), std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
+  fmt::print("{:<16} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
 }
 
 uintmax_t calcFinalSize(Data data, size_t maxFileSize) {

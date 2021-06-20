@@ -27,37 +27,37 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
 
   if (data.options.showVerboseEnabled()) { 
     fmt::print("\n================ Sound Tag ================\n");
-    //fmt::print("{:<24} {:>10} : {}\n", "Tag", "", unstrippedTag);
-    //fmt::print("{:<24} {:>10} : {}\n", "Stripped Tag", "", soundTag);
-    fmt::print("{:<24} : {:<8}\n", "Tag", unstrippedTag);
-    fmt::print("{:<24} : {:<8}\n", "Stripped Tag", soundTag);
-    //fmt::print("Tag: \t\t\t\t: {}\n", unstrippedTag);
-    //fmt::print("Stripped Tag: \t\t\t: {}\n", soundTag);
+    printSize("Tag", unstrippedTag);
+    printSize("Stripped Tag", soundTag);
   }
   return soundTag; 
 } 
+
+void printSize(std::string key, std::string value) {
+    fmt::print("{:<24} : {:<8}\n", key, value);
+}
+
+void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding) { 
+  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
+  fmt::print("{:<{}} : {:<{}} {}\n"   ,std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
+}
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
   size_t embeddedFileSize   = sizeOf(image);
   size_t audioOffset        = getOffset(image);
   size_t audioFileSize      = sizeOf(image, audioOffset);
+
   if (data.options.showVerboseEnabled()) { 
-    auto EFS = formatBytes(data, embeddedFileSize);
-    auto AFS = formatBytes(data, audioFileSize);
-    auto AO  = formatBytes(data, audioOffset);
+  std::map<int, std::tuple<std::string, size_t>> sizes = {
+      { 0, std::make_tuple("Size of Embedded File"  , embeddedFileSize)},
+      { 1, std::make_tuple("Audio File Size"        , audioFileSize)},
+      { 2, std::make_tuple("Audio File Offset"      , audioOffset)}
+    };
 
     fmt::print("\n================ File Sizes ================\n"); 
-    //fmt::print("Size of Embedded File   : {:<8} {}\n" , std::get<0>(EFS), std::get<1>(EFS));
-    //fmt::print("Audio File Size         : {:<8} {}\n" , std::get<0>(AFS), std::get<1>(AFS));
-    //fmt::print("Audio File Offset       : {:<8} {}\n" , std::get<0>(AO) , std::get<1>(AO)); 
-    //fmt::print("\n================ File Offsets ================\n"); 
-    //fmt::print("{:<24} : {:<8} {}\n" , "Size of Embedded File", "", std::get<0>(EFS), std::get<1>(EFS));
-    //fmt::print("{:<24} : {:<8} {}\n" , "Audio File Size", "", std::get<0>(AFS), std::get<1>(AFS));
-    //fmt::print("{:<24} : {:<8} {}\n" , "Audio File Offset", "", std::get<0>(AO) , std::get<1>(AO)); 
-    fmt::print("{:<24} : {:<8} {}\n" , "Size of Embedded File", std::get<0>(EFS), std::get<1>(EFS));
-    fmt::print("{:<24} : {:<8} {}\n" , "Audio File Size", std::get<0>(AFS), std::get<1>(AFS));
-    fmt::print("{:<24} : {:<8} {}\n" , "Audio File Offset", std::get<0>(AO), std::get<1>(AO)); 
+    for (auto const& [key, sizeTuple] : sizes)
+      printSize(data, sizeTuple, 24, 8); 
   }
 
   string embeddedFileData   = dataToString(image, 0);
@@ -68,11 +68,7 @@ int extract(Data data) {
     return -1; 
   } else 
       soundTag += ".ogg";
-  //if (data.options.showVerboseEnabled()) { fmt::print("Output Audio File \t\t: {}\n\n", soundTag); }
-  if (data.options.showVerboseEnabled()) { 
-    //fmt::print("Output Audio File \t\t: {}\n\n", soundTag); 
-    fmt::print("{:<24} : {:<8}\n\n", "Output Audio File", soundTag); 
-  }
+  if (data.options.showVerboseEnabled()) { printSize("Output Audio File", soundTag); }
   fmt::print("Extracting audio file as \"{}\"\n", soundTag);
 
   fs::path audioFileName = (data.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
