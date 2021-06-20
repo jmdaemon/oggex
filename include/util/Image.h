@@ -8,16 +8,16 @@
 #include "File.h"
 
 namespace Image {
-  const static std::map<int, std::string> FileExtensions = {
-    {0, ".jpg"},
-    {1, ".jpeg"},
-    {2, ".gif"},
-    {3, ".png"},
-    {4, ".webm"},
-  };
-
   class ImageData : public File::File {
-    private:
+    private: 
+      std::map<int, std::string> FileExtensions = { 
+        {0, ".jpg"},
+        {1, ".jpeg"},
+        {2, ".gif"},
+        {3, ".png"},
+        {4, ".webm"}, 
+      };
+
       std::string imagePath;
 
     public:

@@ -12,10 +12,10 @@ namespace File {
     return (std::filesystem::path (file)).extension();
   }
 
-  bool File::isFile(std::string file, const std::map<int, std::string> FileExtensions) {
+  bool File::isFile(std::string file) {
     std::string extension = toLowerCase(getFileExtension(file));
-    for (int i = 0; i < FileExtensions.size(); i++) {
-      if(FileExtensions.at(i) == extension) {
+    for (int i = 0; i < this->FileExtensions.size(); i++) {
+      if (this->FileExtensions.at(i) == extension) {
         return true;
       }
     }

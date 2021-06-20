@@ -9,16 +9,16 @@
 #include "File.h"
 
 namespace Audio {
-  const static std::map<int, std::string> FileExtensions = {
-    {0, ".ogg"},
-  };
   const static int  DEFAULT_AUDIO_QUALITY             = 10;
   const static bool ENABLE_LOW_QUALITY                = false;
   const static std::filesystem::path TEMP_AUDIO_FILE  = "out.ogg";
   const static std::filesystem::path TEMP_LOG_FILE    = "Log.txt";
   
   class AudioData : public File::File {
-    private:
+    private: 
+      std::map<int, std::string> FileExtensions = { 
+        {0, ".ogg"}, 
+      };
     int audioQuality;
     bool lowQuality;
     std::string soundTag;

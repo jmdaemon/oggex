@@ -17,11 +17,15 @@ namespace File {
   std::string toLowerCase(const std::filesystem::path& filePath);
   std::string getFileExtension(std::string file);
 
-  class File {
-    public:
-    virtual bool isValid(std::string file) = 0;
-    virtual bool isValid(std::filesystem::path filepath) = 0;
-    bool isFile(std::string file, const std::map<int, std::string> FileExtensions);
+  class File { 
+    private: 
+      std::map<int, std::string> FileExtensions;
+
+    public: 
+      virtual bool isValid(std::string file) = 0; 
+      virtual bool isValid(std::filesystem::path filepath) = 0;
+      //bool isFile(std::string file, const std::map<int, std::string> FileExtensions);
+      bool isFile(std::string file);
   };
 }
 
