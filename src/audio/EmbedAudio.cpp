@@ -44,6 +44,11 @@ string exec(const string cmd, Data data) {
   return dataToString(audio.getTempAudio());
 }
 
+void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int rightPadding) { 
+  auto sizeWithUnit = formatBytes(data, std::get<1>(sizeTuple));
+  fmt::print("{:<16} : {:<{}} {}\n"    ,std::get<0>(sizeTuple), std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
+}
+
 uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
   size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
   size_t imageFileSize  = sizeOf(data.image.getImage());
@@ -54,27 +59,20 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
+
   if (data.options.showVerboseEnabled()) { 
-    auto MFS = formatBytes(data, maxFileSize   );
-    auto TFS = formatBytes(data, tempFileSize  );
-    auto IFS = formatBytes(data, imageFileSize );
-    auto STS = formatBytes(data, soundTagSize  );
-    auto FS  = formatBytes(data, finalSize     );
+    std::map<int, std::tuple<std::string, size_t>> sizes = {
+      { 0, std::make_tuple("Max File Size"  , maxFileSize)},
+      { 1, std::make_tuple("Temp File Size" , tempFileSize)},
+      { 2, std::make_tuple("Image File Size", imageFileSize)},
+      { 3, std::make_tuple("Sound Tag Size" , soundTagSize)},
+      { 4, std::make_tuple("Final Size"     , finalSize)}
+    };
 
     fmt::print("\n================ File Sizes ================\n");
-    //fmt::print("Max File Size   : {:<8} {}\n"   , std::get<0>(MFS), std::get<1>(MFS));
-    //fmt::print("Temp File Size  : {:<8} {}\n"   , std::get<0>(TFS), std::get<1>(TFS));
-    //fmt::print("Image File Size : {:<8} {}\n"   , std::get<0>(IFS), std::get<1>(IFS));
-    //fmt::print("Sound Tag Size  : {:<8} {}\n"   , std::get<0>(STS), std::get<1>(STS));
-    //fmt::print("Sound Tag Size  : {:<8} {}\n"   , std::get<0>(STS), std::get<1>(STS));
-    //fmt::print("Final Size      : {:<8} {}\n"   , std::get<0>(FS ), std::get<1>(FS ));
-
-    fmt::print("{:<16} : {:>8} {}\n"    , "Max File Size", std::get<0>(MFS), std::get<1>(MFS));
-    fmt::print("{:<16} : {:>8} {}\n"    , "Temp File Size", std::get<0>(TFS), std::get<1>(TFS));
-    fmt::print("{:<16} : {:>8} {}\n"    , "Image File Size", std::get<0>(IFS), std::get<1>(IFS));
-    fmt::print("{:<16} : {:>8} {}\n"    , "Sound Tag Size", std::get<0>(STS), std::get<1>(STS));
-    fmt::print("{:<16} : {:>8} {}\n"    , "Sound Tag Size" ,std::get<0>(STS), std::get<1>(STS));
-    fmt::print("{:<16} : {:>8} {}\n"    , "Final Size"   , std::get<0>(FS ), std::get<1>(FS ));
+    unsigned int padding = (!data.options.isReadableEnabled()) ? 8 : 4;
+    for (auto const& [key, sizeTuple] : sizes)
+      printSize(data, sizeTuple, padding); 
   }
   return finalSize;
 }
