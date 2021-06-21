@@ -1,11 +1,11 @@
 #include "doctest.h"
 
 //#include <stdlib.h> 
-#include <iostream>
+//#include <iostream>
 #include <string>
 
 #include "Image.h"
-#include "FileType.tpp"
+//#include "FileType.tpp"
 
 using namespace std;
 namespace fs = std::filesystem; 
@@ -27,7 +27,7 @@ TEST_CASE("Testing Image class") {
     ifstream file(filepath, ifstream::in | ifstream::binary);
     //CHECK(Image::isImage(filepath));
     CHECK(Image::imageUnder4MiB(filepath));
-    REQUIRE(!isCorrupted(filepath, file));
+    //REQUIRE(!isCorrupted(filepath, file));
     //REQUIRE(imageNotCorrupted(filepath) == true);
   }
 

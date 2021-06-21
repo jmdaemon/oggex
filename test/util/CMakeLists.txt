@@ -1,8 +1,8 @@
 # ================ Image Tests ================
-set(IMAGE_TESTS testimage)
+set(IMAGE_TESTS test-image)
 add_executable(${IMAGE_TESTS} ImageTests.cpp)
 
-target_compile_features(${IMAGE_TESTS} PRIVATE cxx_std_17)
+target_compile_features(${IMAGE_TESTS} PRIVATE cxx_std_20)
 target_link_libraries(${IMAGE_TESTS} PRIVATE audio audio_library image_library file_library fmt ${TESTS_MAIN})
 
 target_include_directories(${IMAGE_TESTS} PUBLIC ${DOCTEST_INCLUDE_DIR})
@@ -10,7 +10,7 @@ target_include_directories(${IMAGE_TESTS} PUBLIC ${DOCTEST_INCLUDE_DIR})
 add_test(NAME test-image COMMAND ${IMAGE_TESTS})
 
 # ================ Audio Tests ================
-set (AUDIO_TESTS testaudio)
+set (AUDIO_TESTS test-audio)
 add_executable(${AUDIO_TESTS} AudioTests.cpp)
 
 target_compile_features(${AUDIO_TESTS} PRIVATE cxx_std_20)
