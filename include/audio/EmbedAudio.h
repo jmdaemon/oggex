@@ -13,11 +13,8 @@
 #include "Data.h"
 #include "Mask.h"
 
-bool fileExists(std::filesystem::path filepath);
-void cleanTempFiles(std::filesystem::path tempLogFile, std::filesystem::path tempAudioFile);
-
-std::string createCommand(Data data);
-std::string exec(const std::string cmd, Data data);
+std::string createCommand(Data& data);
+std::string exec(const std::string cmd, Data& data);
 
 std::string encodeAudio(Data& data, bool decreaseQuality = false);
 void encodeImage(Data& data);

@@ -4,7 +4,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-string createCommand(Data data) {
+string createCommand(Data& data) {
   Audio::AudioData& audio = data.audio;
   string command;
   if (data.options.isMonoEnabled()) { 
@@ -24,7 +24,7 @@ string createCommand(Data data) {
   return command;
 }
 
-string exec(const string cmd, Data data) {
+string exec(const string cmd, Data& data) {
   Audio::AudioData& audio = data.audio;
   ifstream audioFileData(audio.getAudio(), ifstream::in | ifstream::binary);
   vector<char> buffer(4096);
@@ -43,7 +43,7 @@ string exec(const string cmd, Data data) {
   return dataToString(audio.getTempAudio());
 }
 
-uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
+uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
   size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
   size_t imageFileSize  = sizeOf(data.image.getImage());
   size_t soundTagSize   = data.audio.getSoundTag().size();
