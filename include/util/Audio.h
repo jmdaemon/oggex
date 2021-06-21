@@ -67,7 +67,6 @@ namespace Audio {
   };
 }
 
-bool tagUnder100(unsigned int tagLength);
 std::string formatSoundTag(std::string tag);
 
 Audio::AudioData createAudioData(std::string soundTag, std::filesystem::path audioFile);
