@@ -11,4 +11,3 @@ void Audio::AudioData::decreaseQuality(unsigned int subtrahend) {
 std::string formatSoundTag(std::string tag) { return ("[" + tag + "]"); }
 
 Audio::AudioData createAudioData(std::string soundTag, std::filesystem::path audioFile) { return Audio::AudioData(soundTag, audioFile); }
-Audio::AudioData createAudioData() { return Audio::AudioData("", ""); }

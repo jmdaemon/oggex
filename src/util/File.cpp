@@ -5,9 +5,7 @@ namespace File {
     std::string ext = (std::filesystem::path (file)).extension();
     std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c ) { return std::tolower(c); }); 
     for (int i = 0; i < this->FileExtensions.size(); i++) {
-      if (this->FileExtensions.at(i) == ext) {
-        return true;
-      }
+      if (this->FileExtensions.at(i) == ext) { return true; }
     }
     return false;
   }
@@ -50,7 +48,7 @@ std::string dataToString(std::filesystem::path filepath, size_t offset) {
 
 std::string readFile(std::filesystem::path filepath, size_t start, size_t end) {
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary); 
-  if(file.is_open()) { 
+  if (file.is_open()) { 
     file.seekg(start);
     std::string imageFile;
     imageFile.resize(end - start);
@@ -67,9 +65,7 @@ bool fileExists(std::filesystem::path filepath) {
 }
 
 void clean(std::initializer_list<std::filesystem::path> filepaths) {
-  for( auto filepath: filepaths) {
-    std::filesystem::remove(filepath);
-  }
+  for(auto filepath: filepaths) { std::filesystem::remove(filepath); }
 } 
 
 void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {

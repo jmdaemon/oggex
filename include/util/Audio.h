@@ -59,7 +59,6 @@ namespace Audio {
 
 std::string formatSoundTag(std::string tag);
 
-Audio::AudioData createAudioData(std::string soundTag, std::filesystem::path audioFile);
-Audio::AudioData createAudioData();
+Audio::AudioData createAudioData(std::string soundTag = "", std::filesystem::path audioFile = "");
 
 #endif
