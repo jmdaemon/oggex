@@ -61,14 +61,9 @@ std::string readFile(std::filesystem::path filepath, size_t start, size_t end) {
 }
 
 bool fileExists(std::filesystem::path filepath) { 
-  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
-  if (!file.is_open()) {
-    fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
-    file.close();
-    return false; 
-  } 
-  file.close();
-  return true; 
+  if(std::filesystem::exists(filepath)) { return true; } 
+  fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
+  return false;
 }
 
 void clean(std::initializer_list<std::filesystem::path> filepaths) {

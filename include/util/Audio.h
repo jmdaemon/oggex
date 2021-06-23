@@ -28,18 +28,11 @@ namespace Audio {
     size_t fileSize;
 
     public:
-    AudioData(std::string soundTag, std::filesystem::path audioFile) : 
+    AudioData(std::string soundTag = "", std::filesystem::path audioFile = "") : 
       audioQuality(DEFAULT_AUDIO_QUALITY), monoAudio(ENABLE_LOW_QUALITY), 
       soundTag(soundTag), audioFile(audioFile),
       tempAudioFile(TEMP_AUDIO_FILE), tempLogFile(TEMP_LOG_FILE),
       fileSize(sizeOf(audioFile))
-    {}
-
-    AudioData():
-      audioQuality(DEFAULT_AUDIO_QUALITY), monoAudio(ENABLE_LOW_QUALITY), 
-      soundTag(""), audioFile(""),
-      tempAudioFile(TEMP_AUDIO_FILE), tempLogFile(TEMP_LOG_FILE),
-      fileSize(0)
     {}
 
     // Getters
