@@ -38,17 +38,7 @@ int extract(Data data) {
   size_t audioOffset        = getOffset(image);
   size_t audioFileSize      = sizeOf(image, audioOffset);
 
-  if (data.options.showVerboseEnabled()) { 
-  std::map<int, std::tuple<std::string, size_t>> sizes = {
-      { 0, std::make_tuple("Size of Embedded File"  , embeddedFileSize)},
-      { 1, std::make_tuple("Audio File Size"        , audioFileSize)},
-      { 2, std::make_tuple("Audio File Offset"      , audioOffset)}
-    };
-
-    fmt::print("\n================ File Sizes ================\n"); 
-    for (auto const& [key, sizeTuple] : sizes)
-      printSize(data, sizeTuple, 24); 
-  }
+  if (data.options.showVerboseEnabled()) { printExtractSizes(data, embeddedFileSize, audioFileSize, audioOffset); }
 
   string embeddedFileData   = dataToString(image, 0);
   string imageFileData      = readFile(image, 0, audioOffset);

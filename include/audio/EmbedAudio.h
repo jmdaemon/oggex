@@ -6,7 +6,6 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
-#include <tuple>
 
 #include "Image.h"
 #include "Audio.h"

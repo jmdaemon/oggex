@@ -45,19 +45,7 @@ uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
     throw exception();
   } 
 
-  if (data.options.showVerboseEnabled()) { 
-    std::map<int, std::tuple<std::string, size_t>> sizes = {
-      { 0, std::make_tuple("Max File Size"  , maxFileSize)},
-      { 1, std::make_tuple("Temp File Size" , tempFileSize)},
-      { 2, std::make_tuple("Image File Size", imageFileSize)},
-      { 3, std::make_tuple("Sound Tag Size" , soundTagSize)},
-      { 4, std::make_tuple("Final Size"     , finalSize)}
-    };
-
-    fmt::print("\n================ File Sizes ================\n");
-    for (auto const& [key, sizeTuple] : sizes)
-      printSize(data, sizeTuple, 16); 
-  }
+  if (data.options.showVerboseEnabled()) { printEmbedSizes(data, maxFileSize, tempFileSize, imageFileSize, soundTagSize, finalSize); }
   return finalSize;
 }
 
