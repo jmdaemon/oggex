@@ -13,6 +13,9 @@ namespace File {
   }
 }
 
+bool File::File::isValid(std::string file) { return isFile(file); }
+bool File::File::isValid(std::filesystem::path filepath) { return isFile(filepath.string()); }
+
 size_t sizeOf(std::ifstream& file, size_t offset) {
   file.seekg(0, std::ios::end);
   size_t fileSize = file.tellg();

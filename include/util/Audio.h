@@ -60,9 +60,6 @@ namespace Audio {
     void setTempLog(std::filesystem::path tempLogFile)      { this->tempLogFile = tempLogFile; }
     void setAudioFileSize(size_t fileSize)                  { this->fileSize = fileSize; }
 
-    virtual bool isValid(std::string file);
-    virtual bool isValid(std::filesystem::path filepath);
-
     void decreaseQuality(unsigned int subtrahend);
   };
 }

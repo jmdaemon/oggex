@@ -22,8 +22,8 @@ namespace File {
       std::map<int, std::string> FileExtensions;
 
     public: 
-      virtual bool isValid(std::string file) = 0; 
-      virtual bool isValid(std::filesystem::path filepath) = 0;
+      bool isValid(std::string file); 
+      bool isValid(std::filesystem::path filepath);
       //bool isFile(std::string file, const std::map<int, std::string> FileExtensions);
       bool isFile(std::string file);
   };

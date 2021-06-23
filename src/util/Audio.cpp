@@ -1,8 +1,6 @@
 #include "Audio.h"
 
 namespace Audio {
-  bool Audio::AudioData::isValid(std::string file) { return isFile(file); }
-  bool Audio::AudioData::isValid(std::filesystem::path filepath) { return isFile(filepath.string()); }
 }
 
 void Audio::AudioData::decreaseQuality(unsigned int subtrahend) {
