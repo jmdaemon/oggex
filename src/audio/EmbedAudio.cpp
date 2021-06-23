@@ -73,12 +73,9 @@ string encodeAudio(Data& data, bool decreaseQuality) {
         fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
         throw exception();
       }
-  } else { // Ignore file size limits
-    removeTemp(data);
-    return cmdOutput;
-  }
-  //removeTemp(data);
-  //return cmdOutput;
+  } // Ignore file size limits
+  removeTemp(data);
+  return cmdOutput;
 }
 
 void encodeImage(Data& data) {

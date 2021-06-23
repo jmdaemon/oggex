@@ -11,58 +11,52 @@ using namespace std;
 namespace fs = std::filesystem;
 
 struct DataFixture {
-  Audio::AudioData audio;
-  Image::ImageData image;
+  const std::string SOUND_TAG       = "audio02";
+  const std::string AUDIO_FILENAME  = "../../outputFile1.audio02.ogg";
+  const std::string IMAGE_FILENAME  = "../../inputFile1";
+
+  Audio::AudioData audio{};
+  Image::ImageData image{};
   Options options;
-  Data data;
+  Data data{};
+
+  DataFixture() : audio(createAudioData(SOUND_TAG, AUDIO_FILENAME)), 
+  image(Image::ImageData(IMAGE_FILENAME)), data(createEmbedData(audio, image, options)) { }
 };
 
 std::string formatCommand(Audio::AudioData& audio, bool enableMono) {
-  std::string command = (enableMono) ? 
+  std::string command = ((enableMono) ? 
       fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1", 
           audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()) 
   : 
     fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1", 
-          audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string());
+          audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()));
   return command;
 }
 
 
-TEST_CASE("Audio files can be embedded into image files") { 
-  const std::string SOUND_TAG = "audio02";
-  const std::string AUDIO_FILENAME = "audio02.ogg";
-  const std::string IMAGE_FILENAME = "../../inputFile1";
-  Audio::AudioData audio = createAudioData(SOUND_TAG, AUDIO_FILENAME);
-  Image::ImageData image = Image::ImageData(IMAGE_FILENAME);
-  Options options;
-  Data data = createEmbedData(audio, image, options);
+TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
+  // Encode Audio properly executes ffmpeg command and creates the "temp.ogg" intermediary file
 
-  fs::path embeddedImage  = "../../inputFile1.png";
-  fs::path imageFile      = "../../inputFile2.png";
-  fs::path audioFile      = "../../outputFile1.audio02.ogg";
-  ifstream file(embeddedImage, ifstream::in | ios::binary);
+  // Encode Audio with default settings
+  data.options.enableMono(true);
+  REQUIRE(!encodeAudio(data).empty());
+  REQUIRE(std::filesystem::exists("temp.ogg"));
+  clean({"temp.ogg"});
 
+  // Disable mono audio channel, and ignore the 4MiB Limit
+  data.options.enableMono(false);
+  data.options.ignoreLimit(true);
+  REQUIRE(!encodeAudio(data).empty());
+  REQUIRE(std::filesystem::exists(data.audio.getTempAudio()));
+  clean({data.audio.getTempAudio()});
 
-  //SUBCASE("Ffmpeg command executes to completion") {
-    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    //string cmd = encodeAudio(audioData);
-
-    //string encodedAudio = exec(cmd.c_str(), audioData);
-    //REQUIRE(!encodedAudio.empty());
-  //}
-
-  //SUBCASE("Image can be encoded") {
-    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    //string cmd = encodeAudio(audioData);
-    //string encodedAudio = exec(cmd.c_str(), audioData);
-    //encodeImage(imageFile, encodedAudio, "[audio02]");
-    //fs::path outputFilePath = "inputFile2-embed.png";
-    //ifstream outputFile(outputFilePath, ifstream::in | ifstream::binary);
-    //CHECK(!isCorrupted(outputFilePath, outputFile));
-    //outputFile.close();
-  //}
-
-  file.close();
+  // Ensure that the embedded output file is created
+  CHECK_THROWS_AS(encodeImage(data), const std::exception&); 
+  encodeAudio(data, data.options.isMonoEnabled());
+  encodeImage(data);
+  REQUIRE(std::filesystem::exists(data.image.createOutputFilename()));
+  clean({ data.image.createOutputFilename() });
 } 
 
 TEST_CASE("Clean should remove temporary files") {
