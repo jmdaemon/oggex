@@ -6,18 +6,9 @@ namespace fs = std::filesystem;
 
 string createCommand(Data& data) {
   Audio::AudioData& audio = data.audio;
-  string command;
-  if (data.options.isMonoEnabled()) { 
-    command = fmt::format(
-        "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
-        );
-  } else {
-    command = fmt::format(
-        "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
-        );
-    }
+  string enableMono = (data.options.isMonoEnabled()) ? " -ac 1" : "";
+  string command = fmt::format(fmt::runtime("ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"),
+      audio.getAudio().string(), audio.getAudioQuality(), enableMono, audio.getTempAudio().string(), audio.getTempLog().string());
   if (data.options.showVerboseEnabled()) {
     fmt::print("{}\n", command);
   }
