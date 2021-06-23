@@ -27,7 +27,7 @@ string exec(const string cmd, Data& data) {
     throw runtime_error("popen() failed!");
   } 
 
-  string monoAudioEnabled = (data.options.showVerboseEnabled()) ? "In Mono Audio Channel" : "";
+  string monoAudioEnabled = (data.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
   fmt::print("Encoding \"{}\" at quality = {} {}\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   audioFileData.close();
@@ -73,9 +73,12 @@ string encodeAudio(Data& data, bool decreaseQuality) {
         fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
         throw exception();
       }
-  } // Ignore file size limits
-  removeTemp(data);
-  return cmdOutput;
+  } else { // Ignore file size limits
+    removeTemp(data);
+    return cmdOutput;
+  }
+  //removeTemp(data);
+  //return cmdOutput;
 }
 
 void encodeImage(Data& data) {

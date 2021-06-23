@@ -11,7 +11,7 @@ class Options {
   private: 
     OptionsList options = {
       {"Mono"           ,   std::make_tuple("-f"  , "--fast"          , false)}, 
-      {"IgnoreLimit"    ,   std::make_tuple("ig"  , "--ignore-limit"  , false)},
+      {"IgnoreLimit"    ,   std::make_tuple("-ig" , "--ignore-limit"  , false)},
       {"Verbose"        ,   std::make_tuple("-v"  , "--verbose"       , false)},
       {"Output"         ,   std::make_tuple("-d"  , "--dest"          , false)},
       {"AudioFile"      ,   std::make_tuple("-ad" , ""                , false)},
