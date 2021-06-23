@@ -63,16 +63,7 @@ TEST_CASE("Audio files can be embedded into image files") {
   //}
 
   file.close();
-}
-
-TEST_CASE("Capitalized file extensions should be converted to lowercase") {
-  INFO("Current output of toLowerCase(): ");
-  REQUIRE(File::toLowerCase("ABC") == "abc");
-  REQUIRE(File::toLowerCase(".JPG") == ".jpg");
-  CHECK(File::toLowerCase(".JPEG") == ".jpeg");
-  CHECK(File::toLowerCase(".PNG") == ".png");
-}
-
+} 
 
 TEST_CASE("Clean should remove temporary files") {
 }

@@ -1,21 +1,11 @@
 #include "File.h"
 
 namespace File {
-  std::string toLowerCase(const std::filesystem::path& filePath) {
-    std::string fpath = filePath.string();
-    std::transform(fpath.begin(), fpath.end(), fpath.begin(), 
-        [](unsigned char c ) { return std::tolower(c); }); 
-    return fpath;
-  }
-
-  std::string getFileExtension(std::string file) {
-    return (std::filesystem::path (file)).extension();
-  }
-
   bool File::isFile(std::string file) {
-    std::string extension = toLowerCase(getFileExtension(file));
+    std::string ext = (std::filesystem::path (file)).extension();
+    std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c ) { return std::tolower(c); }); 
     for (int i = 0; i < this->FileExtensions.size(); i++) {
-      if (this->FileExtensions.at(i) == extension) {
+      if (this->FileExtensions.at(i) == ext) {
         return true;
       }
     }
