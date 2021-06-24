@@ -54,3 +54,29 @@ std::tuple<std::string, std::string> formatBytes(Data& data, size_t bytes, unsig
     auto result = std::make_tuple(byteToString(res, dm), sizes[i]);
     return result;
 }
+
+void printEmbedSizes(Data& data, size_t maxFileSize, size_t tempFileSize, size_t imageFileSize, size_t soundTagSize, size_t finalSize) {
+    std::map<int, std::tuple<std::string, size_t>> sizes = {
+      { 0, std::make_tuple("Max File Size"  , maxFileSize)},
+      { 1, std::make_tuple("Temp File Size" , tempFileSize)},
+      { 2, std::make_tuple("Image File Size", imageFileSize)},
+      { 3, std::make_tuple("Sound Tag Size" , soundTagSize)},
+      { 4, std::make_tuple("Final Size"     , finalSize)}
+    };
+
+    fmt::print("\n================ File Sizes ================\n");
+    for (auto const& [key, sizeTuple] : sizes)
+      printSize(data, sizeTuple, 16); 
+}
+
+void printExtractSizes(Data& data, size_t embeddedFileSize, size_t audioFileSize, size_t audioOffset) {
+  std::map<int, std::tuple<std::string, size_t>> sizes = {
+      { 0, std::make_tuple("Size of Embedded File"  , embeddedFileSize)},
+      { 1, std::make_tuple("Audio File Size"        , audioFileSize)},
+      { 2, std::make_tuple("Audio File Offset"      , audioOffset)}
+    };
+
+    fmt::print("\n================ File Sizes ================\n"); 
+    for (auto const& [key, sizeTuple] : sizes)
+      printSize(data, sizeTuple, 24); 
+}

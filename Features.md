@@ -1,18 +1,11 @@
 # Features
 Listed are some possible, and upcoming features for Oggex.
 
-
 ## Work in Progress
-
-#### Update Unit Tests
-- Update all the unit tests, and look into writing better, more effective tests
-
-
-- - - - -
-
 
 #### Minor Tasks
 - Setup profiler, and optimize binaries for Clang & GCC
+- Find out how to redirect `stderr` into a string to check format output for the unit tests.
 
 
 - - - - -

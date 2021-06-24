@@ -1,7 +1,4 @@
-#include "Cmd.h"
-
-#include <map>
-#include <tuple>
+#include "Cmd.h" 
 
 void formatPrintUsage(std::map<int, std::tuple<std::string, std::string, std::string>> flags) {
   for (auto const& [key, flag] : flags) { 

@@ -1,94 +1,51 @@
 #include "doctest.h"
-
 #include "EmbedAudio.h"
-#include "File.h"
-#include "Image.h"
-#include "Data.h"
+//#include "File.h"
+//#include "Image.h"
+//#include "Data.h"
 
-#include <fmt/core.h>
+//#include <fmt/core.h>
 
 using namespace std;
 namespace fs = std::filesystem;
 
 struct DataFixture {
-  Audio::AudioData audio;
-  Image::ImageData image;
+  const std::string SOUND_TAG       = "audio02";
+  const std::string AUDIO_FILENAME  = "../../outputFile1.audio02.ogg";
+  const std::string IMAGE_FILENAME  = "../../inputFile2.png";
+
+  Audio::AudioData audio{};
+  Image::ImageData image{};
   Options options;
-  Data data;
+  Data data{};
+
+  DataFixture() : audio(createAudioData(SOUND_TAG, AUDIO_FILENAME)), 
+  image(Image::ImageData(IMAGE_FILENAME)), data(createEmbedData(audio, image, options)) { }
 };
 
 std::string formatCommand(Audio::AudioData& audio, bool enableMono) {
-  std::string command = (enableMono) ? 
+  std::string command = ((enableMono) ? 
       fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1", 
           audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()) 
   : 
     fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1", 
-          audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string());
+          audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()));
   return command;
 }
 
+TEST_CASE("Clean should remove temporary files") { 
+  ofstream testFile("Test.txt");
+  testFile << "clean() should remove this file.";
+  testFile.close();
 
-TEST_CASE("Audio files can be embedded into image files") { 
-  const std::string SOUND_TAG = "audio02";
-  const std::string AUDIO_FILENAME = "audio02.ogg";
-  const std::string IMAGE_FILENAME = "../../inputFile1";
-  Audio::AudioData audio = createAudioData(SOUND_TAG, AUDIO_FILENAME);
-  Image::ImageData image = Image::ImageData(IMAGE_FILENAME);
-  Options options;
-  Data data = createEmbedData(audio, image, options);
-
-  fs::path embeddedImage  = "../../inputFile1.png";
-  fs::path imageFile      = "../../inputFile2.png";
-  fs::path audioFile      = "../../outputFile1.audio02.ogg";
-  ifstream file(embeddedImage, ifstream::in | ios::binary);
-
-
-  //SUBCASE("Ffmpeg command executes to completion") {
-    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    //string cmd = encodeAudio(audioData);
-
-    //string encodedAudio = exec(cmd.c_str(), audioData);
-    //REQUIRE(!encodedAudio.empty());
-  //}
-
-  //SUBCASE("Image can be encoded") {
-    //Audio::AudioData audioData = Audio::AudioData("[audio02]", audioFile);
-    //string cmd = encodeAudio(audioData);
-    //string encodedAudio = exec(cmd.c_str(), audioData);
-    //encodeImage(imageFile, encodedAudio, "[audio02]");
-    //fs::path outputFilePath = "inputFile2-embed.png";
-    //ifstream outputFile(outputFilePath, ifstream::in | ifstream::binary);
-    //CHECK(!isCorrupted(outputFilePath, outputFile));
-    //outputFile.close();
-  //}
-
-  file.close();
-}
-
-TEST_CASE("Sound tags should be formatted correctly") {
-    string soundTag = "audio02";
-    string overflowTag = "====================================================================================================";
-    //REQUIRE(tagUnder100(soundTag.length()));
-    REQUIRE(formatSoundTag(soundTag) == "[audio02]");
-    //CHECK(!tagUnder100(overflowTag.length()));
-}
-
-TEST_CASE("Capitalized file extensions should be converted to lowercase") {
-  INFO("Current output of toLowerCase(): ");
-  REQUIRE(File::toLowerCase("ABC") == "abc");
-  REQUIRE(File::toLowerCase(".JPG") == ".jpg");
-  CHECK(File::toLowerCase(".JPEG") == ".jpeg");
-  CHECK(File::toLowerCase(".PNG") == ".png");
-}
-
-
-TEST_CASE("Clean should remove temporary files") {
+  REQUIRE(std::filesystem::exists("Test.txt"));
+  clean({ "Test.txt" });
+  REQUIRE(!std::filesystem::exists("Test.txt"));
 }
 
 TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted correctly") {
     //string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
     //string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
-
     data.options.enableMono(true);
     string monoAudioCommand = createCommand(data);
     string properMonoAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
@@ -101,8 +58,32 @@ TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted co
     REQUIRE(properDualAudioCommand == properDualAudioCommand);
 }
 
-TEST_CASE_FIXTURE(DataFixture, "Ffmpeg command should execute without any problems") { }
+TEST_CASE_FIXTURE(DataFixture, "Exec run and execute ffmpeg commands") { 
+  const std::string command = formatCommand(audio, data.options.isMonoEnabled());
+  std::string output = exec(command, data);
+  REQUIRE(!output.empty());
+} 
 
-TEST_CASE_FIXTURE(DataFixture, "EncodeAudio function should create a temp.ogg file") { }
+TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
+  // Encode Audio properly executes ffmpeg command and creates the "temp.ogg" intermediary file
 
-TEST_CASE_FIXTURE(DataFixture, "EncodeImage function should create an [image]-embed.png file") { }
+  INFO("EncodeAudio function should create a temp.ogg file");
+  // Encode Audio with default settings
+  data.options.enableMono(true);
+  REQUIRE(!encodeAudio(data).empty());
+  REQUIRE(std::filesystem::exists("temp.ogg"));
+  clean({"temp.ogg"});
+
+  // Disable mono audio channel, and ignore the 4MiB Limit
+  data.options.enableMono(false);
+  data.options.ignoreLimit(true);
+  REQUIRE(!encodeAudio(data).empty());
+  REQUIRE(std::filesystem::exists(data.audio.getTempAudio()));
+  clean({data.audio.getTempAudio()});
+
+  INFO("EncodeImage function should create an [image]-embed.png file");
+  // Ensure that the embedded output file is created
+  CHECK_THROWS_AS(encodeImage(data), const std::exception&); 
+  encodeAudio(data, data.options.isMonoEnabled());
+  encodeImage(data);
+} 

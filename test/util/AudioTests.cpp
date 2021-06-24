@@ -1,6 +1,5 @@
 #include "doctest.h"
 
-#include <iostream>
 #include <string>
 #include <filesystem>
 
@@ -9,7 +8,13 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-TEST_CASE("Testing Audio file class") {
-    SUBCASE("") {
-    }
+struct DataFixture {
+  Audio::AudioData audio;
+};
+
+TEST_CASE("Sound tags should be formatted correctly") { 
+    string soundTag = "audio02";
+    string overflowTag = "====================================================================================================";
+    REQUIRE(formatSoundTag(soundTag) == "[" + soundTag + "]");
+    REQUIRE(formatSoundTag(overflowTag) == "[" + overflowTag + "]");
 }

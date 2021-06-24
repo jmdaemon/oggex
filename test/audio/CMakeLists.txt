@@ -1,5 +1,5 @@
 # ================ Embed Audio Tests ================
-set (EMBED_AUDIO_TESTS embed_audio)
+set (EMBED_AUDIO_TESTS embed-audio)
 add_executable(${EMBED_AUDIO_TESTS} EmbedAudioTests.cpp)
 
 target_compile_features(${EMBED_AUDIO_TESTS} PRIVATE cxx_std_20)
@@ -13,7 +13,7 @@ add_test(NAME test-embed-audio COMMAND ${EMBED_AUDIO_TESTS})
 
 # ================ Extract Audio Tests ================
 set(EXTRACT_AUDIO_TESTS extract-audio)
-add_library(${EXTRACT_AUDIO_TESTS} ExtractAudioTests.cpp)
+add_executable(${EXTRACT_AUDIO_TESTS} ExtractAudioTests.cpp)
 
 target_compile_features(${EXTRACT_AUDIO_TESTS} PRIVATE cxx_std_20)
 target_link_libraries(${EXTRACT_AUDIO_TESTS} PRIVATE fmt audio audio_library file_library cmd_library ${TESTS_MAIN})

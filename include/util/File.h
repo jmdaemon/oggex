@@ -14,14 +14,14 @@
 const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
 
 namespace File {
-  std::string toLowerCase(const std::filesystem::path& filePath);
-  std::string getFileExtension(std::string file);
+  class File { 
+    private: 
+      std::map<int, std::string> FileExtensions;
 
-  class File {
-    public:
-    virtual bool isValid(std::string file) = 0;
-    virtual bool isValid(std::filesystem::path filepath) = 0;
-    bool isFile(std::string file, const std::map<int, std::string> FileExtensions);
+    public: 
+      bool isValid(std::string file); 
+      bool isValid(std::filesystem::path filepath);
+      bool isFile(std::string file);
   };
 }
 

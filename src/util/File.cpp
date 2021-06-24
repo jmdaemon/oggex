@@ -1,27 +1,18 @@
 #include "File.h"
 
 namespace File {
-  std::string toLowerCase(const std::filesystem::path& filePath) {
-    std::string fpath = filePath.string();
-    std::transform(fpath.begin(), fpath.end(), fpath.begin(), 
-        [](unsigned char c ) { return std::tolower(c); }); 
-    return fpath;
-  }
-
-  std::string getFileExtension(std::string file) {
-    return (std::filesystem::path (file)).extension();
-  }
-
-  bool File::isFile(std::string file, const std::map<int, std::string> FileExtensions) {
-    std::string extension = toLowerCase(getFileExtension(file));
-    for (int i = 0; i < FileExtensions.size(); i++) {
-      if(FileExtensions.at(i) == extension) {
-        return true;
-      }
+  bool File::isFile(std::string file) {
+    std::string ext = (std::filesystem::path (file)).extension();
+    std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c ) { return std::tolower(c); }); 
+    for (int i = 0; i < this->FileExtensions.size(); i++) {
+      if (this->FileExtensions.at(i) == ext) { return true; }
     }
     return false;
   }
 }
+
+bool File::File::isValid(std::string file) { return isFile(file); }
+bool File::File::isValid(std::filesystem::path filepath) { return isFile(filepath.string()); }
 
 size_t sizeOf(std::ifstream& file, size_t offset) {
   file.seekg(0, std::ios::end);
@@ -57,7 +48,7 @@ std::string dataToString(std::filesystem::path filepath, size_t offset) {
 
 std::string readFile(std::filesystem::path filepath, size_t start, size_t end) {
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary); 
-  if(file.is_open()) { 
+  if (file.is_open()) { 
     file.seekg(start);
     std::string imageFile;
     imageFile.resize(end - start);
@@ -68,20 +59,13 @@ std::string readFile(std::filesystem::path filepath, size_t start, size_t end) {
 }
 
 bool fileExists(std::filesystem::path filepath) { 
-  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
-  if (!file.is_open()) {
-    fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
-    file.close();
-    return false; 
-  } 
-  file.close();
-  return true; 
+  if(std::filesystem::exists(filepath)) { return true; } 
+  fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
+  return false;
 }
 
 void clean(std::initializer_list<std::filesystem::path> filepaths) {
-  for( auto filepath: filepaths) {
-    std::filesystem::remove(filepath);
-  }
+  for(auto filepath: filepaths) { std::filesystem::remove(filepath); }
 } 
 
 void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {

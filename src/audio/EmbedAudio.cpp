@@ -4,27 +4,18 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-string createCommand(Data data) {
+string createCommand(Data& data) {
   Audio::AudioData& audio = data.audio;
-  string command;
-  if (data.options.isMonoEnabled()) { 
-    command = fmt::format(
-        "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
-        );
-  } else {
-    command = fmt::format(
-        "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1",
-      audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()
-        );
-    }
+  string enableMono = (data.options.isMonoEnabled()) ? " -ac 1" : "";
+  string command = fmt::format(fmt::runtime("ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"),
+      audio.getAudio().string(), audio.getAudioQuality(), enableMono, audio.getTempAudio().string(), audio.getTempLog().string());
   if (data.options.showVerboseEnabled()) {
     fmt::print("{}\n", command);
   }
   return command;
 }
 
-string exec(const string cmd, Data data) {
+string exec(const string cmd, Data& data) {
   Audio::AudioData& audio = data.audio;
   ifstream audioFileData(audio.getAudio(), ifstream::in | ifstream::binary);
   vector<char> buffer(4096);
@@ -36,14 +27,14 @@ string exec(const string cmd, Data data) {
     throw runtime_error("popen() failed!");
   } 
 
-  string monoAudioEnabled = (data.options.showVerboseEnabled()) ? "In Mono Audio Channel" : "";
+  string monoAudioEnabled = (data.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
   fmt::print("Encoding \"{}\" at quality = {} {}\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   audioFileData.close();
   return dataToString(audio.getTempAudio());
 }
 
-uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
+uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
   size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
   size_t imageFileSize  = sizeOf(data.image.getImage());
   size_t soundTagSize   = data.audio.getSoundTag().size();
@@ -54,19 +45,7 @@ uintmax_t calcFinalSize(Data data, size_t maxFileSize) {
     throw exception();
   } 
 
-  if (data.options.showVerboseEnabled()) { 
-    std::map<int, std::tuple<std::string, size_t>> sizes = {
-      { 0, std::make_tuple("Max File Size"  , maxFileSize)},
-      { 1, std::make_tuple("Temp File Size" , tempFileSize)},
-      { 2, std::make_tuple("Image File Size", imageFileSize)},
-      { 3, std::make_tuple("Sound Tag Size" , soundTagSize)},
-      { 4, std::make_tuple("Final Size"     , finalSize)}
-    };
-
-    fmt::print("\n================ File Sizes ================\n");
-    for (auto const& [key, sizeTuple] : sizes)
-      printSize(data, sizeTuple, 16); 
-  }
+  if (data.options.showVerboseEnabled()) { printEmbedSizes(data, maxFileSize, tempFileSize, imageFileSize, soundTagSize, finalSize); }
   return finalSize;
 }
 
