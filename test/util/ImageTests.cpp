@@ -1,34 +1,22 @@
 #include "doctest.h"
 
-//#include <stdlib.h> 
-//#include <iostream>
-#include <string>
-
 #include "Image.h"
-//#include "FileType.tpp"
 
 using namespace std;
 namespace fs = std::filesystem; 
 
-//std::string readImage() {
-  //std::string filepath = ("../../resources/12727a5f30b1429a1fd35113fd2550d8.png");
-  //Image::ImageData testImage = Image::ImageData(filepath);
-  ////if (testImage.readImage() == 0) {
-    ////return "Successfully read file";
-  ////} else
-    ////return "Unable to read file";
-//}
+struct DataFixture {
+  const std::string IMAGE_FILENAME  = "../../inputFile2.png";
+  Image::ImageData image{};
 
-TEST_CASE("Testing Image class") { 
-  //CHECK(readImage() == "Successfully read file");
+  DataFixture() : image(Image::ImageData(IMAGE_FILENAME)) { }
+}; 
 
-  SUBCASE("Running image file checks") {
-    std::filesystem::path filepath = "../../inputFile1.png"; 
-    ifstream file(filepath, ifstream::in | ifstream::binary);
-    //CHECK(Image::isImage(filepath));
-    CHECK(Image::imageUnder4MiB(filepath));
-    //REQUIRE(!isCorrupted(filepath, file));
-    //REQUIRE(imageNotCorrupted(filepath) == true);
-  }
+TEST_CASE_FIXTURE(DataFixture, "Outputfilename should be properly formatted") {
+  std::string output = image.createOutputFilename();
+  REQUIRE(output == "inputFile2-embed.png");
+}
 
+TEST_CASE_FIXTURE(DataFixture, "Image should be under 4 MiB") {
+  CHECK(under4MiB(IMAGE_FILENAME));
 }
