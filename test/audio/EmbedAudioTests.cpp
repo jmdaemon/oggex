@@ -13,7 +13,7 @@ namespace fs = std::filesystem;
 struct DataFixture {
   const std::string SOUND_TAG       = "audio02";
   const std::string AUDIO_FILENAME  = "../../outputFile1.audio02.ogg";
-  const std::string IMAGE_FILENAME  = "../../inputFile1";
+  const std::string IMAGE_FILENAME  = "../../inputFile2.png";
 
   Audio::AudioData audio{};
   Image::ImageData image{};
