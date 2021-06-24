@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.19) # CMake 3.9
 
 project(
     oggex 
-    VERSION 1.4.0
+    VERSION 1.5.0
     DESCRIPTION "Encode and decode ogg audio files in images" 
     LANGUAGES CXX
     )
