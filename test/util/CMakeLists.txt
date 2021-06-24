@@ -3,7 +3,7 @@ set(IMAGE_TESTS test-image)
 add_executable(${IMAGE_TESTS} ImageTests.cpp)
 target_compile_features(${IMAGE_TESTS} PRIVATE cxx_std_20)
 
-target_link_libraries(${IMAGE_TESTS} PRIVATE audio audio_library image_library file_library fmt ${TESTS_MAIN})
+target_link_libraries(${IMAGE_TESTS} PRIVATE image_library file_library fmt ${TESTS_MAIN})
 target_include_directories(${IMAGE_TESTS} PUBLIC ${DOCTEST_INCLUDE_DIR})
 add_test(NAME test-image COMMAND ${IMAGE_TESTS})
 
@@ -21,7 +21,7 @@ set (CMD_TESTS test-cmd)
 add_executable(${CMD_TESTS} CmdTests.cpp)
 target_compile_features(${CMD_TESTS} PRIVATE cxx_std_20)
 
-target_link_libraries(${CMD_TESTS} PRIVATE audio_library image_library file_library fmt ${TESTS_MAIN})
+target_link_libraries(${CMD_TESTS} PRIVATE fmt cmd_library ${TESTS_MAIN})
 target_include_directories(${CMD_TESTS} PUBLIC ${DOCTEST_LIB})
 add_test(NAME test-cmd COMMAND ${CMD_TESTS})
 

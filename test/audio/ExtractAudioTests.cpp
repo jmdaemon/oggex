@@ -1,5 +1,4 @@
 #include "doctest.h"
-
 #include "ExtractAudio.h"
 
 using namespace std;
