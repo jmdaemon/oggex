@@ -55,11 +55,16 @@ TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
   CHECK_THROWS_AS(encodeImage(data), const std::exception&); 
   encodeAudio(data, data.options.isMonoEnabled());
   encodeImage(data);
-  REQUIRE(std::filesystem::exists(data.image.createOutputFilename()));
-  clean({ data.image.createOutputFilename() });
 } 
 
-TEST_CASE("Clean should remove temporary files") {
+TEST_CASE("Clean should remove temporary files") { 
+  ofstream testFile("Test.txt");
+  testFile << "clean() should remove this file.";
+  testFile.close();
+
+  REQUIRE(std::filesystem::exists("Test.txt"));
+  clean({ "Test.txt" });
+  REQUIRE(!std::filesystem::exists("Test.txt"));
 }
 
 TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted correctly") {
