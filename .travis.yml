@@ -1,0 +1,12 @@
+---
+language: c++
+dist: bionic
+os:
+  linux
+install: cmake ninja
+compiler:
+  - clang
+  - gcc
+
+script:
+  ./scripts/build.sh && ninja -C build
