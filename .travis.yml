@@ -3,9 +3,19 @@ language: c++
 dist: bionic
 os:
   linux
-install: cmake ninja
 compiler:
   - clang
   - gcc
+addons:
+  apt:
+    packages:
+      - cmake
+      - ninja-build
 script:
-  ./scripts/build.sh && ninja -C build
+  - echo $(pwd)
+  - ls -al
+  - mkdir build
+  - cmake --help
+  - cd build
+  - CC="${CC}" CXX="${CXX}" cmake .. -G Ninja
+  - ninja -C build

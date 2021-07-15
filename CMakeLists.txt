@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19) # CMake 3.9
+cmake_minimum_required(VERSION 3.12)
 
 project(
     oggex 
