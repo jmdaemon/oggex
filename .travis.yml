@@ -14,4 +14,4 @@ addons:
 script:
   - ls -al && mkdir build
   - CC="${CC}" CXX="${CXX}" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
-  - ninja
+  - ninja build
