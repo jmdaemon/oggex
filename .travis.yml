@@ -1,6 +1,6 @@
 ---
 language: c++
-dist: bionic
+dist: focal fossa
 os:
   linux
 compiler:
@@ -15,7 +15,6 @@ script:
   - echo $(pwd)
   - ls -al
   - mkdir build
-  - cmake --help
   - cd build
-  - CC="${CC}" CXX="${CXX}" cmake .. -G Ninja
+  - CC="${CC}" CXX="${CXX}" cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
   - ninja -C build
