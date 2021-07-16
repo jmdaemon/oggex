@@ -1,0 +1,17 @@
+---
+language: c++
+dist: focal fossa
+os:
+  linux
+compiler:
+  - clang
+  - gcc
+addons:
+  apt:
+    packages:
+      - cmake
+      - ninja-build
+script:
+  - ls -al && mkdir build
+  - CC="${CC}" CXX="${CXX}" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+  - ninja -C build

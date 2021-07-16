@@ -1,25 +1,33 @@
 # Oggex
+
 Embed and extract OGG audio files in images using sound tags.
 
 1. [Requirements](#Requirements)
 2. [Installation](#Installation)
 3. [Building from Source](#Building)
-2. [Usage](#Usage)
+4. [Usage](#Usage)
     1. [Embedding](#Embedding)
     2. [Extracting](#Extracting)
 
+## Requirements
 
-## Requirements 
 The following dependencies are required:
+
 - ffmpeg
 
 ## Installation
 
 ### Release
-You can download it [here](https://github.com/jmdaemon/oggex/releases/latest/download/oggex-1.0.tar.gz) or get the latest release from the [Releases](https://github.com/jmdaemon/oggex/releases/) page.
+
+You can download it [here](
+https://github.com/jmdaemon/oggex/releases/latest/download/oggex-1.0.tar.gz)
+or get the latest release from the [Releases](
+https://github.com/jmdaemon/oggex/releases/) page.
 
 ### Building
+
 The following build dependencies are required:
+
 - clang or gcc
 - cmake (3.1.9)
 - ninja
@@ -29,6 +37,7 @@ git clone https://github.com/jmdaemon/oggex.git
 cd oggex
 ./scripts/build.sh --release
 ```
+
 Additional configuration and build options can be specified to `build.sh`.
 
 Build Oggex (Release):
@@ -38,16 +47,19 @@ ninja -C build/Release
 ```
 
 Install Oggex to /usr/local/bin:
+
 ``` bash
 sudo ninja -C build/Release install
 ```
 
 Uninstall Oggex:
+
 ``` bash
 sudo ninja -C build/Release uninstall
 ```
 
 Install Oggex in a different directory:
+
 ``` bash
 ./scripts/build.sh -r -i --prefix [/path/to/your/directory]
 sudo ninja -C build/Release install
@@ -57,7 +69,7 @@ The `oggex` binary can also be found under `build/app`.
 
 ## Usage
 
-```
+``` bash
 Usage: oggex [embed/extract] -a [audio] -t [soundtag] -i [image]
 Options:
 
@@ -81,7 +93,8 @@ Options:
 ```
 
 ### Embedding
-```
+
+``` bash
 $ oggex embed -a audio.ogg -i image.png -t "soundtag"
 ```
 
@@ -90,6 +103,7 @@ The sound tag can however long you want it, although the final embedded image ma
 Unicode characters are also supported with the sound tag.
 
 Currently the supported image file formats are:
+
 - jpg/jpeg
 - gif
 - png
@@ -99,7 +113,7 @@ The output file will be named `[image]-embed.png`
 
 ### Extracting
 
-```
+``` bash
 $ oggex extract -i inputFile-embed.png
 ```
 

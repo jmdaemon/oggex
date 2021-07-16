@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19) # CMake 3.9
+cmake_minimum_required(VERSION 3.12)
 
 project(
     oggex 
@@ -35,10 +35,9 @@ configure_file (
 )
 
 include(FetchContent)
-FetchContent_Declare(
-    libfmt
+FetchContent_Declare(fmt
     GIT_REPOSITORY "https://github.com/fmtlib/fmt")
-FetchContent_MakeAvailable(libfmt)
+FetchContent_MakeAvailable(fmt)
 
 if (BUILD_TESTING)
 include(ExternalProject)
