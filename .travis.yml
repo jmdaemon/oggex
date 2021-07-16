@@ -12,9 +12,6 @@ addons:
       - cmake
       - ninja-build
 script:
-  - echo $(pwd)
-  - ls -al
-  - mkdir build
-  - cd build
-  - CC="${CC}" CXX="${CXX}" cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
-  - ninja -C build
+  - ls -al && mkdir build
+  - CC="${CC}" CXX="${CXX}" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+  - ninja
