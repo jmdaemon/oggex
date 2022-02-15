@@ -1,6 +1,6 @@
 ---
 language: c++
-dist: focal fossa
+dist: focal
 os:
   linux
 compiler:
