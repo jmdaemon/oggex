@@ -18,19 +18,41 @@ set(CMAKE_AUTORCC ON)
 #endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-#set(UI_SOURCES ui/mainwindow.ui)
-#set(UI_PATH "ui")
-#set(EMBED_SOURCES embedwindow.h embedwindow.cpp "${UI_PATH}/embedwindow.ui")
-#set(EMBED_SOURCES embedwindow.h embedwindow.cpp ui/embedwindow.ui)
-set(EMBED_SOURCES embedwidget.h embedwidget.cpp embedwidget.ui)
-set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        #"${UI_PATH}/mainwindow.ui"
-        ui/mainwindow.ui
-        ${EMBED_SOURCES}
-)
 
-qt_add_executable(oggex-qt ${PROJECT_SOURCES})
-target_link_libraries(oggex-qt PRIVATE Qt6::Widgets)
+# Compile the needed individual components
+# EmbedWidget
+add_subdirectory("embedwidget")
+add_subdirectory("mainwindow")
+#set(EMBED_WIDGET_DIR "embedwidget")
+#set(EMBED_WIDGET_SOURCES ${EMBED_WIDGET_DIR}/embedwidget.cpp,
+    #${EMBED_WIDGET_DIR}/embedwidget.h ${EMBED_WIDGET_DIR}/embedwidget.ui)
+
+# MainWindow
+#set(MAIN_WINDOW_DIR "mainwindow")
+#set(MAIN_SOURCES ${MAIN_WINDOW_DIR}/mainwindow.cpp
+    #${MAIN_WINDOW_DIR}/mainwindow.h ${MAIN_WINDOW_DIR}/mainwindow.ui)
+
+#set(PROJECT_SOURCES
+        #main.cpp
+        #${MAIN_SOURCES}
+#)
+
+set(QTUI_HEADERS_DIR "${OGGEX_SOURCE_DIR}/app/qt")
+set(HEADER_LIST "${QTUI_HEADERS_DIR}/embedwidget" "${QTUI_HEADERS_DIR}/mainwindow")
+set(TARGET oggex-qt)
+
+# Include necessary header files
+#target_include_directories(${TARGET} PUBLIC ${HEADER_LIST})
+#target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwiget mainwindow)
+
+qt_add_executable(${TARGET} main.cpp)
+target_include_directories(${TARGET} PUBLIC ${HEADER_LIST})
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget mainwindow)
+
+#set(PROJECT_SOURCES main.cpp
+        ##${MAIN_SOURCES}
+#)
+
+#qt_add_executable(oggex-qt ${PROJECT_SOURCES})
+#target_link_libraries(oggex-qt PRIVATE Qt6::Widgets embedwidget)
+#target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget)
