@@ -1,5 +1,0 @@
-/home/jmd/workspace/apps/oggex/src/oggex/qt5/build-oggex-Desktop-Debug/CMakeFiles/rebuild_cache.dir
-/home/jmd/workspace/apps/oggex/src/oggex/qt5/build-oggex-Desktop-Debug/CMakeFiles/edit_cache.dir
-/home/jmd/workspace/apps/oggex/src/oggex/qt5/build-oggex-Desktop-Debug/CMakeFiles/oggex.dir
-/home/jmd/workspace/apps/oggex/src/oggex/qt5/build-oggex-Desktop-Debug/CMakeFiles/oggex_autogen_timestamp_deps.dir
-/home/jmd/workspace/apps/oggex/src/oggex/qt5/build-oggex-Desktop-Debug/CMakeFiles/oggex_autogen.dir
