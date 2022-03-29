@@ -18,12 +18,18 @@ set(CMAKE_AUTORCC ON)
 #endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-set(UI_SOURCES ui/mainwindow.ui)
+#set(UI_SOURCES ui/mainwindow.ui)
+#set(UI_PATH "ui")
+#set(EMBED_SOURCES embedwindow.h embedwindow.cpp "${UI_PATH}/embedwindow.ui")
+#set(EMBED_SOURCES embedwindow.h embedwindow.cpp ui/embedwindow.ui)
+set(EMBED_SOURCES embedwidget.h embedwidget.cpp embedwidget.ui)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
-        ${UI_SOURCES}
+        #"${UI_PATH}/mainwindow.ui"
+        ui/mainwindow.ui
+        ${EMBED_SOURCES}
 )
 
 qt_add_executable(oggex-qt ${PROJECT_SOURCES})
