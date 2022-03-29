@@ -82,10 +82,22 @@
     </widget>
     <widget class="QWidget" name="mainMenu">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>860</width>
+       <height>640</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>1280</width>
+       <height>720</height>
+      </size>
      </property>
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
@@ -98,7 +110,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <property name="sizeConstraint">
-        <enum>QLayout::SetMinimumSize</enum>
+        <enum>QLayout::SetMaximumSize</enum>
        </property>
        <property name="leftMargin">
         <number>6</number>
