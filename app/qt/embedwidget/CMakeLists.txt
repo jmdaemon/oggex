@@ -1,4 +1,3 @@
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/app/ui/embedwidget/embedwidget.h")
 set(HEADER_LIST "${OGGEX_SOURCE_DIR}/app/qt/embedwidget")
 set(TARGET embedwidget)
 
@@ -16,10 +15,6 @@ target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
 target_compile_features(${TARGET} PUBLIC cxx_std_20)
 
 source_group(
-  #TREE "${PROJECT_SOURCE_DIR}/include"
-  #TREE "${HEADER_LIST}"
-  #TREE "${PROJECT_SOURCE_DIR}/app/qt/embedwidget"
-  #TREE "${HEADER_LIST}"
   TREE "${OGGEX_SOURCE_DIR}/app/qt"
   PREFIX "Header Files"
   FILES ${HEADER_LIST})

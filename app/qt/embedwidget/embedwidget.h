@@ -3,12 +3,9 @@
 
 #include <QWidget>
 
-namespace Ui {
-class EmbedWidget;
-}
+namespace Ui { class EmbedWidget; }
 
-class EmbedWidget : public QWidget
-{
+class EmbedWidget : public QWidget {
     Q_OBJECT
 
 public:

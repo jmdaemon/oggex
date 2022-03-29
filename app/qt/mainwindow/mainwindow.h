@@ -4,9 +4,7 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-
-//#include "embedwindow.h"
-//#include "ui/ui_embedwindow.h"
+#include <QObject>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -16,13 +14,6 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 private:
     Ui::MainWindow *ui;
-    //EmbedWindow embedWindow;
-    //Ui::EmbedWindow *embedWindow;
-
-//public slots:
-    //void makeActive();
-//public slots:
-    //void showEmbedWindow();
 
 public:
     MainWindow(QWidget *parent = nullptr);
