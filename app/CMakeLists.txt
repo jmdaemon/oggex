@@ -27,3 +27,4 @@ install(TARGETS ${OGGEX}
 install(TARGETS ${OGGEX}
         CONFIGURATIONS Release
         RUNTIME DESTINATION Release/bin)
+add_subdirectory(qt)

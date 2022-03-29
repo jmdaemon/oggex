@@ -1,2 +1,2 @@
 #add_subdirectory(gtk3)
-add_subdirectory(qt)
+#add_subdirectory(qt)
