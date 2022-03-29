@@ -18,12 +18,12 @@ set(CMAKE_AUTORCC ON)
 #endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
-
+set(UI_SOURCES ui/mainwindow.ui)
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
-        mainwindow.ui
+        ${UI_SOURCES}
 )
 
 qt_add_executable(oggex-qt ${PROJECT_SOURCES})
