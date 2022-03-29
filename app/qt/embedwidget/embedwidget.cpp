@@ -37,8 +37,6 @@ EmbedWidget::EmbedWidget(QWidget *parent)
     //model->horizontalHeaderItem(1)->setText(tr("Output"));
     model->setHeaderData(0, Qt::Horizontal, "Inputs", Qt::DisplayRole );
     model->setHeaderData(1, Qt::Horizontal, "Outputs", Qt::DisplayRole );
-
-
     ui->treeView->setModel(model);
 }
 
