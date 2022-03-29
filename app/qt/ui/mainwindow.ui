@@ -76,7 +76,7 @@
       <number>6</number>
      </property>
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="Title">
        <property name="font">
         <font>
          <family>Arial</family>
@@ -92,21 +92,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="embedButton">
        <property name="text">
         <string>Embed</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="extractButton">
        <property name="text">
         <string>Extract</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="quitButton">
        <property name="text">
         <string>Quit</string>
        </property>
