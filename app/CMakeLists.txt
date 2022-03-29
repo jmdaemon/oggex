@@ -15,11 +15,6 @@ source_group(
   FILES ${HEADER_LIST}
   )
 
-#install(TARGETS ${OGGEX} DESTINATION install)
-#set_target_properties(${OGGEX}
-    #PROPERTIES
-    #RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
-    #)
 install(TARGETS ${OGGEX} RUNTIME DESTINATION bin)
 install(TARGETS ${OGGEX}
         CONFIGURATIONS Debug

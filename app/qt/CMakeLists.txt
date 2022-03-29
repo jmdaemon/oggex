@@ -1,15 +1,8 @@
-#cmake_minimum_required(VERSION 3.5)
-
-#project(oggex LANGUAGES CXX)
-
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-
-#set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
 # Check https://doc.qt.io/qt/deployment-android.html for more information.
@@ -24,8 +17,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-#find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
-#find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
@@ -35,17 +26,5 @@ set(PROJECT_SOURCES
         mainwindow.ui
 )
 
-#if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 qt_add_executable(oggex-qt ${PROJECT_SOURCES})
-#if(ANDROID)
-    #add_library(oggex-qt SHARED
-        #${PROJECT_SOURCES}
-    #)
-#else()
-    #add_executable(oggex-qt
-        #${PROJECT_SOURCES}
-    #)
-#endif()
-
-#target_link_libraries(oggex PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(oggex-qt PRIVATE Qt6::Widgets)
