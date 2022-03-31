@@ -2,10 +2,8 @@
 #include "ui_embedwidget.h"
 
 EmbedWidget::EmbedWidget(QWidget *parent)
-    : QWidget(parent), ui(new Ui::EmbedWidget) {
+    : QWidget(parent), ui(new Ui::EmbedWidget), model(new QStandardItemModel()) {
     ui->setupUi(this);
-
-    QStandardItemModel* model = new QStandardItemModel();
 
     auto image  = makeEntry("ImageFile1.png");
     auto sound1 = makeEntry("SoundFile1.ogg");
