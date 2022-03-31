@@ -17,12 +17,11 @@ private:
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
     ~EmbedWidget();
-    //QStandardItem* makeSound();
-    QStandardItem* makeSoundButton();
-    //QStandardItem* makeImage(QString path);
     QStandardItem* makeEntry(QString path);
+    QStandardItem* makeSoundButton();
     void addSound(QStandardItem* sound, QStandardItem* image);
     void addImage(QStandardItem* image, QStandardItemModel* model);
     void addToModel(QString path, QStandardItemModel* model);
+    void setHeaders(QStandardItemModel* model);
 };
 #endif // EMBEDWIDGET_H

@@ -1,9 +1,6 @@
 #include "embedwidget.h"
 #include "ui_embedwidget.h"
 
-//#include <QPushButton>
-//#include <QTreeWidgetItem>
-
 EmbedWidget::EmbedWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::EmbedWidget) {
     ui->setupUi(this);
@@ -18,22 +15,6 @@ EmbedWidget::EmbedWidget(QWidget *parent)
 
     QList<QStandardItem*> outputsList = { output };
 
-    addSound(sound1, image);
-    addSound(sound2, image);
-    addSound(sb, image);
-    addImage(image, model);
-
-    model->appendColumn(outputsList);
-
-    //QStandardItem* item1 = new QStandardItem(QIcon("test.png"), "ImageFile1.png");
-    //QStandardItem* item2 = new QStandardItem(QIcon("test.png"), "SoundFile1.ogg");
-    //QStandardItem* item3 = new QStandardItem(QIcon("test.png"), "SoundFile2.ogg");
-    //QStandardItem* soundButton = new QStandardItem("Add Sound");
-    //QStandardItem* item4 = new QStandardItem("OutputFile1.png");
-
-    //QStandardItem* addImage = new QStandardItem(QIcon("test.png"), "Add Image");
-
-    //QList<QStandardItem*> outputsList = { item4 };
     // Set up the hierarchy as:
     // First Column:
     // ImageFile1
@@ -41,16 +22,13 @@ EmbedWidget::EmbedWidget(QWidget *parent)
     //  - Sound File2
     // Second Column
     //  - Sound File2
+    addSound(sound1, image);
+    addSound(sound2, image);
+    addSound(sb, image);
+    addImage(image, model);
 
-    //model->appendRow(item1);
-    //item1->appendRow(item2);
-    //item1->appendRow(item3);
-    //item1->appendRow(soundButton);
-    //model->appendColumn(outputsList);
-
-    // Sets the Column Headers
-    model->setHeaderData(0, Qt::Horizontal, "Inputs", Qt::DisplayRole );
-    model->setHeaderData(1, Qt::Horizontal, "Outputs", Qt::DisplayRole );
+    model->appendColumn(outputsList);
+    setHeaders(model);
 
     // Set the current model
     ui->treeView->setModel(model);
@@ -67,11 +45,11 @@ QStandardItem* EmbedWidget::makeEntry(QString path) {
     return image;
 }
 
-// Creates the image entry in the model
-//QStandardItem* EmbedWidget::makeImage(QString path) {
-    //QStandardItem* image = new QStandardItem(path);
-    //return image;
-//}
+// Sets the Column Headers
+void EmbedWidget::setHeaders(QStandardItemModel* model) {
+    model->setHeaderData(0, Qt::Horizontal, "Inputs", Qt::DisplayRole );
+    model->setHeaderData(1, Qt::Horizontal, "Outputs", Qt::DisplayRole );
+}
 
 // Adds the sound to the image
 void EmbedWidget::addSound(QStandardItem* sound, QStandardItem* image) {
