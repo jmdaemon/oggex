@@ -5,6 +5,7 @@
 #include <QStandardItem>
 #include <QStandardItemModel>
 #include <QString>
+#include "datamodel.h"
 
 namespace Ui { class EmbedWidget; }
 
@@ -13,16 +14,11 @@ class EmbedWidget : public QWidget {
 
 private:
     Ui::EmbedWidget *ui;
-    QStandardItemModel* model;
+    //QStandardItemModel* model;
+    DataModel* model;
 
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
     ~EmbedWidget();
-    QStandardItem* makeEntry(QString path);
-    QStandardItem* makeSoundButton();
-    void addSound(QStandardItem* sound, QStandardItem* image);
-    void addImage(QStandardItem* image, QStandardItemModel* model);
-    void addToModel(QString path, QStandardItemModel* model);
-    void setHeaders(QStandardItemModel* model);
 };
 #endif // EMBEDWIDGET_H

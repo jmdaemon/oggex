@@ -5,6 +5,7 @@ add_library(${TARGET})
 target_sources(${TARGET}
     PRIVATE embedwidget.cpp
     PRIVATE embedwidget.ui
+    PRIVATE datamodel.cpp
     PUBLIC  ${HEADER_LIST}
 )
 
