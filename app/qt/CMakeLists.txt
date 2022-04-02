@@ -20,6 +20,7 @@ set(CMAKE_AUTORCC ON)
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # Compile the needed individual components
+add_subdirectory("datamodel")
 add_subdirectory("embedwidget")
 add_subdirectory("mainwindow")
 
