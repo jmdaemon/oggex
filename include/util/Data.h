@@ -2,11 +2,16 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include <cmath>
-
 #include "Audio.h"
 #include "Image.h"
 #include "Options.h"
+
+#include <cmath>
+#include <iosfwd>
+#include <tuple>
+#include <vector>
+#include <sstream>
+#include <string>
 
 struct Data {
   public:
