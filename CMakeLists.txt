@@ -62,7 +62,7 @@ set(CMAKE_CXX_FLAGS -fdiagnostics-color=always)
 set(CMAKE_C_FLAGS -fdiagnostics-color=always)
 
 add_subdirectory(src)
-add_subdirectory(app)
+#add_subdirectory(app)
 
 if(BUILD_TESTING)
   add_subdirectory(test)

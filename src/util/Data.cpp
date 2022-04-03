@@ -2,6 +2,9 @@
 
 #include <iosfwd>
 #include <tuple>
+#include <vector>
+#include <sstream>
+#include <string>
 
 Data createEmbedData(Audio::AudioData audio, Image::ImageData image, Options options) { 
   return Data{ .audio = audio, .image = image, .options = options};

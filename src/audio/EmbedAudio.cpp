@@ -1,5 +1,12 @@
 #include "EmbedAudio.h"
+#include <string>
 #include <iosfwd>
+#include <filesystem>
+#include <sstream>
+#include <fstream>
+#include <iostream>
+#include <vector>
+#include <cstdint>
 
 using namespace std;
 namespace fs = std::filesystem;
