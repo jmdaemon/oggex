@@ -2,6 +2,8 @@
 #ifndef MASK_H
 #define MASK_H
 
+#include <iosfwd>
+#include <sstream>
 #include <array>
 #include <fstream>
 #include <cinttypes>
