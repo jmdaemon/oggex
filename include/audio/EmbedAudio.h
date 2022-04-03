@@ -2,15 +2,20 @@
 #ifndef EMBEDAUDIO_H
 #define EMBEDAUDIO_H
 
-#include <exception>
-#include <filesystem>
-#include <fstream>
-#include <string>
-
 #include "Image.h"
 #include "Audio.h"
 #include "Data.h"
 #include "Mask.h"
+
+#include <string>
+#include <iosfwd>
+#include <filesystem>
+#include <sstream>
+#include <fstream>
+#include <vector>
+#include <cstdint>
+#include <exception>
+#include <fstream>
 
 std::string createCommand(Data& data);
 std::string exec(const std::string cmd, Data& data);
