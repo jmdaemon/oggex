@@ -16,6 +16,12 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include (CTest)
 endif()
 
+# Build the application normally
+# if not building for javascript
+if(NOT $ENV{BUILD_JS})
+    set($ENV{BUILD_JS} OFF)
+endif()
+
 ### Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
@@ -62,7 +68,9 @@ set(CMAKE_CXX_FLAGS -fdiagnostics-color=always)
 set(CMAKE_C_FLAGS -fdiagnostics-color=always)
 
 add_subdirectory(src)
-#add_subdirectory(app)
+if (NOT $ENV{BUILD_JS})
+    add_subdirectory(app)
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(test)
