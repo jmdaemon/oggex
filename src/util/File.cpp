@@ -1,9 +1,4 @@
 #include "File.h"
-#include <string>
-#include <sstream>
-#include <filesystem>
-#include <algorithm>
-#include <vector>
 
 namespace File {
   bool File::isFile(std::string file) {

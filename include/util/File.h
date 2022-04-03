@@ -8,6 +8,8 @@
 #include <map>
 #include <initializer_list>
 #include <fstream>
+#include <sstream>
+#include <vector>
 
 #include <fmt/core.h>
 
