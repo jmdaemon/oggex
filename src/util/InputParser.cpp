@@ -1,6 +1,4 @@
 #include "InputParser.h"
-#include <string>
-#include <vector>
 
 InputParser::InputParser (int &argc, char **argv) {
     for (int i=1; i < argc; ++i)
