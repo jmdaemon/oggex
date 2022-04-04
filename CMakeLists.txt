@@ -42,10 +42,10 @@ set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
 
-# Configure project versions
+# Single source project version
 configure_file (
-  "${PROJECT_SOURCE_DIR}/oggex.hpp.in"
-  "${PROJECT_BINARY_DIR}/oggex.hpp"
+  "${PROJECT_SOURCE_DIR}/include/Version.h.in"
+  "${PROJECT_BINARY_DIR}/include/Version.h"
 )
 
 # Include dependencies
