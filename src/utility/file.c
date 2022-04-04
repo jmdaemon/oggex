@@ -1,5 +1,3 @@
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
@@ -7,7 +5,50 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#ifdef linux
+#include <sys/stat.h>
+#include <sys/types.h>
+#endif
 
+#ifdef _WIN32
+#include <windows.h>
+#include <tchar.h>
+#include <fileapi.h>
+#endif
+
+#ifdef _WIN32
+bool file_exists(HANDLE* fp) {
+  if (fp == NULL) {
+    printf("File Not Found!\n");
+    return false;
+  }
+  return true;
+}
+
+off_t file_size (const char* filename) {
+  HANDLE file;
+  LARGE_INTEGER file_size;
+  char *buffer;
+  file = CreateFile(TEXT(filename), GENERIC_READ, 0, NULL,
+      OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+  if (INVALID_FILE_HANDLE == file) {
+    fprintf(stderr, "Cannot open file %s: %s\n",
+            filename, strerror(errno));
+    return -1;
+  }
+
+  if (!GetFileSizeEx(file, &file_size)) {
+    fprintf(stderr, "Cannot determine size of %s: %s\n",
+            filename, strerror(errno));
+    return -1;
+
+  }
+  return file_size;
+}
+#endif
+
+#ifdef linux
 /**
   * Check if a file exists
   * ----------------------
@@ -84,3 +125,4 @@ char* read_file(char* path) {
   contents[filesize] = 0;
   return contents;
 }
+#endif
