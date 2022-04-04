@@ -50,25 +50,53 @@ function(make_library)
         FILES ${LIB_HEADERS})
 endfunction()
 
+function(make_static_shared_lib)
+    # Set make_library arguments
+    set(ARG_PREFIX LIB)
+    set(_OPTIONS_ARGS )
+    set(_ONE_VALUE_ARGS NAME)
+    set(_MULTI_VALUE_ARGS HEADERS SOURCES DEPS)
+    cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
+
+    make_library(
+        NAME ${LIB_NAME}
+        TYPE shared
+        HEADERS "${OGGEX_SOURCE_DIR}/include/util"
+        SOURCES "${FILE_SRCS}"
+        DEPS "${FILE_DEPS}")
+
+    make_library(
+        NAME ${LIB_NAME}
+        TYPE static
+        HEADERS "${LIB_HEADERS}"
+        SOURCES "${LIB_SOURCES}"
+        DEPS "${LIB_DEPS}")
+endfunction()
+
 # ================ File Library ================
 set(FILE_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
 set(FILE_SRCS File.cpp)
 set(FILE_DEPS fmt)
 
 # Add both shared and static library targets
-make_library(
+make_static_shared_lib(
     NAME files
-    TYPE shared
     HEADERS "${OGGEX_SOURCE_DIR}/include/util"
     SOURCES "${FILE_SRCS}"
     DEPS "${FILE_DEPS}")
+#make_library(
+    #NAME files
+    #TYPE shared
+    #HEADERS "${OGGEX_SOURCE_DIR}/include/util"
+    #SOURCES "${FILE_SRCS}"
+    #DEPS "${FILE_DEPS}")
 
-make_library(
-    NAME files
-    TYPE static
-    HEADERS "${FILE_HEADERS}"
-    SOURCES "${FILE_SRCS}"
-    DEPS "${FILE_DEPS}")
+#make_library(
+    #NAME files
+    #TYPE static
+    #HEADERS "${FILE_HEADERS}"
+    #SOURCES "${FILE_SRCS}"
+    #DEPS "${FILE_DEPS}")
 
 
 # ================ Image Library ================
