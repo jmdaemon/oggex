@@ -5,15 +5,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#ifdef linux
-#include <sys/stat.h>
-#include <sys/types.h>
-#endif
-
 #ifdef _WIN32
 #include <windows.h>
 #include <tchar.h>
 #include <fileapi.h>
+#else
+#include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #ifdef _WIN32
@@ -46,9 +44,7 @@ off_t file_size (const char* filename) {
   }
   return file_size;
 }
-#endif
-
-#ifdef linux
+#else
 /**
   * Check if a file exists
   * ----------------------
