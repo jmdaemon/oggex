@@ -16,7 +16,7 @@ endfunction()
 #function(MAKE_LIBRARY)
 #function(make_library)
 include(CMakeParseArguments)
-macro(make_library)
+function(make_library)
     #set(${LIBNAME}      "Name of the library" PARENT_SCOPE)
     #set(${LIB_TYPE}     "Type of the library to make" PARENT_SCOPE)
     #set(${LIB_HEADERS}  "Library headers" PARENT_SCOPE)
@@ -85,7 +85,7 @@ macro(make_library)
         PREFIX "Header Files"
         FILES ${LIB_HEADERS})
 #endfunction()
-endmacro()
+endfunction()
 
 
 # ================ File Library ================
