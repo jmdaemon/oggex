@@ -57,13 +57,20 @@ set(TARGET_SHARED files)
 set(TARGET_STATIC files_static)
 
 # Add both shared and static library targets
-#make_library(files shared "${FILE_LIBRARY_HEADERS}" "${FILE_LIBRARY_SRCS}" "${FILE_LIBRARY_DEPS}")
 make_library(
     NAME files
     TYPE shared
     HEADERS "${FILE_LIBRARY_HEADERS}"
     SOURCES "${FILE_LIBRARY_SRCS}"
     DEPS "${FILE_LIBRARY_DEPS}")
+
+make_library(
+    NAME files
+    TYPE static
+    HEADERS "${FILE_LIBRARY_HEADERS}"
+    SOURCES "${FILE_LIBRARY_SRCS}"
+    DEPS "${FILE_LIBRARY_DEPS}")
+
 
 # ================ Image Library ================
 set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
