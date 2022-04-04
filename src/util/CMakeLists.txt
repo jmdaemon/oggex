@@ -17,12 +17,14 @@ function(make_library)
     cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
 
     # Show make_library arguments
-    message(STATUS "make_library arguments: ${LIB_NAME}, followed by ${ARGN}")
-    message(STATUS "LIB_NAME: ${LIB_NAME}")
-    message(STATUS "LIB_TYPE: ${LIB_TYPE}")
-    message(STATUS "LIB_HEADERS: ${LIB_HEADERS}")
-    message(STATUS "LIB_SOURCES: ${LIB_SOURCES}")
-    message(STATUS "LIB_DEPS: ${LIB_DEPS}")
+    #message(STATUS "======================")
+    #message(STATUS "make_library arguments: ${LIB_NAME}, followed by ${ARGN}")
+    #message(STATUS "LIB_NAME: ${LIB_NAME}")
+    #message(STATUS "LIB_TYPE: ${LIB_TYPE}")
+    #message(STATUS "LIB_HEADERS: ${LIB_HEADERS}")
+    #message(STATUS "LIB_SOURCES: ${LIB_SOURCES}")
+    #message(STATUS "LIB_DEPS: ${LIB_DEPS}")
+    #message(STATUS "======================")
 
     if(${LIB_TYPE} STREQUAL "static")
         # Build a static library
@@ -49,27 +51,24 @@ function(make_library)
 endfunction()
 
 # ================ File Library ================
-set(FILE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
-set(FILE_LIBRARY_SRCS File.cpp)
-set(FILE_LIBRARY_DEPS fmt)
-
-set(TARGET_SHARED files)
-set(TARGET_STATIC files_static)
+set(FILE_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
+set(FILE_SRCS File.cpp)
+set(FILE_DEPS fmt)
 
 # Add both shared and static library targets
 make_library(
     NAME files
     TYPE shared
-    HEADERS "${FILE_LIBRARY_HEADERS}"
-    SOURCES "${FILE_LIBRARY_SRCS}"
-    DEPS "${FILE_LIBRARY_DEPS}")
+    HEADERS "${OGGEX_SOURCE_DIR}/include/util"
+    SOURCES "${FILE_SRCS}"
+    DEPS "${FILE_DEPS}")
 
 make_library(
     NAME files
     TYPE static
-    HEADERS "${FILE_LIBRARY_HEADERS}"
-    SOURCES "${FILE_LIBRARY_SRCS}"
-    DEPS "${FILE_LIBRARY_DEPS}")
+    HEADERS "${FILE_HEADERS}"
+    SOURCES "${FILE_SRCS}"
+    DEPS "${FILE_DEPS}")
 
 
 # ================ Image Library ================
