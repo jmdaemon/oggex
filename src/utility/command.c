@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /* Executes a command, and prints the output of the command */
-char * exec(const char* command, size_t size) {
+char* exec(const char* command, size_t size) {
   FILE *fp;
   char buffer[size];
 
