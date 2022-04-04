@@ -21,6 +21,9 @@ bool file_exists(FILE* fp) {
 /**
   * Returns the size of the file on disk
   * ------------------------------------
+  * Note that we don't to exit if the file doesn't exist
+  * since we may only want to handle this.
+  *
   * path: The file path as a character array
   * returns: The size of the file on disk
   */
@@ -33,6 +36,7 @@ long int file_size(char* path) {
   fseek(fp, 0L, SEEK_END);
   // calculate the size of the file
   long int res = ftell(fp);
+  rewind(fp);
 
   // closing the file
   fclose(fp);
@@ -49,4 +53,29 @@ bool under_limit(char* path, size_t size) {
   size_t filesize = file_size(path);
   bool result = (filesize <= size) ? true : false;
   return result;
+}
+
+/**
+  * Read a file into a character array
+  * ----------------------------------
+  * path: A file path
+  * returns: The file contents as a character array
+  */
+char* read_file(char* path) {
+
+  FILE *fp = fopen(path, "rb");
+  size_t filesize = file_size(path);
+
+  /* Allocate a buffer for the file contents on the heap */
+  void* buffer = malloc(filesize + 1);
+  if (!buffer) {
+    printf("Could not allocate buffer of size %ld\n", filesize + 1);
+    exit(1);
+  }
+
+  char *contents = (char*) buffer;
+  fread(contents, filesize, 1, fp);
+  fclose(fp);
+  contents[filesize] = 0;
+  return contents;
 }
