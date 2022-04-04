@@ -72,23 +72,41 @@ make_library(
 
 
 # ================ Image Library ================
-set(IMAGE_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
-set(TARGET image_library)
+set(IMAGE_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
+set(IMAGE_SRCS Image.cpp)
+set(IMAGE_DEPS fmt)
 
-add_library(${TARGET})
-target_sources(${TARGET}
-    PRIVATE Image.cpp 
-    PUBLIC  ${IMAGE_LIBRARY_HEADERS}
-)
+make_library(
+    NAME image
+    TYPE shared
+    HEADERS ${IMAGE_HEADERS}
+    SOURCES ${IMAGE_SRCS}
+    DEPS ${IMAGE_DEPS})
 
-target_include_directories(${TARGET} PUBLIC ${IMAGE_LIBRARY_HEADERS})
-target_link_libraries(${TARGET} PRIVATE fmt)
-target_compile_features(${TARGET} PUBLIC cxx_std_11)
+make_library(
+    NAME image
+    TYPE static
+    HEADERS ${IMAGE_HEADERS}
+    SOURCES ${IMAGE_SRCS}
+    DEPS ${IMAGE_DEPS})
 
-source_group(
-  TREE "${PROJECT_SOURCE_DIR}/include"
-  PREFIX "Header Files"
-  FILES ${IMAGE_LIBRARY_HEADERS})
+
+#set(TARGET image_library)
+
+#add_library(${TARGET})
+#target_sources(${TARGET}
+    #PRIVATE Image.cpp 
+    #PUBLIC  ${IMAGE_LIBRARY_HEADERS}
+#)
+
+#target_include_directories(${TARGET} PUBLIC ${IMAGE_LIBRARY_HEADERS})
+#target_link_libraries(${TARGET} PRIVATE fmt)
+#target_compile_features(${TARGET} PUBLIC cxx_std_11)
+
+#source_group(
+  #TREE "${PROJECT_SOURCE_DIR}/include"
+  #PREFIX "Header Files"
+  #FILES ${IMAGE_LIBRARY_HEADERS})
 
 # ================ Audio Library ================
 set(AUDIO_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
