@@ -16,6 +16,13 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     include (CTest)
 endif()
 
+if (NOT COLOR)
+    # Don't use colored output
+else()
+    # Include colored output by default
+    include(Color)
+endif()
+
 # Build the application normally
 # if not building for javascript
 if(NOT $ENV{BUILD_JS})
@@ -35,38 +42,18 @@ set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
 
+# Configure project versions
 configure_file (
   "${PROJECT_SOURCE_DIR}/oggex.hpp.in"
   "${PROJECT_BINARY_DIR}/oggex.hpp"
 )
 
+# Include dependencies
 include(FetchContent)
-FetchContent_Declare(fmt
-    GIT_REPOSITORY "https://github.com/fmtlib/fmt")
-FetchContent_MakeAvailable(fmt)
+include(fmt)
+include(doctest)
 
-if (BUILD_TESTING)
-include(ExternalProject)
-  find_package(Git REQUIRED)
-  ExternalProject_Add( # https://github.com/onqtam/doctest/blob/master/doc/markdown/build-systems.md
-      doctest
-      PREFIX ${CMAKE_BINARY_DIR}/doctest
-      GIT_REPOSITORY https://github.com/onqtam/doctest.git
-      TIMEOUT 10
-      UPDATE_COMMAND ${GIT_EXECUTABLE} pull
-      CONFIGURE_COMMAND ""
-      BUILD_COMMAND ""
-      INSTALL_COMMAND ""
-      LOG_DOWNLOAD ON
-  )
-  
-  ExternalProject_Get_Property(doctest source_dir) # Expose required variable (DOCTEST_INCLUDE_DIR) to parent scope
-  set(DOCTEST_INCLUDE_DIR ${source_dir}/doctest CACHE INTERNAL "Path to include folder for doctest")
-endif()
-
-set(CMAKE_CXX_FLAGS -fdiagnostics-color=always)
-set(CMAKE_C_FLAGS -fdiagnostics-color=always)
-
+# Add subdirectories
 add_subdirectory(src)
 if (NOT $ENV{BUILD_JS})
     add_subdirectory(app)
@@ -75,6 +62,9 @@ endif()
 if(BUILD_TESTING)
   add_subdirectory(test)
 endif()
+
+# Package for debian
+include(Debian)
 
 set(CMAKE_INSTALL_PREFIX /usr/local)
 install(TARGETS ${OGGEX} DESTINATION bin)
