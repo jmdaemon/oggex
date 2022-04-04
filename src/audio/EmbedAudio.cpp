@@ -28,7 +28,7 @@ string exec(const string cmd, Data& data) {
 
   string monoAudioEnabled = (data.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
   fmt::print("Encoding \"{}\" at quality = {} {}\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
-    while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
+  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   audioFileData.close();
   return dataToString(audio.getTempAudio());
 }
