@@ -1,6 +1,12 @@
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
 
 /**
   * Check if a file exists
@@ -22,25 +28,24 @@ bool file_exists(FILE* fp) {
   * Returns the size of the file on disk
   * ------------------------------------
   * Note that we don't to exit if the file doesn't exist
-  * since we may only want to handle this.
+  * since we may only want to handle this. This function is 
+  * capable of handling files > 4 GiB. Note that the stat
+  * function is exclusive to POSIX systems.
   *
-  * path: The file path as a character array
-  * returns: The size of the file on disk
+  *
+  * filename: The file name/path
+  * returns: The size of the file on disk, -1 if there was an error
   */
-long int file_size(char* path) {
-  FILE* fp = fopen(path, "r");
+off_t file_size(const char *filename) {
+    struct stat st;
 
-  if (!file_exists(fp))
+    if (stat(filename, &st) == 0)
+        return st.st_size;
+
+    fprintf(stderr, "Cannot determine size of %s: %s\n",
+            filename, strerror(errno));
+
     return -1;
-
-  fseek(fp, 0L, SEEK_END);
-  // calculate the size of the file
-  long int res = ftell(fp);
-  rewind(fp);
-
-  // closing the file
-  fclose(fp);
-  return res;
 }
 
 /**
@@ -49,7 +54,7 @@ long int file_size(char* path) {
   * size: The upper bound size limit
   * returns: True if the file is less than or equal to the upper bound and False otherwise
   */
-bool under_limit(char* path, size_t size) {
+bool under_limit(char* path, off_t size) {
   size_t filesize = file_size(path);
   bool result = (filesize <= size) ? true : false;
   return result;
@@ -64,7 +69,7 @@ bool under_limit(char* path, size_t size) {
 char* read_file(char* path) {
 
   FILE *fp = fopen(path, "rb");
-  size_t filesize = file_size(path);
+  off_t filesize = file_size(path);
 
   /* Allocate a buffer for the file contents on the heap */
   void* buffer = malloc(filesize + 1);
