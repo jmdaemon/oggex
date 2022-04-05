@@ -38,13 +38,12 @@ make_test(
     DEPS image file fmt ${TESTS_MAIN})
 
 # ================ Audio Tests ================
-set (AUDIO_TESTS test-audio)
-add_executable(${AUDIO_TESTS} AudioTests.cpp)
-target_compile_features(${AUDIO_TESTS} PRIVATE cxx_std_20)
-
-target_link_libraries(${AUDIO_TESTS} PRIVATE audio audio_library file_library fmt ${TESTS_MAIN})
-target_include_directories(${AUDIO_TESTS} PUBLIC ${DOCTEST_INCLUDE_DIR})
-add_test(NAME test-audio COMMAND ${AUDIO_TESTS})
+make_test(
+    NAME test-audio
+    CSTANDARD ${CSTANDARD}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
+    SOURCES AudioTests.cpp
+    DEPS fmt "${TESTS_MAIN}" file audio_library audio)
 
 # ================ Command Tests ================
 set (CMD_TESTS test-cmd)
