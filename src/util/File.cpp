@@ -24,7 +24,7 @@ size_t sizeOf(std::ifstream& file, size_t offset) {
 
 size_t sizeOf(std::filesystem::path filepath, size_t offset) {
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
-  return sizeOf(file); 
+  return sizeOf(file, offset);
 }
 
 bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
