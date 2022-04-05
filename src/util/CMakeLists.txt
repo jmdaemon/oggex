@@ -108,23 +108,9 @@ make_static_shared_lib(
     DEPS fmt image)
 
 # ================ Command Library ================
-set(CMD_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
-set(TARGET cmd_library)
-
-add_library(${TARGET})
-target_sources(${TARGET}
-    PRIVATE Data.cpp
-    PRIVATE Cmd.cpp
-    PRIVATE InputParser.cpp
-    PUBLIC  ${CMD_LIBRARY_HEADERS}
-)
-
-target_include_directories(${TARGET} PUBLIC ${CMD_LIBRARY_HEADERS})
-target_link_libraries(${TARGET} PRIVATE fmt)
-target_compile_features(${TARGET} PUBLIC cxx_std_20)
-
-source_group(
-  TREE "${PROJECT_SOURCE_DIR}/include"
-  PREFIX "Header Files"
-  FILES ${CMD_LIBRARY_HEADERS})
-
+make_static_shared_lib(
+    NAME cmd
+    CSTANDARD ${CSTANDARD}
+    HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
+    SOURCES Data.cpp Cmd.cpp InputParser.cpp
+    DEPS fmt)
