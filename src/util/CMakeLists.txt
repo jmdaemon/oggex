@@ -51,7 +51,7 @@ function(make_library)
 endfunction()
 
 function(make_static_shared_lib)
-    # Set make_library arguments
+    # Set arguments
     set(ARG_PREFIX LIB)
     set(_OPTIONS_ARGS )
     set(_ONE_VALUE_ARGS NAME)
@@ -59,14 +59,14 @@ function(make_static_shared_lib)
     cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
 
     make_library(
-        NAME ${LIB_NAME}
+        NAME "${LIB_NAME}"
         TYPE shared
-        HEADERS "${OGGEX_SOURCE_DIR}/include/util"
-        SOURCES "${FILE_SRCS}"
-        DEPS "${FILE_DEPS}")
+        HEADERS "${LIB_HEADERS}"
+        SOURCES "${LIB_SOURCES}"
+        DEPS "${LIB_DEPS}")
 
     make_library(
-        NAME ${LIB_NAME}
+        NAME "${LIB_NAME}"
         TYPE static
         HEADERS "${LIB_HEADERS}"
         SOURCES "${LIB_SOURCES}"
@@ -74,67 +74,21 @@ function(make_static_shared_lib)
 endfunction()
 
 # ================ File Library ================
-set(FILE_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
-set(FILE_SRCS File.cpp)
-set(FILE_DEPS fmt)
 
 # Add both shared and static library targets
 make_static_shared_lib(
-    NAME files
+    NAME file
     HEADERS "${OGGEX_SOURCE_DIR}/include/util"
-    SOURCES "${FILE_SRCS}"
-    DEPS "${FILE_DEPS}")
-#make_library(
-    #NAME files
-    #TYPE shared
-    #HEADERS "${OGGEX_SOURCE_DIR}/include/util"
-    #SOURCES "${FILE_SRCS}"
-    #DEPS "${FILE_DEPS}")
-
-#make_library(
-    #NAME files
-    #TYPE static
-    #HEADERS "${FILE_HEADERS}"
-    #SOURCES "${FILE_SRCS}"
-    #DEPS "${FILE_DEPS}")
-
+    SOURCES File.cpp
+    DEPS fmt)
 
 # ================ Image Library ================
-set(IMAGE_HEADERS "${OGGEX_SOURCE_DIR}/include/util")
-set(IMAGE_SRCS Image.cpp)
-set(IMAGE_DEPS fmt)
 
-make_library(
+make_static_shared_lib(
     NAME image
-    TYPE shared
-    HEADERS ${IMAGE_HEADERS}
-    SOURCES ${IMAGE_SRCS}
-    DEPS ${IMAGE_DEPS})
-
-make_library(
-    NAME image
-    TYPE static
-    HEADERS ${IMAGE_HEADERS}
-    SOURCES ${IMAGE_SRCS}
-    DEPS ${IMAGE_DEPS})
-
-
-#set(TARGET image_library)
-
-#add_library(${TARGET})
-#target_sources(${TARGET}
-    #PRIVATE Image.cpp 
-    #PUBLIC  ${IMAGE_LIBRARY_HEADERS}
-#)
-
-#target_include_directories(${TARGET} PUBLIC ${IMAGE_LIBRARY_HEADERS})
-#target_link_libraries(${TARGET} PRIVATE fmt)
-#target_compile_features(${TARGET} PUBLIC cxx_std_11)
-
-#source_group(
-  #TREE "${PROJECT_SOURCE_DIR}/include"
-  #PREFIX "Header Files"
-  #FILES ${IMAGE_LIBRARY_HEADERS})
+    HEADERS "${OGGEX_SOURCE_DIR}/include/util"
+    SOURCES Image.cpp
+    DEPS fmt)
 
 # ================ Audio Library ================
 set(AUDIO_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
