@@ -77,15 +77,17 @@ function(make_static_shared_lib)
         DEPS "${LIB_DEPS}")
 endfunction()
 
-# ================ File Library ================
-
 set(CSTANDARD cxx_std_20)
+set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
+set(UTILITY_DIR "${INCLUDES_DIR}/util")
+set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
+# ================ File Library ================
 # Add both shared and static library targets
 make_static_shared_lib(
     NAME file
     CSTANDARD ${CSTANDARD}
-    HEADERS "${OGGEX_SOURCE_DIR}/include/util"
+    HEADERS ${UTILITY_DIR}
     SOURCES File.cpp
     DEPS fmt)
 
@@ -93,29 +95,17 @@ make_static_shared_lib(
 make_static_shared_lib(
     NAME image
     CSTANDARD cxx_std_11
-    HEADERS "${OGGEX_SOURCE_DIR}/include/util"
+    HEADERS ${UTILITY_DIR}
     SOURCES Image.cpp
     DEPS fmt)
 
 # ================ Audio Library ================
-set(AUDIO_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
-set(TARGET audio_library)
-
-add_library(${TARGET})
-target_sources(${TARGET}
-    PRIVATE Audio.cpp
-    PRIVATE Mask.cpp
-    PUBLIC  ${AUDIO_LIBRARY_HEADERS}
-)
-
-target_include_directories(${TARGET} PUBLIC ${AUDIO_LIBRARY_HEADERS})
-target_link_libraries(${TARGET} PRIVATE fmt image_library)
-target_compile_features(${TARGET} PUBLIC cxx_std_20)
-
-source_group(
-  TREE "${PROJECT_SOURCE_DIR}/include"
-  PREFIX "Header Files"
-  FILES ${AUDIO_LIBRARY_HEADERS})
+make_static_shared_lib(
+    NAME audio_library
+    CSTANDARD ${CSTANDARD}
+    HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
+    SOURCES Audio.cpp Mask.cpp
+    DEPS fmt image)
 
 # ================ Command Library ================
 set(CMD_LIBRARY_HEADERS "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util")
