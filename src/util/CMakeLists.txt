@@ -3,16 +3,17 @@
 include(CMakeParseArguments)
 function(make_library)
     # Arguments:
-    #LIB_NAME    # Name of the library target
-    #LIB_TYPE    # Type of the library to build
-    #LIB_HEADERS # Library headers
-    #LIB_SOURCES # Library sources
-    #LIB_DEPS    # Library dependencies
+    #LIB_NAME       # Name of the library target
+    #LIB_TYPE       # Type of the library to build
+    #LIB_CSTANDARD  # CXX Standard
+    #LIB_HEADERS    # Library headers
+    #LIB_SOURCES    # Library sources
+    #LIB_DEPS       # Library dependencies
 
     # Set make_library arguments
     set(ARG_PREFIX LIB)
     set(_OPTIONS_ARGS )
-    set(_ONE_VALUE_ARGS NAME TYPE)
+    set(_ONE_VALUE_ARGS NAME TYPE CSTANDARD)
     set(_MULTI_VALUE_ARGS HEADERS SOURCES DEPS)
     cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
 
@@ -21,6 +22,7 @@ function(make_library)
     #message(STATUS "make_library arguments: ${LIB_NAME}, followed by ${ARGN}")
     #message(STATUS "LIB_NAME: ${LIB_NAME}")
     #message(STATUS "LIB_TYPE: ${LIB_TYPE}")
+    #message(STATUS "LIB_CSTANDARD: ${LIB_CSTANDARD")
     #message(STATUS "LIB_HEADERS: ${LIB_HEADERS}")
     #message(STATUS "LIB_SOURCES: ${LIB_SOURCES}")
     #message(STATUS "LIB_DEPS: ${LIB_DEPS}")
@@ -42,7 +44,7 @@ function(make_library)
 
     target_include_directories(${TARGET} PUBLIC ${LIB_HEADERS})
     target_link_libraries(${TARGET} PRIVATE ${LIB_DEPS})
-    target_compile_features(${TARGET} PUBLIC cxx_std_20)
+    target_compile_features(${TARGET} PUBLIC ${LIB_CSTANDARD})
 
     source_group(
         TREE "${PROJECT_SOURCE_DIR}/include"
@@ -54,13 +56,14 @@ function(make_static_shared_lib)
     # Set arguments
     set(ARG_PREFIX LIB)
     set(_OPTIONS_ARGS )
-    set(_ONE_VALUE_ARGS NAME)
+    set(_ONE_VALUE_ARGS NAME CSTANDARD)
     set(_MULTI_VALUE_ARGS HEADERS SOURCES DEPS)
     cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
 
     make_library(
         NAME "${LIB_NAME}"
         TYPE shared
+        CSTANDARD "${LIB_CSTANDARD}"
         HEADERS "${LIB_HEADERS}"
         SOURCES "${LIB_SOURCES}"
         DEPS "${LIB_DEPS}")
@@ -68,6 +71,7 @@ function(make_static_shared_lib)
     make_library(
         NAME "${LIB_NAME}"
         TYPE static
+        CSTANDARD "${LIB_CSTANDARD}"
         HEADERS "${LIB_HEADERS}"
         SOURCES "${LIB_SOURCES}"
         DEPS "${LIB_DEPS}")
@@ -75,17 +79,20 @@ endfunction()
 
 # ================ File Library ================
 
+set(CSTANDARD cxx_std_20)
+
 # Add both shared and static library targets
 make_static_shared_lib(
     NAME file
+    CSTANDARD ${CSTANDARD}
     HEADERS "${OGGEX_SOURCE_DIR}/include/util"
     SOURCES File.cpp
     DEPS fmt)
 
 # ================ Image Library ================
-
 make_static_shared_lib(
     NAME image
+    CSTANDARD cxx_std_11
     HEADERS "${OGGEX_SOURCE_DIR}/include/util"
     SOURCES Image.cpp
     DEPS fmt)
