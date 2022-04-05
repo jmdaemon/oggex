@@ -1,15 +1,13 @@
 # ================ Embed Audio Tests ================
-set (EMBED_AUDIO_TESTS embed-audio)
-add_executable(${EMBED_AUDIO_TESTS} EmbedAudioTests.cpp)
+set(EMBED_TESTS test-embed-audio)
+make_test(
+    NAME ${EMBED_TESTS}
+    CSTANDARD ${CSTANDARD}
+    HEADERS ${DOCTEST_LIB}
+    SOURCES EmbedAudioTests.cpp
+    DEPS fmt ${TESTS_MAIN} cmd file image audio_library audio)
 
-target_compile_features(${EMBED_AUDIO_TESTS} PRIVATE cxx_std_20)
-target_link_libraries(${EMBED_AUDIO_TESTS} PRIVATE fmt audio audio_library image_library file_library cmd_library ${TESTS_MAIN})
-target_include_directories(${EMBED_AUDIO_TESTS} PUBLIC ${DOCTEST_INCLUDE_DIR})
-
-set_target_properties(${EMBED_AUDIO_TESTS} PROPERTIES
-    RESOURCE "${RESOURCE_FILES}" )
-
-add_test(NAME test-embed-audio COMMAND ${EMBED_AUDIO_TESTS})
+set_target_properties(${EMBED_TESTS} PROPERTIES RESOURCE "${RESOURCE_FILES}")
 
 # ================ Extract Audio Tests ================
 set(EXTRACT_AUDIO_TESTS extract-audio)
