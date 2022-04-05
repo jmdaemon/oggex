@@ -1,8 +1,3 @@
-set(CSTANDARD cxx_std_20)
-set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
-set(UTILITY_DIR "${INCLUDES_DIR}/util")
-set(AUDIO_DIR "${INCLUDES_DIR}/audio")
-
 # ================ File Library ================
 # Add both shared and static library targets
 make_static_shared_lib(
