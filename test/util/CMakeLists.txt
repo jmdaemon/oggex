@@ -43,16 +43,15 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES AudioTests.cpp
-    DEPS fmt "${TESTS_MAIN}" file audio_library audio)
+    DEPS fmt ${TESTS_MAIN} file audio_library audio)
 
 # ================ Command Tests ================
-set (CMD_TESTS test-cmd)
-add_executable(${CMD_TESTS} CmdTests.cpp)
-target_compile_features(${CMD_TESTS} PRIVATE cxx_std_20)
-
-target_link_libraries(${CMD_TESTS} PRIVATE fmt cmd_library ${TESTS_MAIN})
-target_include_directories(${CMD_TESTS} PUBLIC ${DOCTEST_LIB})
-add_test(NAME test-cmd COMMAND ${CMD_TESTS})
+make_test(
+    NAME test-cmd
+    CSTANDARD ${CSTANDARD}
+    HEADERS ${DOCTEST_LIB}
+    SOURCES CmdTests.cpp
+    DEPS fmt cmd ${TESTS_MAIN})
 
 # ================ Masking Tests ================
 set (MASK_TESTS test-mask)
