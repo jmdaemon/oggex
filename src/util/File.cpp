@@ -4,7 +4,7 @@ namespace File {
   bool File::isFile(std::string file) {
     std::string ext = (std::filesystem::path (file)).extension();
     std::transform(ext.begin(), ext.end(), ext.begin(), [](unsigned char c ) { return std::tolower(c); }); 
-    for (int i = 0; i < this->FileExtensions.size(); i++) {
+    for (size_t i = 0; i < this->FileExtensions.size(); i++) {
       if (this->FileExtensions.at(i) == ext) { return true; }
     }
     return false;
