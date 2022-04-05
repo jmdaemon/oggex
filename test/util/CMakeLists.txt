@@ -7,16 +7,17 @@ function(make_test)
     cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
 
     # Show make_tests arguments
-    message(STATUS "======================")
-    message(STATUS "make_library arguments: ${LIB_NAME}, followed by ${ARGN}")
-    message(STATUS "TEST_NAME: ${TEST_NAME}")
-    message(STATUS "TEST_CSTANDARD: ${TEST_CSTANDARD}")
-    message(STATUS "TEST_HEADERS: ${TEST_HEADERS}")
-    message(STATUS "TEST_SOURCES: ${TEST_SOURCES}")
-    message(STATUS "TEST_DEPS: ${TEST_DEPS}")
-    message(STATUS "======================")
+    #message(STATUS "======================")
+    #message(STATUS "make_library arguments: ${LIB_NAME}, followed by ${ARGN}")
+    #message(STATUS "TEST_NAME: ${TEST_NAME}")
+    #message(STATUS "TEST_CSTANDARD: ${TEST_CSTANDARD}")
+    #message(STATUS "TEST_HEADERS: ${TEST_HEADERS}")
+    #message(STATUS "TEST_SOURCES: ${TEST_SOURCES}")
+    #message(STATUS "TEST_DEPS: ${TEST_DEPS}")
+    #message(STATUS "======================")
 
     # Set TARGET
+    # Creates test- prefix
     #set(${TARGET} "test-${TEST_NAME}")
     set(TARGET ${TEST_NAME})
 
@@ -27,16 +28,9 @@ function(make_test)
     target_include_directories(${TARGET} PUBLIC ${TEST_HEADERS})
     add_test(NAME ${TARGET} COMMAND ${TARGET})
 endfunction()
-# ================ Image Tests ================
-#set(IMAGE_TESTS test-image)
-#add_executable(${IMAGE_TESTS} ImageTests.cpp)
-#target_compile_features(${IMAGE_TESTS} PRIVATE cxx_std_20)
 
-#target_link_libraries(${IMAGE_TESTS} PRIVATE image_library file_library fmt ${TESTS_MAIN})
-#target_include_directories(${IMAGE_TESTS} PUBLIC ${DOCTEST_INCLUDE_DIR})
-#add_test(NAME test-image COMMAND ${IMAGE_TESTS})
+# ================ Image Tests ================
 make_test(
-    #NAME image
     NAME test-image
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
