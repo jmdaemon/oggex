@@ -2,7 +2,7 @@
 make_test(
     NAME test-image
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES ImageTests.cpp
     DEPS fmt ${TESTS_MAIN} file image)
 
@@ -10,7 +10,7 @@ make_test(
 make_test(
     NAME test-audio
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES AudioTests.cpp
     DEPS fmt ${TESTS_MAIN} file audio_library audio)
 
@@ -18,7 +18,7 @@ make_test(
 make_test(
     NAME test-cmd
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES CmdTests.cpp
     DEPS fmt ${TESTS_MAIN} cmd)
 
@@ -26,7 +26,7 @@ make_test(
 make_test(
     NAME test-mask
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES MaskTests.cpp
     DEPS fmt ${TESTS_MAIN} file image audio_library audio)
 
@@ -34,7 +34,7 @@ make_test(
 make_test(
     NAME test-data
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES DataTests.cpp
     DEPS fmt ${TESTS_MAIN} file image audio_library audio)
 

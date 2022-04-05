@@ -3,7 +3,7 @@ set(EMBED_TESTS test-embed-audio)
 make_test(
     NAME ${EMBED_TESTS}
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES EmbedAudioTests.cpp
     DEPS fmt ${TESTS_MAIN} cmd file image audio_library audio)
 
@@ -14,7 +14,7 @@ set(EXTRACT_TESTS test-extract-audio)
 make_test(
     NAME ${EXTRACT_TESTS}
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_LIB}
+    HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES ExtractAudioTests.cpp
     DEPS fmt ${TESTS_MAIN} cmd file audio_library audio)
 
