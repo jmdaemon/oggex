@@ -68,7 +68,7 @@ endif()
 
 if(BUILD_TESTING)
     include(MakeTests)
-  add_subdirectory(test)
+    add_subdirectory(test)
 endif()
 
 # Package for debian
