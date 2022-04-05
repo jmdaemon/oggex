@@ -2,7 +2,7 @@
 make_test(
     NAME test-image
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_INCLUDE_DIR}
+    HEADERS ${DOCTEST_LIB}
     SOURCES ImageTests.cpp
     DEPS fmt ${TESTS_MAIN} file image)
 
@@ -10,7 +10,7 @@ make_test(
 make_test(
     NAME test-audio
     CSTANDARD ${CSTANDARD}
-    HEADERS ${DOCTEST_INCLUDE_DIR}
+    HEADERS ${DOCTEST_LIB}
     SOURCES AudioTests.cpp
     DEPS fmt ${TESTS_MAIN} file audio_library audio)
 
