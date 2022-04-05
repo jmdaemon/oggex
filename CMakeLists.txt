@@ -67,6 +67,7 @@ if (NOT $ENV{BUILD_JS})
 endif()
 
 if(BUILD_TESTING)
+    include(MakeTests)
   add_subdirectory(test)
 endif()
 
