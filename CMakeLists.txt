@@ -52,6 +52,7 @@ configure_file (
 include(FetchContent)
 include(fmt)
 include(doctest)
+include(MakeLibrary)
 
 # Add subdirectories
 add_subdirectory(src)
