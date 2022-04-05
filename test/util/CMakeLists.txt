@@ -62,13 +62,12 @@ make_test(
     DEPS fmt ${TESTS_MAIN} file image audio_library audio)
 
 # ================ Data Tests ================
-set (DATA_TESTS test-data)
-add_executable(${DATA_TESTS} DataTests.cpp)
-target_compile_features(${DATA_TESTS} PRIVATE cxx_std_20)
-
-target_link_libraries(${DATA_TESTS} PRIVATE audio_library image_library file_library fmt ${TESTS_MAIN})
-target_include_directories(${DATA_TESTS} PUBLIC ${DOCTEST_LIB})
-add_test(NAME test-data COMMAND ${DATA_TESTS})
+make_test(
+    NAME test-data
+    CSTANDARD ${CSTANDARD}
+    HEADERS ${DOCTEST_LIB}
+    SOURCES DataTests.cpp
+    DEPS fmt ${TESTS_MAIN} file image audio_library audio)
 
 FILE(COPY "../resources/inputFile1.png" DESTINATION "${CMAKE_BINARY_DIR}")
 FILE(COPY "../resources/inputFile2.png" DESTINATION "${CMAKE_BINARY_DIR}")
