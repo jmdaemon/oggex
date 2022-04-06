@@ -1,3 +1,7 @@
+# Build targets with library options
+set(DEFAULT_CXX_FLAGS -Werror -Wall -Wextra -pedantic)
+set(LIB_CXX_FLAGS -fPIC -g)
+set(REL_CXX_FLAGS -O3 -DNDEBUG)
 # ================ File Library ================
 # Add both shared and static library targets
 #make_static_shared_lib(
@@ -41,14 +45,17 @@ make_static_shared_lib(
     SOURCES Image.cpp
     DEPS fmt)
 
+target_compile_options(image PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
+
 # ================ Audio Library ================
 make_static_shared_lib(
     NAME audio_library
     CSTANDARD ${CSTANDARD}
     HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
     SOURCES Audio.cpp Mask.cpp
-    DEPS fmt image)
+    DEPS fmt file image)
 
+target_compile_options(audio_library PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
 # ================ Command Library ================
 make_static_shared_lib(
     NAME cmd
@@ -56,3 +63,5 @@ make_static_shared_lib(
     HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
     SOURCES Data.cpp Cmd.cpp InputParser.cpp
     DEPS fmt)
+
+target_compile_options(cmd PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
