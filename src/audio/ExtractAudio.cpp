@@ -57,8 +57,10 @@ int extract(Data data) {
 
   fs::path audioFileName = (data.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
   fs::path imageFileName = (data.options.imageFileEnabled()) ?  fs::path(data.options.getImageFile()) : fs::path(image.string() + ".png");
-  writeToDisk(audioFileName, audioContent);
-  writeToDisk(imageFileName, imageFileData);
+  //writeToDisk(audioFileName, audioContent);
+  //writeToDisk(imageFileName, imageFileData);
+  write_file(audioFileName.c_str(), audioContent.c_str());
+  write_file(imageFileName.c_str(), imageFileData.c_str());
 
   return 0;
 }

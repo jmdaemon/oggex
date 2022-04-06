@@ -58,8 +58,8 @@ void clean(std::initializer_list<std::filesystem::path> filepaths) {
   for(auto filepath: filepaths) { std::filesystem::remove(filepath); }
 } 
 
-void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {
-  std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary); 
-  outputFile.write(outputData.c_str(), outputData.length());
-  outputFile.close();
-} 
+//void writeToDisk(std::filesystem::path outputFileName, std::string outputData) {
+  //std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary); 
+  //outputFile.write(outputData.c_str(), outputData.length());
+  //outputFile.close();
+//} 

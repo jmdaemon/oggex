@@ -17,6 +17,7 @@ extern "C" {
 #include <file.h>
   off_t file_size(const char* path);
   char* read_slice(const char* path, off_t beg, off_t end);
+  void write_file(const char* path, const char* contents);
 };
 
 size_t getFileSize(Data& data, size_t offset = 0);
