@@ -14,23 +14,15 @@ string createCommand(Data& data) {
   return command;
 }
 
-string exec(const string cmd, Data& data) {
+string encode(const string cmd, Data& data) {
   Audio::AudioData& audio = data.audio;
-  ifstream audioFileData(audio.getAudio(), ifstream::in | ifstream::binary);
-  vector<char> buffer(4096);
-
-  unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
-  if (!pipe) { 
-    fmt::print(stderr, "Error: could not execute ffmpeg");
-    clean({ audio.getTempLog(), audio.getTempAudio()});
-    throw runtime_error("popen() failed!");
-  } 
-
   string monoAudioEnabled = (data.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
   fmt::print("Encoding \"{}\" at quality = {} {}\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
-  while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
-  audioFileData.close();
-  return dataToString(audio.getTempAudio(), 0, file_size(audio.getTempAudio()));
+  /* Execute command */
+  exec(cmd.c_str(), 4096);
+  /* Return temp audio file */
+  string result = dataToString(audio.getTempAudio(), 0, file_size(audio.getTempAudio()));
+  return result;
 }
 
 uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
@@ -56,7 +48,7 @@ void removeTemp(Data& data) {
 
 string encodeAudio(Data& data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
-  string cmdOutput      = exec(createCommand(data), data);
+  string cmdOutput      = encode(createCommand(data), data);
   uintmax_t finalSize   = calcFinalSize(data, MAX_FILE_SIZE);
 
   if (!data.options.ignoreLimitEnabled()) {
