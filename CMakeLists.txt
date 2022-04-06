@@ -50,6 +50,7 @@ configure_file (
 # Include dependencies
 include(FetchContent)
 include(MakeLibrary)
+include(Utilities)
 include(fmt)
 include(doctest)
 include(utility)

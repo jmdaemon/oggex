@@ -1,20 +1,8 @@
 # Build targets with library options
-set(DEFAULT_CXX_FLAGS -Werror -Wall -Wextra -pedantic)
-set(LIB_CXX_FLAGS -fPIC -g)
+#set(DEFAULT_CXX_FLAGS -Werror -Wall -Wextra -pedantic)
+set(DEFAULT_CXX_FLAGS -Wall -Wextra -pedantic)
 set(REL_CXX_FLAGS -O3 -DNDEBUG)
-
-function(lslib)
-    # Set make_library arguments
-    set(ARG_PREFIX LIB)
-    set(_OPTIONS_ARGS )
-    set(_ONE_VALUE_ARGS NAME)
-    set(_MULTI_VALUE_ARGS HEADERS)
-
-    cmake_parse_arguments(${ARG_PREFIX} "${_OPTIONS_ARGS}" "${_ONE_VALUE_ARGS}" "${_MULTI_VALUE_ARGS}" ${ARGN})
-
-    message(STATUS, "Library Target Name: ${LIB_NAME}")
-    message(STATUS, "Library Headers Directory: ${LIB_HEADERS}")
-endfunction()
+set(LIB_CXX_FLAGS -fPIC -g)
 
 lslib(
     NAME ${UTILITY_LIB}
@@ -27,12 +15,17 @@ lslib(
 # Add both shared and static library targets
 make_static_shared_lib(NAME file
     CSTANDARD ${CSTANDARD}
-    HEADERS ${UTILITY_HEADERS} ${UTILITY_DIR}
+    HEADERS ${UTILITY_DIR} ${UTILITY_HEADERS}
     SOURCES File.cpp
-    DEPS fmt ${UTILITY_LIB}
+    #DEPS fmt ${UTILITY_LIB}
+    DEPS fmt
     SRC_GROUP_FILES ${UTILITY_DIR})
 
-target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS} -I${UTILITY_HEADERS})
+set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+
+#target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS} -I${UTILITY_HEADERS} -L${UTILITY_LIBR})
+target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
+#target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS})
 
 # ================ Image Library ================
 make_static_shared_lib(
