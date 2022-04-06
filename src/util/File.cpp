@@ -26,15 +26,21 @@ bool File::File::isValid(std::filesystem::path filepath) { return isFile(filepat
   //return true;
 //} 
 
-std::string dataToString(std::filesystem::path filepath, size_t offset) { 
-  std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
-  file.seekg(offset, std::ios::beg);
-  std::ostringstream fileContents;
-  fileContents << file.rdbuf();
-  std::string fileData = fileContents.str();
-  file.close();
-  return fileData;
+//std::string dataToString(std::filesystem::path filepath, size_t offset) { 
+std::string dataToString(std::filesystem::path filepath, off_t beg, off_t end) { 
+  const std::string slice = read_slice(filepath.c_str(), beg, end);
+  return slice;
 }
+
+//std::string dataToString(std::filesystem::path filepath, size_t offset) { 
+  //std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
+  //file.seekg(offset, std::ios::beg);
+  //std::ostringstream fileContents;
+  //fileContents << file.rdbuf();
+  //std::string fileData = fileContents.str();
+  //file.close();
+  //return fileData;
+//}
 
 //std::string readFile(std::filesystem::path filepath, size_t start, size_t end) {
   //std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary); 

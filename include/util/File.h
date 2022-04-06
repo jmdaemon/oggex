@@ -37,7 +37,8 @@ namespace File {
   };
 }
 
-std::string dataToString(std::filesystem::path filepath, size_t offset = 0);
+//std::string dataToString(std::filesystem::path filepath, size_t offset = 0);
+std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
 //std::string readFile(std::filesystem::path filepath, size_t start, size_t end);
 //bool under4MiB (std::filesystem::path filepath, std::string errorMsg = "File too large to fit sounds.");
 //bool fileExists(std::filesystem::path filepath);

@@ -30,7 +30,7 @@ string exec(const string cmd, Data& data) {
   fmt::print("Encoding \"{}\" at quality = {} {}\n", audio.getAudio().string(), audio.getAudioQuality(), monoAudioEnabled);
   while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) { ; }
   audioFileData.close();
-  return dataToString(audio.getTempAudio());
+  return dataToString(audio.getTempAudio(), 0, file_size(audio.getTempAudio()));
 }
 
 uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
