@@ -7,7 +7,6 @@ bazel-*
 build
 
 # Ignore meson subproject build files, but not wrap configs
-subprojects/
 !subprojects/*.wrap
 
 # Ignore inclusion of resources too intensive for git
