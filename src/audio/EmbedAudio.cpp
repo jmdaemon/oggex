@@ -82,7 +82,8 @@ string encodeAudio(Data& data, bool decreaseQuality) {
 void encodeImage(Data& data) {
   Audio::AudioData& audio = data.audio;
 
-  if (!fileExists(audio.getTempAudio())) { 
+  //if (!fileExists(audio.getTempAudio())) { 
+  if (!file_exists(audio.getTempAudio().c_str())) { 
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
     clean({audio.getTempAudio()});
     throw exception();

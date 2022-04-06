@@ -48,11 +48,11 @@ std::string dataToString(std::filesystem::path filepath, size_t offset) {
   //return "";
 //}
 
-bool fileExists(std::filesystem::path filepath) { 
-  if(std::filesystem::exists(filepath)) { return true; } 
-  fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
-  return false;
-}
+//bool fileExists(std::filesystem::path filepath) { 
+  //if(std::filesystem::exists(filepath)) { return true; } 
+  //fmt::print(stderr, "Error: couldn't open \"{}\"\n", filepath.string());
+  //return false;
+//}
 
 void clean(std::initializer_list<std::filesystem::path> filepaths) {
   for(auto filepath: filepaths) { std::filesystem::remove(filepath); }

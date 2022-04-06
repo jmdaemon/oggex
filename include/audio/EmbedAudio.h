@@ -19,6 +19,7 @@
 
 extern "C" {
 #include <file.h>
+  bool file_exists(const char* path);
   off_t file_size(const char* path);
 };
 
