@@ -17,6 +17,11 @@
 #include <exception>
 #include <fstream>
 
+extern "C" {
+#include <file.h>
+  off_t file_size(const char* path);
+};
+
 std::string createCommand(Data& data);
 std::string exec(const std::string cmd, Data& data);
 

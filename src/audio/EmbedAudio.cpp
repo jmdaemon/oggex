@@ -34,8 +34,10 @@ string exec(const string cmd, Data& data) {
 }
 
 uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
-  size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
-  size_t imageFileSize  = sizeOf(data.image.getImage());
+  //size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
+  size_t tempFileSize   = file_size(data.audio.getTempAudio().c_str());
+  //size_t imageFileSize  = sizeOf(data.image.getImage());
+  size_t imageFileSize  = file_size(data.image.getImage().c_str());
   size_t soundTagSize   = data.audio.getSoundTag().size();
   uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
 

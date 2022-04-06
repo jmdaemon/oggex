@@ -13,6 +13,11 @@
 #include "Data.h"
 #include "Cmd.h"
 
+extern "C" {
+#include <file.h>
+  off_t file_size(const char* path);
+};
+
 size_t getFileSize(Data& data, size_t offset = 0);
 std::string readFile(Data& data, size_t offset);
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm = "OggS");

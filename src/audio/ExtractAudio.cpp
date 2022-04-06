@@ -5,7 +5,8 @@ namespace fs = std::filesystem;
 
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm) { 
   size_t offset = dataToString(filepath).find(searchTerm);
-  if (sizeOf(filepath) == offset) {
+  //if (sizeOf(filepath) == offset) {
+  if (file_size(filepath.c_str()) == offset) {
     fmt::print(stderr, "Audio offset not found");
     offset = 0;
   }
@@ -34,9 +35,11 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
-  size_t embeddedFileSize   = sizeOf(image);
+  //size_t embeddedFileSize   = sizeOf(image);
+  size_t embeddedFileSize   = file_size(image.c_str());
   size_t audioOffset        = getOffset(image);
-  size_t audioFileSize      = sizeOf(image, audioOffset);
+  //size_t audioFileSize      = sizeOf(image, audioOffset);
+  size_t audioFileSize      = file_size(image.c_str()) +  audioOffset;
 
   if (data.options.showVerboseEnabled()) { printExtractSizes(data, embeddedFileSize, audioFileSize, audioOffset); }
 
