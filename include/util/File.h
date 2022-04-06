@@ -15,7 +15,9 @@
 
 extern "C" {
 #include <file.h>
-  off_t file_size(const char* path);
+  off_t file_size (const char* filename);
+  char* read_file(const char* path);
+  char* read_slice(const char* path, off_t beg, off_t end);
 }
 
 //const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 

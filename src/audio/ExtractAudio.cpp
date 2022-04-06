@@ -44,7 +44,8 @@ int extract(Data data) {
   if (data.options.showVerboseEnabled()) { printExtractSizes(data, embeddedFileSize, audioFileSize, audioOffset); }
 
   string embeddedFileData   = dataToString(image, 0);
-  string imageFileData      = readFile(image, 0, audioOffset);
+  //string imageFileData      = readFile(image, 0, audioOffset);
+  string imageFileData      = read_slice(image.c_str(), 0, audioOffset);
   string audioContent       = dataToString(image, audioOffset);
   string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
   if (soundTag.empty()) {
