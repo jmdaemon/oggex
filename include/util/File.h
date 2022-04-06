@@ -15,7 +15,7 @@
 
 extern "C" {
 #include "file.h"
-  off_t file_size(char* path);
+  off_t file_size(const char* path);
 }
 
 //const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
@@ -32,9 +32,6 @@ namespace File {
       bool isFile(std::string file);
   };
 }
-
-//size_t sizeOf(std::ifstream& file, size_t offset = 0);
-//size_t sizeOf(std::filesystem::path filepath, size_t offset = 0);
 
 std::string dataToString(std::filesystem::path filepath, size_t offset = 0);
 std::string readFile(std::filesystem::path filepath, size_t start, size_t end);
