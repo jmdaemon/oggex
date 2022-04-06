@@ -13,7 +13,13 @@
 
 #include <fmt/core.h>
 
-const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
+extern "C" {
+#include "file.h"
+  off_t file_size(char* path);
+}
+
+//const size_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
+const off_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
 
 namespace File {
   class File { 
@@ -27,8 +33,8 @@ namespace File {
   };
 }
 
-size_t sizeOf(std::ifstream& file, size_t offset = 0);
-size_t sizeOf(std::filesystem::path filepath, size_t offset = 0);
+//size_t sizeOf(std::ifstream& file, size_t offset = 0);
+//size_t sizeOf(std::filesystem::path filepath, size_t offset = 0);
 
 std::string dataToString(std::filesystem::path filepath, size_t offset = 0);
 std::string readFile(std::filesystem::path filepath, size_t start, size_t end);
