@@ -4,7 +4,7 @@ set(DEFAULT_CXX_FLAGS -Wall -Wextra -pedantic)
 set(REL_CXX_FLAGS -O3 -DNDEBUG)
 set(LIB_CXX_FLAGS -fPIC -g)
 
-lslib(
+lstarget(
     NAME ${UTILITY_LIB}
     HEADERS ${UTILITY_HEADERS})
 
