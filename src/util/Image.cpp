@@ -10,8 +10,8 @@ namespace Image {
     return (string(imageFilePath.stem()) + "-embed" + string(imageFilePath.extension()));
   }
 
-  bool imageUnder4MiB (std::filesystem::path imagePath) {
-    return under4MiB(imagePath, "Image is too large to fit sounds.");
-  }
+  //bool imageUnder4MiB (std::filesystem::path imagePath) {
+    //return under4MiB(imagePath, "Image is too large to fit sounds.");
+  //}
 
 }

@@ -14,17 +14,17 @@
 bool File::File::isValid(std::string file) { return isFile(file); }
 bool File::File::isValid(std::filesystem::path filepath) { return isFile(filepath.string()); }
 
-bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
-  //size_t fileSize = sizeOf(filepath);
-  //size_t fileSize = file_size(filepath.c_str());
-  //const char* path = filepath.c_str();
-  off_t fileSize = file_size(filepath.c_str());
-  if (fileSize > MAX_FILE_SIZE) { 
-    fmt::print(stderr, "{}\n", errorMsg);
-    return false;
-  } else
-  return true;
-} 
+//bool under4MiB (std::filesystem::path filepath, std::string errorMsg) {
+  ////size_t fileSize = sizeOf(filepath);
+  ////size_t fileSize = file_size(filepath.c_str());
+  ////const char* path = filepath.c_str();
+  //off_t fileSize = file_size(filepath.c_str());
+  //if (fileSize > MAX_FILE_SIZE) { 
+    //fmt::print(stderr, "{}\n", errorMsg);
+    //return false;
+  //} else
+  //return true;
+//} 
 
 std::string dataToString(std::filesystem::path filepath, size_t offset) { 
   std::ifstream file(filepath, std::ifstream::in | std::ifstream::binary);
