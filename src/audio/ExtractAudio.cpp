@@ -4,9 +4,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm) { 
-  //off_t offset = dataToString(filepath).find(searchTerm);
   off_t offset = dataToString(filepath, 0, file_size(filepath.c_str())).find(searchTerm);
-  //if (sizeOf(filepath) == offset) {
   if (file_size(filepath.c_str()) == offset) {
     fmt::print(stderr, "Audio offset not found");
     offset = 0;
@@ -36,19 +34,14 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
 
 int extract(Data data) {
   std::filesystem::path image = data.image.getImage();
-  //size_t embeddedFileSize   = sizeOf(image);
   size_t embeddedFileSize   = file_size(image.c_str());
   size_t audioOffset        = getOffset(image);
-  //size_t audioFileSize      = sizeOf(image, audioOffset);
   size_t audioFileSize      = file_size(image.c_str()) +  audioOffset;
 
   if (data.options.showVerboseEnabled()) { printExtractSizes(data, embeddedFileSize, audioFileSize, audioOffset); }
 
-  //string embeddedFileData   = dataToString(image, 0);
   string embeddedFileData   = dataToString(image, 0, file_size(image.c_str()));
-  //string imageFileData      = readFile(image, 0, audioOffset);
   string imageFileData      = read_slice(image.c_str(), 0, audioOffset);
-  //string audioContent       = dataToString(image, audioOffset);
   string audioContent       = dataToString(image, audioOffset, file_size(image.c_str()));
   string soundTag           = findSoundTag(data, embeddedFileData, audioOffset); 
   if (soundTag.empty()) {
@@ -60,8 +53,6 @@ int extract(Data data) {
 
   fs::path audioFileName = (data.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
   fs::path imageFileName = (data.options.imageFileEnabled()) ?  fs::path(data.options.getImageFile()) : fs::path(image.string() + ".png");
-  //writeToDisk(audioFileName, audioContent);
-  //writeToDisk(imageFileName, imageFileData);
   write_file(audioFileName.c_str(), audioContent.c_str());
   write_file(imageFileName.c_str(), imageFileData.c_str());
 

@@ -34,9 +34,7 @@ string exec(const string cmd, Data& data) {
 }
 
 uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
-  //size_t tempFileSize   = sizeOf(data.audio.getTempAudio());
   size_t tempFileSize   = file_size(data.audio.getTempAudio().c_str());
-  //size_t imageFileSize  = sizeOf(data.image.getImage());
   size_t imageFileSize  = file_size(data.image.getImage().c_str());
   size_t soundTagSize   = data.audio.getSoundTag().size();
   uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
@@ -82,7 +80,6 @@ string encodeAudio(Data& data, bool decreaseQuality) {
 void encodeImage(Data& data) {
   Audio::AudioData& audio = data.audio;
 
-  //if (!fileExists(audio.getTempAudio())) { 
   if (!file_exists(audio.getTempAudio().c_str())) { 
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
     clean({audio.getTempAudio()});
