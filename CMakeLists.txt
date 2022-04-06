@@ -49,9 +49,10 @@ configure_file (
 
 # Include dependencies
 include(FetchContent)
+include(MakeLibrary)
 include(fmt)
 include(doctest)
-include(MakeLibrary)
+include(utility)
 
 # Set includes for libraries
 set(CSTANDARD cxx_std_20)
@@ -59,60 +60,7 @@ set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
 set(UTILITY_DIR "${INCLUDES_DIR}/util")
 set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
-# Include subprojects
-
-# Utility C Library
-set(UTILITY_LIBP "${PROJECT_SOURCE_DIR}/subprojects/utility/build/release/lib")
-set(UTILITY_LIBD "${PROJECT_SOURCE_DIR}/subprojects/utility")
-set(UTILITY_SRCS "${UTILITY_LIBD}/src/file.c")
-set(UTILITY_HEADERS "${PROJECT_SOURCE_DIR}/subprojects/utility/include")
-set(UTILITY_LIB utility)
-
-#add_library(${UTILITY_LIB} SHARED IMPORTED GLOBAL)
-#set_target_properties(
-    #${UTILITY_LIB}
-    #PROPERTIES 
-        #IMPORTED_LOCATION ${UTILITY_HEADERS}
-        #IMPORTED_IMPLIB ${UTILITY_LIBP}/${UTILITY_LIB}.so
-#)
-#find_library(${UTILITY_LIB}
-             #NAMES ${UTILITY_LIB}
-             #HINTS ${UTILITY_LIBP})
-
-find_library(${UTILITY_LIB}
-    NAMES ${UTILITY_LIB} libutility
-    HINTS ${UTILITY_LIBP} ${UTILITY_LIBD})
-
-#include_directories(${UTILITY_HEADERS})
-
-#add_library(${UTILITY_LIB} SHARED IMPORTED)
-#set_target_properties(${UTILITY_LIB}
-    #PROPERTIES IMPORTED_LOCATION ${UTILITY_LIBP}/lib${UTILITY_LIB}.so)
-
-#add_library(${UTILITY_LIB} SHARED )
-#target_sources(${UTILITY_LIB}
-    #PRIVATE ${UTILITY_SRCS}
-    #PUBLIC  ${UTILITY_HEADERS})
-
-#target_include_directories(${UTILITY_LIB} PUBLIC ${UTILITY_HEADERS})
-##target_link_libraries(${UTILITY_LIB})
-##target_compile_features(${UTILITY_LIB})
-
-#source_group(
-    #TREE "${PROJECT_SOURCE_DIR}/include"
-    #PREFIX "Header Files"
-    #FILES ${UTILITY_HEADERS})
-
-#if(NOT libutility)
-  #message(FATAL_ERROR "Utility library not found!")
-#endif()
-
-#if(NOT ${UTILITY_LIB})
-  #message(FATAL_ERROR "Utility library not found!")
-#endif()
-
 # Add subdirectories
-#add_subdirectory(subprojects)
 add_subdirectory(src)
 if (NOT $ENV{BUILD_JS})
     add_subdirectory(app)
