@@ -4,7 +4,7 @@ using namespace std;
 namespace fs = std::filesystem;
 
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm) { 
-  size_t offset = dataToString(filepath).find(searchTerm);
+  off_t offset = dataToString(filepath).find(searchTerm);
   //if (sizeOf(filepath) == offset) {
   if (file_size(filepath.c_str()) == offset) {
     fmt::print(stderr, "Audio offset not found");
