@@ -49,7 +49,7 @@ configure_file (
 
 # Include dependencies
 include(FetchContent)
-include(MakeLibrary)
+include(Library)
 include(Utilities)
 include(fmt)
 include(doctest)
