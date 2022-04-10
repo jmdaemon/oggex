@@ -5,8 +5,11 @@ set(REL_CXX_FLAGS -O3 -DNDEBUG)
 #set(LIB_CXX_FLAGS -fPIC -g)
 set(LIB_CXX_FLAGS -fPIC -g)
 
+#lstarget(
+    #NAME ${UTILITY_LIB}
+    #HEADERS ${UTILITY_HEADERS})
 lstarget(
-    NAME ${UTILITY_LIB}
+    NAME ${UTILITY}
     HEADERS ${UTILITY_HEADERS})
 
 #message(STATUS, "UTILITY_HEADERS: ${UTILITY_HEADERS}")
@@ -23,10 +26,11 @@ make_static_shared_lib(NAME file
     DEPS fmt utility
     SRC_GROUP_FILES ${UTILITY_DIR})
 
-set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+#set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
 #target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS} -I${UTILITY_HEADERS} -L${UTILITY_LIBR})
-target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
+#target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
+target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} -g)
 #target_compile_options(file PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS})
 
 # ================ Image Library ================

@@ -1,6 +1,8 @@
 #pragma once
-#ifndef FILE_H
-#define FILE_H
+#ifndef FILE_CPP_H
+#define FILE_CPP_H
+
+#include <file.h>
 
 #include <algorithm>
 #include <string>
@@ -10,17 +12,7 @@
 #include <fstream>
 #include <sstream>
 #include <vector>
-
 #include <fmt/core.h>
-
-extern "C" {
-#include <file.h>
-  bool file_exists(const char* path);
-  off_t file_size (const char* filename);
-  bool under_limit(const char* path, off_t size);
-  char* read_file(const char* path);
-  char* read_slice(const char* path, off_t beg, off_t end);
-}
 
 const off_t MAX_FILE_SIZE = 1024 * 1024 * 4; 
 
