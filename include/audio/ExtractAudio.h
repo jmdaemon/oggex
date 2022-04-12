@@ -2,6 +2,8 @@
 #ifndef EXTRACTAUDIO_H
 #define EXTRACTAUDIO_H
 
+#include <file.h>
+
 #include <filesystem>
 #include <fstream>
 #include <string>
@@ -12,13 +14,6 @@
 #include "Image.h"
 #include "Data.h"
 #include "Cmd.h"
-
-extern "C" {
-#include <file.h>
-  off_t file_size(const char* path);
-  char* read_slice(const char* path, off_t beg, off_t end);
-  void write_file(const char* path, const char* contents);
-};
 
 size_t getFileSize(Data& data, size_t offset = 0);
 std::string readFile(Data& data, size_t offset);
