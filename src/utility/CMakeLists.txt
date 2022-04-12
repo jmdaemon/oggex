@@ -2,10 +2,9 @@
 set(DEFAULT_CXX_FLAGS -Wall -Wextra -pedantic)
 set(REL_CXX_FLAGS -O3 -DNDEBUG)
 set(DBG_CXX_FLAGS -g -O0 -DDEBUG)
-set(LIB_CXX_FLAGS -fPIC)
+set(LIB_CXX_FLAGS -fPIC -g)
 
-# Enable -fPIC
-set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+
 
 # Ensure that C utility library is not null
 lstarget(
