@@ -4,7 +4,7 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES ImageTests.cpp
-    DEPS fmt file image)
+    DEPS fmt ${DOCTEST_RUNNER} utility file image)
     #DEPS fmt image)
 
 # ================ Audio Tests ================
@@ -14,7 +14,7 @@ make_test(
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES AudioTests.cpp
     #DEPS fmt audio_library)
-    DEPS fmt file audio_library)
+    DEPS fmt ${DOCTEST_RUNNER} utility file audio)
 
  #set_property(test-audio testlib PROPERTY IMPORTED_LOCATION "/projectspath/LinkTest/TestLib/app/build/intermediates/cmake/debug/obj/armeabi-v7a/libtest-lib.so")
 
@@ -24,7 +24,7 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES CmdTests.cpp
-    DEPS fmt cmd)
+    DEPS fmt ${DOCTEST_RUNNER} cmd)
 
 # ================ Masking Tests ================
 make_test(
@@ -32,7 +32,7 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES MaskTests.cpp
-    DEPS fmt file image audio_library audio)
+    DEPS fmt ${DOCTEST_RUNNER} utility file image audio oggex)
 
 # ================ Data Tests ================
 make_test(
@@ -40,7 +40,7 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES DataTests.cpp
-    DEPS fmt file image audio_library audio)
+    DEPS fmt ${DOCTEST_RUNNER} utility file image audio oggex)
 
 # Copy test resources
 FILE(COPY "../resources/inputFile1.png" DESTINATION "${CMAKE_BINARY_DIR}")
