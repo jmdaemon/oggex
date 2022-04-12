@@ -1,8 +1,5 @@
 #include "Audio.h"
 
-namespace Audio {
-}
-
 void Audio::AudioData::decreaseQuality(unsigned int subtrahend) {
   this->setAudioQuality(this->getAudioQuality() - subtrahend);
   fmt::print("Decreasing quality. Quality = {}\n", this->getAudioQuality());
