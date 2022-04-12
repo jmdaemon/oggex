@@ -18,7 +18,7 @@ target_include_directories(${TARGET} PUBLIC ${DOCTEST_INCLUDE_DIR})
 
 #include(Doctest)
 #include(${DOCTEST_INCLUDE_DIR}/scripts/cmake/doctest)
-add_subdirectory(util)
+add_subdirectory(utility)
 add_subdirectory(audio)
 
 include(CTest)
