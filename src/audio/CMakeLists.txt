@@ -1,5 +1,5 @@
 make_static_shared_lib(
-    NAME audio
+    NAME oggex
     CSTANDARD ${CSTANDARD}
     HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
     SOURCES EmbedAudio.cpp ExtractAudio.cpp
