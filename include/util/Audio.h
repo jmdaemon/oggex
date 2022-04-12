@@ -32,7 +32,7 @@ namespace Audio {
       audioQuality(DEFAULT_AUDIO_QUALITY), monoAudio(ENABLE_LOW_QUALITY), 
       soundTag(soundTag), audioFile(audioFile),
       tempAudioFile(TEMP_AUDIO_FILE), tempLogFile(TEMP_LOG_FILE),
-      fileSize(sizeOf(audioFile))
+      fileSize(file_size(audioFile.c_str()))
     {}
 
     // Getters

@@ -2,6 +2,8 @@
 #ifndef DATA_H
 #define DATA_H
 
+#include "file.h"
+
 #include "Audio.h"
 #include "Image.h"
 #include "Options.h"
