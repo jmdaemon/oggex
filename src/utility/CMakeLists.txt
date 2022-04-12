@@ -37,7 +37,7 @@ target_compile_options(image PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB
 
 # ================ Audio Library ================
 make_static_shared_lib(
-    NAME audio_library
+    NAME audio
     CSTANDARD ${CSTANDARD}
     HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
     SOURCES Audio.cpp Mask.cpp
