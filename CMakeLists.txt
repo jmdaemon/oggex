@@ -58,7 +58,7 @@ include(utility)
 # Set includes for libraries
 set(CSTANDARD cxx_std_20)
 set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
-set(UTILITY_DIR "${INCLUDES_DIR}/util")
+set(UTILITY_DIR "${INCLUDES_DIR}/utility")
 set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
 # Add subdirectories
