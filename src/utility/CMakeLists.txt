@@ -4,13 +4,6 @@ set(REL_CXX_FLAGS -O3 -DNDEBUG)
 set(DBG_CXX_FLAGS -g -O0 -DDEBUG)
 set(LIB_CXX_FLAGS -fPIC -g)
 
-
-
-# Ensure that C utility library is not null
-lstarget(
-    NAME ${UTILITY}
-    HEADERS ${UTILITY_HEADERS})
-
 # ================ File Library ================
 # Add both shared and static library targets
 make_static_shared_lib(
