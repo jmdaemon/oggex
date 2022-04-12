@@ -44,7 +44,7 @@ make_static_shared_lib(
     DEPS fmt utility file image
     SRC_GROUP_FILES ${UTILITY_DIR})
 
-target_compile_options(audio_library PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
+target_compile_options(audio PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
 
 # ================ Command Library ================
 make_static_shared_lib(
