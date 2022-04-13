@@ -16,10 +16,11 @@ set(RESOURCE_FILES
 
 #set(TARGET tests)
 #add_library(${TARGET} doctest_runner.cpp)
+
 set(DOCTEST_RUNNER tests)
-add_library(${DOCTEST_RUNNER} doctest_runner.cpp)
+add_library(${DOCTEST_RUNNER} SHARED doctest_runner.cpp)
 target_include_directories(${DOCTEST_RUNNER} PUBLIC ${DOCTEST_INCLUDE_DIR})
-target_link_libraries(${DOCTEST_RUNNER})
+target_link_libraries(${DOCTEST_RUNNER} PUBLIC doctest)
 
 
 #include(Doctest)
@@ -31,3 +32,7 @@ include(CTest)
 include(${DOCTEST_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 
 #doctest_discover_tests(${TARGET})
+doctest_discover_tests(${TARGET}
+    TEST_SUFFIX TESTS
+    WORKING_DIRECTORY ./
+    )

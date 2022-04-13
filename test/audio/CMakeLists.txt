@@ -5,7 +5,7 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES EmbedAudioTests.cpp
-    DEPS fmt ${TESTS_MAIN} cmd file image audio_library audio)
+    DEPS fmt ${DOCTEST_RUNNER} cmd file image audio oggex)
 
 set_target_properties(${EMBED_TESTS} PROPERTIES RESOURCE "${RESOURCE_FILES}")
 
@@ -16,7 +16,7 @@ make_test(
     CSTANDARD ${CSTANDARD}
     HEADERS ${DOCTEST_INCLUDE_DIR}
     SOURCES ExtractAudioTests.cpp
-    DEPS fmt ${TESTS_MAIN} cmd file audio_library audio)
+    DEPS fmt ${DOCTEST_RUNNER} cmd file audio oggex)
 
 set_target_properties(${EXTRACT_TESTS} PROPERTIES RESOURCE "${RESOURCE_FILES}" )
 
