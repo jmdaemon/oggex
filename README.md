@@ -2,105 +2,31 @@
 
 Embed and extract OGG audio files in images using sound tags.
 
-1. [Requirements](#Requirements)
-2. [Installation](#Installation)
-3. [Building from Source](#Building)
-4. [Usage](#Usage)
-    1. [Embedding](#Embedding)
-    2. [Extracting](#Extracting)
-
-## Requirements
-
-The following dependencies are required:
-
-- ffmpeg
-
-## Installation
-
-### Release
-
-You can download it [here](
-https://github.com/jmdaemon/oggex/releases/latest/download/oggex-1.0.tar.gz)
-or get the latest release from the [Releases](
-https://github.com/jmdaemon/oggex/releases/) page.
-
-### Building
-
-The following build dependencies are required:
-
-- clang or gcc
-- cmake (3.1.9)
-- ninja
-
-``` bash
-git clone https://github.com/jmdaemon/oggex.git
-cd oggex
-./scripts/build.sh --release
-```
-
-Additional configuration and build options can be specified to `build.sh`.
-
-Build Oggex (Release):
-
-``` bash
-ninja -C build/Release
-```
-
-Install Oggex to /usr/local/bin:
-
-``` bash
-sudo ninja -C build/Release install
-```
-
-Uninstall Oggex:
-
-``` bash
-sudo ninja -C build/Release uninstall
-```
-
-Install Oggex in a different directory:
-
-``` bash
-./scripts/build.sh -r -i --prefix [/path/to/your/directory]
-sudo ninja -C build/Release install
-```
-
-The `oggex` binary can also be found under `build/app`.
+1. [Usage](#Usage)
+    1. [Embedding Sounds](#Embedding Sounds)
+    2. [Extracting Sounds](#Extracting Sounds)
+2. [Building](#Building)
+    1. [Ninja](Ninja)
+    2. [Unix Makefiles](Unix Makefiles)
+3. [Install](#Install)
 
 ## Usage
 
+
+### Embedding Sounds
+
+To embed a sound into an image file, run:
 ``` bash
-Usage: oggex [embed/extract] -a [audio] -t [soundtag] -i [image]
-Options:
-
-          -h,  	--help		Show this help message
-          -v,  	--verbose	Display program output and debugging information
-          -a,  			The file path to the audio file
-          -i,  			The file path to the image file
-          -t,  			The caption or tag for the audio file
-
-    Embedding:
-          embed, 	-m             Embed an audio file
-          -f,  	--fast         Enable Mono Audio Channel encoding
-          -ig, 	--ignore-limit Allows you to encode files greater than 4 MiB
-          -d,  	--dest         Change the output file name.
-
-    Encoding:
-          extract, -x                Extract audio from an image
-          -ad,                       Change the audio file output file name.
-          -id,                       Change the image file output file name.
-
+oggex embed -a audio.ogg -i image.png -t "soundtag"
 ```
 
-### Embedding
+where `audio.ogg` is the file path to your sound, `image.png` is the image to embed the sound in,
+and `soundtag` is the sound tag used to identify your sound.
 
-``` bash
-$ oggex embed -a audio.ogg -i image.png -t "soundtag"
-```
+Note: Be wary of creating embedded images that are 4MiB or greater as this hasn't been tested yet.
 
-**Note:** The maximum output file size is 4MiB and, includes the size of the image, audio, and the length of the sound tag.
-The sound tag can however long you want it, although the final embedded image may be too big if you do so.
-Unicode characters are also supported with the sound tag.
+Note: Sound tags have no character limit except maybe for the file size limit above.
+Unicode sound tags are also supported.
 
 Currently the supported image file formats are:
 
@@ -109,12 +35,80 @@ Currently the supported image file formats are:
 - png
 - webm
 
-The output file will be named `[image]-embed.png`
+The output file name for the embedd image will be named: `[image]-embed.png`.
 
-### Extracting
+### Extracting Sounds
+
+To extract sounds from embedded images run:
 
 ``` bash
-$ oggex extract -i inputFile-embed.png
+oggex extract -i inputFile-embed.png
 ```
 
-The extracted output file will be called `[soundtag].ogg` and there will also be the original `[image]` file to re-embed if needed.
+This will output the original image file, alongside the
+sound file with the name of the `soundtag` as its file name.
+
+## Building
+
+This project supports the following build configurations:
+
+For building with GCC:
+
+- gcc-debug-ninja
+- gcc-release-ninja
+- gcc-debug-unix-makefiles
+- gcc-release-unix-makefiles
+
+For building with Clang:
+
+- clang-debug-ninja
+- clang-release-ninja
+- clang-debug-unix-makefiles
+- clang-release-unix-makefiles
+
+You can specify which preset to build using the `--preset` CMake flag.
+
+The build output will generate libraries in the `src` directories,
+and the cli oggex binary can be found in `build/app`.
+
+### Ninja
+
+To build this project using the Ninja generator, run:
+
+``` bash
+cmake --preset=gcc-release-ninja
+
+```
+
+This will generate the Ninja build files in `build/gcc-release-ninja`
+
+Then you can build the project with:
+
+``` bash
+cd build/gcc-release-ninja && ninja
+```
+
+### Unix Makefiles
+
+To build this project using the Unix Makefiles generator, run:
+
+``` bash
+cmake --preset=gcc-release-unix-makefiles
+```
+
+Then to build the project:
+``` bash
+cd build/gcc-release-ninja && make
+```
+
+## Install
+
+To install oggex with Ninja, run:
+``` bash
+sudo ninja install
+```
+
+To install oggex with make, run:
+``` bash
+sudo make install
+```
