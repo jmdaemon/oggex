@@ -2,13 +2,13 @@
 
 Embed and extract OGG audio files in images using sound tags.
 
-1. [Usage](#Usage)
-    1. [Embedding Sounds](#Embedding-Sounds)
-    2. [Extracting Sounds](#Extracting-Sounds)
-2. [Building](#Building)
-    1. [Ninja](Ninja)
-    2. [Unix Makefiles](Unix-Makefiles)
-3. [Install](#Install)
+1. [Usage](#usage)
+    1. [Embedding Sounds](#embedding-sounds)
+    2. [Extracting Sounds](#extracting-sounds)
+2. [Building](#building)
+    1. [Ninja](ninja)
+    2. [Unix Makefiles](unix-makefiles)
+3. [Install](#install)
 
 ## Usage
 
