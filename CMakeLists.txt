@@ -24,12 +24,6 @@ else()
     include(Color)
 endif()
 
-# Build the application normally
-# if not building for javascript
-if(NOT $ENV{BUILD_JS})
-    set($ENV{BUILD_JS} OFF)
-endif()
-
 ### Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
@@ -65,9 +59,7 @@ set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
 # Add subdirectories
 add_subdirectory(src)
-if (NOT $ENV{BUILD_JS})
-    add_subdirectory(app)
-endif()
+add_subdirectory(app)
 
 if(BUILD_TESTING)
     include(MakeTests)
