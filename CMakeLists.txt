@@ -50,6 +50,7 @@ include(Utilities)
 include(fmt)
 include(doctest)
 include(utility)
+include(cnc)
 
 # Set includes for libraries
 set(CSTANDARD cxx_std_20)

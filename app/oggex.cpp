@@ -11,6 +11,7 @@
 #include "Cmd.h"
 #include "Options.h"
 #include "Data.h"
+#include "File.h"
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
@@ -37,10 +38,10 @@ int main(int argc, char **argv) {
 
   if (input.toggleOption("-m", "embed")) { 
     const std::string &audioFilename = input.getArg("-a");
-    if (isEmpty(audioFilename, Errors["InvalidAudioFile"]) || !fileExists(audioFilename)) { return -1; }
+    if (isEmpty(audioFilename, Errors["InvalidAudioFile"]) || !file_exists(audioFilename.c_str())) { return -1; }
     
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; }
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !file_exists(imageFilename.c_str())) { return -1; }
 
     const std::string &soundTag = input.getArg("-t");
     if (isEmpty(soundTag, Errors["EmptySoundTag"])) { return -1; } 
@@ -64,7 +65,7 @@ int main(int argc, char **argv) {
     embed(data); 
   } else if (input.toggleOption("-x", "extract")) {
     const std::string &imageFilename = input.getArg("-i");
-    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !fileExists(imageFilename)) { return -1; } 
+    if (isEmpty(imageFilename, Errors["InvalidImageFile"]) || !file_exists(imageFilename.c_str())) { return -1; } 
 
     options.setAudio(input.getArg("-ad"));
     options.setImage(input.getArg("-id"));

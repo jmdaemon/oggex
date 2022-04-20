@@ -44,7 +44,7 @@ make_static_shared_lib(
     CSTANDARD ${CSTANDARD}
     HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
     SOURCES Data.cpp Cmd.cpp
-    DEPS fmt utility
+    DEPS fmt cnc
     SRC_GROUP_FILES ${UTILITY_DIR})
 
 target_compile_options(cmd PRIVATE ${DEFAULT_CXX_FLAGS} ${REL_CXX_FLAGS} ${LIB_CXX_FLAGS})
