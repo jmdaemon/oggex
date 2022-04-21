@@ -7,7 +7,7 @@ target_sources(${OGGEX}
     PUBLIC  ${HEADER_LIST}
 )
 target_include_directories(${OGGEX} PUBLIC ${AUDIO_DIR} ${UTILITY_DIR})
-target_link_libraries(${OGGEX} PRIVATE fmt image sound audio file cmd cnc)
+target_link_libraries(${OGGEX} PRIVATE fmt image utility sound audio file cmd cnc)
 target_compile_features(${OGGEX} PUBLIC cxx_std_20)
 source_group(
   TREE "${PROJECT_SOURCE_DIR}/include"
