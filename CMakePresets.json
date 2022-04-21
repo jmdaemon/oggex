@@ -6,6 +6,7 @@
     "patch": 0
   },
   "include": [
-    "presets/gcc.json"
+    "presets/gcc.json",
+    "presets/clang.json"
   ]
 }
