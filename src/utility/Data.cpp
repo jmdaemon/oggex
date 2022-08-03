@@ -8,15 +8,6 @@ Data createExtractData(Image::ImageData image, Options options) {
   return Data{ .image = image, .options = options};
 }
 
-template<typename T>
-std::string byteToString(T bytes, unsigned int dm = 10) {
-    std::stringstream ss; 
-    ss.precision(dm); 
-    ss << bytes; 
-    std::string byteString = ss.str();
-    return byteString;
-}
-
 void printSize(std::string key, std::string value, unsigned int leftPadding, unsigned int rightPadding) { 
   fmt::print("{:<{}} : {:<{}}\n", key, leftPadding, value, rightPadding);
 }
