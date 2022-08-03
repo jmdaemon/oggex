@@ -4,7 +4,7 @@ project(
     oggex 
     VERSION 1.5.0
     DESCRIPTION "Encode and decode ogg audio files in images" 
-    LANGUAGES CXX
+    LANGUAGES C CXX
     )
 
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) 
@@ -50,6 +50,8 @@ include(Utilities)
 include(fmt)
 include(doctest)
 include(utility)
+#include(logc)
+include(bytesize)
 include(cnc)
 
 # Set includes for libraries
