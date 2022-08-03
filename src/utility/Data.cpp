@@ -28,79 +28,30 @@ void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned i
   fmt::print("{:<{}} : {:<{}} {}\n", std::get<0>(sizeTuple), leftPadding, std::get<0>(sizeWithUnit), rightPadding, std::get<1>(sizeWithUnit));
 }
 
-//std::tuple<std::string, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals) {
-//std::tuple<size_t, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals) {
-//const char* formatBytes(Data& data, size_t bytes, unsigned int decimals) {
-//std::string formatBytes(Data& data, size_t bytes, unsigned int decimals) {
 std::tuple<size_t, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals) {
-    //int unit = (data.options.isSIEnabled()) ? 1000 : 1024; 
-    //const unsigned int dm = (decimals < 0) ? 0 : decimals;
-    //std::map<int, std::string> sizes;
-    //if (data.options.isSIEnabled()) {
-      //sizes = {
-        //{ 0, "Bytes"}, { 1, "KB"}, { 2, "MB"}, { 3, "GB"}, { 4, "TB"}, 
-        //{ 5, "PB"}, { 6, "EB"}, { 7, "ZB"}, { 8, "YB"} }; 
-    //} else { 
-      //sizes = { 
-        //{ 0, "Bytes"}, { 1, "KiB"}, { 2, "MiB"}, { 3, "GiB"}, { 4, "TiB"}, 
-        //{ 5, "PiB"}, { 6, "EiB"}, { 7, "ZiB"}, { 8, "YiB"} }; 
-    //}
-    //auto sizes = data.options.isSIEnabled() ? SI_BYTE : BYTE;
-
-  // Return Bytes
-  if (!data.options.isReadableEnabled()) { 
-    //auto result = std::make_tuple(byteToString(bytes), sizes[0]);
-    //return result;
-    //return std::make_tuple(bytes, "B");
-    //const char* result = "%s" ;
-    //return fmt::format("{} {}", bytes, "B");
+//std::tuple<std::string, std::string> formatBytes(Data& data, size_t bytes, unsigned int decimals) {
+  if (!data.options.isReadableEnabled())
+    // If we don't care about the format, return bytes
     return std::make_tuple(bytes, "B");
-  } 
 
-  // Convert the bytes into a more readable format
-  /*
-  auto scale = data.options.isSIEnabled() ? SI_SCALE : BINARY_SCALE;
-  auto sizes = data.options.isSIEnabled() ? SI_BYTE : BYTE;
-  auto amount = bytes;
-
-  const int i = floor(std::log(bytes) / std::log(scale)); 
-  double res = (bytes / std::pow(scale, i)); 
-
-  //return fmt::format("{} {}", bytes, sizes[i]);
-  return std::make_tuple(bytes, sizes[i]);
-  */
+  // Automatically convert the bytes into a more readable format
   unsigned int scale = (data.options.isSIEnabled()) ? SI_SCALE : BINARY_SCALE;
-  Byte to = auto_size(bytes, scale, true);
 
-  unsigned long long int bytes = mpfr_get_ui (to.amt, MPFR_RNDD);
-  const char* unit_cstr = to.unit;
-  const std::string unit = string (unit_cstr);
+  mpfr_t amt;
+  mpfr_init2(amt, 200);
+  mpfr_init_set_str(amt, std::to_string(bytes).c_str(), 10, MPFR_RNDF);
+  Byte to = auto_size(amt, scale, true);
+
+  //unsigned long int output = mpfr_get_ui (to.amt, MPFR_RNDD);
+  size_t output = mpfr_get_ui (to.amt, MPFR_RNDF);
+  std::string unit(to.unit);
   
   /* Deallocate */
   mpfr_clears(to.amt, NULL);
+  mpfr_clears(amt, NULL);
   mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE);
 
-  auto fmt = std::make_tuple(bytes, unit);
-  return fmt;
-
-  //auto result = std::make_tuple(byteToString(res, dm), sizes[i]);
-  //auto result = std::make_tuple(byteToString(res, dm), sizes[i]);
-  //std::make_tuple(byteToString(bytes), "");
-  //return result;
-
-
-
-    //if (!data.options.isReadableEnabled()) { 
-      //auto result = std::make_tuple(byteToString(bytes), sizes[0]);
-      //return result;
-    //} 
-
-    //const double i = floor(std::log(bytes) / std::log(unit)); 
-    //double res = (bytes / std::pow(unit, i)); 
-    //auto result = std::make_tuple(byteToString(res, dm), sizes[i]);
-    ////auto result = std::make_tuple(byteToString(res, dm), sizes[i]);
-    ////std::make_tuple(byteToString(bytes), "");
-    //return result;
+  return std::make_tuple(output, unit);
 }
 
 void printEmbedSizes(Data& data, size_t maxFileSize, size_t tempFileSize, size_t imageFileSize, size_t soundTagSize, size_t finalSize) {
