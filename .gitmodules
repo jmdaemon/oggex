@@ -1,3 +1,6 @@
 [submodule "subprojects/log.c"]
 	path = subprojects/log.c
 	url = https://github.com/rxi/log.c
+[submodule "subprojects/utility"]
+	path = subprojects/utility
+	url = https://github.com/jmdaemon/utility
