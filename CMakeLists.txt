@@ -4,18 +4,7 @@ project(
     oggex 
     VERSION 1.5.0
     DESCRIPTION "Encode and decode ogg audio files in images" 
-    LANGUAGES C CXX
-    )
-
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) 
-    set(CMAKE_CXX_STANDARD 20) 
-    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON) 
-    set(CMAKE_CXX_EXTENSIONS OFF) 
-    # Enable -fPIC
-    set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON) 
-endif()
+    LANGUAGES C CXX)
 
 if (NOT COLOR)
     # Don't use colored output
@@ -24,7 +13,7 @@ else()
     include(Color)
 endif()
 
-### Require out-of-source builds
+# Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
     message(FATAL_ERROR "You cannot build in a source directory (or any directory with "
@@ -40,8 +29,7 @@ set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/"
 # Single source project version
 configure_file (
   "${PROJECT_SOURCE_DIR}/include/Version.h.in"
-  "${PROJECT_BINARY_DIR}/include/Version.h"
-)
+  "${PROJECT_BINARY_DIR}/include/Version.h")
 
 # Include dependencies
 include(FetchContent)
@@ -66,17 +54,38 @@ add_subdirectory(app)
 
 if(BUILD_TESTING)
     include(MakeTests)
+    include(CTest)
     add_subdirectory(test)
-    #include (CTest)
 endif()
 
-# Package for debian
+# Manual Installs
+# Set default manual installation directory to /usr/local
+set(CMAKE_INSTALL_PREFIX /usr/local)
+
+# Manual Uninstall Target
+# Usage:
+# cmake uninstall .
+# sudo make uninstall or sudo ninja uninstall
+if(NOT TARGET uninstall)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY)
+
+    add_custom_target(uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake/cmake_uninstall.cmake)
+endif()
+
+if ((TARGET uninstall) AND (EXISTS "${LOC_PATH}"))
+    message(FATAL_ERROR
+        "You cannot uninstall in the source directory."
+        "You may only uninstall from the build subdirectory."
+        "Feel free to remove remove CMakeCache.txt and CMakeFiles.")
+endif()
+
+# Packages
+include(InstallRequiredSystemLibraries)
 include(Debian)
 
-set(CMAKE_INSTALL_PREFIX /usr/local)
-install(TARGETS ${OGGEX} DESTINATION bin)
-install(TARGETS ${OGGEX} CONFIGURATIONS Debug   RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/Debug/bin)
-install(TARGETS ${OGGEX} CONFIGURATIONS Release RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/Release/bin)
-
-# Define Ninja uninstall
-add_custom_target(uninstall COMMAND xargs rm < ${CMAKE_CURRENT_BINARY_DIR}/install_manifest.txt)
+# Define more direct uninstall target
+#add_custom_target(uninstall COMMAND xargs rm < ${CMAKE_CURRENT_BINARY_DIR}/install_manifest.txt)
