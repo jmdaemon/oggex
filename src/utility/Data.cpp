@@ -22,17 +22,15 @@ void printSize(std::string key, std::string value, unsigned int leftPadding, uns
 }
 
 void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding) { 
-  //Byte to = formatBytes(data, std::get<1>(sizeTuple)); 
   Byte to;
-  //size_t numbytes = std::get<1>(sizeTuple);
   std::string bytes = std::to_string(std::get<1>(sizeTuple));
   const char* bstr = bytes.c_str();
-  //size_t bytes = std::get<1>(sizeTuple);
-  //const char* bytes = std::to_string(numbytes).c_str();
   if (!data.options.isReadableEnabled()) {
+    // If we don't care about the format, return bytes
     const char* units = "B";
     to = convert_units(bstr, units, units);
   } else {
+    // Automatically convert the bytes into a more readable format
     unsigned int scale = (data.options.isSIEnabled()) ? SI_SCALE : BINARY_SCALE;
     to = auto_format_bstr(bstr, scale);
   }
@@ -46,27 +44,6 @@ void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned i
   mpfr_clears(to.amt, NULL);
   mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE);
 }
-
-//Byte formatBytes(Data& data, size_t bytes) {
-  //Byte to;
-  //if (!data.options.isReadableEnabled()) {
-    //const char* units = "B";
-    //to = convert_units(std::to_string(bytes).c_str(), units, units);
-  //}
-
-  //// Automatically convert the bytes into a more readable format
-  //unsigned int scale = (data.options.isSIEnabled()) ? SI_SCALE : BINARY_SCALE;
-
-  //mpfr_t amt;
-  //mpfr_init2(amt, 200);
-  //mpfr_init_set_str(amt, std::to_string(bytes).c_str(), 10, MPFR_RNDF);
-  //to = auto_size(amt, scale, true);
-
-  //[> Deallocate <]
-  //mpfr_clears(amt, NULL);
-  //mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE);
-  //return to;
-//}
 
 void printEmbedSizes(Data& data, size_t maxFileSize, size_t tempFileSize, size_t imageFileSize, size_t soundTagSize, size_t finalSize) {
     std::map<int, std::tuple<std::string, size_t>> sizes = {
