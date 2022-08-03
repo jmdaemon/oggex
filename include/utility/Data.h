@@ -3,6 +3,7 @@
 #define DATA_H
 
 #include "file.h"
+#include <bytesize.h>
 
 #include "Audio.h"
 #include "Image.h"
