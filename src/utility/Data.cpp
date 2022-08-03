@@ -31,9 +31,14 @@ void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned i
   //char* amt;
   //mpfr_get_str(amt, 10, int, size_t, mpfr_srcptr, mpfr_rnd_t)
   //mpfr_asprintf(&amt, "%Rf", to.amt);
-  size_t output = mpfr_get_ui (to.amt, MPFR_RNDF);
+  //size_t output = mpfr_get_ui (to.amt, MPFR_RNDF);
   //fmt::print("{:<{}} : {:<{}} {}\n", std::get<0>(sizeTuple), leftPadding, amt, rightPadding, to.unit);
-  fmt::print("{:<{}} : {:<{}} {}\n", std::get<0>(sizeTuple), leftPadding, output, rightPadding, to.unit);
+
+  //unsigned long int output = mpfr_get_ui (to.amt, MPFR_RNDD);
+  const unsigned long int amt = mpfr_get_ui (to.amt, MPFR_RNDF);
+  const std::string unit(to.unit);
+
+  fmt::print("{:<{}} : {:<{}} {}\n", std::get<0>(sizeTuple), leftPadding, amt, rightPadding, unit);
   /* Deallocate */
   mpfr_clears(to.amt, NULL);
   mpfr_free_cache2(MPFR_FREE_LOCAL_CACHE);
@@ -45,9 +50,7 @@ Byte formatBytes(Data& data, size_t bytes) {
     // If we don't care about the format, return bytes
     mpfr_init2(to.amt, 200);
     mpfr_init_set_str(to.amt, std::to_string(bytes).c_str(), 10, MPFR_RNDF);
-    std::string units_to = "B";
-    const char* units_to_cstr = units_to.c_str();
-    to.unit = const_cast<char*> (units_to_cstr);
+    to.unit = const_cast<char*> (std::string("B").c_str());
     return to;
   }
 
@@ -59,9 +62,7 @@ Byte formatBytes(Data& data, size_t bytes) {
   mpfr_init_set_str(amt, std::to_string(bytes).c_str(), 10, MPFR_RNDF);
   to = auto_size(amt, scale, true);
 
-  //unsigned long int output = mpfr_get_ui (to.amt, MPFR_RNDD);
-  size_t output = mpfr_get_ui (to.amt, MPFR_RNDF);
-  std::string unit(to.unit);
+
   
   /* Deallocate */
   //mpfr_clears(to.amt, NULL);
