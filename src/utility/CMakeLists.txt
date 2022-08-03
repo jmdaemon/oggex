@@ -1,35 +1,26 @@
-# File
-make_static_shared_lib( # Add both shared and static library targets
-    NAME file
-    SOURCES File.cpp
-    HEADERS ${UTILITY_DIR}
-    DEPS fmt utility
-    CSTANDARD ${CSTANDARD}
-    SRC_GROUP_FILES ${UTILITY_DIR})
+set(HEADERS ${INCLUDES_DIR} ${UTILITY_DIR} ${AUDIO_DIR})
 
-# Image
-make_static_shared_lib(
-    NAME image
-    SOURCES Image.cpp
-    HEADERS ${UTILITY_DIR}
-    DEPS fmt utility
-    CSTANDARD cxx_std_11
-    SRC_GROUP_FILES ${UTILITY_DIR})
+# Add both shared and static library targets
+make_ssl(NAME file
+    SRCS File.cpp
+    HDRS ${HEADERS}
+    HDR ${UTILITY_DIR}/File.h
+    DEPS fmt utility)
 
-# Audio
-make_static_shared_lib(
-    NAME audio
-    SOURCES Audio.cpp Mask.cpp
-    HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
-    DEPS fmt utility file image
-    CSTANDARD ${CSTANDARD}
-    SRC_GROUP_FILES ${UTILITY_DIR})
+make_ssl(NAME image
+    SRCS Image.cpp
+    HDRS ${HEADERS}
+    HDR ${UTILITY_DIR}/Image.h
+    DEPS fmt utility)
 
-# Command
-make_static_shared_lib(
-    NAME cmd
-    SOURCES Data.cpp Cmd.cpp
-    HEADERS ${UTILITY_DIR} ${AUDIO_DIR}
-    DEPS fmt cnc bytesize
-    CSTANDARD ${CSTANDARD}
-    SRC_GROUP_FILES ${UTILITY_DIR})
+make_ssl(NAME audio
+    SRCS Audio.cpp Mask.cpp
+    HDRS ${HEADERS}
+    HDR ${UTILITY_DIR}/Audio.h
+    DEPS fmt utility file image)
+
+make_ssl(NAME cmd
+    SRCS Data.cpp Cmd.cpp
+    HDRS ${HEADERS}
+    HDR ${UTILITY_DIR}/Cmd.h
+    DEPS fmt cnc bytesize)
