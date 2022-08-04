@@ -3,8 +3,25 @@
 #include "oggex.h"
 
 // Oggex Embed Audio Tests
-using namespace std;
-namespace fs = std::filesystem;
+//using namespace std;
+//namespace fs = std::filesystem;
+
+//typedef struct Sample {
+  //std::string AUDIO_FILE;
+  //std::string IMAGE_FILE;
+  //std::string EMBED_FILE;
+  //std::string SOUND_TAG;
+//} Sample;
+
+// Samples
+const static std::string AUDIO_FILE  = "audio02.ogg";
+const static std::string IMAGE_FILE  = "835127a09fc542aeb3bfa99c9d91972d.png.png";
+const static std::string EMBED_FILE  = "835127a09fc542aeb3bfa99c9d91972d.png";
+const static std::string SOUND_TAG   = "audio02";
+
+//const static struct Sample samples = {
+  //AUDIO_FILE, IMAGE_FILE, EMBED_FILE, SOUND_TAG
+//};
 
 struct DataFixture {
   const std::string SOUND_TAG       = "audio02";
@@ -31,7 +48,7 @@ std::string formatCommand(Audio::AudioData& audio, bool enableMono) {
 }
 
 TEST_CASE("Clean should remove temporary files") { 
-  ofstream testFile("Test.txt");
+  std::ofstream testFile("Test.txt");
   testFile << "clean() should remove this file.";
   testFile.close();
 
@@ -44,12 +61,12 @@ TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted co
     //string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
     //string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
     data.options.enableMono(true);
-    string monoAudioCommand = createCommand(data);
-    string properMonoAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
+    auto monoAudioCommand = createCommand(data);
+    auto properMonoAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
 
     data.options.enableMono(false);
-    string dualAudioCommand = createCommand(data);
-    string properDualAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
+    auto dualAudioCommand = createCommand(data);
+    auto properDualAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
     
     REQUIRE(monoAudioCommand == properMonoAudioCommand); 
     REQUIRE(properDualAudioCommand == properDualAudioCommand);
