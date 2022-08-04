@@ -2,8 +2,6 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-//#include "File.h"
-
 #include <string>
 #include <map>
 #include <filesystem>
@@ -29,8 +27,6 @@ namespace Image {
       std::string getImage() { return this->imagePath; }
       void setImage(std::string imagePath) { this->imagePath = imagePath; }
   };
-
-  bool imageUnder4MiB (std::filesystem::path imagePath); 
 }
 
 #endif

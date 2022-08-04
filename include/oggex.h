@@ -2,8 +2,6 @@
 #ifndef OGGEX_H
 #define OGGEX_H
 
-#include "constants.h"
-
 #include <file.h>
 #include <command.h>
 #include "Image.h"
@@ -24,7 +22,7 @@
 #include <exception>
 #include <fstream>
 
-//const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
+const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
 
 std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
 

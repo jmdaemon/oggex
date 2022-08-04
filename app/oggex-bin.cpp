@@ -1,18 +1,5 @@
-#include <iostream>
-#include <filesystem>
-#include <string>
-#include <unordered_map>
-
-#include <fmt/core.h>
-
-//#include "EmbedAudio.h" 
-//#include "ExtractAudio.h"
 #include "oggex.h"
 #include "InputParser.h"
-#include "Cmd.h"
-#include "Options.h"
-#include "Data.h"
-//#include "File.h"
 
 int main(int argc, char **argv) { 
   InputParser input(argc, argv);
