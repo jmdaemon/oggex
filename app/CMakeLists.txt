@@ -1,5 +1,5 @@
 #set(HEADERS ${AUDIO_DIR} ${UTILITY_DIR} ${HEADERS_CNC})
-set(HEADERS ${INCLUDES_DIR}/oggex ${UTILITY_DIR})
+set(HEADERS ${INCLUDES_DIR} ${UTILITY_DIR})
 
 set(TARGET oggex)
 set(BIN_NAME oggex-bin)
