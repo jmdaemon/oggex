@@ -3,7 +3,7 @@ set(HEADERS ${INCLUDES_DIR} ${UTILITY_DIR})
 
 set(TARGET oggex)
 set(BIN_NAME oggex-bin)
-add_executable(${BIN_NAME} oggex.cpp)
+add_executable(${BIN_NAME} oggex-bin.cpp)
 target_include_directories(${BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${BIN_NAME} PRIVATE fmt image utility oggex audio file cmd cnc)
 
