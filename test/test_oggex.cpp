@@ -1,11 +1,8 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "EmbedAudio.h"
-//#include "File.h"
-//#include "Image.h"
-//#include "Data.h"
+#include "oggex.h"
 
-//#include <fmt/core.h>
-
+// Oggex Embed Audio Tests
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -58,11 +55,11 @@ TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted co
     REQUIRE(properDualAudioCommand == properDualAudioCommand);
 }
 
-TEST_CASE_FIXTURE(DataFixture, "Exec run and execute ffmpeg commands") { 
-  const std::string command = formatCommand(audio, data.options.isMonoEnabled());
-  std::string output = exec(command, data);
-  REQUIRE(!output.empty());
-} 
+//TEST_CASE_FIXTURE(DataFixture, "Exec run and execute ffmpeg commands") { 
+  //const std::string command = formatCommand(audio, data.options.isMonoEnabled());
+  //std::string output = exec(command, data);
+  //REQUIRE(!output.empty());
+//} 
 
 TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
   // Encode Audio properly executes ffmpeg command and creates the "temp.ogg" intermediary file
@@ -87,3 +84,38 @@ TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
   encodeAudio(data, data.options.isMonoEnabled());
   encodeImage(data);
 } 
+
+// Oggex Extract Audio Tests
+//struct DataFixture {
+  //const std::string EMBEDDED_FILENAME  = "../../inputFile1.png";
+
+  //Image::ImageData image{};
+  //Options options;
+  //Data data{};
+
+  //DataFixture() : image(Image::ImageData(EMBEDDED_FILENAME)), data(createExtractData(image, options)) { }
+//};
+
+
+//TEST_CASE_FIXTURE(DataFixture, "getOffset()") {
+  //size_t offset = getOffset(EMBEDDED_FILENAME);
+  //REQUIRE(offset != 0);
+
+  //offset = getOffset("SearchTermUnavailable");
+  //REQUIRE(offset == 0);
+//}
+
+//TEST_CASE_FIXTURE(DataFixture, "findSoundTag should return sound tag in embedded file") { 
+  //std::filesystem::path image = data.image.getImage();
+  //string embeddedFileData   = dataToString(image, 0);
+  //size_t audioOffset        = getOffset(image);
+  //std::string soundTag      = findSoundTag(data, embeddedFileData, audioOffset);
+  //REQUIRE(!soundTag.empty());
+  //embeddedFileData          = dataToString(image, sizeOf(image));
+  //soundTag                  = findSoundTag(data, embeddedFileData, sizeOf(image));
+  //REQUIRE(soundTag.empty());
+//}
+
+TEST_CASE_FIXTURE(DataFixture, "extract()") { 
+  REQUIRE(extract(data) == 0);
+}
