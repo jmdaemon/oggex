@@ -3,6 +3,25 @@
 using namespace std;
 namespace fs = std::filesystem;
 
+//string format_command() {
+  //auto base   = "ffmpeg";
+  //auto owout  = "-y";           // Overwrites output files without asking
+  //auto noint  = "-nostdin";     // No user interaction
+  //auto input  = "\"{}\"";       // Input audio file
+  //auto novid  = "-vn";          // Disables video
+  //auto codec_fmt = "-codec:a";  // Specifies the codec format
+  //auto oggfmt = "libvorbis";    // .ogg audio format
+  //auto asrfmt = "-ar ";         // Audio sampling rate
+  //auto asr    = "44100" ;       // Rate of 44.1Hz for audio sampling rate/audio bitrate
+  //auto wmetad = "-map_metadata";// Preserve file metadata in output. By default this will be all.
+  //auto output = "\"{}\"";       // Output file name
+  //auto logto  = ">> \"{}\" 2>&1";// Log all output (stdout, stderr) to this file
+  
+  //fmt::format("{} {} {} {}", base, owout, noint, noint, input, novid codec_fmt)
+
+  //fmt::runtime("ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1")
+//}
+
 string createCommand(Data& data) {
   Audio::AudioData& audio = data.audio;
   string enableMono = (data.options.isMonoEnabled()) ? " -ac 1" : "";
