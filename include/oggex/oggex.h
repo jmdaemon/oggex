@@ -1,6 +1,6 @@
 #pragma once
-#ifndef EMBEDAUDIO_H
-#define EMBEDAUDIO_H
+#ifndef OGGEX_H
+#define OGGEX_H
 
 #include <file.h>
 #include <command.h>
@@ -8,6 +8,9 @@
 #include "Audio.h"
 #include "Data.h"
 #include "Mask.h"
+#include "Cmd.h"
+
+#include <fmt/core.h>
 
 #include <string>
 #include <iosfwd>
@@ -26,4 +29,11 @@ std::string encodeAudio(Data& data, bool decreaseQuality = false);
 void encodeImage(Data& data);
 int embed(Data& data);
 
-#endif
+size_t getFileSize(Data& data, size_t offset = 0);
+std::string readFile(Data& data, size_t offset);
+size_t getOffset(std::filesystem::path filepath, const char* searchTerm = "OggS");
+std::string findSoundTag(Data& data, std::string fileData, size_t offset);
+int extract(Data data); 
+
+
+#endif // OGGEX_H
