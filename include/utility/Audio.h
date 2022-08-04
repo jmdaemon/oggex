@@ -14,7 +14,7 @@ namespace Audio {
   const static std::filesystem::path TEMP_AUDIO_FILE  = "out.ogg";
   const static std::filesystem::path TEMP_LOG_FILE    = "Log.txt";
   
-  class AudioData : public File::File {
+  class AudioData {
     private: 
       std::map<int, std::string> FileExtensions = { 
         {0, ".ogg"}, 

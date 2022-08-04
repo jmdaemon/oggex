@@ -22,6 +22,8 @@
 #include <exception>
 #include <fstream>
 
+std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
+
 std::string createCommand(Data& data);
 std::string encode(const std::string cmd, Data& data);
 

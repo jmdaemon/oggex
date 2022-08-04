@@ -1,5 +1,10 @@
 #include "oggex.h"
 
+std::string dataToString(std::filesystem::path filepath, off_t beg, off_t end) { 
+  const std::string slice = read_slice(filepath.c_str(), beg, end);
+  return slice;
+}
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -75,10 +80,10 @@ void removeTemp(Data& data) {
 string encodeAudio(Data& data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
   string cmdOutput      = encode(createCommand(data), data);
-  uintmax_t finalSize   = calcFinalSize(data, MAX_FILE_SIZE);
+  uintmax_t finalSize   = calcFinalSize(data, MAX_FILE_POST_SIZE);
 
   if (!data.options.ignoreLimitEnabled()) {
-    if (finalSize < MAX_FILE_SIZE) { 
+    if (finalSize < MAX_FILE_POST_SIZE) { 
       removeTemp(data);
       return cmdOutput;
     } else if (decreaseQuality) { 

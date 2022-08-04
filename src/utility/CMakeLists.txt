@@ -5,7 +5,7 @@ make_ssl(NAME file
     SRCS File.cpp
     HDRS ${HEADERS}
     HDR ${UTILITY_DIR}/File.h
-    DEPS fmt utility)
+    DEPS fmt utility bytesize)
 
 make_ssl(NAME image
     SRCS Image.cpp

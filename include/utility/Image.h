@@ -8,7 +8,7 @@
 #include <map>
 
 namespace Image {
-  class ImageData : public File::File {
+  class ImageData {
     private: 
       std::map<int, std::string> FileExtensions = { 
         { 0, ".jpg"},
