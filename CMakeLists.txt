@@ -36,15 +36,18 @@ include(FetchContent)
 include(Library)
 include(Utilities)
 include(fmt)
-include(doctest)
+#include(doctest)
 include(utility)
 #include(logc)
 include(bytesize)
 include(cnc)
 
 # Set includes for libraries
+set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
+set(HEADERS_VERSION "${PROJECT_BINARY_DIR}/include")
+
 set(CSTANDARD cxx_std_20)
-set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
+#set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
 set(UTILITY_DIR "${INCLUDES_DIR}/utility")
 set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
@@ -55,7 +58,7 @@ add_subdirectory(app)
 if(BUILD_TESTING)
     include(MakeTests)
     include(CTest)
-    add_subdirectory(test)
+    #add_subdirectory(test)
 endif()
 
 # Manual Installs
