@@ -20,11 +20,6 @@ namespace File {
   class File { 
     private: 
       std::map<int, std::string> FileExtensions;
-
-    public: 
-      bool isValid(std::string file); 
-      bool isValid(std::filesystem::path filepath);
-      bool isFile(std::string file);
   };
 }
 

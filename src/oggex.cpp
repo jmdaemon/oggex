@@ -46,6 +46,8 @@ string encode(const string cmd, Data& data) {
   return result;
 }
 
+// This should be a function named size() thats available on the 
+// data structure that holds all the files
 uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
   size_t tempFileSize   = file_size(data.audio.getTempAudio().c_str());
   size_t imageFileSize  = file_size(data.image.getImage().c_str());
@@ -61,12 +63,15 @@ uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
   return finalSize;
 }
 
+// this is weird and doesn't directly do what the function name suggests
 void removeTemp(Data& data) {
   fmt::print("Audio Encoding completed.\n\n");
   fs::rename(data.audio.getTempAudio(), "temp.ogg");
   data.audio.setTempAudio(fs::path("temp.ogg"));
 }
 
+// rewrite without recursion (use while loop)
+// rewrite with less if statement branches
 string encodeAudio(Data& data, bool decreaseQuality) {
   Audio::AudioData& audio = data.audio;
   string cmdOutput      = encode(createCommand(data), data);
