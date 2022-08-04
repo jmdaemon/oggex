@@ -6,7 +6,9 @@
 #include <map>
 #include <string>
 
-#include "File.h"
+// Third Party Libraries
+#include <file.h>
+#include <fmt/core.h>
 
 namespace Audio {
   const static int  DEFAULT_AUDIO_QUALITY             = 10;

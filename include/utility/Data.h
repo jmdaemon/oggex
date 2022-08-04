@@ -18,6 +18,8 @@
 #include <string>
 #include <cstring>
 
+#include <fmt/core.h>
+
 struct Data {
   public:
     Audio::AudioData audio{};

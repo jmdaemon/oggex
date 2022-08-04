@@ -105,7 +105,8 @@ void encodeImage(Data& data) {
 
   if (!file_exists(audio.getTempAudio().c_str())) { 
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
-    clean({audio.getTempAudio()});
+    //clean({audio.getTempAudio()});
+    remove(audio.getTempAudio());
     throw exception();
   } 
 
@@ -118,7 +119,8 @@ void encodeImage(Data& data) {
   outputFile.close();
   imageFileData.close();
   audioFileData.close();
-  clean({audio.getTempAudio()});
+  //clean({audio.getTempAudio()});
+  remove(audio.getTempAudio());
 }
 
 int embed(Data& data) {

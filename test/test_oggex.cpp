@@ -47,15 +47,15 @@ std::string formatCommand(Audio::AudioData& audio, bool enableMono) {
   return command;
 }
 
-TEST_CASE("Clean should remove temporary files") { 
-  std::ofstream testFile("Test.txt");
-  testFile << "clean() should remove this file.";
-  testFile.close();
+//TEST_CASE("Clean should remove temporary files") { 
+  //std::ofstream testFile("Test.txt");
+  //testFile << "clean() should remove this file.";
+  //testFile.close();
 
-  REQUIRE(std::filesystem::exists("Test.txt"));
-  clean({ "Test.txt" });
-  REQUIRE(!std::filesystem::exists("Test.txt"));
-}
+  //REQUIRE(std::filesystem::exists("Test.txt"));
+  //clean({ "Test.txt" });
+  //REQUIRE(!std::filesystem::exists("Test.txt"));
+//}
 
 TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted correctly") {
     //string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
@@ -86,14 +86,16 @@ TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
   data.options.enableMono(true);
   REQUIRE(!encodeAudio(data).empty());
   REQUIRE(std::filesystem::exists("temp.ogg"));
-  clean({"temp.ogg"});
+  //clean({"temp.ogg"});
+  remove("temp.ogg");
 
   // Disable mono audio channel, and ignore the 4MiB Limit
   data.options.enableMono(false);
   data.options.ignoreLimit(true);
   REQUIRE(!encodeAudio(data).empty());
   REQUIRE(std::filesystem::exists(data.audio.getTempAudio()));
-  clean({data.audio.getTempAudio()});
+  //clean({data.audio.getTempAudio()});
+  remove(data.audio.getTempAudio());
 
   INFO("EncodeImage function should create an [image]-embed.png file");
   // Ensure that the embedded output file is created

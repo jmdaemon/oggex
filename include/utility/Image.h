@@ -2,10 +2,11 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "File.h"
+//#include "File.h"
 
 #include <string>
 #include <map>
+#include <filesystem>
 
 namespace Image {
   class ImageData {
