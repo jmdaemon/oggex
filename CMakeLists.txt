@@ -52,6 +52,7 @@ set(UTILITY_DIR "${INCLUDES_DIR}/utility")
 set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
 # Add subdirectories
+add_subdirectory(resources)
 add_subdirectory(src)
 add_subdirectory(app)
 
