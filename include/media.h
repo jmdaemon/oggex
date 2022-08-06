@@ -19,7 +19,7 @@ struct Settings {
 struct Media {
   Sound sound;
   Settings settings;
-  Options options{};
+  //Options options{};
 };
 
 #endif // OGGEX_MEDIA_H
