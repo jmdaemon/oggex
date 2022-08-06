@@ -29,12 +29,14 @@ struct DataFixture {
   const std::string IMAGE_FILENAME  = "../../inputFile2.png";
 
   Audio::AudioData audio{};
-  Image::ImageData image{};
+  //Image::ImageData image{};
+  const char* image{};
   Options options;
   Data data{};
 
   DataFixture() : audio(createAudioData(SOUND_TAG, AUDIO_FILENAME)), 
-  image(Image::ImageData(IMAGE_FILENAME)), data(createEmbedData(audio, image, options)) { }
+  //image(Image::ImageData(IMAGE_FILENAME)), data(createEmbedData(audio, image, options)) { }
+  image(IMAGE_FILENAME.c_str()), data(createEmbedData(audio, image, options)) { }
 };
 
 std::string formatCommand(Audio::AudioData& audio, bool enableMono) {

@@ -41,7 +41,7 @@ int main(int argc, char **argv) {
       {"Image", imageFilename},
       {"SoundTag", soundTag}
     };
-    Data data = createEmbedData( createAudioData(soundTag, audioFilename), Image::ImageData(imageFilename), options );
+    Data data = createEmbedData( createAudioData(soundTag, audioFilename), imageFilename.c_str(), options );
 
     if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     options.setAudio(input.getArg("-ad"));
     options.setImage(input.getArg("-id"));
 
-    Data data = createExtractData( Image::ImageData(imageFilename), options );
+    Data data = createExtractData(imageFilename.c_str(), options );
     extract(data);
   } else 
       showUsage("oggex");

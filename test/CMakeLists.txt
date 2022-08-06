@@ -19,7 +19,7 @@ add_executable(${TARGET} test_oggex.cpp)
 #target_include_directories(${TARGET} PUBLIC ${TEST_HEADERS})
 target_include_directories(${TARGET} PUBLIC ${HEADERS} ${DOCTEST_INCLUDE_DIR})
 target_link_libraries(${TARGET} PRIVATE
-    fmt doctest cmd image audio oggex)
+    fmt doctest cmd audio oggex)
 add_test(NAME ${TARGET} COMMAND ${TARGET})
 
 #make_test(

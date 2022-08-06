@@ -55,7 +55,7 @@ string encode(const string cmd, Data& data) {
 // data structure that holds all the files
 uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
   size_t tempFileSize   = file_size(data.audio.getTempAudio().c_str());
-  size_t imageFileSize  = file_size(data.image.getImage().c_str());
+  size_t imageFileSize  = file_size(data.image);
   size_t soundTagSize   = data.audio.getSoundTag().size();
   uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
 
@@ -110,16 +110,15 @@ void encodeImage(Data& data) {
     throw exception();
   } 
 
-  fs::path outputFileName = (data.options.outputFileEnabled()) ?  fs::path(data.options.getOutputFile()) : data.image.createOutputFilename(); 
+  fs::path outputFileName = (data.options.outputFileEnabled()) ?  fs::path(data.options.getOutputFile()) : fs::path(data.image); 
   ofstream outputFile(outputFileName, ifstream::out | ifstream::binary);
-  ifstream imageFileData(data.image.getImage(), ifstream::in | ifstream::binary);
+  ifstream imageFileData(data.image, ifstream::in | ifstream::binary);
   ifstream audioFileData(audio.getTempAudio(), ifstream::in | ifstream::binary);
 
   outputFile << imageFileData.rdbuf() << formatSoundTag(audio.getSoundTag()) << audioFileData.rdbuf();
   outputFile.close();
   imageFileData.close();
   audioFileData.close();
-  //clean({audio.getTempAudio()});
   remove(audio.getTempAudio());
 }
 
@@ -159,7 +158,7 @@ string findSoundTag(Data& data, string fileData, size_t offset) {
 } 
 
 int extract(Data data) {
-  std::filesystem::path image = data.image.getImage();
+  std::filesystem::path image = data.image;
   size_t embeddedFileSize   = file_size(image.c_str());
   size_t audioOffset        = getOffset(image);
   size_t audioFileSize      = file_size(image.c_str()) +  audioOffset;
