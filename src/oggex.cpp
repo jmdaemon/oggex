@@ -5,31 +5,20 @@ std::string dataToString(std::filesystem::path filepath, off_t beg, off_t end) {
   return slice;
 }
 
-using namespace std;
-namespace fs = std::filesystem;
-
-//string format_command() {
-  //auto base   = "ffmpeg";
-  //auto owout  = "-y";           // Overwrites output files without asking
-  //auto noint  = "-nostdin";     // No user interaction
-  //auto input  = "\"{}\"";       // Input audio file
-  //auto novid  = "-vn";          // Disables video
-  //auto codec_fmt = "-codec:a {}";// Specifies the codec format
-  //auto oggfmt = "libvorbis";    // .ogg audio format
-  //auto asrfmt = "-ar {}";       // Audio sampling rate
-  //auto asr    = "44100" ;       // Rate of 44.1Hz for audio sampling rate/audio bitrate
-  //auto wmetad = "-map_metadata";// Preserve file metadata in output. By default this will be all.
-  //auto output = "\"{}\"";       // Output file name
-  //auto logto  = ">> \"{}\" 2>&1";// Log all output (stdout, stderr) to this file
-  
-  //fmt::format(fmt::runtime
-      //("ffmpeg {} {} {} {} {} {5} {}",
-       //owout, noint, noint, input, novid, codec_fmt, oggfmt))
-
-  //fmt::runtime("ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1")
-//}
-
-string format_command(Media& media) {
+/**
+  * FFmpeg command used:
+  * ffmpeg -y         \ # Overwrites output files without asking
+  * -nostdin          \ # No user interaction
+  * -i \"{}\"         \ # Input audio file
+  * -vn               \ # Disables video
+  * -codec:a {}       \ # Specifies the codec format
+  * libvorbis         \ # .ogg audio format
+  * -ar 44100         \ # Set audio sampling rate (44.1Hz).
+  * -map_metadata -1  \ # Preserve file metadata in output. By default this will be all.
+  * \"{}\"            \ # Output to file
+  * >> \"{}\" 2>&1    \ # Log all output (stdout, stderr) to this file
+  */
+std::string format_command(Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
   auto mono_option = (media.options.isMonoEnabled()) ? " -ac 1" : "";
@@ -42,7 +31,7 @@ string format_command(Media& media) {
   return command;
 }
 
-void encode(const string cmd, Media& media) {
+void encode(const std::string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
   auto use_mono_encoding = (media.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
@@ -58,7 +47,7 @@ uintmax_t embed_size(Sound& sound) {
 
   if (temp <= 0) {
     fmt::print(stderr, "Error: encoding failed\n");
-    throw exception();
+    throw std::exception();
   } 
 
   return embed_size;
@@ -67,7 +56,7 @@ uintmax_t embed_size(Sound& sound) {
 void encodeAudio(Media& media) {
   auto settings = media.settings;
   auto options = media.options;
-  string cmdOutput; 
+  std::string cmdOutput; 
 
   while (true) {
     encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
@@ -83,29 +72,27 @@ void encodeAudio(Media& media) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
       fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
-      throw exception();
+      throw std::exception();
     }
   }
   fmt::print("Audio Encoding completed.\n\n");
 }
 
-//void encodeImage(Data& data) {
 void encodeImage(Media& media) {
-  //Audio::AudioData& audio = data.audio;
   auto sound = media.sound;
   auto settings = media.settings;
 
   if (!file_exists(sound.src)) { 
     fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
-    //clean({audio.getTempAudio()});
     remove(sound.temp);
-    throw exception();
+    throw std::exception();
   } 
 
-  fs::path outputFileName = (media.options.outputFileEnabled()) ?  fs::path(media.options.getOutputFile()) : fs::path(sound.dest); 
-  ofstream outputFile(outputFileName, ifstream::out | ifstream::binary);
-  ifstream imageFileData(sound.dest, ifstream::in | ifstream::binary);
-  ifstream audioFileData(sound.temp, ifstream::in | ifstream::binary);
+  auto outputFileName = (media.options.outputFileEnabled()) ? 
+    std::filesystem::path(media.options.getOutputFile()) : std::filesystem::path(sound.dest); 
+  std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary);
+  std::ifstream imageFileData(sound.dest, std::ifstream::in | std::ifstream::binary);
+  std::ifstream audioFileData(sound.temp, std::ifstream::in | std::ifstream::binary);
 
   outputFile << imageFileData.rdbuf() << formatSoundTag(sound.tag) << audioFileData.rdbuf();
   outputFile.close();
@@ -114,7 +101,6 @@ void encodeImage(Media& media) {
   remove(sound.temp);
 }
 
-//int embed(Data& data) {
 int embed(Media& media) {
   encodeAudio(media);
   encodeImage(media);
@@ -130,17 +116,16 @@ size_t getOffset(std::filesystem::path filepath, const char* searchTerm) {
   return offset; 
 }
 
-//string findSoundTag(Data& data, string fileData, size_t offset) {
-string findSoundTag(Media& media, string fileData, size_t offset) {
-  string tag = fileData.substr(0, offset);
+std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
+  std::string tag = fileData.substr(0, offset);
   size_t endTag = tag.rfind("]"); 
   size_t startTag = tag.rfind("[");
   if (endTag == std::string::npos || startTag == std::string::npos) {
     fmt::print("Sound Tag not found.\n");
     return "";
   }
-  string unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
-  string soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
+  std::string unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
+  std::string soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
     ?  unstrippedTag.substr(1,  unstrippedTag.length() - 2) : ""; 
 
   if (media.options.showVerboseEnabled()) { 
@@ -152,7 +137,6 @@ string findSoundTag(Media& media, string fileData, size_t offset) {
 } 
 
 int extract(Media& media) {
-  //std::filesystem::path image = data.image;
   auto sound = media.sound;
   auto settings = media.settings;
   auto image = sound.dest;
@@ -163,10 +147,10 @@ int extract(Media& media) {
 
   //if (settings.options.showVerboseEnabled()) { printExtractSizes(data, embeddedFileSize, audioFileSize, audioOffset); }
 
-  string embeddedFileData   = dataToString(image, 0, file_size(image));
-  string imageFileData      = read_slice(image, 0, audioOffset);
-  string audioContent       = dataToString(image, audioOffset, file_size(image));
-  string soundTag           = findSoundTag(media, embeddedFileData, audioOffset); 
+  std::string embeddedFileData   = dataToString(image, 0, file_size(image));
+  std::string imageFileData      = read_slice(image, 0, audioOffset);
+  std::string audioContent       = dataToString(image, audioOffset, file_size(image));
+  std::string soundTag           = findSoundTag(media, embeddedFileData, audioOffset); 
   if (soundTag.empty()) {
     return -1; 
   } else 
@@ -177,7 +161,7 @@ int extract(Media& media) {
   //fs::path audioFileName = (media.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
   //fs::path imageFileName = (media.options.imageFileEnabled()) ?  fs::path(data.options.getImageFile()) : fs::path(image.string() + ".png");
   auto audioFileName = (media.options.audioFileEnabled()) ?  sound.src : soundTag.c_str(); 
-  auto imageFileName = (media.options.imageFileEnabled()) ?  sound.dest : string(sound.dest) + ".png";
+  auto imageFileName = (media.options.imageFileEnabled()) ?  sound.dest : std::string(sound.dest) + ".png";
 
   write_file(audioFileName, audioContent.c_str());
   write_file(imageFileName.c_str(), imageFileData.c_str());
