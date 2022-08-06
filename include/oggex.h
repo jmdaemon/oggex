@@ -4,7 +4,6 @@
 
 #include <file.h>
 #include <command.h>
-#include "Image.h"
 #include "Audio.h"
 #include "Data.h"
 #include "Mask.h"
@@ -22,7 +21,19 @@
 #include <exception>
 #include <fstream>
 
-const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
+/** Constants */
+
+static const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
+
+/** Supported image extensions */
+static const char* ImageExtensions[] = {
+  "jpg",
+  "jpeg",
+  "gif",
+  "png",
+  "webm"
+};
+
 
 std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
 

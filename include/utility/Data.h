@@ -7,7 +7,6 @@
 #include <bytesize.h>
 
 #include "Audio.h"
-#include "Image.h"
 #include "Options.h"
 
 #include <cmath>
