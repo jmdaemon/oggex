@@ -117,7 +117,7 @@ size_t getOffset(std::filesystem::path filepath, const char* searchTerm) {
 }
 
 std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
-  std::string tag = fileData.substr(0, offset);
+  auto tag = fileData.substr(0, offset);
   size_t endTag = tag.rfind("]"); 
   size_t startTag = tag.rfind("[");
   if (endTag == std::string::npos || startTag == std::string::npos) {
@@ -134,11 +134,10 @@ std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
     printSize("Stripped Tag", soundTag);
   }
   return soundTag; 
-} 
+}
 
 int extract(Media& media) {
   auto sound = media.sound;
-  auto settings = media.settings;
   auto image = sound.dest;
 
   size_t embeddedFileSize   = file_size(image);
@@ -167,4 +166,27 @@ int extract(Media& media) {
   write_file(imageFileName.c_str(), imageFileData.c_str());
 
   return 0;
+}
+
+std::array<char, 512> hashFile(std::array<char, 512> buffer, size_t count) {
+  unsigned long long unmaskState = 0;
+  std::array<char, 512> maskedBuffer;
+  int mask;
+  for (unsigned int i = 0; i < count; ++i) {
+    unmaskState = (1664525 * unmaskState + 1013904223) & 0xFFFFFFFF;
+    mask = (unmaskState >> 24) & 0xFF;
+    unmaskState += static_cast<unsigned int>(static_cast<unsigned char>(buffer[i] ^ mask));
+    maskedBuffer[i] = buffer[i] ^ mask;
+  }
+  return maskedBuffer;
+} 
+
+void encodeTo(std::ifstream& inputFile, std::ofstream& outputFile, std::array<char, 512> buffer) {
+  std::ostringstream contents;
+  contents << inputFile.rdbuf();
+  contents.seekp(0, std::ios::end);
+  int contentSize = contents.tellp();
+
+  outputFile << contents.rdbuf();
+  hashFile(buffer, contentSize); // Write the imageFileHash to new outputFile
 }

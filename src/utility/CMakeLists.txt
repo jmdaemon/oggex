@@ -2,7 +2,8 @@ set(HEADERS ${INCLUDES_DIR} ${INCLUDES_DIR}/utility)
 
 # Add both shared and static library targets
 make_ssl(NAME audio
-    SRCS Audio.cpp Mask.cpp
+    #SRCS Audio.cpp Mask.cpp
+    SRCS Audio.cpp
     HDRS ${HEADERS}
     HDR ${UTILITY_DIR}/Audio.h
     DEPS fmt utility)

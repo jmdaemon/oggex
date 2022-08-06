@@ -6,10 +6,10 @@
 #include "media.h"
 #include "Audio.h"
 #include "Data.h"
-#include "Mask.h"
 #include "Cmd.h"
 
 // Standard Library
+#include <array>
 #include <string>
 #include <iosfwd>
 #include <filesystem>
@@ -47,5 +47,9 @@ void encodeImage(Media& media);
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm = "OggS");
 std::string findSoundTag(Media& media, std::string fileData, size_t offset);
 int extract(Media& media); 
+
+// Mask
+std::array<char, 512> hashFile(std::array<char, 512> buffer, size_t count);
+void encodeTo(std::ifstream& inputFile, std::ofstream& outputFile, std::array<char, 512> buffer);
 
 #endif // OGGEX_H
