@@ -6,16 +6,11 @@ project(
     DESCRIPTION "Encode and decode ogg audio files in images" 
     LANGUAGES C CXX)
 
-# Logging
+# Variable Toggles
+set(NO_COLOR OFF CACHE INTERNAL "Toggles colored output errors")
+set(BUILD_DOC ON CACHE INTERNAL "Build documentation")
 set(ENABLE_LOGGING OFF CACHE INTERNAL "View the logging statements/debug info")
 set(LOG_LEVEL 0 CACHE INTERNAL "Enable only specific log levels")
-
-if (NOT COLOR)
-    # Don't use colored output
-else()
-    # Include colored output by default
-    include(Color)
-endif()
 
 # Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
@@ -29,6 +24,13 @@ set( OGGEX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
 set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
+
+if (NO_COLOR)
+    # Don't use colored output
+else()
+    # Include colored output by default
+    include(Color)
+endif()
 
 # Single source project version
 configure_file (
