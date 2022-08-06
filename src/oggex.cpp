@@ -75,27 +75,17 @@ uintmax_t calcFinalSize(Media& media, size_t maxFileSize) {
   return finalSize;
 }
 
-// this is weird and doesn't directly do what the function name suggests
-void removeTemp(Media& media) {
-  fmt::print("Audio Encoding completed.\n\n");
-  fs::rename(media.sound.temp, "temp.ogg");
-}
-
 string encodeAudio(Media& media, bool decreaseQuality) {
   auto settings = media.settings;
   auto options = media.options;
   string cmdOutput; 
 
   while (true) {
-    cmdOutput = encode(createCommand(media), media);
-    // Do the encoding
+    cmdOutput = encode(createCommand(media), media); // Note that doing an initial direct copy in embed would be better
     uintmax_t finalSize = calcFinalSize(media, MAX_FILE_POST_SIZE);
     // If we don't care about the limit
-    if (options.ignoreLimitEnabled()) {
-      // Then do the encoding once
-      // Note that in the future, this would be better as a direct copy rather than re-encoding.
+    if (options.ignoreLimitEnabled())
       break;
-    }
 
     // Else re-encode
     if (finalSize < MAX_FILE_POST_SIZE) {
