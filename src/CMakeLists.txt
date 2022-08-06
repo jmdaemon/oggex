@@ -3,6 +3,6 @@ make_ssl(
     NAME oggex
     HDRS ${HEADERS}
     SRCS oggex.cpp
-    DEPS fmt utility audio)
+    DEPS fmt utility)
 
 add_subdirectory(utility)

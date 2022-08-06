@@ -1,12 +1,12 @@
 #include "Data.h"
 
-Data createEmbedData(Audio::AudioData audio, const char* image, Options options) { 
-  return Data{ .audio = audio, .image = image, .options = options};
-}
+//Data createEmbedData(Audio::AudioData audio, const char* image, Options options) { 
+  //return Data{ .audio = audio, .image = image, .options = options};
+//}
 
-Data createExtractData(const char* image, Options options) {
-  return Data{ .image = image, .options = options};
-}
+//Data createExtractData(const char* image, Options options) {
+  //return Data{ .image = image, .options = options};
+//}
 
 void printSize(std::string key, std::string value, unsigned int leftPadding, unsigned int rightPadding) { 
   fmt::print("{:<{}} : {:<{}}\n", key, leftPadding, value, rightPadding);

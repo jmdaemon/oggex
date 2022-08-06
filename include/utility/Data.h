@@ -6,7 +6,8 @@
 #include <gmpxx.h>
 #include <bytesize.h>
 
-#include "Audio.h"
+//#include "Audio.h"
+#include <map>
 #include "Options.h"
 
 #include <cmath>
@@ -21,14 +22,14 @@
 
 struct Data {
   public:
-    Audio::AudioData audio{};
+    //Audio::AudioData audio{};
     //Image::ImageData image{};
     const char* image;
     Options options{};
 };
 
-Data createEmbedData(Audio::AudioData audio, const char* image, Options options);
-Data createExtractData(const char* image, Options options);
+//Data createEmbedData(Audio::AudioData audio, const char* image, Options options);
+//Data createExtractData(const char* image, Options options);
 
 void printSize(std::string key, std::string value, unsigned int leftPadding = 24, unsigned int rightPadding = 8);
 void printSize(Data& data, std::tuple<std::string, size_t> sizeTuple, unsigned int leftPadding, unsigned int rightPadding = 8);

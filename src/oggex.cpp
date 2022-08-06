@@ -94,7 +94,7 @@ void encodeImage(Media& media) {
   std::ifstream imageFileData(sound.dest, std::ifstream::in | std::ifstream::binary);
   std::ifstream audioFileData(sound.temp, std::ifstream::in | std::ifstream::binary);
 
-  outputFile << imageFileData.rdbuf() << formatSoundTag(sound.tag) << audioFileData.rdbuf();
+  outputFile << imageFileData.rdbuf() << "[" << sound.tag << "]" << audioFileData.rdbuf();
   outputFile.close();
   imageFileData.close();
   audioFileData.close();

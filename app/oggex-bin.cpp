@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
     //char *cstr = new char[audioFilename.length() + 1];
     //strcpy(cstr, audioFilename.c_str());
     //delete [] cstr;
-    Sound sound = {(char *)audioFilename.c_str(), (char*) imageFilename.c_str(), (char *) "", (char *) ""};
+    Sound sound = {(char *)audioFilename.c_str(), (char*) imageFilename.c_str(), (char *) "", (char *) "", (char *) soundTag.c_str()};
     Settings settings = { 10, false };
     //Data data = {sound, settings};
     Media media = {sound, settings};
