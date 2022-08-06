@@ -2,6 +2,8 @@
 #ifndef OGGEX_H
 #define OGGEX_H
 
+#include "media.h"
+
 #include <file.h>
 #include <command.h>
 #include "Audio.h"
@@ -37,18 +39,19 @@ static const char* ImageExtensions[] = {
 
 std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
 
-std::string createCommand(Data& data);
-std::string encode(const std::string cmd, Data& data);
+std::string createCommand(Media& media);
+std::string encode(const std::string cmd, Media& media);
 
-std::string encodeAudio(Data& data, bool decreaseQuality = false);
-void encodeImage(Data& data);
-int embed(Data& data);
+int embed(Media& media);
+std::string encodeAudio(Media& media, bool decreaseQuality = false);
+void encodeImage(Media& media);
 
-size_t getFileSize(Data& data, size_t offset = 0);
-std::string readFile(Data& data, size_t offset);
+//size_t getFileSize(Data& data, size_t offset = 0);
+//std::string readFile(Data& data, size_t offset);
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm = "OggS");
-std::string findSoundTag(Data& data, std::string fileData, size_t offset);
-int extract(Data data); 
+//std::string findSoundTag(Data& data, std::string fileData, size_t offset);
+std::string findSoundTag(Media& media, std::string fileData, size_t offset);
+int extract(Media& media); 
 
 
 #endif // OGGEX_H

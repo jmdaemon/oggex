@@ -1,8 +1,7 @@
 #include "oggex.h"
-#include "media.h"
 #include "InputParser.h"
 
-int main(int argc, char **argv) { 
+int main(int argc, char **argv) {
   InputParser input(argc, argv);
   if (input.argExists("-h") || input.argExists("--help")) {
     showUsage("oggex");

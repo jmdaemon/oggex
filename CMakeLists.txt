@@ -57,7 +57,7 @@ if(BUILD_TESTING)
     include(doctest)
     include(MakeTests)
     include(CTest)
-    add_subdirectory(test)
+    #add_subdirectory(test)
 endif()
 
 include(Install)
