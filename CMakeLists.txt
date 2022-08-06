@@ -23,6 +23,7 @@ endif()
 set( OGGEX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
 set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
 
+# Include CMake modules
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
 
 if (NO_COLOR)
@@ -43,18 +44,12 @@ include(Library)
 include(Utilities)
 include(fmt)
 include(utility)
-#include(logc)
 include(bytesize)
 include(cnc)
 
-# Set includes for libraries
+# Include header files
 set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
 set(HEADERS_VERSION "${PROJECT_BINARY_DIR}/include")
-
-set(CSTANDARD cxx_std_20)
-#set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
-set(UTILITY_DIR "${INCLUDES_DIR}/utility")
-set(AUDIO_DIR "${INCLUDES_DIR}/audio")
 
 # Add subdirectories
 add_subdirectory(resources)
@@ -73,6 +68,3 @@ include(Install)
 # Packages
 include(InstallRequiredSystemLibraries)
 include(Debian)
-
-# Define more direct uninstall target
-#add_custom_target(uninstall COMMAND xargs rm < ${CMAKE_CURRENT_BINARY_DIR}/install_manifest.txt)

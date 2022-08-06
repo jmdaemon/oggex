@@ -1,7 +1,6 @@
-#set(HEADERS ${AUDIO_DIR} ${UTILITY_DIR} ${HEADERS_CNC})
-set(HEADERS ${INCLUDES_DIR} ${UTILITY_DIR})
-
+set(HEADERS ${INCLUDES_DIR} ${INCLUDES_DIR}/utility)
 set(TARGET oggex)
+
 set(BIN_NAME oggex-bin)
 add_executable(${BIN_NAME} oggex-bin.cpp)
 target_include_directories(${BIN_NAME} PUBLIC ${HEADERS})

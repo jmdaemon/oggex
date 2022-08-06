@@ -1,4 +1,4 @@
-set(HEADERS ${INCLUDES_DIR} ${UTILITY_DIR} ${AUDIO_DIR})
+set(HEADERS ${INCLUDES_DIR} ${INCLUDES_DIR}/utility)
 
 # Add both shared and static library targets
 make_ssl(NAME image
