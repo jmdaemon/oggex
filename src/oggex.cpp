@@ -29,60 +29,49 @@ namespace fs = std::filesystem;
   //fmt::runtime("ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1")
 //}
 
-string createCommand(Media& media) {
-  //Audio::AudioData& audio = data.audio;
+string format_command(Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  string enableMono = (media.options.isMonoEnabled()) ? " -ac 1" : "";
-  string command = fmt::format(fmt::runtime("ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"),
-      string(sound.src), settings.quality, enableMono, sound.temp, sound.log);
+  auto mono_option = (media.options.isMonoEnabled()) ? " -ac 1" : "";
+  auto command = fmt::format(fmt::runtime(
+        "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
+        ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
   if (media.options.showVerboseEnabled()) {
     fmt::print("{}\n", command);
   }
   return command;
 }
 
-//string encode(const string cmd, Data& data) {
-string encode(const string cmd, Media& media) {
-  //Audio::AudioData& audio = data.audio;
+void encode(const string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  string monoAudioEnabled = (media.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
-  fmt::print("Encoding \"{}\" at quality = {} {}\n", string(sound.src), settings.quality, monoAudioEnabled);
-  /* Execute command */
+  auto use_mono_encoding = (media.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
+  fmt::print("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
-  /* Return temp audio file */
-  string result = dataToString(sound.temp, 0, file_size(sound.temp));
-  return result;
 }
 
-// This should be a function named size() thats available on the 
-// data structure that holds all the files
-//uintmax_t calcFinalSize(Data& data, size_t maxFileSize) {
-uintmax_t calcFinalSize(Media& media, size_t maxFileSize) {
-  auto sound = media.sound;
-  size_t tempFileSize   = file_size(sound.src);
-  size_t imageFileSize  = file_size(sound.dest);
-  size_t soundTagSize   = sizeof(sound.tag);
-  uintmax_t finalSize   = tempFileSize + imageFileSize + soundTagSize;
+uintmax_t embed_size(Sound& sound) {
+  size_t temp   = file_size(sound.src);
+  size_t image  = file_size(sound.dest);
+  size_t tag    = sizeof(sound.tag);
+  uintmax_t embed_size = temp + image + tag;
 
-  if (tempFileSize <= 0) {
+  if (temp <= 0) {
     fmt::print(stderr, "Error: encoding failed\n");
     throw exception();
   } 
 
-  //if (media.options.showVerboseEnabled()) { printEmbedSizes(data, maxFileSize, tempFileSize, imageFileSize, soundTagSize, finalSize); }
-  return finalSize;
+  return embed_size;
 }
 
-string encodeAudio(Media& media, bool decreaseQuality) {
+void encodeAudio(Media& media) {
   auto settings = media.settings;
   auto options = media.options;
   string cmdOutput; 
 
   while (true) {
-    cmdOutput = encode(createCommand(media), media); // Note that doing an initial direct copy in embed would be better
-    uintmax_t finalSize = calcFinalSize(media, MAX_FILE_POST_SIZE);
+    encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
+    uintmax_t finalSize = embed_size(media.sound);
     // If we don't care about the limit
     if (options.ignoreLimitEnabled())
       break;
@@ -90,17 +79,14 @@ string encodeAudio(Media& media, bool decreaseQuality) {
     // Else re-encode
     if (finalSize < MAX_FILE_POST_SIZE) {
       break;
-    } else if (decreaseQuality) {
-      if (settings.quality > 0)
+    } else if (settings.quality > 0) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
       fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
       throw exception();
     }
   }
-
   fmt::print("Audio Encoding completed.\n\n");
-  return cmdOutput;
 }
 
 //void encodeImage(Data& data) {

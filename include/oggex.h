@@ -39,11 +39,15 @@ static const char* ImageExtensions[] = {
 
 std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
 
-std::string createCommand(Media& media);
-std::string encode(const std::string cmd, Media& media);
+//std::string createCommand(Media& media);
+std::string format_command(Media& media);
+//std::string encode(const std::string cmd, Media& media);
+void encode(const std::string cmd, Media& media);
 
 int embed(Media& media);
-std::string encodeAudio(Media& media, bool decreaseQuality = false);
+//std::string encodeAudio(Media& media, bool decreaseQuality = false);
+//void encodeAudio(Media& media, bool decreaseQuality = false);
+void encodeAudio(Media& media);
 void encodeImage(Media& media);
 
 //size_t getFileSize(Data& data, size_t offset = 0);
