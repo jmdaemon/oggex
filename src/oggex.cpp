@@ -81,30 +81,35 @@ void removeTemp(Media& media) {
   fs::rename(media.sound.temp, "temp.ogg");
 }
 
-// rewrite without recursion (use while loop)
-// rewrite with less if statement branches
-//string encodeAudio(Data& data, bool decreaseQuality) {
 string encodeAudio(Media& media, bool decreaseQuality) {
-  //Audio::AudioData& audio = data.audio;
   auto settings = media.settings;
-  string cmdOutput      = encode(createCommand(media), media);
-  uintmax_t finalSize   = calcFinalSize(media, MAX_FILE_POST_SIZE);
+  auto options = media.options;
+  string cmdOutput; 
 
-  if (!media.options.ignoreLimitEnabled()) {
-    if (finalSize < MAX_FILE_POST_SIZE) { 
-      removeTemp(media);
-      return cmdOutput;
-    } else if (decreaseQuality) { 
-      if (settings.quality > 0) {
+  while (true) {
+    cmdOutput = encode(createCommand(media), media);
+    // Do the encoding
+    uintmax_t finalSize = calcFinalSize(media, MAX_FILE_POST_SIZE);
+    // If we don't care about the limit
+    if (options.ignoreLimitEnabled()) {
+      // Then do the encoding once
+      // Note that in the future, this would be better as a direct copy rather than re-encoding.
+      break;
+    }
+
+    // Else re-encode
+    if (finalSize < MAX_FILE_POST_SIZE) {
+      break;
+    } else if (decreaseQuality) {
+      if (settings.quality > 0)
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
-        encodeAudio(media);
-      }
     } else {
-        fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
-        throw exception();
-      }
-  } // Ignore file size limits
-  removeTemp(media);
+      fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
+      throw exception();
+    }
+  }
+
+  fmt::print("Audio Encoding completed.\n\n");
   return cmdOutput;
 }
 
