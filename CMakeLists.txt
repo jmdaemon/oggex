@@ -6,6 +6,10 @@ project(
     DESCRIPTION "Encode and decode ogg audio files in images" 
     LANGUAGES C CXX)
 
+# Logging
+set(ENABLE_LOGGING OFF CACHE INTERNAL "View the logging statements/debug info")
+set(LOG_LEVEL 0 CACHE INTERNAL "Enable only specific log levels")
+
 if (NOT COLOR)
     # Don't use colored output
 else()
