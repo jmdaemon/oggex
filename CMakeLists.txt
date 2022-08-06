@@ -20,9 +20,6 @@ if(EXISTS "${LOC_PATH}")
                         "remove CMakeCache.txt and CMakeFiles.")
 endif()
 
-set( OGGEX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
-set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
-
 # Include CMake modules
 set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
 
@@ -34,7 +31,7 @@ else()
 endif()
 
 # Single source project version
-configure_file (
+configure_file(
   "${PROJECT_SOURCE_DIR}/include/Version.h.in"
   "${PROJECT_BINARY_DIR}/include/Version.h")
 

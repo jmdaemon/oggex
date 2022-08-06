@@ -24,7 +24,7 @@ add_subdirectory("datamodel")
 add_subdirectory("embedwidget")
 add_subdirectory("mainwindow")
 
-set(QTUI_HEADERS_DIR "${OGGEX_SOURCE_DIR}/app/qt")
+set(QTUI_HEADERS_DIR "${PROJECT_SOURCE_DIR}/app/qt")
 set(HEADER_LIST "${QTUI_HEADERS_DIR}/embedwidget" "${QTUI_HEADERS_DIR}/mainwindow")
 
 # Build the main executable

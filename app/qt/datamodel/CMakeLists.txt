@@ -1,4 +1,4 @@
-set(HEADER_LIST "${OGGEX_SOURCE_DIR}/app/qt/datamodel")
+set(HEADER_LIST "${PROJECT_SOURCE_DIR}/app/qt/datamodel")
 set(TARGET datamodel)
 
 add_library(${TARGET})
@@ -14,6 +14,6 @@ target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
 target_compile_features(${TARGET} PUBLIC cxx_std_20)
 
 source_group(
-  TREE "${OGGEX_SOURCE_DIR}/app/qt"
+  TREE "${PROJECT_SOURCE_DIR}/app/qt"
   PREFIX "Header Files"
   FILES ${HEADER_LIST})

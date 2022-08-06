@@ -1,6 +1,6 @@
 set(HEADER_LIST
-    "${OGGEX_SOURCE_DIR}/app/qt/embedwidget"
-    "${OGGEX_SOURCE_DIR}/app/qt/datamodel")
+    "${PROJECT_SOURCE_DIR}/app/qt/embedwidget"
+    "${PROJECT_SOURCE_DIR}/app/qt/datamodel")
 set(TARGET embedwidget)
 
 add_library(${TARGET})
@@ -17,6 +17,6 @@ target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel)
 target_compile_features(${TARGET} PUBLIC cxx_std_20)
 
 source_group(
-  TREE "${OGGEX_SOURCE_DIR}/app/qt"
+  TREE "${PROJECT_SOURCE_DIR}/app/qt"
   PREFIX "Header Files"
   FILES ${HEADER_LIST})
