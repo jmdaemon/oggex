@@ -41,18 +41,9 @@ int main(int argc, char **argv) {
       {"Image", imageFilename},
       {"SoundTag", soundTag}
     };
-
-    //Sound sound = { audioFilename.c_str(), imageFilename.c_str(), "", "" };
-    //char *cstr = new char[audioFilename.length() + 1];
-    //strcpy(cstr, audioFilename.c_str());
-    //delete [] cstr;
     Sound sound = {(char *)audioFilename.c_str(), (char*) imageFilename.c_str(), (char *) "", (char *) "", (char *) soundTag.c_str()};
     Settings settings = { 10, false };
-    //Data data = {sound, settings};
     Media media = {sound, settings};
-
-    //Data data = createEmbedData( createAudioData(soundTag, audioFilename), imageFilename.c_str(), options );
-    //Data data = createEmbedData( createAudioData(soundTag, audioFilename), imageFilename.c_str(), options );
 
     if (options.showVerboseEnabled()) {
       fmt::print("\n================ Inputs ================\n");
@@ -73,7 +64,6 @@ int main(int argc, char **argv) {
     Settings settings = { 10, false };
     Media media = {sound, settings};
 
-    //Data data = createExtractData(imageFilename.c_str(), options );
     extract(media);
   } else 
       showUsage("oggex");
