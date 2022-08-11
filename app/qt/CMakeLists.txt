@@ -26,10 +26,29 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 # Include QT header directory to all targets
 include_directories(${QT_HEADERS})
 
-# Compile the needed individual components
-subdirs(datamodel embedwidget mainwindow)
+# Compile user interface components
+# *Note* that we must use qt6_wrap_cpp, since AUTOMOC doesn't detect
+# header files outside the current directory
 
-# Build the main executable
+## Data Model
+set(TARGET datamodel)
+qt6_wrap_cpp(HEADER ${QT_HEADERS}/datamodel.h)
+add_library(${TARGET} datamodel.cpp ${HEADER})
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
+
+## Embed Widget
+set(TARGET embedwidget)
+qt6_wrap_cpp(HEADER ${QT_HEADERS}/embedwidget.h)
+add_library(${TARGET} embedwidget.cpp embedwidget.ui ${HEADER})
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel)
+
+## Main Window
+set(TARGET mainwindow)
+qt6_wrap_cpp(HEADER ${QT_HEADERS}/mainwindow.h)
+add_library(${TARGET} mainwindow.cpp mainwindow.ui ${HEADER})
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget)
+
+## Binary
 set(TARGET oggex-qt)
 qt_add_executable(${TARGET} oggex-qt.cpp)
 
