@@ -1,10 +1,6 @@
 #include "oggex.h"
 
 // Helper Functions
-std::string dataToString(std::filesystem::path filepath, off_t beg, off_t end) { 
-  const std::string slice = read_slice(filepath.c_str(), beg, end);
-  return slice;
-}
 
 /**
   * TODO:
@@ -163,9 +159,9 @@ int extract(Media& media) {
   spdlog::debug("Audio File Size  : {}", audioFileSize);
   spdlog::debug("Audio File Offset: {}", audioOffset);
 
-  std::string embeddedFileData   = dataToString(image, 0, file_size(image));
+  std::string embeddedFileData   = read_file(image);
   std::string imageFileData      = read_slice(image, 0, audioOffset);
-  std::string audioContent       = dataToString(image, audioOffset, file_size(image));
+  std::string audioContent       = read_slice(image, audioOffset, file_size(image));
   std::string soundTag           = find_sound_tag(embeddedFileData, audioOffset); 
   if (soundTag.empty())
     return -1; 
