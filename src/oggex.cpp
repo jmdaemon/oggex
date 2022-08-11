@@ -114,7 +114,7 @@ size_t getOffset(std::filesystem::path filepath, const char* searchTerm) {
   return offset; 
 }
 
-std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
+std::string findSoundTag(std::string fileData, size_t offset) {
   auto tag = fileData.substr(0, offset);
   size_t endTag = tag.rfind("]"); 
   size_t startTag = tag.rfind("[");
@@ -151,7 +151,7 @@ int extract(Media& media) {
   std::string embeddedFileData   = dataToString(image, 0, file_size(image));
   std::string imageFileData      = read_slice(image, 0, audioOffset);
   std::string audioContent       = dataToString(image, audioOffset, file_size(image));
-  std::string soundTag           = findSoundTag(media, embeddedFileData, audioOffset); 
+  std::string soundTag           = findSoundTag(embeddedFileData, audioOffset); 
   if (soundTag.empty())
     return -1; 
   else

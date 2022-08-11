@@ -35,7 +35,7 @@ std::string format_command(Media& media);
 void encodeImage(Media& media);
 
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm = "OggS");
-std::string findSoundTag(Media& media, std::string fileData, size_t offset);
+std::string findSoundTag(std::string fileData, size_t offset);
 int extract(Media& media); 
 
 // Mask
