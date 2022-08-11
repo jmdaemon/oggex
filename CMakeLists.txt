@@ -36,13 +36,21 @@ configure_file(
   "${PROJECT_BINARY_DIR}/include/Version.h")
 
 # Include dependencies
+
+# CMake modules
 include(FetchContent)
-include(Library)
 include(Utilities)
+include(Library)
+
+# Third Party Libraries
 include(fmt)
 include(utility)
 include(bytesize)
 include(cnc)
+
+# Specify project dependencies
+# DEB_DEPENDS: Debian packages that provide the libraries the project depends upon
+set(DEB_DEPENDS libc)
 
 # Include header files
 set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
