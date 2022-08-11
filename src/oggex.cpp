@@ -78,7 +78,6 @@ void encodeAudio(Media& media) {
 
 void encodeImage(Media& media) {
   auto sound = media.sound;
-  auto settings = media.settings;
 
   if (!file_exists(sound.src)) { 
     spdlog::error("Image or Audio file does not exist or is being blocked");
