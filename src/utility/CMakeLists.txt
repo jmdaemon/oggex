@@ -1,3 +1,4 @@
+#set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${INCLUDES_DIR}/utility)
 set(HEADERS ${INCLUDES_DIR} ${INCLUDES_DIR}/utility)
 
 # Add both shared and static library targets
@@ -12,4 +13,4 @@ make_ssl(NAME cmd
     SRCS Data.cpp Cmd.cpp
     HDRS ${HEADERS}
     HDR ${UTILITY_DIR}/Cmd.h
-    DEPS fmt cnc bytesize)
+    DEPS fmt cnc utility bytesize)
