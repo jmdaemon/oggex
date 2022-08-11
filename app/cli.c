@@ -42,9 +42,11 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
     
     case 500:
       arguments->scale = 1000;
+      break;
 
     case 600:
       arguments->scale = 1024;
+      break;
 
     case ARGP_KEY_ARG:
       if (state->arg_num > 1)

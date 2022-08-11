@@ -2,15 +2,15 @@
 #ifndef OGGEX_CLI_H
 #define OGGEX_CLI_H
 
-//#include "media.h"
-#include "sound.h"
-//#include "Version.h"
-
 /* Support header include for C++ */
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+/* Third Party Libraries */
+#include "sound.h"
+
+/* Standard Library */
 #include <argp.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,10 +46,9 @@ static const struct argp_option options[] = {
 /** Used by main to communicate with parse_opt. */
 struct arguments {
   char *args[1]; /** from, to */
-  bool display_units;
+  bool readable;
   int verbose;
   int scale;
-  bool readable;
   Sound sound;
 };
 
