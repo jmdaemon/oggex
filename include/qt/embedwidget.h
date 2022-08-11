@@ -16,7 +16,7 @@ class EmbedWidget : public QWidget {
 private:
     Ui::EmbedWidget *ui;
     //QStandardItemModel* model;
-    DataModel* model;
+    //DataModel* model;
 
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
