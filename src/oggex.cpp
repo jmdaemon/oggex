@@ -21,7 +21,7 @@ std::string dataToString(std::filesystem::path filepath, off_t beg, off_t end) {
 std::string format_command(Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  auto mono_option = (media.options.isMonoEnabled()) ? " -ac 1" : "";
+  auto mono_option = (media.args.mono_encoding) ? " -ac 1" : "";
   auto command = fmt::format(fmt::runtime(
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
@@ -32,7 +32,7 @@ std::string format_command(Media& media) {
 void encode(const std::string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  auto use_mono_encoding = (media.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
+  auto use_mono_encoding = (media.args.mono_encoding) ? "In Mono Audio Channel" : "";
   spdlog::info("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
 }
@@ -53,14 +53,13 @@ uintmax_t embed_size(Sound& sound) {
 
 void encodeAudio(Media& media) {
   auto settings = media.settings;
-  auto options = media.options;
   std::string cmdOutput; 
 
   while (true) {
     encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
     uintmax_t finalSize = embed_size(media.sound);
     // If we don't care about the limit
-    if (options.ignoreLimitEnabled())
+    if (media.args.nolimit)
       break;
 
     // Else re-encode
@@ -85,8 +84,7 @@ void encodeImage(Media& media) {
     throw std::exception();
   } 
 
-  auto outputFileName = (media.options.outputFileEnabled()) ? 
-    std::filesystem::path(media.options.getOutputFile()) : std::filesystem::path(sound.dest); 
+  auto outputFileName = std::filesystem::path(sound.dest); 
   std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary);
   std::ifstream imageFileData(sound.dest, std::ifstream::in | std::ifstream::binary);
   std::ifstream audioFileData(sound.temp, std::ifstream::in | std::ifstream::binary);
@@ -159,8 +157,12 @@ int extract(Media& media) {
   spdlog::debug("Sound Tag Size   : {}, soundTag");
   spdlog::info("Extracting audio file as \"{}\"\n", soundTag);
 
-  auto audioFileName = (media.options.audioFileEnabled()) ?  sound.src : soundTag.c_str(); 
-  auto imageFileName = (media.options.imageFileEnabled()) ?  sound.dest : std::string(sound.dest) + ".png";
+  /** Output File Names
+    * The file names for extracted files should be:
+    * - audio: soundTag.ogg
+    * - image: sound.image (embedded file name with .png appended) */
+  auto audioFileName = soundTag.c_str(); 
+  auto imageFileName = std::string(sound.dest) + ".png";
 
   write_file(audioFileName, audioContent.c_str());
   write_file(imageFileName.c_str(), imageFileData.c_str());
