@@ -18,7 +18,7 @@
 // Third Party Libraries
 #include <file.h>
 #include <command.h>
-#include <fmt/core.h>
+#include <spdlog/fmt/bundled/core.h>
 
 /** Constants */
 

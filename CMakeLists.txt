@@ -43,7 +43,7 @@ include(Utilities)
 include(Library)
 
 # Third Party Libraries
-include(fmt)
+include(spdlog)
 include(utility)
 include(bytesize)
 include(cnc)
