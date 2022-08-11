@@ -40,6 +40,7 @@ static const struct argp_option options[] = {
   //{"format"   , 400, 0, 0, "Use either SI or binary unit sizes in logs", 0},
   {"si"     ,  500, 0,      0, "Display SI byte sizes", 0},
   {"bi"     ,  600, 0,      0, "Display binary byte sizes", 0},
+  {0}
 };
 
 /** Used by main to communicate with parse_opt. */
@@ -49,7 +50,7 @@ struct arguments {
   int verbose;
   int scale;
   bool readable;
-  struct Sound sound;
+  Sound sound;
 };
 
 /** Parse a single option. */
