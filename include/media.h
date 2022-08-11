@@ -2,7 +2,7 @@
 #ifndef OGGEX_MEDIA_H
 #define OGGEX_MEDIA_H
 
-#include "utility/Options.h"
+#include "Options.h"
 #include "sound.h"
 #include "cli.h"
 
