@@ -8,6 +8,9 @@ struct arguments set_default_args() {
   arguments.verbose = 0;
   arguments.scale = 1000;
   arguments.readable = false;
+  arguments.mono_encoding = false;
+
+  arguments.nolimit = false;
   return arguments;
 }
 
@@ -38,6 +41,14 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
 
     case 'r':
       arguments->readable = true;
+      break;
+
+    case 'm':
+      arguments->mono_encoding = true;
+      break;
+
+    case 'l':
+      arguments->nolimit = true;
       break;
     
     case 500:
