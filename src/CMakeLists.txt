@@ -1,8 +1,6 @@
-set(HEADERS ${INCLUDES_DIR}  ${INCLUDES_DIR}/utility)
+set(HEADERS ${INCLUDES_DIR})
 make_ssl(
     NAME oggex
     HDRS ${HEADERS}
     SRCS oggex.cpp
     DEPS fmt utility)
-
-add_subdirectory(utility)
