@@ -20,27 +20,18 @@ set(CMAKE_AUTORCC ON)
 #    endif()
 #endif()
 
+# QT6 libs must be available
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
+# Include QT header directory to all targets
 include_directories(${QT_HEADERS})
 
 # Compile the needed individual components
-add_subdirectory("datamodel")
-add_subdirectory("embedwidget")
-add_subdirectory("mainwindow")
-
+subdirs(datamodel embedwidget mainwindow)
 
 # Build the main executable
 set(TARGET oggex-qt)
 qt_add_executable(${TARGET} main.cpp)
 
-#qt6_wrap_cpp(mainwindow/mainwindow.cpp ${QT_HEADERS}/mainwindow.h)
-#qt6_wrap_ui(mainwindow/mainwindow.ui mainwindow/mainwindow.ui)
-
-#qt6_wrap_cpp(embedwidget/embedwidget.cpp ${QT_HEADERS}/embedwidget.h)
-#qt6_wrap_ui(embedwidget/embedwidget.ui embedwidget/embedwidget.ui)
-
 # Include necessary header files & link components
-#target_include_directories(${TARGET} PUBLIC ${QT_HEADERS} ./mainwindow ./embedwidget ./datamodel)
-target_include_directories(${TARGET} PUBLIC ${QT_HEADERS})
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget mainwindow)
