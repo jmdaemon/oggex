@@ -102,15 +102,28 @@ int embed(Media& media) {
   return 0;
 }
 
-size_t getOffset(std::filesystem::path filepath, const char* searchTerm) { 
-  off_t offset = dataToString(filepath, 0, file_size(filepath.c_str())).find(searchTerm);
-  if (file_size(filepath.c_str()) == offset) {
+/**
+  * TODO:
+  * find_offset() cannot support reading large files
+  * Requirements:
+  * - Should read a file in chunks
+  * - Should make use of gmp, mpfr libraries for bigger files. */
+size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm) { 
+  off_t end = file_size(filepath);
+  const std::string slice = read_slice(filepath.c_str(), 0, end);
+  off_t offset = slice.find(searchTerm);
+  if (offset == end) {
     spdlog::warn("Audio offset not found");
     offset = 0;
   }
   return offset; 
 }
 
+/** TODO: findSoundTag() cannot support reading large files (string is huge)
+  * Requirements:
+  * - Should read a file in chunks
+  * - Optionally should return array of sound tags (since there could be multiple sounds
+  * in one embedded file) */
 std::string findSoundTag(std::string fileData, size_t offset) {
   auto tag = fileData.substr(0, offset);
   size_t endTag = tag.rfind("]"); 
@@ -138,7 +151,7 @@ int extract(Media& media) {
   auto image = sound.dest;
 
   size_t embeddedFileSize   = file_size(image);
-  size_t audioOffset        = getOffset(image);
+  size_t audioOffset        = find_str_offset(image);
   size_t audioFileSize      = file_size(image) +  audioOffset;
 
   spdlog::debug("Embed File Size  : {}", embeddedFileSize);

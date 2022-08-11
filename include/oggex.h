@@ -21,20 +21,24 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/bundled/core.h>
 
-/** Constants */
+// Constants
 
 static const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
 
+// Helper Functions
 std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
 
+// Embed
 int embed(Media& media);
 
 void encodeAudio(Media& media);
 void encode(const std::string cmd, Media& media);
 std::string format_command(Media& media);
+
+// Extract
 void encodeImage(Media& media);
 
-size_t getOffset(std::filesystem::path filepath, const char* searchTerm = "OggS");
+size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm = "OggS");
 std::string findSoundTag(std::string fileData, size_t offset);
 int extract(Media& media); 
 
