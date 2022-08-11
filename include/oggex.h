@@ -4,8 +4,7 @@
 
 // Imports
 #include "media.h"
-//#include "Data.h"
-//#include "Cmd.h"
+#include "cli.h"
 
 // Standard Library
 #include <array>
