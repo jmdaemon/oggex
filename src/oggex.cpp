@@ -1,9 +1,29 @@
 #include "oggex.h"
 
+// Helper Functions
 std::string dataToString(std::filesystem::path filepath, off_t beg, off_t end) { 
   const std::string slice = read_slice(filepath.c_str(), beg, end);
   return slice;
 }
+
+/**
+  * TODO:
+  * find_offset() cannot support reading large files
+  * Requirements:
+  * - Should read a file in chunks
+  * - Should make use of gmp, mpfr libraries for bigger files. */
+size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm) { 
+  off_t end = file_size(filepath);
+  const std::string slice = read_slice(filepath.c_str(), 0, end);
+  off_t offset = slice.find(searchTerm);
+  if (offset == end) {
+    spdlog::warn("Audio offset not found");
+    offset = 0;
+  }
+  return offset; 
+}
+
+// Embed
 
 /**
   * FFmpeg command used:
@@ -102,29 +122,14 @@ int embed(Media& media) {
   return 0;
 }
 
-/**
-  * TODO:
-  * find_offset() cannot support reading large files
-  * Requirements:
-  * - Should read a file in chunks
-  * - Should make use of gmp, mpfr libraries for bigger files. */
-size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm) { 
-  off_t end = file_size(filepath);
-  const std::string slice = read_slice(filepath.c_str(), 0, end);
-  off_t offset = slice.find(searchTerm);
-  if (offset == end) {
-    spdlog::warn("Audio offset not found");
-    offset = 0;
-  }
-  return offset; 
-}
+// Extract
 
-/** TODO: findSoundTag() cannot support reading large files (string is huge)
+/** TODO: find_sound_tag() cannot support reading large files (string is huge)
   * Requirements:
   * - Should read a file in chunks
   * - Optionally should return array of sound tags (since there could be multiple sounds
   * in one embedded file) */
-std::string findSoundTag(std::string fileData, size_t offset) {
+std::string find_sound_tag(std::string fileData, size_t offset) {
   auto tag = fileData.substr(0, offset);
   size_t endTag = tag.rfind("]"); 
   size_t startTag = tag.rfind("[");
@@ -161,7 +166,7 @@ int extract(Media& media) {
   std::string embeddedFileData   = dataToString(image, 0, file_size(image));
   std::string imageFileData      = read_slice(image, 0, audioOffset);
   std::string audioContent       = dataToString(image, audioOffset, file_size(image));
-  std::string soundTag           = findSoundTag(embeddedFileData, audioOffset); 
+  std::string soundTag           = find_sound_tag(embeddedFileData, audioOffset); 
   if (soundTag.empty())
     return -1; 
   else
@@ -183,6 +188,7 @@ int extract(Media& media) {
   return 0;
 }
 
+// Mask
 std::array<char, 512> hashFile(std::array<char, 512> buffer, size_t count) {
   unsigned long long unmaskState = 0;
   std::array<char, 512> maskedBuffer;

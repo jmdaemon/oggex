@@ -28,6 +28,7 @@ static const char* OGG_ID_HEADER = "OggS"; // Audio ID header present in .ogg fi
 
 // Helper Functions
 std::string dataToString(std::filesystem::path filepath, off_t beg = 0, off_t end = 0);
+size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm);
 
 // Embed
 int embed(Media& media);
@@ -39,8 +40,7 @@ std::string format_command(Media& media);
 // Extract
 void encodeImage(Media& media);
 
-size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm);
-std::string findSoundTag(std::string fileData, size_t offset);
+std::string find_sound_tag(std::string fileData, size_t offset);
 int extract(Media& media); 
 
 // Mask
