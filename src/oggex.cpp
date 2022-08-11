@@ -151,7 +151,7 @@ int extract(Media& media) {
   auto image = sound.dest;
 
   size_t embeddedFileSize   = file_size(image);
-  size_t audioOffset        = find_str_offset(image);
+  size_t audioOffset        = find_str_offset(image, OGG_ID_HEADER);
   size_t audioFileSize      = file_size(image) +  audioOffset;
 
   spdlog::debug("Embed File Size  : {}", embeddedFileSize);
