@@ -44,6 +44,13 @@ qt6_wrap_ui(UI ${QT_UI}/embedwidget.ui)
 add_library(${TARGET} embedwidget.cpp ${HEADER} ${UI})
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel)
 
+## Home Widget
+set(TARGET homewidget)
+qt6_wrap_cpp(HEADER ${QT_HEADERS}/homewidget.h)
+qt6_wrap_ui(UI ${QT_UI}/homewidget.ui)
+add_library(${TARGET} homewidget.cpp ${HEADER} ${UI})
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
+
 ## Main Window
 set(TARGET mainwindow)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/mainwindow.h)
@@ -56,4 +63,4 @@ set(TARGET oggex-qt)
 qt_add_executable(${TARGET} oggex-qt.cpp)
 
 # Include necessary header files & link components
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget mainwindow)
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget mainwindow homewidget)
