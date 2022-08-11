@@ -2,22 +2,29 @@
 #include "doctest.h"
 #include "oggex.h"
 
-// Oggex Embed Audio Tests
-//using namespace std;
-//namespace fs = std::filesystem;
-
-//typedef struct Sample {
-  //std::string AUDIO_FILE;
-  //std::string IMAGE_FILE;
-  //std::string EMBED_FILE;
-  //std::string SOUND_TAG;
-//} Sample;
-
 // Samples
-const static std::string AUDIO_FILE  = "audio02.ogg";
-const static std::string IMAGE_FILE  = "835127a09fc542aeb3bfa99c9d91972d.png.png";
-const static std::string EMBED_FILE  = "835127a09fc542aeb3bfa99c9d91972d.png";
-const static std::string SOUND_TAG   = "audio02";
+const static std::string AUDIO_FILE = "audio02.ogg";
+const static std::string IMAGE_FILE = "835127a09fc542aeb3bfa99c9d91972d.png.png";
+const static std::string EMBED_FILE = "835127a09fc542aeb3bfa99c9d91972d.png";
+const static std::string SOUND_TAG  = "audio02";
+
+/**
+  * TODO:
+  * Tests needing to be written:
+  * - dataToString
+  * - format_command
+  * - embed_size
+  * - encode/encodeAudio
+  * - encodeImage
+  * - getOffset
+  * - findSoundTag
+  * - extract
+  */
+
+// Tests:
+//TEST_CASE("") { 
+//}
+
 
 //const static struct Sample samples = {
   //AUDIO_FILE, IMAGE_FILE, EMBED_FILE, SOUND_TAG
