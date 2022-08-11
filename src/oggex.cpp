@@ -25,9 +25,7 @@ std::string format_command(Media& media) {
   auto command = fmt::format(fmt::runtime(
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
-  if (media.options.showVerboseEnabled()) {
-    fmt::print("{}\n", command);
-  }
+  spdlog::debug("{}\n", command);
   return command;
 }
 
@@ -35,7 +33,7 @@ void encode(const std::string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
   auto use_mono_encoding = (media.options.isMonoEnabled()) ? "In Mono Audio Channel" : "";
-  fmt::print("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
+  spdlog::info("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
 }
 
@@ -46,7 +44,7 @@ uintmax_t embed_size(Sound& sound) {
   uintmax_t embed_size = temp + image + tag;
 
   if (temp <= 0) {
-    fmt::print(stderr, "Error: encoding failed\n");
+    spdlog::error("Error: encoding failed");
     throw std::exception();
   } 
 
@@ -71,11 +69,11 @@ void encodeAudio(Media& media) {
     } else if (settings.quality > 0) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
-      fmt::print("Audio file is too big (>4MiB), try running with -f or --fast\n");
+      spdlog::error("Audio file is too big (>4MiB), try running with -f or --fast\n");
       throw std::exception();
     }
   }
-  fmt::print("Audio Encoding completed.\n\n");
+  spdlog::info("Audio Encoding completed.\n\n");
 }
 
 void encodeImage(Media& media) {
@@ -83,7 +81,7 @@ void encodeImage(Media& media) {
   auto settings = media.settings;
 
   if (!file_exists(sound.src)) { 
-    fmt::print(stderr, "Image or Audio file does not exist or is being blocked\n");
+    spdlog::error("Image or Audio file does not exist or is being blocked");
     remove(sound.temp);
     throw std::exception();
   } 
@@ -110,7 +108,7 @@ int embed(Media& media) {
 size_t getOffset(std::filesystem::path filepath, const char* searchTerm) { 
   off_t offset = dataToString(filepath, 0, file_size(filepath.c_str())).find(searchTerm);
   if (file_size(filepath.c_str()) == offset) {
-    fmt::print(stderr, "Audio offset not found");
+    spdlog::warn("Audio offset not found");
     offset = 0;
   }
   return offset; 
@@ -121,14 +119,14 @@ std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
   size_t endTag = tag.rfind("]"); 
   size_t startTag = tag.rfind("[");
   if (endTag == std::string::npos || startTag == std::string::npos) {
-    fmt::print("Sound Tag not found.\n");
+    spdlog::warn("Sound Tag not found.\n");
     return "";
   }
   std::string unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
 
   std::string soundTag = "";
   if (!unstrippedTag.empty()) {
-    fmt::print(stderr, "Sound Tag was not found.");
+    spdlog::warn("Sound Tag was not found.");
     soundTag = unstrippedTag.substr(1,  unstrippedTag.length() - 2);
   }
 
@@ -162,7 +160,7 @@ int extract(Media& media) {
 
   // TODO: Show size of output files
   //if (media.options.showVerboseEnabled()) { printSize("Output Audio File", soundTag); }
-  fmt::print("Extracting audio file as \"{}\"\n", soundTag);
+  spdlog::info("Extracting audio file as \"{}\"\n", soundTag);
 
   //fs::path audioFileName = (media.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
   //fs::path imageFileName = (media.options.imageFileEnabled()) ?  fs::path(data.options.getImageFile()) : fs::path(image.string() + ".png");

@@ -12,15 +12,19 @@ int main(int argc, char **argv) {
   Settings settings = { 10, false };
   Media media = {sound, settings, arguments};
 
+  // Set logging level
+  if (arguments.verbose == 1)
+    spdlog::set_level(spdlog::level::trace);
+
   // Error checking
   if (!file_exists(sound.src))
-    fmt::print("{}", "You must provide a valid .ogg audio file.");
+    spdlog::error("{}", "You must provide a valid .ogg audio file.");
 
   if (!file_exists(sound.image))
-    fmt::print("{}", "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
+    spdlog::error("{}", "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
 
   if (sizeof(sound.tag) == 0)
-    fmt::print("{}", "You cannot have an empty sound tag");
+    spdlog::error("{}", "You cannot have an empty sound tag");
   
   // Handle commands
   if (strcmp(command, "embed") == 0)
