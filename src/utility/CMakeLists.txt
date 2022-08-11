@@ -9,8 +9,8 @@ set(HEADERS ${INCLUDES_DIR} ${INCLUDES_DIR}/utility)
     #HDR ${UTILITY_DIR}/Audio.h
     #DEPS fmt utility)
 
-make_ssl(NAME cmd
-    SRCS Data.cpp Cmd.cpp
-    HDRS ${HEADERS}
-    HDR ${UTILITY_DIR}/Cmd.h
-    DEPS fmt cnc utility bytesize)
+#make_ssl(NAME cmd
+    #SRCS Data.cpp Cmd.cpp
+    #HDRS ${HEADERS}
+    #HDR ${UTILITY_DIR}/Cmd.h
+    #DEPS fmt cnc utility bytesize)

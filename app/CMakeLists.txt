@@ -1,14 +1,10 @@
-#set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${HEADERS_UTILITY} ${INCLUDES_DIR}/utility)
-#set(HEADERS ${INCLUDES_DIR} ${OGGEX_BINARY_DIR}/include ${HEADERS_UTILITY} ${INCLUDES_DIR}/utility)
-#set(HEADERS ${INCLUDES_DIR} ${OGGEX_BINARY_DIR}/include ${HEADERS_UTILITY} ${INCLUDES_DIR}/utility)
 set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${HEADERS_UTILITY} ${INCLUDES_DIR}/utility)
-#set(HEADERS ${INCLUDES_DIR} build/gcc-debug-ninja/include ${HEADERS_UTILITY} ${INCLUDES_DIR}/utility)
 set(TARGET oggex)
 
 set(BIN_NAME oggex-bin)
 add_executable(${BIN_NAME} oggex-bin.cpp cli.c)
 target_include_directories(${BIN_NAME} PUBLIC ${HEADERS})
-target_link_libraries(${BIN_NAME} PRIVATE fmt utility oggex cmd cnc)
+target_link_libraries(${BIN_NAME} PRIVATE fmt utility oggex)
 
 # Rename binary executable without -bin suffix
 set_target_properties(${BIN_NAME} PROPERTIES OUTPUT_NAME ${TARGET})

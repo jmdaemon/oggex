@@ -125,14 +125,19 @@ std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
     return "";
   }
   std::string unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
-  std::string soundTag = (!isEmpty(unstrippedTag, "Sound Tag was not found.")) 
-    ?  unstrippedTag.substr(1,  unstrippedTag.length() - 2) : ""; 
 
-  if (media.options.showVerboseEnabled()) { 
-    fmt::print("\n================ Sound Tag ================\n");
-    printSize("Tag", unstrippedTag);
-    printSize("Stripped Tag", soundTag);
+  std::string soundTag = "";
+  if (!unstrippedTag.empty()) {
+    fmt::print(stderr, "Sound Tag was not found.");
+    soundTag = unstrippedTag.substr(1,  unstrippedTag.length() - 2);
   }
+
+  // TODO: Display sound tag
+  //if (media.options.showVerboseEnabled()) { 
+    //fmt::print("\n================ Sound Tag ================\n");
+    //printSize("Tag", unstrippedTag);
+    //printSize("Stripped Tag", soundTag);
+  //}
   return soundTag; 
 }
 
@@ -154,7 +159,9 @@ int extract(Media& media) {
     return -1; 
   } else 
       soundTag += ".ogg";
-  if (media.options.showVerboseEnabled()) { printSize("Output Audio File", soundTag); }
+
+  // TODO: Show size of output files
+  //if (media.options.showVerboseEnabled()) { printSize("Output Audio File", soundTag); }
   fmt::print("Extracting audio file as \"{}\"\n", soundTag);
 
   //fs::path audioFileName = (media.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
