@@ -31,7 +31,7 @@ subdirs(datamodel embedwidget mainwindow)
 
 # Build the main executable
 set(TARGET oggex-qt)
-qt_add_executable(${TARGET} main.cpp)
+qt_add_executable(${TARGET} oggex-qt.cpp)
 
 # Include necessary header files & link components
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget mainwindow)
