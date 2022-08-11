@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef OGGEX_MAINWINDOW_H
+#define OGGEX_MAINWINDOW_H
 
 #include <QMainWindow>
 #include <QPushButton>
@@ -19,4 +19,4 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 };
-#endif // MAINWINDOW_H
+#endif // OGGEX_MAINWINDOW_H

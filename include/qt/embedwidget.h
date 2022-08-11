@@ -1,5 +1,6 @@
-#ifndef EMBEDWIDGET_H
-#define EMBEDWIDGET_H
+#pragma once
+#ifndef OGGEX_EMBEDWIDGET_H
+#define OGGEX_EMBEDWIDGET_H
 
 #include <QWidget>
 #include <QStandardItem>
@@ -21,4 +22,4 @@ public:
     explicit EmbedWidget(QWidget *parent = nullptr);
     ~EmbedWidget();
 };
-#endif // EMBEDWIDGET_H
+#endif // OGGEX_EMBEDWIDGET_H

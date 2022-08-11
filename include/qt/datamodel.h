@@ -1,6 +1,6 @@
 #pragma once
-#ifndef DATAMODEL_H
-#define DATAMODEL_H
+#ifndef OGGEX_DATAMODEL_H
+#define OGGEX_DATAMODEL_H
 
 #include <QAbstractTableModel>
 
@@ -13,4 +13,4 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 };
 
-#endif // DATAMODEL_H
+#endif // OGGEX_DATAMODEL_H
