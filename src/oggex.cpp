@@ -130,12 +130,9 @@ std::string findSoundTag(Media& media, std::string fileData, size_t offset) {
     soundTag = unstrippedTag.substr(1,  unstrippedTag.length() - 2);
   }
 
-  // TODO: Display sound tag
-  //if (media.options.showVerboseEnabled()) { 
-    //fmt::print("\n================ Sound Tag ================\n");
-    //printSize("Tag", unstrippedTag);
-    //printSize("Stripped Tag", soundTag);
-  //}
+  spdlog::debug("Stripped  : {}", soundTag);
+  spdlog::debug("Unstripped: {}", unstrippedTag);
+
   return soundTag; 
 }
 
@@ -147,23 +144,22 @@ int extract(Media& media) {
   size_t audioOffset        = getOffset(image);
   size_t audioFileSize      = file_size(image) +  audioOffset;
 
-  //if (settings.options.showVerboseEnabled()) { printExtractSizes(data, embeddedFileSize, audioFileSize, audioOffset); }
+  spdlog::debug("Embed File Size  : {}", embeddedFileSize);
+  spdlog::debug("Audio File Size  : {}", audioFileSize);
+  spdlog::debug("Audio File Offset: {}", audioOffset);
 
   std::string embeddedFileData   = dataToString(image, 0, file_size(image));
   std::string imageFileData      = read_slice(image, 0, audioOffset);
   std::string audioContent       = dataToString(image, audioOffset, file_size(image));
   std::string soundTag           = findSoundTag(media, embeddedFileData, audioOffset); 
-  if (soundTag.empty()) {
+  if (soundTag.empty())
     return -1; 
-  } else 
-      soundTag += ".ogg";
+  else
+    soundTag += ".ogg";
 
-  // TODO: Show size of output files
-  //if (media.options.showVerboseEnabled()) { printSize("Output Audio File", soundTag); }
+  spdlog::debug("Sound Tag Size   : {}, soundTag");
   spdlog::info("Extracting audio file as \"{}\"\n", soundTag);
 
-  //fs::path audioFileName = (media.options.audioFileEnabled()) ?  fs::path(data.options.getAudioFile()) : soundTag.c_str(); 
-  //fs::path imageFileName = (media.options.imageFileEnabled()) ?  fs::path(data.options.getImageFile()) : fs::path(image.string() + ".png");
   auto audioFileName = (media.options.audioFileEnabled()) ?  sound.src : soundTag.c_str(); 
   auto imageFileName = (media.options.imageFileEnabled()) ?  sound.dest : std::string(sound.dest) + ".png";
 

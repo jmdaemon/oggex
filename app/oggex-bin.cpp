@@ -18,13 +18,13 @@ int main(int argc, char **argv) {
 
   // Error checking
   if (!file_exists(sound.src))
-    spdlog::error("{}", "You must provide a valid .ogg audio file.");
+    spdlog::error("You must provide a valid .ogg audio file.");
 
   if (!file_exists(sound.image))
-    spdlog::error("{}", "You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
+    spdlog::error("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
 
   if (sizeof(sound.tag) == 0)
-    spdlog::error("{}", "You cannot have an empty sound tag");
+    spdlog::error("You cannot have an empty sound tag");
   
   // Handle commands
   if (strcmp(command, "embed") == 0)
