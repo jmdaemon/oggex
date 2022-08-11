@@ -1,9 +1,9 @@
-# Include QT header files
+# Include QT header and ui files
 set(QT_HEADERS ${PROJECT_SOURCE_DIR}/include/qt)
+set(QT_UI ${PROJECT_SOURCE_DIR}/resources/qt)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
@@ -23,8 +23,9 @@ set(CMAKE_AUTORCC ON)
 # QT6 libs must be available
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-# Include QT header directory to all targets
+# Include all QT headers, ui files for all targets
 include_directories(${QT_HEADERS})
+include_directories(${QT_UI})
 
 # Compile user interface components
 # *Note* that we must use qt6_wrap_cpp, since AUTOMOC doesn't detect
@@ -39,13 +40,15 @@ target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
 ## Embed Widget
 set(TARGET embedwidget)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/embedwidget.h)
-add_library(${TARGET} embedwidget.cpp embedwidget.ui ${HEADER})
+qt6_wrap_ui(UI ${QT_UI}/embedwidget.ui)
+add_library(${TARGET} embedwidget.cpp ${HEADER} ${UI})
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel)
 
 ## Main Window
 set(TARGET mainwindow)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/mainwindow.h)
-add_library(${TARGET} mainwindow.cpp mainwindow.ui ${HEADER})
+qt6_wrap_ui(UI ${QT_UI}/mainwindow.ui)
+add_library(${TARGET} mainwindow.cpp ${HEADER} ${UI})
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget)
 
 ## Binary
