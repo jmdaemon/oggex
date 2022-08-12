@@ -10,7 +10,7 @@ HomeWidget::HomeWidget(QWidget *parent) :
     connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
 
     // Navigate to embedwindow when embedButton is clicked
-    connect(ui->embedButton, &QPushButton::clicked, this, [=]() {
+    connect(ui->embedButton, &QPushButton::clicked, this, [=, this]() {
         // Show embedPage
         ui->stackedWidget->setCurrentIndex(0);
     });
