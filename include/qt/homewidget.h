@@ -1,14 +1,14 @@
-#ifndef HOMEWIDGET_H
-#define HOMEWIDGET_H
+#pragma once
+#ifndef OGGEX_HOMEWIDGET_H
+#define OGGEX_HOMEWIDGET_H
 
 #include <QWidget>
 
 namespace Ui {
-class HomeWidget;
+  class HomeWidget;
 }
 
-class HomeWidget : public QWidget
-{
+class HomeWidget : public QWidget {
     Q_OBJECT
 
 public:
@@ -19,4 +19,4 @@ private:
     Ui::HomeWidget *ui;
 };
 
-#endif // HOMEWIDGET_H
+#endif // OGGEX_HOMEWIDGET_H

@@ -2,9 +2,10 @@
 #ifndef OGGEX_MAINWINDOW_H
 #define OGGEX_MAINWINDOW_H
 
+#include <QApplication>
 #include <QMainWindow>
-#include <QPushButton>
 #include <QObject>
+#include <QPushButton>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
