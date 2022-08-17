@@ -1,5 +1,4 @@
 #include "filechooser.h"
-#include "ui_filechooser.h"
 
 FileChooser::FileChooser(QWidget *parent)
     : QLineEdit(parent), ui(new Ui::FileChooser) {

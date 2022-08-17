@@ -2,7 +2,11 @@
 #ifndef OGGEX_HOMEWIDGET_H
 #define OGGEX_HOMEWIDGET_H
 
+// QT Widgets
 #include <QWidget>
+
+// QT UI File
+#include "ui_homewidget.h"
 
 namespace Ui {
   class HomeWidget;

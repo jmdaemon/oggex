@@ -2,13 +2,16 @@
 #ifndef OGGEX_EMBEDWIDGET_H
 #define OGGEX_EMBEDWIDGET_H
 
+// QT Widgets
 #include <QWidget>
-//#include <QStandardItem>
-//#include <QStandardItemModel>
-//#include <QString>
+#include <QFileDialog>
+
+// QT Components
 #include "datamodel.h"
 #include "filechooser.h"
-#include "ui_filechooser.h"
+
+// QT UI File
+#include "ui_embedwidget.h"
 
 namespace Ui { class EmbedWidget; }
 

@@ -2,13 +2,12 @@
 #ifndef QFILECHOOSER_H
 #define QFILECHOOSER_H
 
+// QT Widgets
 #include <QWidget>
 #include <QLineEdit>
 
 // QTUI File
-//#include "ui_filechooser.h"
-//#include "filechooser.h"
-//#include "ui_filechooser.h"
+#include "ui_filechooser.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class FileChooser; }
