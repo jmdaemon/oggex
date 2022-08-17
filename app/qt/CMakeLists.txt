@@ -37,30 +37,39 @@ qt6_wrap_cpp(HEADER ${QT_HEADERS}/datamodel.h)
 add_library(${TARGET} datamodel.cpp ${HEADER})
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
 
+## FileChooser
+set(TARGET filechooser)
+qt6_wrap_cpp(HEADER ${QT_HEADERS}/filechooser.h)
+qt6_wrap_ui(UI ${QT_UI}/qfilechooser.ui)
+add_library(${TARGET} filechooser.cpp ${HEADER} ${UI})
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
+
 ## Embed Widget
 set(TARGET embedwidget)
+#qt6_wrap_cpp(HEADER ${QT_HEADERS}/embedwidget.h ${QT_HEADERS}/filechooser.h)
+#qt6_wrap_ui(UI ${QT_UI}/embedwidget.ui ${QT_UI}/qfilechooser.ui)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/embedwidget.h)
 qt6_wrap_ui(UI ${QT_UI}/embedwidget.ui)
 add_library(${TARGET} embedwidget.cpp ${HEADER} ${UI})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel)
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel filechooser)
 
 ## Home Widget
 set(TARGET homewidget)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/homewidget.h)
 qt6_wrap_ui(UI ${QT_UI}/homewidget.ui)
 add_library(${TARGET} homewidget.cpp ${HEADER} ${UI})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets filechooser)
 
 ## Main Window
 set(TARGET mainwindow)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/mainwindow.h)
 qt6_wrap_ui(UI ${QT_UI}/mainwindow.ui)
 add_library(${TARGET} mainwindow.cpp ${HEADER} ${UI})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget)
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget filechooser)
 
 ## Binary
 set(TARGET oggex-qt)
 qt_add_executable(${TARGET} oggex-qt.cpp)
 
 # Include necessary header files & link components
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget mainwindow homewidget)
+target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel filechooser embedwidget mainwindow homewidget)
