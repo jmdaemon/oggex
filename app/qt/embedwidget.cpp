@@ -1,8 +1,9 @@
 #include "embedwidget.h"
-#include "filechooser.h"
+//#include "filechooser.h"
 
+//#include "ui_filechooser.h"
 #include "ui_embedwidget.h"
-#include "ui_qfilechooser.h"
+//#include "ui_qfilechooser.h"
 //#include "ui_filechooser.h"
 
 #include <QFileDialog>

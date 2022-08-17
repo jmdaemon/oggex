@@ -40,7 +40,7 @@ target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
 ## FileChooser
 set(TARGET filechooser)
 qt6_wrap_cpp(HEADER ${QT_HEADERS}/filechooser.h)
-qt6_wrap_ui(UI ${QT_UI}/qfilechooser.ui)
+qt6_wrap_ui(UI ${QT_UI}/filechooser.ui)
 add_library(${TARGET} filechooser.cpp ${HEADER} ${UI})
 target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
 

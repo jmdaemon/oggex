@@ -163,7 +163,7 @@
   <customwidget>
    <class>FileChooser</class>
    <extends>QLineEdit</extends>
-   <header>ui_qfilechooser.h</header>
+   <header>filechooser.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

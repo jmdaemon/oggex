@@ -3,10 +3,12 @@
 #define OGGEX_EMBEDWIDGET_H
 
 #include <QWidget>
-#include <QStandardItem>
-#include <QStandardItemModel>
-#include <QString>
+//#include <QStandardItem>
+//#include <QStandardItemModel>
+//#include <QString>
 #include "datamodel.h"
+#include "filechooser.h"
+#include "ui_filechooser.h"
 
 namespace Ui { class EmbedWidget; }
 
@@ -19,5 +21,6 @@ private:
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
     ~EmbedWidget();
+    void browse(QString prompt);
 };
 #endif // OGGEX_EMBEDWIDGET_H
