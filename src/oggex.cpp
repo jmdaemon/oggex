@@ -35,9 +35,9 @@ void encode(const std::string cmd, Media& media) {
 }
 
 uintmax_t embed_size(Sound& sound) {
-  size_t temp   = file_size(sound.src);
-  size_t image  = file_size(sound.dest);
-  size_t tag    = sizeof(sound.tag);
+  auto temp   = file_size(sound.src);
+  auto image  = file_size(sound.dest);
+  auto tag    = sizeof(sound.tag);
   uintmax_t embed_size = temp + image + tag;
 
   if (temp <= 0) {
@@ -53,7 +53,7 @@ void encodeAudio(Media& media) {
 
   while (true) {
     encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
-    uintmax_t finalSize = embed_size(media.sound);
+    auto finalSize = embed_size(media.sound);
     // If we don't care about the limit
     if (media.args.nolimit)
       break;
@@ -103,13 +103,13 @@ int embed(Media& media) {
   * in one embedded file) */
 std::string find_sound_tag(std::string fileData, size_t offset) {
   auto tag = fileData.substr(0, offset);
-  size_t endTag = tag.rfind("]"); 
-  size_t startTag = tag.rfind("[");
+  auto endTag = tag.rfind("]"); 
+  auto startTag = tag.rfind("[");
   if (endTag == std::string::npos || startTag == std::string::npos) {
     spdlog::warn("Sound Tag not found.\n");
     return "";
   }
-  std::string unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
+  auto unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
 
   std::string soundTag = "";
   if (!unstrippedTag.empty()) {
@@ -127,9 +127,9 @@ int extract(Media& media) {
   auto sound = media.sound;
   auto image = sound.dest;
 
-  size_t embeddedFileSize   = file_size(image);
-  size_t audioOffset        = find_str_offset(image, OGG_ID_HEADER);
-  size_t audioFileSize      = file_size(image) +  audioOffset;
+  auto embeddedFileSize   = file_size(image);
+  auto audioOffset        = find_str_offset(image, OGG_ID_HEADER);
+  auto audioFileSize      = file_size(image) +  audioOffset;
 
   spdlog::debug("Embed File Size  : {}", embeddedFileSize);
   spdlog::debug("Audio File Size  : {}", audioFileSize);
