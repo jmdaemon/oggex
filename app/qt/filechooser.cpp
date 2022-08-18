@@ -30,17 +30,17 @@ void FileChooser::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 // Slots
-
-// TODO:
-// - Add option to shorten file paths to just file names.
 void FileChooser::browse(QString prompt, QString filetypes, QString dir, bool shortpaths) {
     qDebug("Opening File Chooser Dialog");
     auto fileName = QFileDialog::getOpenFileName(this, prompt, dir, filetypes);
 
     if (!fileName.isEmpty()) {
         qDebug() << "Selected: " << fileName;
+
+        // Truncate the path and display just the file name
         if (shortpaths) {
-            QFile file = fileName;
+            QFileInfo file(fileName);
+            qDebug() << "File: " << file.fileName();
             this->setText(file.fileName());
         }
     }
