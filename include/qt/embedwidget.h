@@ -22,7 +22,7 @@ private:
     Ui::EmbedWidget *ui;
     
 public slots:
-    void browse(QString prompt, QString filetypes);
+    void browse(FileChooser* fc, QString prompt, QString filetypes);
 
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);

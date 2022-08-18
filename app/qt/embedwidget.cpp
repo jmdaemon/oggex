@@ -45,7 +45,7 @@ EmbedWidget::EmbedWidget(QWidget *parent)
 
     connect(ui->le_image, &FileChooser::clicked, this, [this]() {
     //connect(ui->le_image, &FileChooser::focus, this, [this]() {
-            browse("Open Image", "Image Files (*.png *.jpg *.bmp)");
+            browse(ui->le_image, "Open Image", "Image Files (*.png *.jpg *.bmp)");
         });
 }
 
@@ -64,7 +64,7 @@ bool EmbedWidget::eventFilter(QObject* object, QEvent* event) {
         // bring up your custom edit
         qInfo("Running browse()");
         //browse(ui->lbl_image->text(), "Image Files (*.png *.jpg *.bmp)");
-        browse("Open Image", "Image Files (*.png *.jpg *.bmp)");
+        browse(ui->le_image, "Open Image", "Image Files (*.png *.jpg *.bmp)");
         return true;
         //return false; // lets the event continue to the edit
     }
@@ -72,7 +72,7 @@ bool EmbedWidget::eventFilter(QObject* object, QEvent* event) {
     return false;
 }
 
-void EmbedWidget::browse(QString prompt, QString filetypes) {
+void EmbedWidget::browse(FileChooser* fc, QString prompt, QString filetypes) {
     //QString directory = QFileDialog::getExistingDirectory(this, prompt, QDir::currentPath());
     //auto directory = QFileDialog::getExistingDirectory(this, prompt, QDir::currentPath());
     auto fileName = QFileDialog::getOpenFileName(this, prompt, "~", filetypes);
@@ -83,7 +83,8 @@ void EmbedWidget::browse(QString prompt, QString filetypes) {
     if (!fileName.isEmpty()) {
         qInfo() << "fileName: " << fileName;
         //ui->lbl_image->setText(directory);
-        ui->lbl_image->setText(fileName);
+        //ui->le_image->setText(fileName);
+        fc->setText(fileName);
         //if (directoryComboBox->findText(directory) == -1)
             //directoryComboBox->addItem(directory);
         //directoryComboBox->setCurrentIndex(directoryComboBox->findText(directory));
