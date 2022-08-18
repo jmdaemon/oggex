@@ -1,24 +1,5 @@
 #include "oggex.h"
 
-// Helper Functions
-
-/**
-  * TODO:
-  * find_offset() cannot support reading large files
-  * Requirements:
-  * - Should read a file in chunks
-  * - Should make use of gmp, mpfr libraries for bigger files. */
-size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm) { 
-  off_t end = file_size(filepath);
-  const std::string slice = read_slice(filepath.c_str(), 0, end);
-  off_t offset = slice.find(searchTerm);
-  if (offset == end) {
-    spdlog::warn("Audio offset not found");
-    offset = 0;
-  }
-  return offset; 
-}
-
 // Embed
 
 /**

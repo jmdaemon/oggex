@@ -26,9 +26,6 @@
 static const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
 static const char* OGG_ID_HEADER = "OggS"; // Audio ID header present in .ogg files
 
-// Helper Functions
-size_t find_str_offset(std::filesystem::path filepath, const char* searchTerm);
-
 // Embed
 int embed(Media& media);
 
