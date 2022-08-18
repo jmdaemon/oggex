@@ -20,10 +20,13 @@ class EmbedWidget : public QWidget {
 
 private:
     Ui::EmbedWidget *ui;
+    
+public slots:
+    void browse(QString prompt, QString filetypes);
 
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
+    bool eventFilter(QObject* object, QEvent* event);
     ~EmbedWidget();
-    void browse(QString prompt);
 };
 #endif // OGGEX_EMBEDWIDGET_H
