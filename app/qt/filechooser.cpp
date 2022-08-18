@@ -30,6 +30,10 @@ void FileChooser::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 // Slots
+
+// TODO:
+// - Add option to shorten file paths to just file names.
+// - Add feature to remember/reopen session directories.
 void FileChooser::browse(QString prompt, QString filetypes) {
     //QString directory = QFileDialog::getExistingDirectory(this, prompt, QDir::currentPath());
     //auto directory = QFileDialog::getExistingDirectory(this, prompt, QDir::currentPath());

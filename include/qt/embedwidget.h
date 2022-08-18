@@ -20,11 +20,8 @@ class EmbedWidget : public QWidget {
 private:
     Ui::EmbedWidget *ui;
     
-//public slots:
-
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
-    bool eventFilter(QObject* object, QEvent* event);
     ~EmbedWidget();
 };
 #endif // OGGEX_EMBEDWIDGET_H
