@@ -11,6 +11,8 @@ FileChooser::~FileChooser() {
 }
 
 // Signals
+
+// Focus
 void FileChooser::focusInEvent(QFocusEvent *e) {
     QLineEdit::focusInEvent(e);
     emit(focus(true));
@@ -21,12 +23,28 @@ void FileChooser::focusOutEvent(QFocusEvent *e) {
     emit(focus(false));
 }
 
-//void FileChooser::click(QMouseEvent *e) {
+// Mouse Click
 void FileChooser::mouseReleaseEvent(QMouseEvent *e) {
-    //QPushButton::mouseDoubleClickEvent(e);
-    //QPushButton::(e);
-    //QPushButton::clicked(e);
-    //QWidget::mouseDoubleClickEvent(e);
     QLineEdit::mouseReleaseEvent(e);
     emit(clicked(true));
+}
+
+// Slots
+void FileChooser::browse(QString prompt, QString filetypes) {
+    //QString directory = QFileDialog::getExistingDirectory(this, prompt, QDir::currentPath());
+    //auto directory = QFileDialog::getExistingDirectory(this, prompt, QDir::currentPath());
+    auto fileName = QFileDialog::getOpenFileName(this, prompt, "~", filetypes);
+    qInfo("Selecting file");
+
+    // We select a file
+    //if (!directory.isEmpty()) {
+    if (!fileName.isEmpty()) {
+        qInfo() << "fileName: " << fileName;
+        //ui->lbl_image->setText(directory);
+        //ui->le_image->setText(fileName);
+        this->setText(fileName);
+        //if (directoryComboBox->findText(directory) == -1)
+            //directoryComboBox->addItem(directory);
+        //directoryComboBox->setCurrentIndex(directoryComboBox->findText(directory));
+    }
 }

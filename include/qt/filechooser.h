@@ -5,7 +5,7 @@
 // QT Widgets
 #include <QWidget>
 #include <QLineEdit>
-#include <QPushButton>
+#include <QFileDialog>
 
 // QTUI File
 #include "ui_filechooser.h"
@@ -23,25 +23,20 @@ private:
 public:
     explicit FileChooser(QWidget *parent = nullptr);
     ~FileChooser();
-    //void mouseReleaseEvent(QMouseEvent *e) override {
-        ////setText("I have been clicked!");//you can change the text here directly on click
-        ////QLabel::mouseReleaseEvent(ev);
-      //QLineEdit::mouseReleaseEvent(e);
-        //emit clicked();//or you can emit a signal, and use it elsewhere
-    //}
 
 signals:
     void clicked(bool wasClicked);
     void focus(bool hasFocus);
 
 protected:
-  //virtual void click(QMouseEvent *e);
   virtual void mouseReleaseEvent(QMouseEvent *e);
   virtual void focusInEvent(QFocusEvent *e);
   virtual void focusOutEvent(QFocusEvent *e);
 
-//public slots:
+public slots:
     //void clicked();
+    //void browse(FileChooser* fc, QString prompt, QString filetypes);
+    void browse(QString prompt, QString filetypes);
 
 };
 

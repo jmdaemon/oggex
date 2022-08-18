@@ -4,7 +4,6 @@
 
 // QT Widgets
 #include <QWidget>
-#include <QFileDialog>
 
 // QT Components
 #include "datamodel.h"
@@ -21,8 +20,7 @@ class EmbedWidget : public QWidget {
 private:
     Ui::EmbedWidget *ui;
     
-public slots:
-    void browse(FileChooser* fc, QString prompt, QString filetypes);
+//public slots:
 
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
