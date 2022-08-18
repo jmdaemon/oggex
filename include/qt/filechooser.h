@@ -34,7 +34,7 @@ protected:
   virtual void focusOutEvent(QFocusEvent *e);
 
 public slots:
-    void browse(QString prompt, QString filetypes);
+    void browse(QString prompt, QString filetypes, QString dir);
 
 };
 

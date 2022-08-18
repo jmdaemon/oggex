@@ -6,7 +6,7 @@ EmbedWidget::EmbedWidget(QWidget *parent)
     ui->setupUi(this);
 
     connect(ui->le_image, &FileChooser::clicked, this, [this]() {
-            ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)");
+            ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)", "~");
         });
 }
 
