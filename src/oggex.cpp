@@ -69,7 +69,6 @@ uintmax_t embed_size(Sound& sound) {
 
 void encodeAudio(Media& media) {
   auto settings = media.settings;
-  std::string cmdOutput; 
 
   while (true) {
     encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
@@ -98,16 +97,13 @@ void encodeImage(Media& media) {
     spdlog::error("Image or Audio file does not exist or is being blocked");
     remove(sound.temp);
     throw std::exception();
-  } 
+  }
 
-  std::ofstream dest(sound.dest, std::ifstream::out | std::ifstream::binary);
-  std::ifstream image(sound.image, std::ifstream::in | std::ifstream::binary);
-  std::ifstream audio(sound.temp, std::ifstream::in | std::ifstream::binary);
+  auto tag = "[" + std::string(sound.tag) + "]";
+  append_file(sound.image, sound.dest);
+  append_file(sound.temp, sound.dest);
+  write_file(sound.dest, tag.c_str(), "a");
 
-  dest << image.rdbuf() << "[" << sound.tag << "]" << audio.rdbuf();
-  dest.close();
-  image.close();
-  audio.close();
   remove(sound.temp);
 }
 
@@ -177,8 +173,8 @@ int extract(Media& media) {
   auto audioFileName = soundTag.c_str(); 
   auto imageFileName = std::string(sound.dest) + ".png";
 
-  write_file(audioFileName, audioContent.c_str());
-  write_file(imageFileName.c_str(), imageFileData.c_str());
+  write_file(audioFileName, audioContent.c_str(), "w");
+  write_file(imageFileName.c_str(), imageFileData.c_str(), "w");
 
   return 0;
 }
