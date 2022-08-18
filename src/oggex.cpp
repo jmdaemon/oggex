@@ -100,15 +100,14 @@ void encodeImage(Media& media) {
     throw std::exception();
   } 
 
-  auto outputFileName = std::filesystem::path(sound.dest); 
-  std::ofstream outputFile(outputFileName, std::ifstream::out | std::ifstream::binary);
-  std::ifstream imageFileData(sound.dest, std::ifstream::in | std::ifstream::binary);
-  std::ifstream audioFileData(sound.temp, std::ifstream::in | std::ifstream::binary);
+  std::ofstream dest(sound.dest, std::ifstream::out | std::ifstream::binary);
+  std::ifstream image(sound.image, std::ifstream::in | std::ifstream::binary);
+  std::ifstream audio(sound.temp, std::ifstream::in | std::ifstream::binary);
 
-  outputFile << imageFileData.rdbuf() << "[" << sound.tag << "]" << audioFileData.rdbuf();
-  outputFile.close();
-  imageFileData.close();
-  audioFileData.close();
+  dest << image.rdbuf() << "[" << sound.tag << "]" << audio.rdbuf();
+  dest.close();
+  image.close();
+  audio.close();
   remove(sound.temp);
 }
 
