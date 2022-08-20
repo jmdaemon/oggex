@@ -124,39 +124,39 @@ std::string find_sound_tag(std::string fileData, size_t offset) {
 }
 
 int extract(Media& media) {
-  auto sound = media.sound;
-  auto imagepath = sound.dest;
+  auto msound = media.sound;
+  auto imagepath = msound.dest;
 
-  // Sizes of embed file, sound tag offset position, sound file
+  // Sizes of embed file, sound file offset position, sound file
   auto s_embed   = file_size(imagepath);
   auto s_offset  = find_str_offset(imagepath, OGG_ID_HEADER);
   auto s_sound   = file_size(imagepath) + s_offset;
 
   spdlog::debug("Embed File Size  : {}", s_embed);
   spdlog::debug("Sound File Size  : {}", s_sound);
-  spdlog::debug("Sound Tag Offset : {}", s_offset);
+  spdlog::debug("Sound File Offset : {}", s_offset);
 
-  std::string embeddedFileData   = read_file(imagepath);
-  std::string imageFileData      = read_slice(imagepath, 0, s_offset);
-  std::string audioContent       = read_slice(imagepath, s_offset, file_size(imagepath));
-  std::string soundTag           = find_sound_tag(embeddedFileData, s_offset); 
-  if (soundTag.empty())
+  std::string embed = read_file(imagepath);
+  std::string image = read_slice(imagepath, 0, s_offset);
+  std::string sound = read_slice(imagepath, s_offset, file_size(imagepath));
+  std::string tag   = find_sound_tag(embed, s_offset); 
+  if (tag.empty())
     return -1; 
   else
-    soundTag += ".ogg";
+    tag += ".ogg";
 
-  spdlog::debug("Sound Tag Size   : {}, soundTag");
-  spdlog::info("Extracting audio file as \"{}\"\n", soundTag);
+  spdlog::debug("Sound Tag Size   : {}", tag);
+  spdlog::info("Extracting audio file as \"{}\"\n", tag);
 
   /** Output File Names
     * The file names for extracted files should be:
     * - audio: soundTag.ogg
     * - image: sound.image (embedded file name with .png appended) */
-  auto audioFileName = soundTag.c_str(); 
-  auto imageFileName = std::string(sound.dest) + ".png";
+  auto audioFileName = tag.c_str(); 
+  auto imageFileName = std::string(msound.dest) + ".png";
 
-  write_file(audioFileName, audioContent.c_str(), "w");
-  write_file(imageFileName.c_str(), imageFileData.c_str(), "w");
+  write_file(audioFileName, sound.c_str(), "w");
+  write_file(imageFileName.c_str(), image.c_str(), "w");
 
   return 0;
 }
