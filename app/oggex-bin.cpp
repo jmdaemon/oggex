@@ -17,10 +17,10 @@ int main(int argc, char **argv) {
     spdlog::set_level(spdlog::level::trace);
 
   // Error checking
-  if (!file_exists(sound.src))
+  if (sound.src != nullptr && !file_exists(sound.src))
     spdlog::error("You must provide a valid .ogg audio file.");
 
-  if (!file_exists(sound.image))
+  if (sound.image != nullptr && !file_exists(sound.image))
     spdlog::error("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
 
   if (sizeof(sound.tag) == 0)
