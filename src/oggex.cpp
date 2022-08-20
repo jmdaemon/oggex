@@ -125,19 +125,19 @@ std::string find_sound_tag(std::string fileData, size_t offset) {
 
 int extract(Media& media) {
   auto sound = media.sound;
-  auto image = sound.dest;
+  auto imagepath = sound.dest;
 
-  auto embeddedFileSize   = file_size(image);
-  auto audioOffset        = find_str_offset(image, OGG_ID_HEADER);
-  auto audioFileSize      = file_size(image) +  audioOffset;
+  auto embeddedFileSize   = file_size(imagepath);
+  auto audioOffset        = find_str_offset(imagepath, OGG_ID_HEADER);
+  auto audioFileSize      = file_size(imagepath) +  audioOffset;
 
   spdlog::debug("Embed File Size  : {}", embeddedFileSize);
   spdlog::debug("Audio File Size  : {}", audioFileSize);
   spdlog::debug("Audio File Offset: {}", audioOffset);
 
-  std::string embeddedFileData   = read_file(image);
-  std::string imageFileData      = read_slice(image, 0, audioOffset);
-  std::string audioContent       = read_slice(image, audioOffset, file_size(image));
+  std::string embeddedFileData   = read_file(imagepath);
+  std::string imageFileData      = read_slice(imagepath, 0, audioOffset);
+  std::string audioContent       = read_slice(imagepath, audioOffset, file_size(imagepath));
   std::string soundTag           = find_sound_tag(embeddedFileData, audioOffset); 
   if (soundTag.empty())
     return -1; 
