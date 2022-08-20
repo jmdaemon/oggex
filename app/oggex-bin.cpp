@@ -16,20 +16,20 @@ int main(int argc, char **argv) {
   if (arguments.verbose == 1)
     spdlog::set_level(spdlog::level::trace);
 
-  // Error checking
-  if (sound.src != nullptr && !file_exists(sound.src))
-    spdlog::error("You must provide a valid .ogg audio file.");
-
+  // An image path must always be provided
   if (sound.image != nullptr && !file_exists(sound.image))
     spdlog::error("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
-
-  if (sizeof(sound.tag) == 0)
-    spdlog::error("You cannot have an empty sound tag");
   
   // Handle commands
-  if (strcmp(command, "embed") == 0)
+  if (strcmp(command, "embed") == 0) {
+    if (sound.src != nullptr && !file_exists(sound.src))
+      spdlog::error("You must provide a valid .ogg audio file.");
+
+    if (sizeof(sound.tag) == 0)
+      spdlog::error("You cannot have an empty sound tag");
+
     embed(media);
-  else if (strcmp(command, "extract") == 0)
+  } else if (strcmp(command, "extract") == 0)
     extract(media);
 
   return 0;
