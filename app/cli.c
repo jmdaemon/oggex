@@ -32,7 +32,7 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
       break;
 
     case 'i':
-      arguments->sound.dest = arg;
+      arguments->sound.image = arg;
       break;
 
     case 't':

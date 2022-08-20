@@ -125,7 +125,9 @@ std::string find_sound_tag(std::string fileData, size_t offset) {
 
 int extract(Media& media) {
   auto msound = media.sound;
-  auto imagepath = msound.dest;
+  auto imagepath = msound.image;
+
+  spdlog::debug("Embedded File Path: {}", msound.image);
 
   // Sizes of embed file, sound file offset position, sound file
   auto s_embed   = file_size(imagepath);
