@@ -109,9 +109,7 @@ int main(int argc, char **argv) {
   //SPDLOG_LOGGER_DEBUG(library::logger_name, "sound.image : {}", sound.image);
   //SPDLOG_LOGGER_DEBUG(library::logger_name, "sound.dest  : {}", sound.dest);
 
-  //if (sound.image != NULL || !file_exists(sound.image))
-  extract(media);
-  if (sound.image != nullptr || !file_exists(sound.image)) {
+  if (sound.image == nullptr || !file_exists(sound.image)) {
     SPDLOG_ERROR("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
     exit(-1);
   }
@@ -121,7 +119,7 @@ int main(int argc, char **argv) {
   // Handle commands
   if (strcmp(command, "embed") == 0) {
     //if (sound.src != nullptr && !file_exists(sound.src))
-    if (sound.src != NULL || !file_exists(sound.src)) {
+    if (sound.src == NULL || !file_exists(sound.src)) {
       SPDLOG_ERROR("You must provide a valid .ogg audio file.");
       exit(-1);
     }
