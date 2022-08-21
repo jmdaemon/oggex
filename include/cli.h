@@ -33,9 +33,9 @@ static const char args_doc[] = "[embed/extract] [options]";
 static const struct argp_option options[] = {
   {"version"  , 'V', 0, 0, "Show program version", 0},
   {"verbose"  , 'v', 0, 0, "Display program output and debugging information", 0},
-  {"audio"    , 'a', 0, 0, "Sound file path", 0},
-  {"image"    , 'i', 0, 0, "Image file path", 0},
-  {"tag"      , 't', 0, 0, "Sound tag caption", 0},
+  {"audio"    , 'a', "Sound file path", 0},
+  {"image"    , 'i', "Image file path", 0},
+  {"tag"      , 't', "Sound tag caption", 0},
   {"readable" , 'r', 0, 0, "Display human readable file sizes in logs", 0},
   {"mono"     , 'm', 0, 0, "Enable mono audio channel encoding", 0},
   {"nolimit"  , 'l', 0, 0, "Disables 4MiB limit for embedding files", 0},

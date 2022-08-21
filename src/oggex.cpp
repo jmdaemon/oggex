@@ -140,7 +140,6 @@ int extract(Media& media) {
   auto imagepath = msound.image;
 
   //SPDLOG_DEBUG("Embedded File Path: {}", msound.image);
-
   spdlog::debug("Embedded File Path: {}", msound.image);
 
   // Sizes of embed file, sound file offset position, sound file
@@ -174,7 +173,6 @@ int extract(Media& media) {
   write_file(audioFileName, sound.c_str(), "w");
   write_file(imageFileName.c_str(), image.c_str(), "w");
 
-  //spdlog::shutdown();
   return 0;
 }
 
