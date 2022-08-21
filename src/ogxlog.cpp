@@ -21,38 +21,38 @@ namespace library {
       return logger;
   }
 
-  void trace(std::string message) {
-      auto logger = spdlog::get(logger_name);
-      if (logger) {
-          logger->trace("{}::{}", __FUNCTION__, message);
-      }
-  }
+  //void trace(std::string message) {
+      //auto logger = spdlog::get(logger_name);
+      //if (logger) {
+          //logger->trace("{}::{}", __FUNCTION__, message);
+      //}
+  //}
 
-  void info(std::string message) {
-      auto logger = spdlog::get(logger_name);
-      if (logger) {
-          logger->info("{}::{}", __FUNCTION__, message);
-      }
-  }
+  //void info(std::string message) {
+      //auto logger = spdlog::get(logger_name);
+      //if (logger) {
+          //logger->info("{}::{}", __FUNCTION__, message);
+      //}
+  //}
 
-  void warn(std::string message) {
-      auto logger = spdlog::get(logger_name);
-      if (logger) {
-          logger->warn("{}::{}", __FUNCTION__, message);
-      }
-  }
+  //void warn(std::string message) {
+      //auto logger = spdlog::get(logger_name);
+      //if (logger) {
+          //logger->warn("{}::{}", __FUNCTION__, message);
+      //}
+  //}
 
-  void debug(std::string message) {
-      auto logger = spdlog::get(logger_name);
-      if (logger) {
-          logger->debug("{}::{}", __FUNCTION__, message);
-      }
-  }
+  //void debug(std::string message) {
+      //auto logger = spdlog::get(logger_name);
+      //if (logger) {
+          //logger->debug("{}::{}", __FUNCTION__, message);
+      //}
+  //}
 
-  void error(std::string message) {
-      auto logger = spdlog::get(logger_name);
-      if (logger) {
-          logger->warn("{}::{}", __FUNCTION__, message);
-      }
-  }
+  //void error(std::string message) {
+      //auto logger = spdlog::get(logger_name);
+      //if (logger) {
+          //logger->warn("{}::{}", __FUNCTION__, message);
+      //}
+  //}
 }

@@ -5,6 +5,7 @@
 // Imports
 #include "media.h"
 #include "cli.h"
+#include "ogxlog.h"
 
 // Standard Library
 #include <array>
@@ -20,29 +21,11 @@
 // Third Party Libraries
 #include <file.h>
 #include <command.h>
-
-// Spdlog
-
-//#include "ogxlog.h"
-//#include "spdlog/spdlog.h"
-#include "ogxlog.h"
 #include <spdlog/spdlog.h>
 
-//#include <spdlog/spdlog.h>
-//#include <spdlog/logger.h>
-//#include <spdlog/cfg/env.h>
-//#include <spdlog/fmt/bundled/core.h>
-//#include <spdlog/sinks/stdout_color_sinks.h>
-//#include <spdlog/sinks/stdout_sinks.h>
-
 // Constants
-
 static const off_t MAX_FILE_POST_SIZE = 1024 * 1024 * 4; // 4MiB
 static const char* OGG_ID_HEADER = "OggS"; // Audio ID header present in .ogg files
-
-// Logging
-//static const std::string log_app = "oggex-bin";
-//static const std::string log_lib = "oggex";
 
 // Embed
 int embed(Media& media);
