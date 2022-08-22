@@ -92,6 +92,8 @@ void encodeImage(Media& media) {
 int embed(Media& media) {
   encodeAudio(media);
   encodeImage(media);
+
+  // TODO: Handle cleanup and exceptions here
   return 0;
 }
 

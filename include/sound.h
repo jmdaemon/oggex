@@ -7,12 +7,12 @@
 
 /** Sound file */
 typedef struct Sound {
-  char* src;  /* Sound file path */
-  char* dest; 
-  char* image;/* Image name */
-  char* temp;
-  char* log;
-  char* tag;
+  char* src;   /* Sound file path */
+  char* dest;  /* Destination directory */
+  char* image; /* Image file path */
+  char* temp;  /* Audio file path */
+  char* log;   /* Log file path */
+  char* tag;   /* Sound tag */
 } Sound;
 
 /** Audio Settings */
