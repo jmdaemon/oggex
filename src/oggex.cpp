@@ -1,6 +1,8 @@
 #include "oggex.h"
 #include "ogxlog.h"
 
+//#include <regex>
+
 // Embed
 
 /**
@@ -114,15 +116,20 @@ std::string find_sound_tag(std::string fileData, size_t offset) {
   auto startTag = tag.rfind("[");
   if (endTag == std::string::npos || startTag == std::string::npos) {
     //SPDLOG_WARN("Sound Tag not found.\n");
-    spdlog::warn("Sound Tag not found.\n");
-    return "";
+    //spdlog::warn("Sound Tag not found.\n");
+    spdlog::error("Sound Tag not found.");
+    spdlog::error("tag:\n{}", tag);
+    spdlog::error("endTag   : {}", endTag);
+    spdlog::error("startTag : {}", startTag);
+    exit(-1);
+    //return "";
   }
   auto unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
 
   std::string soundTag = "";
   if (!unstrippedTag.empty()) {
     //SPDLOG_WARN("Sound Tag was not found.");
-    spdlog::warn("Sound Tag was not found.");
+    //spdlog::warn("Sound Tag was not found.");
     soundTag = unstrippedTag.substr(1,  unstrippedTag.length() - 2);
   }
 
@@ -135,6 +142,14 @@ std::string find_sound_tag(std::string fileData, size_t offset) {
   return soundTag; 
 }
 
+/** Read file into string. */
+//inline std::string slurp (const std::string& path) {
+  //std::ostringstream buf; 
+  //std::ifstream input (path.c_str()); 
+  //buf << input.rdbuf(); 
+  //return buf.str();
+//}
+
 int extract(Media& media) {
   auto msound = media.sound;
   auto imagepath = msound.image;
@@ -144,17 +159,66 @@ int extract(Media& media) {
 
   // Sizes of embed file, sound file offset position, sound file
   auto s_embed   = file_size(imagepath);
-  auto s_offset  = find_str_offset(imagepath, OGG_ID_HEADER);
+  //auto s_offset  = find_str_offset(imagepath, OGG_ID_HEADER);
+  auto s_offset  = find_str_offset(imagepath, PNG_ID_FOOTER) + 7;
+  auto s_oggs = find_str_offset(imagepath, OGG_ID_HEADER);
   auto s_sound   = file_size(imagepath) + s_offset;
 
-  SPDLOG_DEBUG("Embed File Size  : {}", s_embed);
-  SPDLOG_DEBUG("Sound File Size  : {}", s_sound);
-  SPDLOG_DEBUG("Sound File Offset : {}", s_offset);
 
-  std::string embed = read_file(imagepath);
-  std::string image = read_slice(imagepath, 0, s_offset);
-  std::string sound = read_slice(imagepath, s_offset, file_size(imagepath));
-  std::string tag   = find_sound_tag(embed, s_offset); 
+  //SPDLOG_DEBUG("Embed File Size  : {}", s_embed);
+  //SPDLOG_DEBUG("Sound File Size  : {}", s_sound);
+  //SPDLOG_DEBUG("Sound File Offset : {}", s_offset);
+  spdlog::debug("Embed File Size  : {}", s_embed);
+  spdlog::debug("Sound File Size  : {}", s_sound);
+  spdlog::debug("Image END Offset : {}", s_offset);
+  spdlog::debug("Sound START Offset : {}", s_oggs);
+
+  // embed: entire file
+  // image: 0 -> sound offset
+  // sound: sound offset -> s_embed (end)
+  
+  // Note that the file contains embedded null characters
+  // The string will get truncated earlier as a result, which is why
+  // we specify the filesize
+  std::string embed(read_file(imagepath), s_embed);
+  //std::string embed = slurp(imagepath);
+
+  //auto buffer = read_file(imagepath);
+
+  //buffer[strcspn(buffer, "\n")] = 0;
+  //auto asdf = read_file(imagepath);
+  //spdlog::debug("embed.size(): {}", embed.size());
+  //spdlog::debug("embed {}", embed);
+  //spdlog::debug("asdf {}", asdf);
+  //spdlog::debug("buffer {}", asdf);
+
+  //spdlog::debug("{}", embed);
+  //std::string image = read_slice(imagepath, 0, s_offset, "r");
+  //std::string image = read_slice(imagepath, 0, s_offset + 1);
+
+  //std::string image = read_slice(imagepath, 0, s_offset);
+  std::string image = embed.substr(0, s_offset);
+
+  //std::string sound = read_slice(imagepath, s_offset, file_size(imagepath));
+  //std::string sound = read_slice(imagepath, s_offset, s_embed, "r");
+  //std::string sound = read_slice(imagepath, s_offset + 1, s_embed);
+
+  //std::string sound = read_slice(imagepath, s_offset, s_embed);
+  std::string sound = embed.substr(s_offset, s_embed);
+  //std::string tag   = find_sound_tag(embed, s_embed); 
+  //std::string tag   = find_sound_tag(embed, s_oggs); 
+  //spdlog::debug("{}", embed.substr(s_offset, s_oggs));
+  //std::string stag = read_slice(imagepath, s_offset, s_oggs, "rb");
+  //std::string stag = read_slice(imagepath, s_offset, s_oggs, "r");
+
+  //std::string stag = read_slice(imagepath, s_offset, s_oggs);
+  //spdlog::debug("{}", stag);
+
+  //spdlog::debug("{}", embed.substr(s_offset, s_oggs));
+  std::string tag   = find_sound_tag(embed, s_oggs); 
+  //std::string tag   = find_sound_tag(embed, s_offset + 24); 
+  //std::string tag   = find_sound_tag(embed, s_embed); 
+  //std::string tag   = find_sound_tag(sound, 0); 
   if (tag.empty())
     return -1; 
   else
