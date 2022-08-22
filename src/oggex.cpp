@@ -1,5 +1,4 @@
 #include "oggex.h"
-#include "ogxlog.h"
 
 // Embed
 

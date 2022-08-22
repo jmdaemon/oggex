@@ -1,10 +1,5 @@
 #include "oggex.h"
 
-#include <spdlog/logger.h>
-#include <spdlog/cfg/env.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/stdout_sinks.h>
-
 int main(int argc, char **argv) {
   // Parse arguments
   struct arguments arguments = set_default_args();
@@ -18,7 +13,16 @@ int main(int argc, char **argv) {
   // Setup library logging
   std::vector<spdlog::sink_ptr> sinks;
   sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_st>());
-  auto logger = library::setup_logger(sinks);
+  //auto logger = library::setup_logger(sinks);
+  auto logger = spdlog::get(logger_name);
+  if (!logger) {
+    if (sinks.size() > 0) {
+        logger = std::make_shared<spdlog::logger>(logger_name, std::begin(sinks), std::end(sinks));
+        spdlog::register_logger(logger);
+    } else {
+        logger = spdlog::stdout_color_mt(logger_name);
+    }
+  }
 
   // Enable/disable logging
   if (arguments.verbose == 1)
