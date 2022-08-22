@@ -102,6 +102,35 @@ int embed(Media& media) {
 }
 
 // Extract
+
+/** Read file into string. */
+inline std::string slurp (const std::string& path) {
+  std::ostringstream buf; 
+  std::ifstream input (path.c_str()); 
+  buf << input.rdbuf(); 
+  return buf.str();
+}
+
+// trim from start (in place)
+static inline void ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+        return !std::isspace(ch);
+    }).base(), s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string &s) {
+    ltrim(s);
+    rtrim(s);
+}
+
 std::string find_sound_tag(std::string conts) {
   auto rb = conts.rfind("]"); 
   auto lb = conts.rfind("[");
@@ -111,8 +140,9 @@ std::string find_sound_tag(std::string conts) {
     spdlog::error("Sound Tag not found.");
     exit(-1);
   }
-  auto tag = conts.substr(lb, rb); // [audio02] => audio02
-  auto stripped = tag.substr(1, tag.length() - 3);
+  auto tag = conts.substr(lb, rb);                  // [audio02] 
+  trim(tag);
+  auto stripped = tag.substr(1, tag.length() - 2);  // [audio02] => audio02
 
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Stripped  : {}"), soundTag));
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Unstripped: {}"), unstrippedTag));
@@ -121,14 +151,6 @@ std::string find_sound_tag(std::string conts) {
   spdlog::debug("Unstripped: {}", stripped);
 
   return stripped; 
-}
-
-/** Read file into string. */
-inline std::string slurp (const std::string& path) {
-  std::ostringstream buf; 
-  std::ifstream input (path.c_str()); 
-  buf << input.rdbuf(); 
-  return buf.str();
 }
 
 int extract(Media& media) {
@@ -144,9 +166,9 @@ int extract(Media& media) {
   auto s_oggs    = find_str_offset(imagepath, OGG_ID_HEADER);
   auto s_sound   = file_size(imagepath) + s_offset;
 
-  spdlog::debug("Embed File Size  : {}", s_embed);
-  spdlog::debug("Sound File Size  : {}", s_sound);
-  spdlog::debug("Image END Offset : {}", s_offset);
+  spdlog::debug("Embed File Size    : {}", s_embed);
+  spdlog::debug("Sound File Size    : {}", s_sound);
+  spdlog::debug("Image END Offset   : {}", s_offset);
   spdlog::debug("Sound START Offset : {}", s_oggs);
 
   // Note that the file contains embedded null characters

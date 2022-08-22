@@ -8,6 +8,7 @@
 #include "ogxlog.h"
 
 // Standard Library
+#include <algorithm>
 #include <array>
 #include <string>
 #include <iosfwd>
