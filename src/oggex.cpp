@@ -54,13 +54,13 @@ void encodeAudio(Media& media) {
 
   while (true) {
     encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
-    auto finalSize = embed_size(media.sound);
+    auto fsize = embed_size(media.sound);
     // If we don't care about the limit
     if (media.args.nolimit)
       break;
 
     // Else re-encode
-    if (finalSize < MAX_FILE_POST_SIZE) {
+    if (fsize < MAX_FILE_POST_SIZE) {
       break;
     } else if (settings.quality > 0) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
@@ -176,12 +176,12 @@ int extract(Media& media) {
   /** Outputs:
     * sound: audio02.ogg
     * image: image.png.png */
-  auto sound_output = tag.c_str(); 
-  auto image_output = std::string(msound.image) + ".png";
 
-  // TODO: Handle outputs to a different directory
+  std::string dest = (msound.dest != nullptr) ? std::string(msound.dest) + "/" : "";
+  auto sound_output = dest + tag; 
+  auto image_output = dest + std::string(msound.image) + ".png";
 
-  write_file(sound_output, sound.c_str(), "w");
+  write_file(sound_output.c_str(), sound.c_str(), "w");
   write_file(image_output.c_str(), image.c_str(), "w");
 
   // Deallocate
@@ -202,13 +202,3 @@ std::array<char, 512> hashFile(std::array<char, 512> buffer, size_t count) {
   }
   return maskedBuffer;
 } 
-
-void encodeTo(std::ifstream& inputFile, std::ofstream& outputFile, std::array<char, 512> buffer) {
-  std::ostringstream contents;
-  contents << inputFile.rdbuf();
-  contents.seekp(0, std::ios::end);
-  int contentSize = contents.tellp();
-
-  outputFile << contents.rdbuf();
-  hashFile(buffer, contentSize); // Write the imageFileHash to new outputFile
-}
