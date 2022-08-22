@@ -102,42 +102,24 @@ int embed(Media& media) {
 }
 
 // Extract
-
-/** TODO: find_sound_tag() cannot support reading large files (string is huge)
-  * Requirements:
-  * - Should read a file in chunks
-  * - Optionally should return array of sound tags (since there could be multiple sounds
-  * in one embedded file) */
 std::string find_sound_tag(std::string fileData, size_t offset) {
   auto tag = fileData.substr(0, offset);
-  //auto tag = fileData;
-  auto endTag = tag.rfind("]"); 
-  auto startTag = tag.rfind("[");
-  if (endTag == std::string::npos || startTag == std::string::npos) {
+  auto rb = tag.rfind("]"); 
+  auto lb = tag.rfind("[");
+  if (rb == std::string::npos || lb == std::string::npos) {
     //SPDLOG_WARN("Sound Tag not found.\n");
     //spdlog::warn("Sound Tag not found.\n");
     spdlog::error("Sound Tag not found.");
-    spdlog::error("tag:\n{}", tag);
-    spdlog::error("endTag   : {}", endTag);
-    spdlog::error("startTag : {}", startTag);
     exit(-1);
-    //return "";
   }
-  auto unstrippedTag = tag.substr(startTag, endTag); // soundTag = [audio02] => audio02
-
-  std::string soundTag = "";
-  if (!unstrippedTag.empty()) {
-    //SPDLOG_WARN("Sound Tag was not found.");
-    //spdlog::warn("Sound Tag was not found.");
-    //soundTag = unstrippedTag.substr(1,  unstrippedTag.length() - 2);
-    soundTag = unstrippedTag.substr(1,  unstrippedTag.length() - 3);
-  }
+  auto stripped = tag.substr(lb, rb); // [audio02] => audio02
+  std::string soundTag = stripped.substr(1,  stripped.length() - 3);
 
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Stripped  : {}"), soundTag));
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Unstripped: {}"), unstrippedTag));
 
-  spdlog::debug("Stripped  : {}", soundTag);
-  spdlog::debug("Unstripped: {}", unstrippedTag);
+  spdlog::debug("Stripped  : {}", stripped);
+  spdlog::debug("Unstripped: {}", soundTag);
 
   return soundTag; 
 }
@@ -175,8 +157,6 @@ int extract(Media& media) {
   std::string image = embed.substr(0, s_offset);
   std::string sound = embed.substr(s_offset, s_embed);
   std::string tag   = find_sound_tag(embed, s_oggs); 
-  //std::string tag   = embed.substr(s_offset, s_oggs); 
-  //tag = find_sound_tag(tag, s_offset);
   if (tag.empty())
     return -1; 
   else
@@ -185,12 +165,13 @@ int extract(Media& media) {
   SPDLOG_DEBUG("Sound Tag Size   : {}", tag);
   SPDLOG_INFO("Extracting audio file as \"{}\"\n", tag);
 
-  /** Output File Names
-    * The file names for extracted files should be:
-    * - audio: soundTag.ogg
-    * - image: sound.image (embedded file name with .png appended) */
+  /** Outputs:
+    * sound: audio02.ogg
+    * image: image.png.png */
   auto audioFileName = tag.c_str(); 
-  auto imageFileName = std::string(msound.dest) + ".png";
+  auto imageFileName = std::string(msound.image) + ".png";
+
+  // TODO: Handle outputs to a different directory
 
   write_file(audioFileName, sound.c_str(), "w");
   write_file(imageFileName.c_str(), image.c_str(), "w");
