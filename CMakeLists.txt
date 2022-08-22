@@ -8,8 +8,8 @@ project(
 
 # Variable Toggles
 set(NO_COLOR OFF CACHE INTERNAL "Toggles colored output errors")
-set(BUILD_DOC ON CACHE INTERNAL "Build documentation")
-set(ENABLE_LOGGING OFF CACHE INTERNAL "View the logging statements/debug info")
+set(BUILD_DOC OFF CACHE INTERNAL "Build documentation")
+set(ENABLE_LOGGING ON CACHE INTERNAL "View the logging statements/debug info")
 set(LOG_LEVEL 0 CACHE INTERNAL "Enable only specific log levels")
 
 # Require out-of-source builds
@@ -44,9 +44,14 @@ include(Library)
 
 # Third Party Libraries
 include(spdlog)
+
+# Subprojects
+set(USE_AS_SUBPROJECT TRUE)
+set(USE_AS_SUBMODULE FALSE)
 include(utility)
 include(bytesize)
 include(cnc)
+include(jolly)
 
 # Specify project dependencies
 # DEB_DEPENDS: Debian packages that provide the libraries the project depends upon
