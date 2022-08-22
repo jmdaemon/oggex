@@ -44,12 +44,11 @@ static const struct argp_option options[] = {
   {"si"     ,  500, 0,      0, "Display SI byte sizes", 0},
   {"bi"     ,  600, 0,      0, "Display binary byte sizes", 0},
   {}
-  //{0}
 };
 
 /** Used by main to communicate with parse_opt. */
 struct arguments {
-  char *args[1]; /** from, to */
+  char *args[1]; /** embed, extract */
   bool readable;
   bool mono_encoding;
   bool nolimit;
