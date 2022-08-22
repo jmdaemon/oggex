@@ -39,6 +39,10 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
       arguments->sound.tag = arg;
       break;
 
+    case 'd':
+      arguments->sound.dest = arg;
+      break;
+
     case 'r':
       arguments->readable = true;
       break;

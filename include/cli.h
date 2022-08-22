@@ -36,6 +36,7 @@ static const struct argp_option options[] = {
   {"audio"    , 'a', "Sound file path", 0},
   {"image"    , 'i', "Image file path", 0},
   {"tag"      , 't', "Sound tag caption", 0},
+  {"dest"     , 'd', "Destination directory for extract", 0},
   {"readable" , 'r', 0, 0, "Display human readable file sizes in logs", 0},
   {"mono"     , 'm', 0, 0, "Enable mono audio channel encoding", 0},
   {"nolimit"  , 'l', 0, 0, "Disables 4MiB limit for embedding files", 0},
