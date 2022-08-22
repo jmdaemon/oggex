@@ -24,7 +24,6 @@ std::string format_command(Media& media) {
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
   SPDLOG_DEBUG("{}\n", command);
-  //spdlog::debug("{}\n", command);
   return command;
 }
 
@@ -33,7 +32,6 @@ void encode(const std::string cmd, Media& media) {
   auto settings = media.settings;
   auto use_mono_encoding = (media.args.mono_encoding) ? "In Mono Audio Channel" : "";
   SPDLOG_INFO("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
-  //spdlog::info("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
 }
 
@@ -45,7 +43,6 @@ uintmax_t embed_size(Sound& sound) {
 
   if (temp <= 0) {
     SPDLOG_ERROR("Error: encoding failed");
-    //spdlog::error("Error: encoding failed");
     throw std::exception();
   } 
 
@@ -69,12 +66,10 @@ void encodeAudio(Media& media) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
       SPDLOG_ERROR("Audio file is too big (>4MiB), try running with -f or --fast\n");
-      //spdlog::error("Audio file is too big (>4MiB), try running with -f or --fast\n");
       throw std::exception();
     }
   }
   SPDLOG_INFO("Audio Encoding completed.\n\n");
-  //spdlog::error("Audio Encoding completed.\n\n");
 }
 
 void encodeImage(Media& media) {
@@ -82,7 +77,6 @@ void encodeImage(Media& media) {
 
   if (!file_exists(sound.src)) { 
     SPDLOG_ERROR("Image or Audio file does not exist or is being blocked");
-    //spdlog::error("Image or Audio file does not exist or is being blocked");
     remove(sound.temp);
     throw std::exception();
   }
@@ -135,21 +129,12 @@ std::string find_sound_tag(std::string conts) {
   auto rb = conts.rfind("]"); 
   auto lb = conts.rfind("[");
   if (rb == std::string::npos || lb == std::string::npos) {
-    //SPDLOG_WARN("Sound Tag not found.\n");
-    //spdlog::warn("Sound Tag not found.\n");
-    //spdlog::error("Sound Tag not found.");
     SPDLOG_ERROR("Sound Tag not found.");
     exit(-1);
   }
   auto tag = conts.substr(lb, rb);                  // [audio02] 
   trim(tag);
   auto stripped = tag.substr(1, tag.length() - 2);  // [audio02] => audio02
-
-  //SPDLOG_DEBUG(fmt::format(fmt::runtime("Stripped  : {}"), soundTag));
-  //SPDLOG_DEBUG(fmt::format(fmt::runtime("Unstripped: {}"), unstrippedTag));
-
-  //spdlog::debug("Stripped  : {}", tag);
-  //spdlog::debug("Unstripped: {}", stripped);
 
   SPDLOG_DEBUG("Stripped  : {}", tag);
   SPDLOG_DEBUG("Unstripped: {}", stripped);
@@ -162,7 +147,6 @@ int extract(Media& media) {
   auto imagepath = msound.image;
 
   SPDLOG_DEBUG("Embedded File Path: {}", msound.image);
-  //spdlog::debug("Embedded File Path: {}", msound.image);
 
   // Sizes of embed file, sound file offset position, sound file
   auto s_embed   = file_size(imagepath);
@@ -170,10 +154,6 @@ int extract(Media& media) {
   auto s_oggs    = find_str_offset(imagepath, OGG_ID_HEADER);
   auto s_sound   = file_size(imagepath) + s_offset;
 
-  //spdlog::debug("Embed File Size    : {}", s_embed);
-  //spdlog::debug("Sound File Size    : {}", s_sound);
-  //spdlog::debug("Image END Offset   : {}", s_offset);
-  //spdlog::debug("Sound START Offset : {}", s_oggs);
   SPDLOG_DEBUG("Embed File Size    : {}", s_embed);
   SPDLOG_DEBUG("Sound File Size    : {}", s_sound);
   SPDLOG_DEBUG("Image END Offset   : {}", s_offset);
@@ -182,29 +162,30 @@ int extract(Media& media) {
   // Note that the file contains embedded null characters
   // The string will get truncated earlier as a result, which is why
   // we specify the filesize
-  std::string embed(read_file(imagepath), s_embed);
+  const char* read = read_file(imagepath);
+  std::string embed(read, s_embed);
   std::string image = embed.substr(0, s_offset);
   std::string sound = embed.substr(s_offset, s_embed);
   std::string tag   = find_sound_tag(embed.substr(0, s_oggs)); 
-  if (tag.empty())
-    return -1; 
-  else
-    tag += ".ogg";
 
   SPDLOG_DEBUG("Sound Tag Size   : {}", tag);
+  tag += ".ogg";
+
   SPDLOG_INFO("Extracting audio file as \"{}\"\n", tag);
 
   /** Outputs:
     * sound: audio02.ogg
     * image: image.png.png */
-  auto audioFileName = tag.c_str(); 
-  auto imageFileName = std::string(msound.image) + ".png";
+  auto sound_output = tag.c_str(); 
+  auto image_output = std::string(msound.image) + ".png";
 
   // TODO: Handle outputs to a different directory
 
-  write_file(audioFileName, sound.c_str(), "w");
-  write_file(imageFileName.c_str(), image.c_str(), "w");
+  write_file(sound_output, sound.c_str(), "w");
+  write_file(image_output.c_str(), image.c_str(), "w");
 
+  // Deallocate
+  free((void*) read);
   return 0;
 }
 

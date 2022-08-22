@@ -21,21 +21,18 @@ int main(int argc, char **argv) {
   auto logger = library::setup_logger(sinks);
 
   // Enable/disable logging
-  if (arguments.verbose == 1) {
+  if (arguments.verbose == 1)
     spdlog::set_level(spdlog::level::level_enum::trace);
-    //spdlog::set_level(spdlog::level::trace);
-  }
   else {
+    // Default to no logging
     spdlog::set_level(spdlog::level::level_enum::off);
     #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_NONE
   }
-    //spdlog::cfg::load_env_levels();
+  spdlog::cfg::load_env_levels();
 
   /* [2022-08-20 23:16:43.347] [debug] [app.cpp:3] Message! */
   spdlog::set_pattern("[%Y-%m-%d %H.%M.%S.%e] [%^%l%$] [%s:%#] %v");
 
-  SPDLOG_DEBUG("Test");
-  //SPDLOG_LOGGER_DEBUG("Test");
   if (sound.image == nullptr || !file_exists(sound.image)) {
     SPDLOG_ERROR("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
     exit(-1);
