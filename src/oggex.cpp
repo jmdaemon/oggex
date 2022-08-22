@@ -23,8 +23,8 @@ std::string format_command(Media& media) {
   auto command = fmt::format(fmt::runtime(
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
-  //SPDLOG_DEBUG("{}\n", command);
-  spdlog::debug("{}\n", command);
+  SPDLOG_DEBUG("{}\n", command);
+  //spdlog::debug("{}\n", command);
   return command;
 }
 
@@ -32,8 +32,8 @@ void encode(const std::string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
   auto use_mono_encoding = (media.args.mono_encoding) ? "In Mono Audio Channel" : "";
-  //SPDLOG_INFO("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
-  spdlog::info("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
+  SPDLOG_INFO("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
+  //spdlog::info("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
 }
 
@@ -44,8 +44,8 @@ uintmax_t embed_size(Sound& sound) {
   uintmax_t embed_size = temp + image + tag;
 
   if (temp <= 0) {
-    //SPDLOG_ERROR("Error: encoding failed");
-    spdlog::error("Error: encoding failed");
+    SPDLOG_ERROR("Error: encoding failed");
+    //spdlog::error("Error: encoding failed");
     throw std::exception();
   } 
 
@@ -68,21 +68,21 @@ void encodeAudio(Media& media) {
     } else if (settings.quality > 0) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
-      //SPDLOG_ERROR("Audio file is too big (>4MiB), try running with -f or --fast\n");
-      spdlog::error("Audio file is too big (>4MiB), try running with -f or --fast\n");
+      SPDLOG_ERROR("Audio file is too big (>4MiB), try running with -f or --fast\n");
+      //spdlog::error("Audio file is too big (>4MiB), try running with -f or --fast\n");
       throw std::exception();
     }
   }
-  //SPDLOG_INFO("Audio Encoding completed.\n\n");
-  spdlog::error("Audio Encoding completed.\n\n");
+  SPDLOG_INFO("Audio Encoding completed.\n\n");
+  //spdlog::error("Audio Encoding completed.\n\n");
 }
 
 void encodeImage(Media& media) {
   auto sound = media.sound;
 
   if (!file_exists(sound.src)) { 
-    //SPDLOG_ERROR("Image or Audio file does not exist or is being blocked");
-    spdlog::error("Image or Audio file does not exist or is being blocked");
+    SPDLOG_ERROR("Image or Audio file does not exist or is being blocked");
+    //spdlog::error("Image or Audio file does not exist or is being blocked");
     remove(sound.temp);
     throw std::exception();
   }
@@ -137,7 +137,8 @@ std::string find_sound_tag(std::string conts) {
   if (rb == std::string::npos || lb == std::string::npos) {
     //SPDLOG_WARN("Sound Tag not found.\n");
     //spdlog::warn("Sound Tag not found.\n");
-    spdlog::error("Sound Tag not found.");
+    //spdlog::error("Sound Tag not found.");
+    SPDLOG_ERROR("Sound Tag not found.");
     exit(-1);
   }
   auto tag = conts.substr(lb, rb);                  // [audio02] 
@@ -147,8 +148,11 @@ std::string find_sound_tag(std::string conts) {
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Stripped  : {}"), soundTag));
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Unstripped: {}"), unstrippedTag));
 
-  spdlog::debug("Stripped  : {}", tag);
-  spdlog::debug("Unstripped: {}", stripped);
+  //spdlog::debug("Stripped  : {}", tag);
+  //spdlog::debug("Unstripped: {}", stripped);
+
+  SPDLOG_DEBUG("Stripped  : {}", tag);
+  SPDLOG_DEBUG("Unstripped: {}", stripped);
 
   return stripped; 
 }
@@ -157,8 +161,8 @@ int extract(Media& media) {
   auto msound = media.sound;
   auto imagepath = msound.image;
 
-  //SPDLOG_DEBUG("Embedded File Path: {}", msound.image);
-  spdlog::debug("Embedded File Path: {}", msound.image);
+  SPDLOG_DEBUG("Embedded File Path: {}", msound.image);
+  //spdlog::debug("Embedded File Path: {}", msound.image);
 
   // Sizes of embed file, sound file offset position, sound file
   auto s_embed   = file_size(imagepath);
@@ -166,10 +170,14 @@ int extract(Media& media) {
   auto s_oggs    = find_str_offset(imagepath, OGG_ID_HEADER);
   auto s_sound   = file_size(imagepath) + s_offset;
 
-  spdlog::debug("Embed File Size    : {}", s_embed);
-  spdlog::debug("Sound File Size    : {}", s_sound);
-  spdlog::debug("Image END Offset   : {}", s_offset);
-  spdlog::debug("Sound START Offset : {}", s_oggs);
+  //spdlog::debug("Embed File Size    : {}", s_embed);
+  //spdlog::debug("Sound File Size    : {}", s_sound);
+  //spdlog::debug("Image END Offset   : {}", s_offset);
+  //spdlog::debug("Sound START Offset : {}", s_oggs);
+  SPDLOG_DEBUG("Embed File Size    : {}", s_embed);
+  SPDLOG_DEBUG("Sound File Size    : {}", s_sound);
+  SPDLOG_DEBUG("Image END Offset   : {}", s_offset);
+  SPDLOG_DEBUG("Sound START Offset : {}", s_oggs);
 
   // Note that the file contains embedded null characters
   // The string will get truncated earlier as a result, which is why

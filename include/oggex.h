@@ -2,6 +2,8 @@
 #ifndef OGGEX_H
 #define OGGEX_H
 
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
+
 // Imports
 #include "media.h"
 #include "cli.h"
