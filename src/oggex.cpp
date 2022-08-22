@@ -102,26 +102,25 @@ int embed(Media& media) {
 }
 
 // Extract
-std::string find_sound_tag(std::string fileData, size_t offset) {
-  auto tag = fileData.substr(0, offset);
-  auto rb = tag.rfind("]"); 
-  auto lb = tag.rfind("[");
+std::string find_sound_tag(std::string conts) {
+  auto rb = conts.rfind("]"); 
+  auto lb = conts.rfind("[");
   if (rb == std::string::npos || lb == std::string::npos) {
     //SPDLOG_WARN("Sound Tag not found.\n");
     //spdlog::warn("Sound Tag not found.\n");
     spdlog::error("Sound Tag not found.");
     exit(-1);
   }
-  auto stripped = tag.substr(lb, rb); // [audio02] => audio02
-  std::string soundTag = stripped.substr(1,  stripped.length() - 3);
+  auto tag = conts.substr(lb, rb); // [audio02] => audio02
+  auto stripped = tag.substr(1, tag.length() - 3);
 
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Stripped  : {}"), soundTag));
   //SPDLOG_DEBUG(fmt::format(fmt::runtime("Unstripped: {}"), unstrippedTag));
 
-  spdlog::debug("Stripped  : {}", stripped);
-  spdlog::debug("Unstripped: {}", soundTag);
+  spdlog::debug("Stripped  : {}", tag);
+  spdlog::debug("Unstripped: {}", stripped);
 
-  return soundTag; 
+  return stripped; 
 }
 
 /** Read file into string. */
@@ -156,7 +155,7 @@ int extract(Media& media) {
   std::string embed(read_file(imagepath), s_embed);
   std::string image = embed.substr(0, s_offset);
   std::string sound = embed.substr(s_offset, s_embed);
-  std::string tag   = find_sound_tag(embed, s_oggs); 
+  std::string tag   = find_sound_tag(embed.substr(0, s_oggs)); 
   if (tag.empty())
     return -1; 
   else

@@ -38,7 +38,7 @@ std::string format_command(Media& media);
 // Extract
 void encodeImage(Media& media);
 
-std::string find_sound_tag(std::string fileData, size_t offset);
+std::string find_sound_tag(std::string conts);
 int extract(Media& media); 
 
 // Mask
