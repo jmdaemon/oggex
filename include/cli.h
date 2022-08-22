@@ -40,9 +40,7 @@ static const struct argp_option options[] = {
   {"readable" , 'r', 0, 0, "Display human readable file sizes in logs", 0},
   {"mono"     , 'm', 0, 0, "Enable mono audio channel encoding", 0},
   {"nolimit"  , 'l', 0, 0, "Disables 4MiB limit for embedding files", 0},
-  //{"format"   , 400, 0, 0, "Use either SI or binary unit sizes in logs", 0},
-  {"si"     ,  500, 0,      0, "Display SI byte sizes", 0},
-  {"bi"     ,  600, 0,      0, "Display binary byte sizes", 0},
+  {"format"   , 400, "Use either SI or binary unit sizes in logs", 0},
   {}
 };
 

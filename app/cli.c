@@ -55,12 +55,9 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
       arguments->nolimit = true;
       break;
     
-    case 500:
-      arguments->scale = 1000;
-      break;
-
-    case 600:
-      arguments->scale = 1024;
+    case 400:
+      if (strcmp(arg, "bi") == 0)
+        arguments->scale = 1024;
       break;
 
     case ARGP_KEY_ARG:
