@@ -2,16 +2,8 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-//#ifdef __cplusplus
-//extern "C" {
-//#endif
-
 #define VERSION_MAJOR @CMAKE_PROJECT_VERSION_MAJOR@
 #define VERSION_MINOR @CMAKE_PROJECT_VERSION_MINOR@
 #define VERSION_PATCH @CMAKE_PROJECT_VERSION_PATCH@
-
-//#ifdef __cplusplus
-//}
-//#endif
 
 #endif // VERSION_H

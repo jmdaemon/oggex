@@ -38,7 +38,6 @@ configure_file(
   "${PROJECT_BINARY_DIR}/include/Version.h")
 
 # Include dependencies
-
 # CMake modules
 include(FetchContent)
 include(Utilities)
