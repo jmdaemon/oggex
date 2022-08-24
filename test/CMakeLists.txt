@@ -1,20 +1,21 @@
 # Unit Tests
-set(HEADERS ${INCLUDES_DIR})
-set(TARGET test-oggex)
+set(HEADERS ${INCLUDES_DIR} ${DOCTEST_INCLUDE_DIR} ${jolly_SOURCE_DIR}/include ${utility_SOURCE_DIR}/include)
+set(TARGET oggex)
 
-# Add oggex tests
-add_executable(${TARGET} test_oggex.cpp)
-target_include_directories(${TARGET} PUBLIC ${HEADERS} ${DOCTEST_INCLUDE_DIR})
-target_link_libraries(${TARGET} PRIVATE ${PKG_DEPENDS} cli oggex)
-#add_test(NAME ${TARGET} COMMAND ${TARGET})
+# Add unit tests
+set(TEST_NAME test-${TARGET})
+add_executable(${TEST_NAME} test_oggex.cpp)
+target_include_directories(${TEST_NAME} PUBLIC ${HEADERS})
+target_link_libraries(${TEST_NAME} PRIVATE ${PKG_DEPENDS} doctest oggex cli)
+add_test(
+    NAME ${TEST_NAME}
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    COMMAND ${TEST_NAME})
 
-# Doctest discover tests
+if (DISCOVER_TESTS)
+    # Include doctest cmake module
+    include(${DOCTEST_SOURCE_DIR}/scripts/cmake/doctest.cmake)
 
-# Include cmake module
-include(${DOCTEST_SOURCE_DIR}/scripts/cmake/doctest.cmake)
-
-# Discover unit tests
-doctest_discover_tests(${TARGET}
-    TEST_PREFIX TEST
-    WORKING_DIRECTORY ./)
-
+    # Discover unit tests
+    doctest_discover_tests(${TEST_NAME})
+endif()
