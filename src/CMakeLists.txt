@@ -3,4 +3,4 @@ make_ssl(
     NAME oggex
     HDRS ${HEADERS}
     SRCS oggex.cpp
-    DEPS spdlog utility jolly)
+    DEPS ${PKG_DEPENDS})

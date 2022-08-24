@@ -5,7 +5,7 @@ set(TARGET test-oggex)
 # Add oggex tests
 add_executable(${TARGET} test_oggex.cpp)
 target_include_directories(${TARGET} PUBLIC ${HEADERS} ${DOCTEST_INCLUDE_DIR})
-target_link_libraries(${TARGET} PRIVATE spdlog doctest utility oggex ogx_cli)
+target_link_libraries(${TARGET} PRIVATE ${PKG_DEPENDS} cli oggex)
 #add_test(NAME ${TARGET} COMMAND ${TARGET})
 
 # Doctest discover tests

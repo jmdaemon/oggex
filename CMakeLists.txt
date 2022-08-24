@@ -23,7 +23,7 @@ if(EXISTS "${LOC_PATH}")
 endif()
 
 # Include CMake modules
-set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake")
 
 if (NO_COLOR)
     # Don't use colored output
@@ -38,27 +38,18 @@ configure_file(
   "${PROJECT_BINARY_DIR}/include/Version.h")
 
 # Include dependencies
-# CMake modules
-include(FetchContent)
-include(Utilities)
 include(Library)
 
-# Third Party Libraries
-include(spdlog)
-
-# Subprojects
-set(USE_AS_SUBPROJECT TRUE)
-set(USE_AS_SUBMODULE FALSE)
-include(utility)
-include(bytesize)
-include(cnc)
-include(jolly)
-
-unset(USE_AS_SUBMODULE)
-unset(USE_AS_SUBPROJECT)
+# Include subprojects
+include_subprojects(
+    TOGGLE TRUE
+    GIT_MODULE FALSE
+    INCLUDES utility bytesize jolly cnc)
 
 # Specify project dependencies
+# PKG_DEPENDS: Library names to link the output files
 # DEB_DEPENDS: Debian packages that provide the libraries the project depends upon
+set(PKG_DEPENDS pcre utility jolly spdlog)
 set(DEB_DEPENDS libc)
 
 # Include header files
@@ -66,19 +57,24 @@ set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
 set(HEADERS_VERSION "${PROJECT_BINARY_DIR}/include")
 
 # Add subdirectories
-add_subdirectory(resources)
-add_subdirectory(src)
-add_subdirectory(app)
+subdirs(resources src app)
 
 if (BUILD_TESTING AND NOT USE_AS_SUBPROJECT)
+    set(DISCOVER_TESTS FALSE)
     include(doctest)
     include(MakeTests)
     include(CTest)
     add_subdirectory(test)
 endif()
 
-include(Install)
+if (NOT USE_AS_SUBPROJECT)
+    # Generate automatic docs with Doxygen
+    include(Docs)
 
-# Packages
-include(InstallRequiredSystemLibraries)
-include(Debian)
+    # Install build artifacts system-wide
+    include(Install)
+
+    # Packages
+    include(InstallRequiredSystemLibraries)
+    include(Debian)
+endif()
