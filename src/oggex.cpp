@@ -36,7 +36,7 @@ void encode(const std::string cmd, Media& media) {
 
 uintmax_t embed_size(Sound& sound) {
   auto temp   = file_size(sound.src);
-  auto image  = file_size(sound.dest);
+  auto image  = file_size(sound.image);
   auto tag    = sizeof(sound.tag);
   uintmax_t embed_size = temp + image + tag;
 
@@ -88,10 +88,13 @@ void encodeImage(Media& media) {
 }
 
 int embed(Media& media) {
-  encodeAudio(media);
-  encodeImage(media);
-
-  // TODO: Handle cleanup and exceptions here
+  try {
+    encodeAudio(media);
+    encodeImage(media);
+  } catch (std::exception e) {
+    SPDLOG_ERROR("An exception occurred: {}", e.what());
+    remove(media.sound.temp);
+  }
   return 0;
 }
 
