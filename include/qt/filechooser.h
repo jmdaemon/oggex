@@ -31,6 +31,8 @@ public:
     // Setters
     void setPath(QString path);
 
+    void shortenPaths(bool shortpaths, QString fileName);
+
 signals:
     void clicked(bool wasClicked);
     void focus(bool hasFocus);
@@ -42,6 +44,7 @@ protected:
 
 public slots:
     void browse(QString prompt, QString filetypes, QString dir, bool shortpaths);
+    void browseDir(QString prompt, QString dir, bool shortpaths);
 
 };
 
