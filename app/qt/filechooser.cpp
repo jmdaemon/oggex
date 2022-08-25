@@ -10,6 +10,23 @@ FileChooser::~FileChooser() {
     delete ui;
 }
 
+QString FileChooser::getPath() {
+    return this->path;
+}
+
+void FileChooser::setPath(QString path) {
+    this->path = path;
+}
+
+// Truncate and display just the file name
+void FileChooser::shortenPaths(bool shortpaths, QString fileName) {
+    if (shortpaths) {
+        QFileInfo file(fileName);
+        qDebug() << "File: " << file.fileName();
+        this->setText(file.fileName());
+    }
+}
+
 // Signals
 
 // Focus
@@ -36,12 +53,18 @@ void FileChooser::browse(QString prompt, QString filetypes, QString dir, bool sh
 
     if (!fileName.isEmpty()) {
         qDebug() << "Selected: " << fileName;
+        this->setPath(fileName); // Save the full path for later
+        this->shortenPaths(shortpaths, fileName);
+    }
+}
 
-        // Truncate the path and display just the file name
-        if (shortpaths) {
-            QFileInfo file(fileName);
-            qDebug() << "File: " << file.fileName();
-            this->setText(file.fileName());
-        }
+void FileChooser::browseDir(QString prompt, QString dir, bool shortpaths) {
+    qDebug("Opening File Chooser Dialog");
+    auto directory = QFileDialog::getExistingDirectory(this, prompt, dir, QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+
+    if (!directory.isEmpty()) {
+        qDebug() << "Selected: " << directory;
+        this->setPath(directory); // Save the full path for later
+        this->shortenPaths(shortpaths, directory);
     }
 }

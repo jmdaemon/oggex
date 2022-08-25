@@ -2,6 +2,8 @@
 #ifndef OGGEX_MAINWINDOW_H
 #define OGGEX_MAINWINDOW_H
 
+#include "oggex_qt.h"
+
 // QT Widgets
 #include <QApplication>
 #include <QMainWindow>

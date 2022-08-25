@@ -1,4 +1,4 @@
-#include "oggex.h"
+#include "ogx.h"
 
 std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks) {
   auto logger = spdlog::get(logger_name);
@@ -13,16 +13,7 @@ std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks
   return logger;
 }
 
-int main(int argc, char **argv) {
-  // Parse arguments
-  struct arguments arguments = set_default_args();
-  argp_parse (&argp, argc, argv, 0, 0, &arguments);
-
-  char* command = arguments.args[0];
-  Sound sound = arguments.sound;
-  Settings settings = { 10, false };
-  Media media = {sound, settings, arguments};
-
+void setup_logging(arguments arguments) {
   // Setup library logging
   std::vector<spdlog::sink_ptr> sinks;
   sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_st>());
@@ -40,20 +31,22 @@ int main(int argc, char **argv) {
 
   /* [2022-08-20 23:16:43.347] [debug] [app.cpp:3] Message! */
   spdlog::set_pattern("[%Y-%m-%d %H.%M.%S.%e] [%^%l%$] [%s:%#] %v");
+}
 
-  if (sound.image == nullptr || !file_exists(sound.image)) {
+int oggex(const char* command, Media media) {
+  if (media.sound.image == nullptr || !file_exists(media.sound.image)) {
     SPDLOG_ERROR("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
     exit(-1);
   }
   
   // Handle oggex commands
   if (strcmp(command, "embed") == 0) {
-    if (sound.src == nullptr || !file_exists(sound.src)) {
+    if (media.sound.src == nullptr || !file_exists(media.sound.src)) {
       SPDLOG_ERROR("You must provide a valid .ogg audio file.");
       exit(-1);
     }
 
-    if (sizeof(sound.tag) == 0) {
+    if (sizeof(media.sound.tag) == 0) {
       SPDLOG_ERROR("You cannot have an empty sound tag");
       exit(-1);
     }
@@ -61,6 +54,12 @@ int main(int argc, char **argv) {
     embed(media);
   } else if (strcmp(command, "extract") == 0)
     extract(media);
-
   return 0;
+}
+
+arguments init_args(int argc, char** argv) {
+  // Parse arguments
+  struct arguments arguments = set_default_args();
+  argp_parse (&argp, argc, argv, 0, 0, &arguments);
+  return arguments;
 }

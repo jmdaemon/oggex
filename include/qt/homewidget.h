@@ -2,8 +2,11 @@
 #ifndef OGGEX_HOMEWIDGET_H
 #define OGGEX_HOMEWIDGET_H
 
-// QT Widgets
+#include "oggex_qt.h"
+
+// QT Libraries
 #include <QWidget>
+#include <QApplication>
 
 // QT UI File
 #include "ui_homewidget.h"
@@ -21,6 +24,7 @@ public:
 
 private:
     Ui::HomeWidget *ui;
+
 };
 
 #endif // OGGEX_HOMEWIDGET_H

@@ -53,6 +53,7 @@ struct arguments {
   int verbose;
   int scale;
   Sound sound;
+  Settings settings;
 };
 
 /** Parse a single option. */

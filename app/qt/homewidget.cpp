@@ -6,14 +6,19 @@ HomeWidget::HomeWidget(QWidget *parent) :
     ui->setupUi(this);
 
     // Close window when quitButton is clicked
-    connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->quitButton, &QPushButton::clicked, this, &QApplication::quit);
 
     // Navigate to embedwindow when embedButton is clicked
     connect(ui->embedButton, &QPushButton::clicked, this, [=, this]() {
-        // Show embedPage
-        ui->stackedWidget->setCurrentIndex(0);
+        ui->stackedWidget->setCurrentIndex(1);
     });
 
+    // Navigate to extractwindow when extractButton is clicked
+    connect(ui->extractButton, &QPushButton::clicked, this, [=, this]() {
+        ui->stackedWidget->setCurrentIndex(2);
+    });
+
+    // General Navigation using ComboBox
     connect(ui->comboBox, &QComboBox::activated,
             ui->stackedWidget, &QStackedWidget::setCurrentIndex);
 }
