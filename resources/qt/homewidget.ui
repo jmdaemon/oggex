@@ -40,7 +40,7 @@
      <height>688</height>
     </rect>
    </property>
-   <layout class="QFormLayout" name="formLayout">
+   <layout class="QFormLayout" name="fl_home">
     <property name="sizeConstraint">
      <enum>QLayout::SetMaximumSize</enum>
     </property>
@@ -215,7 +215,25 @@
        </widget>
       </widget>
       <widget class="QWidget" name="embedPage">
-       <widget class="EmbedWidget" name="widget" native="true">
+       <widget class="EmbedWidget" name="embedWidget" native="true">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>860</width>
+          <height>640</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="extractPage">
+       <widget class="ExtractWidget" name="extractWidget" native="true">
         <property name="geometry">
          <rect>
           <x>0</x>
@@ -241,7 +259,13 @@
   <customwidget>
    <class>EmbedWidget</class>
    <extends>QWidget</extends>
-   <header location="global">embedwidget.h</header>
+   <header>embedwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ExtractWidget</class>
+   <extends>QWidget</extends>
+   <header>extractwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

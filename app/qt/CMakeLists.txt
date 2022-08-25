@@ -40,12 +40,21 @@ make_qt6(
     UI_HDRS ${QT_HEADERS}/embedwidget.h
     UI_SRCS ${QT_UI}/embedwidget.ui)
 
+# Extract Widget
+make_qt6(
+    NAME extractwidget
+    SRCS extractwidget.cpp
+    HDRS ${HEADERS}
+    DEPS ${QT6_DEPENDS} datamodel filechooser ${PKG_DEPENDS}
+    UI_HDRS ${QT_HEADERS}/extractwidget.h
+    UI_SRCS ${QT_UI}/extractwidget.ui)
+
 # Home Widget
 make_qt6(
     NAME homewidget
     SRCS homewidget.cpp
     HDRS ${HEADERS}
-    DEPS ${QT6_DEPENDS} filechooser ${PKG_DEPENDS}
+    DEPS ${QT6_DEPENDS} filechooser embedwidget extractwidget ${PKG_DEPENDS}
     UI_HDRS ${QT_HEADERS}/homewidget.h
     UI_SRCS ${QT_UI}/homewidget.ui)
 
@@ -54,14 +63,15 @@ make_qt6(
     NAME mainwindow
     SRCS mainwindow.cpp
     HDRS ${HEADERS}
-    DEPS ${QT6_DEPENDS} embedwidget filechooser ${PKG_DEPENDS}
+    DEPS ${QT6_DEPENDS} embedwidget extractwidget filechooser ${PKG_DEPENDS}
     UI_HDRS ${QT_HEADERS}/mainwindow.h
     UI_SRCS ${QT_UI}/mainwindow.ui)
+
+set(QT_COMPONENTS datamodel filechooser embedwidget extractwidget mainwindow homewidget)
 
 # QT6 Executable
 set(TARGET oggex)
 set(QT6_BIN_NAME ${TARGET}-qt)
 qt_add_executable(${QT6_BIN_NAME} oggex-qt.cpp)
 target_include_directories(${QT6_BIN_NAME} PUBLIC ${HEADERS})
-target_link_libraries(${QT6_BIN_NAME} PRIVATE
-    ${QT6_DEPENDS} datamodel filechooser embedwidget mainwindow homewidget ${PKG_DEPENDS} oggex cli ogx)
+target_link_libraries(${QT6_BIN_NAME} PRIVATE ${QT6_DEPENDS} ${QT_COMPONENTS} ${PKG_DEPENDS} oggex cli ogx)
