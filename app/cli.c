@@ -11,6 +11,8 @@ struct arguments set_default_args() {
   arguments.mono_encoding = false;
 
   arguments.nolimit = false;
+  arguments.sound.temp = "temp.ogg";
+  arguments.sound.log = "log.txt";
   return arguments;
 }
 

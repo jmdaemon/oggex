@@ -73,17 +73,16 @@ void encodeAudio(Media& media) {
 
 void encodeImage(Media& media) {
   auto sound = media.sound;
-
-  if (!file_exists(sound.src)) { 
-    SPDLOG_ERROR("Image or Audio file does not exist or is being blocked");
-    remove(sound.temp);
-    throw std::exception();
-  }
-
   auto tag = "[" + std::string(sound.tag) + "]";
-  append_file(sound.image, sound.dest);
-  append_file(sound.temp, sound.dest);
-  write_file(sound.dest, tag.c_str(), "a");
+
+  // TODO: Handle sound.dest if set
+  std::string output(sound.image);
+  output = output.substr(0, output.length() - 4); // .png.png -> .png
+  append_file(sound.image, output.c_str());
+  //append_file(sound.temp, sound.dest);
+  append_file(sound.temp, output.c_str());
+  //write_file(sound.dest, tag.c_str(), "a");
+  write_file(output.c_str(), tag.c_str(), "a");
 
   remove(sound.temp);
 }
