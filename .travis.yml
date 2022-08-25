@@ -11,6 +11,7 @@ addons:
       - cmake
       - ninja-build
 script:
+  - sudo snap install cmake --beta --classic
   - git submodule update
   - cmake --preset gcc-release-ninja
   - cd build/gcc-release-ninja
