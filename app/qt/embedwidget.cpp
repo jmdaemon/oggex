@@ -1,13 +1,9 @@
 #include "embedwidget.h"
-#include "ui_embedwidget.h"
-//#include "mainwindow.h"
 
 EmbedWidget::EmbedWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::EmbedWidget) {
 
     ui->setupUi(this);
-    //MainWindow* mainwindow = qobject_cast<MainWindow*>(this->parent());
-    //this->setArgs(mainwindow->getArgs());
 
     /* TODO: Autocomplete/set fields from cli arguments */
 
@@ -51,11 +47,3 @@ EmbedWidget::EmbedWidget(QWidget *parent)
 EmbedWidget::~EmbedWidget() {
     delete ui;
 }
-
-//void EmbedWidget::setArgs(struct arguments args) {
-    //this->arguments = args;
-//}
-
-//struct arguments EmbedWidget::getArgs() {
-    //return this->arguments;
-//}

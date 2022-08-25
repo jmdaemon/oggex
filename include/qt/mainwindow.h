@@ -2,7 +2,6 @@
 #ifndef OGGEX_MAINWINDOW_H
 #define OGGEX_MAINWINDOW_H
 
-//#include "ogx.h"
 #include "oggex_qt.h"
 
 // QT Widgets
@@ -23,12 +22,9 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 private:
     Ui::MainWindow *ui;
-    //struct arguments arguments;
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    //void setArgs(struct arguments args);
-    //struct arguments getArgs();
 };
 #endif // OGGEX_MAINWINDOW_H

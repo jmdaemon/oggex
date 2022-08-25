@@ -24,9 +24,6 @@ public:
 
 private:
     Ui::HomeWidget *ui;
-    //struct arguments arguments;
-    //void setArgs(struct arguments args);
-    //struct arguments getArgs();
 
 };
 

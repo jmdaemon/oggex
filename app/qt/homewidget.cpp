@@ -13,7 +13,12 @@ HomeWidget::HomeWidget(QWidget *parent) :
         ui->stackedWidget->setCurrentIndex(1);
     });
 
-    // Navigate using ComboBox
+    // Navigate to extractwindow when extractButton is clicked
+    connect(ui->extractButton, &QPushButton::clicked, this, [=, this]() {
+        ui->stackedWidget->setCurrentIndex(2);
+    });
+
+    // General Navigation using ComboBox
     connect(ui->comboBox, &QComboBox::activated,
             ui->stackedWidget, &QStackedWidget::setCurrentIndex);
 }
