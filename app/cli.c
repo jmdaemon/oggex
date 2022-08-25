@@ -9,10 +9,15 @@ struct arguments set_default_args() {
   arguments.scale = 1000;
   arguments.readable = false;
   arguments.mono_encoding = false;
-
   arguments.nolimit = false;
+
+  /* Sound */
   arguments.sound.temp = "temp.ogg";
   arguments.sound.log = "log.txt";
+
+  /* Settings */
+  arguments.settings.quality = 10;
+  arguments.settings.mono_channel = false;
   return arguments;
 }
 
