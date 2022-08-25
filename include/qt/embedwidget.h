@@ -2,8 +2,6 @@
 #ifndef OGGEX_EMBEDWIDGET_H
 #define OGGEX_EMBEDWIDGET_H
 
-//#include "cli.h"
-//#include "media.h"
 #include "oggex.h"
 
 // QT Widgets
