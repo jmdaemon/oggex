@@ -2,6 +2,9 @@
 #ifndef OGGEX_EXTRACTWIDGET_H
 #define OGGEX_EXTRACTWIDGET_H
 
+// QT Components
+#include "oggex_qt.h"
+
 // QT Libraries
 #include <QWidget>
 
