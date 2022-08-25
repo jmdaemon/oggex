@@ -37,8 +37,8 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             SPDLOG_INFO("Reading embed form data");
             
             // Parse Fields
-            std::string s_image = ui->le_image->text().toStdString();
-            std::string s_audio = ui->le_audio->text().toStdString();
+            std::string s_image = ui->le_image->getPath().toStdString();
+            std::string s_audio = ui->le_audio->getPath().toStdString();
             std::string s_tag   = ui->le_tag->text().toStdString();
             std::string s_dest  = ui->le_dest->text().toStdString();
             

@@ -19,10 +19,17 @@ class FileChooser : public QLineEdit {
 
 private:
     Ui::FileChooser *ui;
+    QString path;
 
 public:
     explicit FileChooser(QWidget *parent = nullptr);
     ~FileChooser();
+
+    // Getters
+    QString getPath();
+
+    // Setters
+    void setPath(QString path);
 
 signals:
     void clicked(bool wasClicked);
