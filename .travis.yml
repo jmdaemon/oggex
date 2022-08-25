@@ -4,7 +4,6 @@ dist: focal
 os:
   linux
 compiler:
-  - clang
   - gcc
 addons:
   apt:
@@ -12,6 +11,7 @@ addons:
       - cmake
       - ninja-build
 script:
+  - git submodule update
   - cmake --preset gcc-release-ninja
   - cd build/gcc-release-ninja
   - ninja
