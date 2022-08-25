@@ -7,77 +7,61 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-# QtCreator supports the following variables for Android, which are identical to qmake Android variables.
-# Check https://doc.qt.io/qt/deployment-android.html for more information.
-# They need to be set before the find_package( ...) calls below.
-
-#if(ANDROID)
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-#    if (ANDROID_ABI STREQUAL "armeabi-v7a")
-#        set(ANDROID_EXTRA_LIBS
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libcrypto.so
-#            ${CMAKE_CURRENT_SOURCE_DIR}/path/to/libssl.so)
-#    endif()
-#endif()
-
 # QT6 libs must be available
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 # Include all QT headers, ui files for all targets
-include_directories(${QT_HEADERS})
-include_directories(${QT_UI})
+set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${PROJECT_SOURCE_DIR}/include/qt ${PROJECT_SOURCE_DIR}/resources/qt)
+set(QT6_DEPENDS Qt6::Widgets)
 
-set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${PROJECT_SOURCE_DIR}/include/qt)
+# Data Model
+make_qt6(
+    NAME datamodel
+    SRCS datamodel.cpp
+    HDRS ${HEADERS}
+    DEPS ${QT6_DEPENDS}
+    UI_HDRS ${QT_HEADERS}/datamodel.h)
 
-# Compile user interface components
-# *Note* that we must use qt6_wrap_cpp, since AUTOMOC doesn't detect
-# header files outside the current directory
+# File Chooser
+make_qt6(
+    NAME filechooser
+    SRCS filechooser.cpp
+    HDRS ${HEADERS}
+    DEPS ${QT6_DEPENDS}
+    UI_HDRS ${QT_HEADERS}/filechooser.h
+    UI_SRCS ${QT_UI}/filechooser.ui)
 
-## Data Model
-set(TARGET datamodel)
-qt6_wrap_cpp(HEADER ${QT_HEADERS}/datamodel.h)
-add_library(${TARGET} datamodel.cpp ${HEADER})
-target_include_directories(${TARGET} PUBLIC ${HEADERS})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
+# Embed Widget
+make_qt6(
+    NAME embedwidget
+    SRCS embedwidget.cpp
+    HDRS ${HEADERS}
+    DEPS ${QT6_DEPENDS} datamodel filechooser ${PKG_DEPENDS}
+    UI_HDRS ${QT_HEADERS}/embedwidget.h
+    UI_SRCS ${QT_UI}/embedwidget.ui)
 
-## FileChooser
-set(TARGET filechooser)
-qt6_wrap_cpp(HEADER ${QT_HEADERS}/filechooser.h)
-qt6_wrap_ui(UI ${QT_UI}/filechooser.ui)
-add_library(${TARGET} filechooser.cpp ${HEADER} ${UI} ${HEADERS})
-target_include_directories(${TARGET} PUBLIC ${HEADERS})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets)
+# Home Widget
+make_qt6(
+    NAME homewidget
+    SRCS homewidget.cpp
+    HDRS ${HEADERS}
+    DEPS ${QT6_DEPENDS} filechooser ${PKG_DEPENDS}
+    UI_HDRS ${QT_HEADERS}/homewidget.h
+    UI_SRCS ${QT_UI}/homewidget.ui)
 
-## Embed Widget
-set(TARGET embedwidget)
-#qt6_wrap_cpp(HEADER ${QT_HEADERS}/embedwidget.h ${QT_HEADERS}/filechooser.h)
-#qt6_wrap_ui(UI ${QT_UI}/embedwidget.ui ${QT_UI}/qfilechooser.ui)
-qt6_wrap_cpp(HEADER ${QT_HEADERS}/embedwidget.h ${INCLUDES_DIR}/oggex.h)
-qt6_wrap_ui(UI ${QT_UI}/embedwidget.ui)
-add_library(${TARGET} embedwidget.cpp ${HEADER} ${UI})
-target_include_directories(${TARGET} PUBLIC ${HEADERS})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel filechooser ${PKG_DEPENDS} oggex cli)
+# Main Window
+make_qt6(
+    NAME mainwindow
+    SRCS mainwindow.cpp
+    HDRS ${HEADERS}
+    DEPS ${QT6_DEPENDS} embedwidget filechooser ${PKG_DEPENDS}
+    UI_HDRS ${QT_HEADERS}/mainwindow.h
+    UI_SRCS ${QT_UI}/mainwindow.ui)
 
-## Home Widget
-set(TARGET homewidget)
-qt6_wrap_cpp(HEADER ${QT_HEADERS}/homewidget.h)
-qt6_wrap_ui(UI ${QT_UI}/homewidget.ui)
-add_library(${TARGET} homewidget.cpp ${HEADER} ${UI} ${HEADERS})
-target_include_directories(${TARGET} PUBLIC ${HEADERS})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets filechooser ${PKG_DEPENDS})
-
-## Main Window
-set(TARGET mainwindow)
-qt6_wrap_cpp(HEADER ${QT_HEADERS}/mainwindow.h)
-qt6_wrap_ui(UI ${QT_UI}/mainwindow.ui)
-add_library(${TARGET} mainwindow.cpp ${HEADER} ${UI} ${HEADERS})
-target_include_directories(${TARGET} PUBLIC ${HEADERS})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets embedwidget filechooser ${PKG_DEPENDS})
-
-## Binary
-set(TARGET oggex-qt)
-qt_add_executable(${TARGET} oggex-qt.cpp)
-
-# Include necessary header files & link components
-target_include_directories(${TARGET} PUBLIC ${HEADERS})
-target_link_libraries(${TARGET} PRIVATE Qt6::Widgets datamodel filechooser embedwidget mainwindow homewidget ${PKG_DEPENDS} oggex cli)
+# QT6 Executable
+set(TARGET oggex)
+set(QT6_BIN_NAME ${TARGET}-qt)
+qt_add_executable(${QT6_BIN_NAME} oggex-qt.cpp)
+target_include_directories(${QT6_BIN_NAME} PUBLIC ${HEADERS})
+target_link_libraries(${QT6_BIN_NAME} PRIVATE
+    ${QT6_DEPENDS} datamodel filechooser embedwidget mainwindow homewidget ${PKG_DEPENDS} oggex cli)
