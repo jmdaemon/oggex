@@ -157,7 +157,8 @@ int extract(Media& media) {
 
   std::string dest = (msound.dest != nullptr) ? std::string(msound.dest) + "/" : "";
   auto sound_output = dest + tag; 
-  auto image_output = dest + std::string(msound.image) + ".png";
+  auto image_stem = std::filesystem::path(msound.image);
+  auto image_output = dest + std::string(image_stem.filename()) + ".png";
 
   write_file(sound_output.c_str(), sound.c_str(), "w");
   write_file(image_output.c_str(), image.c_str(), "w");

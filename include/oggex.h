@@ -11,6 +11,7 @@
 // Standard Library
 #include <array>
 #include <exception>
+#include <filesystem>
 #include <string>
 
 // Third Party Libraries
