@@ -22,7 +22,7 @@ std::string format_command(Media& media) {
   auto command = fmt::format(fmt::runtime(
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
-  SPDLOG_DEBUG("{}\n", command);
+  SPDLOG_DEBUG("{}", command);
   return command;
 }
 
@@ -30,7 +30,7 @@ void encode(const std::string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
   auto use_mono_encoding = (media.args.mono_encoding) ? "In Mono Audio Channel" : "";
-  SPDLOG_INFO("Encoding \"{}\" at quality = {} {}\n", sound.src, settings.quality, use_mono_encoding);
+  SPDLOG_INFO("Encoding \"{}\" at quality = {} {}", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
 }
 
@@ -64,11 +64,11 @@ void encodeAudio(Media& media) {
     } else if (settings.quality > 0) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
-      SPDLOG_ERROR("Audio file is too big (>4MiB), try running with -f or --fast\n");
+      SPDLOG_ERROR("Audio file is too big (>4MiB), try running with -f or --fast");
       throw std::exception();
     }
   }
-  SPDLOG_INFO("Audio Encoding completed.\n\n");
+  SPDLOG_INFO("Audio Encoding completed.");
 }
 
 void encodeImage(Media& media) {
@@ -79,9 +79,7 @@ void encodeImage(Media& media) {
   std::string output(sound.image);
   output = output.substr(0, output.length() - 4); // .png.png -> .png
   append_file(sound.image, output.c_str());
-  //append_file(sound.temp, sound.dest);
   append_file(sound.temp, output.c_str());
-  //write_file(sound.dest, tag.c_str(), "a");
   write_file(output.c_str(), tag.c_str(), "a");
 
   remove(sound.temp);
