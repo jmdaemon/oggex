@@ -68,21 +68,27 @@ void encodeAudio(Media& media) {
       throw std::exception();
     }
   }
-  SPDLOG_INFO("Audio Encoding completed.");
+  SPDLOG_INFO("Audio encoding completed.");
 }
 
 void encodeImage(Media& media) {
   auto sound = media.sound;
-  auto tag = "[" + std::string(sound.tag) + "]";
+  auto tag = fmt::format("[{}]", sound.tag);
 
-  // TODO: Handle sound.dest if set
+  // Assume the image is titled image.png.png
+  // This will output the embedded image to image.png
   std::string output(sound.image);
-  output = output.substr(0, output.length() - 4); // .png.png -> .png
-  append_file(sound.image, output.c_str());
-  append_file(sound.temp, output.c_str());
-  write_file(output.c_str(), tag.c_str(), "a");
+  output = (sound.dest != nullptr) ? sound.dest : output.substr(0, output.length() - 4);
+  auto embedded = output.c_str();
 
+  // Write all the files
+  append_file(sound.image, embedded);
+  append_file(sound.temp, embedded);
+  write_file(embedded, tag.c_str(), "a");
+
+  // Remove unneeded files
   remove(sound.temp);
+  remove(sound.log);
 }
 
 int embed(Media& media) {
