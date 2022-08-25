@@ -10,9 +10,11 @@ addons:
     packages:
       - cmake
       - ninja-build
+  snaps:
+    - name: cmake
+      confinement: classic
+      channel: 3.18/candidate
 script:
-  - sudo snap install cmake --beta --classic
-  - git submodule update
   - cmake --preset gcc-release-ninja
   - cd build/gcc-release-ninja
   - ninja
