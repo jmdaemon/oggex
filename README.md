@@ -70,3 +70,14 @@ sudo make install
 
 Contributions and suggestions are welcome. Feel free to suggest ideas or potential features.
 If you need to contact me you can do so by my [email](josephm.diza@gmail.com)
+
+## Features
+
+Potential features
+
+- Manpages for viewing options and flags.
+- Online documentation
+- Direct encoding/linking with ffmpeg.
+- Flag to toggle optional file masking.
+- Progress Bar during encoding
+- Graphical user interface
