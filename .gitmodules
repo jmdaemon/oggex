@@ -1,0 +1,12 @@
+[submodule "subprojects/log.c"]
+	path = subprojects/log.c
+	url = https://github.com/rxi/log.c
+[submodule "subprojects/utility"]
+	path = subprojects/utility
+	url = https://github.com/jmdaemon/utility
+[submodule "cmake"]
+	path = cmake
+	url = https://github.com/jmdaemon/cmake-modules
+[submodule "presets"]
+	path = presets
+	url = https://github.com/jmdaemon/cmake-presets

@@ -1,2 +1,6 @@
-add_subdirectory(audio)
-add_subdirectory(utility)
+set(HEADERS ${INCLUDES_DIR} ${jolly_SOURCE_DIR}/include)
+make_ssl(
+    NAME oggex
+    HDRS ${HEADERS}
+    SRCS oggex.cpp
+    DEPS ${PKG_DEPENDS})

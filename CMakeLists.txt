@@ -2,29 +2,19 @@ cmake_minimum_required(VERSION 3.12)
 
 project(
     oggex 
-    VERSION 1.5.0
+    VERSION 2.0.0
     DESCRIPTION "Encode and decode ogg audio files in images" 
-    LANGUAGES CXX
-    )
+    LANGUAGES C CXX)
 
-if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME) 
-    set(CMAKE_CXX_STANDARD 20) 
-    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON) 
-    set(CMAKE_CXX_EXTENSIONS OFF) 
-    # Enable -fPIC
-    set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
-    set_property(GLOBAL PROPERTY USE_FOLDERS ON) 
+# Variable Toggles
+if (NOT USE_AS_SUBPROJECT)
+    set(NO_COLOR OFF CACHE INTERNAL "Toggles colored output errors")
+    set(BUILD_DOC OFF CACHE INTERNAL "Build documentation")
+    set(ENABLE_LOGGING OFF CACHE INTERNAL "View the logging statements/debug info")
+    set(LOG_LEVEL 0 CACHE INTERNAL "Enable only specific log levels")
 endif()
 
-if (NOT COLOR)
-    # Don't use colored output
-else()
-    # Include colored output by default
-    include(Color)
-endif()
-
-### Require out-of-source builds
+# Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
     message(FATAL_ERROR "You cannot build in a source directory (or any directory with "
@@ -32,49 +22,61 @@ if(EXISTS "${LOC_PATH}")
                         "remove CMakeCache.txt and CMakeFiles.")
 endif()
 
-set( OGGEX_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} )
-set( OGGEX_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
+# Include CMake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake")
 
-set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMake/modules/" "${PROJECT_SOURCE_DIR}/cmake" )
-
-# Single source project version
-configure_file (
-  "${PROJECT_SOURCE_DIR}/include/Version.h.in"
-  "${PROJECT_BINARY_DIR}/include/Version.h"
-)
-
-# Include dependencies
-include(FetchContent)
-include(Library)
-include(Utilities)
-include(fmt)
-include(doctest)
-include(utility)
-include(cnc)
-
-# Set includes for libraries
-set(CSTANDARD cxx_std_20)
-set(INCLUDES_DIR "${OGGEX_SOURCE_DIR}/include")
-set(UTILITY_DIR "${INCLUDES_DIR}/utility")
-set(AUDIO_DIR "${INCLUDES_DIR}/audio")
-
-# Add subdirectories
-add_subdirectory(src)
-add_subdirectory(app)
-
-if(BUILD_TESTING)
-    include(MakeTests)
-    add_subdirectory(test)
-    #include (CTest)
+if (NO_COLOR)
+    # Don't use colored output
+else()
+    # Include colored output by default
+    include(Color)
 endif()
 
-# Package for debian
-include(Debian)
+# Single source project version
+configure_file(
+  "${PROJECT_SOURCE_DIR}/include/Version.h.in"
+  "${PROJECT_BINARY_DIR}/include/Version.h")
 
-set(CMAKE_INSTALL_PREFIX /usr/local)
-install(TARGETS ${OGGEX} DESTINATION bin)
-install(TARGETS ${OGGEX} CONFIGURATIONS Debug   RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/Debug/bin)
-install(TARGETS ${OGGEX} CONFIGURATIONS Release RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/Release/bin)
+# Include dependencies
+include(Library)
 
-# Define Ninja uninstall
-add_custom_target(uninstall COMMAND xargs rm < ${CMAKE_CURRENT_BINARY_DIR}/install_manifest.txt)
+# Include subprojects
+include_subprojects(
+    TOGGLE TRUE
+    GIT_MODULE FALSE
+    INCLUDES utility jolly)
+
+include(spdlog)
+
+# Specify project dependencies
+# PKG_DEPENDS: Library names to link the output files
+# DEB_DEPENDS: Debian packages that provide the libraries the project depends upon
+set(PKG_DEPENDS pcre utility jolly spdlog)
+set(DEB_DEPENDS libc)
+
+# Include header files
+set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
+set(HEADERS_VERSION "${PROJECT_BINARY_DIR}/include")
+
+# Add subdirectories
+subdirs(resources src app)
+
+if (BUILD_TESTING AND NOT USE_AS_SUBPROJECT)
+    set(DISCOVER_TESTS FALSE)
+    include(doctest)
+    include(MakeTests)
+    include(CTest)
+    add_subdirectory(test)
+endif()
+
+if (NOT USE_AS_SUBPROJECT)
+    # Generate automatic docs with Doxygen
+    include(Docs)
+
+    # Install build artifacts system-wide
+    include(Install)
+
+    # Packages
+    include(InstallRequiredSystemLibraries)
+    include(Debian)
+endif()

@@ -1,25 +1,23 @@
-#set(HEADER_LIST "${OGGEX_SOURCE_DIR}/include/audio" "${OGGEX_SOURCE_DIR}/include/util" )
+set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${jolly_SOURCE_DIR}/include)
+set(TARGET oggex)
 
-set(OGGEX oggex)
-add_executable(${OGGEX})
-target_sources(${OGGEX}
-    PRIVATE oggex.cpp
-    PUBLIC  ${HEADER_LIST}
-)
-target_include_directories(${OGGEX} PUBLIC ${AUDIO_DIR} ${UTILITY_DIR})
-target_link_libraries(${OGGEX} PRIVATE fmt image sound audio file cmd cnc)
-target_compile_features(${OGGEX} PUBLIC cxx_std_20)
-source_group(
-  TREE "${PROJECT_SOURCE_DIR}/include"
-  PREFIX "Header Files"
-  FILES ${HEADER_LIST}
-  )
+# Make static, shared library
+make_ssl(NAME cli
+    SRCS cli.c
+    HDRS ${HEADERS})
 
-install(TARGETS ${OGGEX} RUNTIME DESTINATION bin)
-install(TARGETS ${OGGEX}
-        CONFIGURATIONS Debug
-        RUNTIME DESTINATION Debug/bin)
-install(TARGETS ${OGGEX}
-        CONFIGURATIONS Release
-        RUNTIME DESTINATION Release/bin)
-#add_subdirectory(qt)
+set(BIN_NAME oggex-bin)
+add_executable(${BIN_NAME} oggex-bin.cpp)
+target_include_directories(${BIN_NAME} PUBLIC ${HEADERS})
+target_link_libraries(${BIN_NAME} PRIVATE ${PKG_DEPENDS} cli oggex)
+
+# Rename binary executable without -bin suffix
+set_target_properties(${BIN_NAME} PROPERTIES OUTPUT_NAME ${TARGET})
+
+# Manual Installation
+install(TARGETS ${BIN_NAME}
+    DESTINATION bin
+    COMPONENT bin)
+
+# Compile experimental gui application
+add_subdirectory(qt)
