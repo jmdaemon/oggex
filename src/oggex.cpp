@@ -112,7 +112,7 @@ std::string find_sound_tag(std::string conts) {
   }
   auto tag = conts.substr(lb, rb);                  // [audio02] 
   trim(tag);
-  auto stripped = tag.substr(1, tag.length() - 2);  // [audio02] => audio02
+  auto stripped = tag.substr(1, tag.length() - 3);  // [audio02] => audio02
 
   SPDLOG_DEBUG("Stripped  : {}", tag);
   SPDLOG_DEBUG("Unstripped: {}", stripped);
