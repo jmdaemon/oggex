@@ -45,3 +45,8 @@ void FileChooser::browse(QString prompt, QString filetypes, QString dir, bool sh
         }
     }
 }
+
+QString FileChooser::text() {
+    //return ui->parent.text();
+    return qobject_cast<QLineEdit*>(parent())->text();
+}

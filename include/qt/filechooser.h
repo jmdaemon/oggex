@@ -23,6 +23,7 @@ private:
 public:
     explicit FileChooser(QWidget *parent = nullptr);
     ~FileChooser();
+    QString text();
 
 signals:
     void clicked(bool wasClicked);
