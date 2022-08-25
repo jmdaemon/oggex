@@ -12,6 +12,8 @@ addons:
       - cmake
       - ninja-build
 script:
-  - ls -al && mkdir build
-  - CC="${CC}" CXX="${CXX}" cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
-  - ninja -C build
+  - cmake --preset gcc-release-ninja
+  - cd build/gcc-release-ninja
+  - ninja
+  - ctest -V
+  - sudo cpack .
