@@ -44,7 +44,9 @@ include(Library)
 include_subprojects(
     TOGGLE TRUE
     GIT_MODULE FALSE
-    INCLUDES utility bytesize jolly cnc)
+    INCLUDES utility jolly)
+
+include(spdlog)
 
 # Specify project dependencies
 # PKG_DEPENDS: Library names to link the output files
