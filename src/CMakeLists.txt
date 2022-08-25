@@ -7,12 +7,4 @@ make_ssl(
     DEPS ${PKG_DEPENDS})
 
 # Installation targets
-install(TARGETS ${TARGET}
-    DESTINATION lib
-    PUBLIC_HEADER DESTINATION include
-    COMPONENT lib)
-
-install(TARGETS ${TARGET}_static
-    DESTINATION lib
-    PUBLIC_HEADER DESTINATION include
-    COMPONENT lib)
+ilibs(TARGETS ${TARGET} ${TARGET}_static COMPS lib lib_static)
