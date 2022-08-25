@@ -30,9 +30,9 @@ signals:
     void focus(bool hasFocus);
 
 protected:
-  virtual void mouseReleaseEvent(QMouseEvent *e);
-  virtual void focusInEvent(QFocusEvent *e);
-  virtual void focusOutEvent(QFocusEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
+    virtual void focusInEvent(QFocusEvent *e);
+    virtual void focusOutEvent(QFocusEvent *e);
 
 public slots:
     void browse(QString prompt, QString filetypes, QString dir, bool shortpaths);

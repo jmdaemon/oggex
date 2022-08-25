@@ -9,7 +9,7 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)", "", true);
         });
     connect(ui->le_audio, &FileChooser::clicked, this, [this]() {
-            ui->le_image->browse("Open Audio", "Audio Files (*.ogg)", "", true);
+            ui->le_audio->browse("Open Audio", "Audio Files (*.ogg)", "", true);
         });
     connect(ui->btn_embed, &QPushButton::clicked, this, [this]() {
             //FileChooser* fc = ui->le_image;
