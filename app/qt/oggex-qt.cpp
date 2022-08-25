@@ -1,26 +1,17 @@
 #include "mainwindow.h"
+#include "ogx.h"
 
-std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks) {
-  auto logger = spdlog::get(logger_name);
-  if (!logger) {
-    if (sinks.size() > 0) {
-        logger = std::make_shared<spdlog::logger>(logger_name, std::begin(sinks), std::end(sinks));
-        spdlog::register_logger(logger);
-    } else {
-        logger = spdlog::stdout_color_mt(logger_name);
-    }
-  }
-  return logger;
-}
+int main(int argc, char **argv) {
+    struct arguments arguments = init_args(argc, argv);
 
-int main(int argc, char *argv[]) {
-    // Setup logging
-    std::vector<spdlog::sink_ptr> sinks;
-    sinks.push_back(std::make_shared<spdlog::sinks::stdout_sink_st>());
-    auto logger = setup_logger(sinks);
+    //char* command = arguments.args[0];
+    //Sound sound = arguments.sound;
+    Settings settings = { 10, false };
+    Media media = {arguments.sound, settings, arguments};
+    //Media media = {sound, settings, arguments};
+    setup_logging(arguments);
+    //oggex(command, media);
 
-    // For now, enable logs
-    spdlog::set_level(spdlog::level::level_enum::trace);
 
     QApplication app(argc, argv);
     MainWindow mainWindow;

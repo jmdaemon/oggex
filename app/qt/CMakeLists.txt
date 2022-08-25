@@ -64,4 +64,4 @@ set(QT6_BIN_NAME ${TARGET}-qt)
 qt_add_executable(${QT6_BIN_NAME} oggex-qt.cpp)
 target_include_directories(${QT6_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${QT6_BIN_NAME} PRIVATE
-    ${QT6_DEPENDS} datamodel filechooser embedwidget mainwindow homewidget ${PKG_DEPENDS} oggex cli)
+    ${QT6_DEPENDS} datamodel filechooser embedwidget mainwindow homewidget ${PKG_DEPENDS} oggex cli ogx)
