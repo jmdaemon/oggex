@@ -1,9 +1,15 @@
 #include "embedwidget.h"
+#include "ui_embedwidget.h"
+//#include "mainwindow.h"
 
 EmbedWidget::EmbedWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::EmbedWidget) {
 
     ui->setupUi(this);
+    //MainWindow* mainwindow = qobject_cast<MainWindow*>(this->parent());
+    //this->setArgs(mainwindow->getArgs());
+
+    /* TODO: Autocomplete/set fields from cli arguments */
 
     connect(ui->le_image, &FileChooser::clicked, this, [this]() {
             ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)", "", true);
@@ -12,7 +18,7 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             ui->le_audio->browse("Open Audio", "Audio Files (*.ogg)", "", true);
         });
     connect(ui->btn_embed, &QPushButton::clicked, this, [this]() {
-            struct arguments args = set_default_args();
+            //struct arguments args = this->getArgs();
 
             SPDLOG_INFO("Reading embed form data");
             
@@ -45,3 +51,11 @@ EmbedWidget::EmbedWidget(QWidget *parent)
 EmbedWidget::~EmbedWidget() {
     delete ui;
 }
+
+//void EmbedWidget::setArgs(struct arguments args) {
+    //this->arguments = args;
+//}
+
+//struct arguments EmbedWidget::getArgs() {
+    //return this->arguments;
+//}

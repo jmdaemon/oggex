@@ -2,6 +2,8 @@
 #ifndef OGGEX_HOMEWIDGET_H
 #define OGGEX_HOMEWIDGET_H
 
+#include "oggex_qt.h"
+
 // QT Libraries
 #include <QWidget>
 #include <QApplication>
@@ -22,6 +24,10 @@ public:
 
 private:
     Ui::HomeWidget *ui;
+    //struct arguments arguments;
+    //void setArgs(struct arguments args);
+    //struct arguments getArgs();
+
 };
 
 #endif // OGGEX_HOMEWIDGET_H
