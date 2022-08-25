@@ -52,7 +52,7 @@ include(spdlog)
 # PKG_DEPENDS: Library names to link the output files
 # DEB_DEPENDS: Debian packages that provide the libraries the project depends upon
 set(PKG_DEPENDS pcre utility jolly spdlog)
-set(DEB_DEPENDS libc)
+set(DEB_DEPENDS libc libpcre-dev libutility-dev libjolly-dev libspdlog-dev)
 
 # Include header files
 set(INCLUDES_DIR "${PROJECT_SOURCE_DIR}/include")
