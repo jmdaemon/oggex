@@ -2,7 +2,7 @@
 #include "oggex_qt.h"
 
 int main(int argc, char **argv) {
-    //args = init_args(argc, argv);
+    args.args[0] = (char*) "";
     args = set_default_args();
     setup_logging(args);
 
