@@ -5,6 +5,11 @@
 #include <string.h>
 #include <stdbool.h>
 
+/* Support header include for C++ */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /** Sound file */
 typedef struct Sound {
   char* src;   /* Sound file path */
@@ -20,5 +25,9 @@ typedef struct Settings {
   int quality;
   bool mono_channel;
 } Settings;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // OGGEX_SOUND_H

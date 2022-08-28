@@ -6,7 +6,6 @@
 
 // Imports
 #include "cli_defs.h"
-//#include "cli.h"
 #include "media.h"
 
 // Standard Library
