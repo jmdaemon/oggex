@@ -1,12 +1,3 @@
-#project('oggex', 'c',
-          #version: '0.1.0',
-    #meson_version: '>= 0.59.0',
-  #default_options: [ 'warning_level=2',
-                     #'werror=false',
-                     #'c_std=gnu11',
-                   #],
-#)
-
 # Imports
 i18n = import('i18n')
 gnome = import('gnome')
@@ -24,20 +15,11 @@ configure_file(
   output: 'oggex-config.h',
   configuration: config_h)
 
-#incs = [inc, inc_ver]
-#inc = include_directories('../../include')
-#inc = include_directories('include')
+# Include directories
 inc = include_directories('../../include')
 inc_gtk = include_directories('../../include/gtk')
 inc_config = include_directories('.')
-#incs = [inc, inc_ver]
-#incs = [inc, inc_config, include_directories('include')]
 incs = [inc, inc_config, inc_gtk]
-
-#add_project_arguments([
-  #'-I' + meson.project_build_root(),
-#], language: 'c')
-
 
 subdir('data')
 subdir('src')
