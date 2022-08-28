@@ -2,6 +2,11 @@
 _packages
 archive/*
 
+# Ignore meson subproject output
+/meson-subprojects/*
+
+!/meson-subprojects/*.wrap
+
 # Ignore bazel output
 bazel-*
 
