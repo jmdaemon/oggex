@@ -1,7 +1,3 @@
-#project('oggex', ['c', 'cpp'],
-        #version: '2.1.0',
-        #license: 'MIT')
-
 project('oggex', ['c', 'cpp'],
 version: '2.1.0',
 subproject_dir: 'meson-subprojects',
@@ -25,36 +21,11 @@ configure_file(input : 'include/Version.h.in',
                         configuration : conf_data)
 
 # Dependencies
-#add_global_arguments('-lm', language : 'c')
-#cc      = meson.get_compiler('c')
-cxx     = meson.get_compiler('c')
-#dep_m = cc.find_library('m', required : false)
-dep_m = cxx.find_library('m', required : false)
-
+cc     = meson.get_compiler('c')
+dep_m = cc.find_library('m', required : false)
 dep_pcre = dependency('libpcre')
 
-
-# Add spdlog
-
-#dep_gmp = dependency('gmp')
-#dep_mpfr = dependency('mpfr')
-
-
-# Main Library
-#library('oggex',
-        #'src/oggex.cpp',
-        #install: true)
-
-# Executable targets
-#library('cli',
-        #'src/cli.c')
-
-#library('cli',
-        #)
-
-# Dependencies
-#dep_pcre        = dependency('pcre')
-
+# Subprojects
 proj_utility = subproject('utility')
 dep_utility = proj_utility.get_variable('dep_utility')
 
@@ -64,11 +35,8 @@ dep_jolly = proj_jolly.get_variable('dep_jolly')
 proj_spdlog = subproject('spdlog')
 spdlog_dep = proj_spdlog.get_variable('spdlog_dep')
 
-
-#dep_utility     = dependency('pcre')
 deps = [ dep_m, dep_pcre, dep_utility, dep_jolly, spdlog_dep ]
 
-#subdir('include')
 subdir('src')
 subdir('app')
 #subdir('test')
