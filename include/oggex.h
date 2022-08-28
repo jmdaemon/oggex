@@ -5,7 +5,8 @@
 #define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_TRACE
 
 // Imports
-#include "cli.h"
+#include "cli_defs.h"
+//#include "cli.h"
 #include "media.h"
 
 // Standard Library

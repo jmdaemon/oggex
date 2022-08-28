@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 /* Third Party Libraries */
-#include "sound.h"
+#include "cli_defs.h"
 
 /* Standard Library */
 #include <argp.h>
@@ -42,18 +42,6 @@ static const struct argp_option options[] = {
   {"nolimit"  , 'l', 0, 0, "Disables 4MiB limit for embedding files", 0},
   {"format"   , 400, "Use either SI or binary unit sizes in logs", 0},
   {}
-};
-
-/** Used by main to communicate with parse_opt. */
-struct arguments {
-  char *args[1]; /** embed, extract */
-  bool readable;
-  bool mono_encoding;
-  bool nolimit;
-  int verbose;
-  int scale;
-  Sound sound;
-  Settings settings;
 };
 
 /** Parse a single option. */

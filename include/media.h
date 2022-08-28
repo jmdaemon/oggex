@@ -2,8 +2,7 @@
 #ifndef OGGEX_MEDIA_H
 #define OGGEX_MEDIA_H
 
-#include "sound.h"
-#include "cli.h"
+#include "cli_defs.h"
 
 typedef struct Media {
   Sound sound;

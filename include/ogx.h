@@ -3,6 +3,7 @@
 #define OGX_H
 
 #include "oggex.h"
+#include "cli.h"
 
 std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks);
 void setup_logging(arguments arguments);
