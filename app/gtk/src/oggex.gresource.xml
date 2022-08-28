@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/io/github/com/jmdaemon/oggex">
+    <file>../../../resources/gtk/oggex-window.ui</file>
+    <file>../../../resources/gtk/help-overlay.ui</file>
+  </gresource>
+</gresources>
