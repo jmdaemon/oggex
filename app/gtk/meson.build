@@ -15,12 +15,6 @@ gnome = import('gnome')
 dep_gtk4 = dependency('gtk4')
 deps_gtk4 = [dep_gtk4]
 
-#incs = [inc, inc_ver]
-#inc = include_directories('include')
-inc_config = include_directories('.')
-#incs = [inc, inc_ver]
-incs = [inc_config]
-
 # Configure gettext translations
 config_h = configuration_data()
 config_h.set_quoted('PACKAGE_VERSION', meson.project_version())
@@ -29,6 +23,17 @@ config_h.set_quoted('LOCALEDIR', join_paths(get_option('prefix'), get_option('lo
 configure_file(
   output: 'oggex-config.h',
   configuration: config_h)
+
+#incs = [inc, inc_ver]
+#inc = include_directories('../../include')
+#inc = include_directories('include')
+inc = include_directories('../../include')
+inc_gtk = include_directories('../../include/gtk')
+inc_config = include_directories('.')
+#incs = [inc, inc_ver]
+#incs = [inc, inc_config, include_directories('include')]
+incs = [inc, inc_config, inc_gtk]
+
 #add_project_arguments([
   #'-I' + meson.project_build_root(),
 #], language: 'c')
