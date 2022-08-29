@@ -12,29 +12,27 @@ set(GTK4_DEPENDS ${GTK4_LIBRARIES})
 add_definitions(${GTK4_CFLAGS_OTHER})
 link_directories(${GTK4_LIBRARY_DIRS})
 
-
-set(GRESOURCE_C oggex-resources.c)
-set(GRESOURCE_H oggex-resources.h)
-set(GRESOURCE_XML oggex.gresource.xml)
-set(GRESOURCE_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}) 
-set(GRESOURCE_HEADER ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_H}) 
-set(GRESOURCES ${TARGET}-resources)
+set(GR_C oggex-resources.c)
+set(GR_H oggex-resources.h)
+set(GR_XML oggex.gresource.xml)
+set(GR_C_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}) 
+set(GR_H_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_H}) 
+set(GR ${TARGET}-resources)
 
 make_gresource(
-    NAME ${GRESOURCES}
-    SRC ${GRESOURCE_C}
-    SRC_OUT ${GRESOURCE_OUT}
-    HDR ${GRESOURCE_H}
-    HDR_OUT ${GRESOURCE_HEADER}
+    NAME ${GR}
+    SRC ${GR_C}
+    SRC_OUT ${GR_C_OUT}
+    HDR ${GR_H}
+    HDR_OUT ${GR_H_OUT}
     WD ${CMAKE_CURRENT_SOURCE_DIR}
-    XML ${GRESOURCE_XML})
+    XML ${GR_XML})
 
 # Build oggex-gtk
 set(GTK4_BIN_NAME ${TARGET}-gtk)
-add_executable(${GTK4_BIN_NAME} ${GRESOURCE_OUT} oggex_defs.c oggex-window.c oggex-application.c main.c)
+add_executable(${GTK4_BIN_NAME} ${GR_C_OUT} oggex_defs.c oggex-window.c oggex-application.c main.c)
 target_include_directories(${GTK4_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${GTK4_BIN_NAME} PRIVATE ${GTK4_DEPENDS})
 
 # Specify generated resource files
-set_source_files_properties(${GRESOURCE_OUT} ${GRESOURCE_HEADER} PROPERTIES GENERATED TRUE)
-add_dependencies(${GTK4_BIN_NAME} ${GRESOURCES})
+add_dependencies(${GTK4_BIN_NAME} ${GR})
