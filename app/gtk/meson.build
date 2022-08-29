@@ -1,3 +1,12 @@
+# TODO: Make CMake gtk functions for gresources
+# TODO: Merge redundant oggex-config.h, oggex_gtk_defs.h with oggex_config.h 
+# TODO: Replace all string functions with compile time constant strings
+#   - Doing it this way allows us to 
+#   - Use configure_file on CMake
+#   - Use configuration_data on Meson
+# TODO: Generate configure
+# TODO: Run through tutorials and design initial main window with embedded widget
+
 # Imports
 i18n = import('i18n')
 gnome = import('gnome')

@@ -12,7 +12,7 @@ set(GTK4_DEPENDS ${GTK4_LIBRARIES})
 add_definitions(${GTK4_CFLAGS_OTHER})
 link_directories(${GTK4_LIBRARY_DIRS})
 
-# Compile program gresource files
+
 set(RESOURCE_DIR ${PROJECT_SOURCE_DIR}/resources/gtk)
 set(GRESOURCE_C oggex-resources.c)
 set(GRESOURCE_H oggex-resources.h)
@@ -21,32 +21,16 @@ set(GRESOURCE_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C})
 set(GRESOURCE_HEADER ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_H}) 
 set(GRESOURCES ${TARGET}-resources)
 
-# Generate the gresource source file
-add_custom_command(
-    OUTPUT ${GRESOURCE_C}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND ${GLIB_COMPILE_RESOURCES}
-    ARGS
-        --target=${GRESOURCE_OUT} --generate-source --internal
-        ${GRESOURCE_XML}
-    VERBATIM
-    MAIN_DEPENDENCY ${GRESOURCE_XML}
-    DEPENDS
-        ${RESOURCE_DIR}/help-overlay.ui
-        ${RESOURCE_DIR}/oggex-window.ui)
-
-# Generate the gresource header file
-add_custom_command(
-    OUTPUT ${GRESOURCE_H}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMAND ${GLIB_COMPILE_RESOURCES}
-    ARGS
-        --target=${GRESOURCE_HEADER} --generate-header --internal
-        ${GRESOURCE_XML}
-    VERBATIM
-    MAIN_DEPENDENCY ${GRESOURCE_XML})
-
-add_custom_target(${GRESOURCES} DEPENDS ${GRESOURCE_OUT} ${GRESOURCE_HEADER})
+make_gresource(
+    NAME ${GRESOURCES}
+    SRC ${GRESOURCE_C}
+    SRC_OUT ${GRESOURCE_OUT}
+    HDR ${GRESOURCE_H}
+    HDR_OUT ${GRESOURCE_HEADER}
+    WD ${CMAKE_CURRENT_SOURCE_DIR}
+    XML ${GRESOURCE_XML}
+    DEPS ${RESOURCE_DIR}/help-overlay.ui ${RESOURCE_DIR}/oggex-window.ui
+    )
 
 # Build oggex-gtk
 set(GTK4_BIN_NAME ${TARGET}-gtk)
