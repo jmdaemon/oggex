@@ -6,12 +6,12 @@
 
 class AppWindow;
 
-class Application: public Gtk::Application {
+class App: public Gtk::Application {
 protected:
-  Application();
+  App();
 
 public:
-  static Glib::RefPtr<Application> create();
+  static Glib::RefPtr<App> create();
 
 protected:
   // Override default signal handlers:

@@ -1,15 +1,15 @@
 #include "app.h"
 #include "appwindow.h"
 
-Application::Application()
+App::App()
 : Gtk::Application("org.gtkmm.examples.application", Gio::Application::Flags::HANDLES_OPEN) {
 }
 
-Glib::RefPtr<Application> Application::create() {
-  return Glib::make_refptr_for_instance<Application>(new Application());
+Glib::RefPtr<App> App::create() {
+  return Glib::make_refptr_for_instance<App>(new App());
 }
 
-AppWindow* Application::create_appwindow() {
+AppWindow* App::create_appwindow() {
   auto appwindow = new AppWindow();
 
   // Make sure that the application runs for as long this window is still open.
@@ -22,18 +22,18 @@ AppWindow* Application::create_appwindow() {
 
   // Delete the window when it is hidden.
   appwindow->signal_hide().connect(sigc::bind(sigc::mem_fun(*this,
-    &Application::on_hide_window), appwindow));
+    &App::on_hide_window), appwindow));
 
   return appwindow;
 }
 
-void Application::on_activate() {
+void App::on_activate() {
   // The application has been started, so let's show a window.
   auto appwindow = create_appwindow();
   appwindow->present();
 }
 
-void Application::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& /* hint */) {
+void App::on_open(const Gio::Application::type_vec_files& files, const Glib::ustring& /* hint */) {
   // The application has been asked to open some files,
   // so let's open a new view for each one.
   AppWindow* appwindow = nullptr;
@@ -50,6 +50,6 @@ void Application::on_open(const Gio::Application::type_vec_files& files, const G
   appwindow->present();
 }
 
-void Application::on_hide_window(Gtk::Window* window) {
+void App::on_hide_window(Gtk::Window* window) {
   delete window;
 }

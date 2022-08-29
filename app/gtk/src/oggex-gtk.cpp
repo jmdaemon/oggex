@@ -1,7 +1,7 @@
 #include "app.h"
 
 int main(int argc, char* argv[]) {
-  auto app = Application::create();
+  auto app = App::create();
 
   // Start the application, showing the initial window,
   // and opening extra views for any files that it is asked to open,
