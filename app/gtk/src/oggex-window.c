@@ -3,29 +3,8 @@
 #include "oggex_gtk_defs.h"
 
 const char* get_ui_resource(const char* ui_file) {
-  // Calculate the final path size
-
   unsigned int fname_size = strlen(APP_ID) + strlen(RESOURCES_DIR) + strlen(RESOURCES_GTK_DIR) + 3;
-
   char* result = malloc(fname_size);
-  /*char result [fname_size + 1];*/
-  /*result = "";*/
-  /*char* result;*/
-  /*result = strcat(result, APP_ID);*/
-  /*result = strcat(result, "/");*/
-  /*result = strcat(result, RESOURCES_DIR);*/
-  /*result = strcat(result, "/");*/
-  /*result = strcat(result, RESOURCES_GTK_DIR);*/
-  /*result = strcat(result, "/");*/
-  /*result = strcat(result, ui_file);*/
-
-  /*strcat(result, APP_ID);*/
-  /*strcat(result, "/");*/
-  /*strcat(result, RESOURCES_DIR);*/
-  /*strcat(result, "/");*/
-  /*strcat(result, RESOURCES_GTK_DIR);*/
-  /*strcat(result, "/");*/
-  /*strcat(result, ui_file);*/
 
   sprintf(result, "%s/%s/%s/%s", APP_ID, RESOURCES_DIR, RESOURCES_GTK_DIR, ui_file);
   return result;
@@ -45,6 +24,7 @@ static void oggex_window_class_init (OggexWindowClass *klass) {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   /*gtk_widget_class_set_template_from_resource (widget_class, "/io/github/com/jmdaemon/oggex/../../../resources/gtk/oggex-window.ui");*/
+  /* TODO: Free resource in oggex window destructor */
   const char* resource = get_ui_resource(UI_OGGEX_WINDOW);
   gtk_widget_class_set_template_from_resource (widget_class, resource);
   gtk_widget_class_bind_template_child (widget_class, OggexWindow, header_bar);

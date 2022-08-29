@@ -1,5 +1,6 @@
 #include "oggex-application.h"
 #include "oggex-window.h"
+#include "oggex_gtk_defs.h"
 
 struct _OggexApplication {
   GtkApplication parent_instance;
@@ -54,14 +55,13 @@ static void oggex_application_class_init (OggexApplicationClass *klass) {
 static void oggex_application_show_about (GSimpleAction *action, GVariant *parameter, gpointer user_data) {
   OggexApplication *self = OGGEX_APPLICATION (user_data);
   GtkWindow *window = NULL;
-  const gchar *authors[] = {"Joseph Diza", NULL};
 
   g_return_if_fail (OGGEX_IS_APPLICATION (self));
 
   window = gtk_application_get_active_window (GTK_APPLICATION (self));
 
   gtk_show_about_dialog (window,
-      "program-name", "oggex", "authors", authors, "version", "0.1.0", NULL);
+      "program-name", PROGRAM_NAME, "authors", authors, "version", get_version(), NULL);
 }
 
 static void oggex_application_init (OggexApplication *self) {

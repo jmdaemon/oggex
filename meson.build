@@ -3,6 +3,11 @@ version: '2.1.0',
 subproject_dir: 'meson-subprojects',
 license: 'MIT')
 
+# Include project version
+add_project_arguments([
+  '-I' + meson.project_build_root(),
+], language: ['c', 'cpp'])
+
 # Include project headers
 inc = include_directories('include')
 inc_ver = include_directories('.')

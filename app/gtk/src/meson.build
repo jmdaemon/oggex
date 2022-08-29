@@ -1,5 +1,6 @@
 oggex_sources = [
   'main.c',
+  'oggex_defs.c',
   'oggex-window.c',
   'oggex-application.c',
 ]
