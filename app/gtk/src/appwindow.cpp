@@ -8,7 +8,6 @@ AppWindow::AppWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& 
 AppWindow* AppWindow::create() {
   // Load the Builder file and instantiate its widgets.
   auto builder = Gtk::Builder::create_from_resource("/io/github/com/jmdaemon/oggex/../../../resources/gtk/oggex-window.ui");
-  //auto builder = Gtk::Builder::create_from_resource("/io/github/com/jmdaemon/oggex/../../../resources/gtk/window.ui");
 
   auto window = Gtk::Builder::get_widget_derived<AppWindow>(builder, "app_window");
   if (!window)
