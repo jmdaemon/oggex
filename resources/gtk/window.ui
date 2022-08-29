@@ -2,8 +2,18 @@
 <interface>
   <requires lib="gtk" version="4.0"/>
   <object class="GtkApplicationWindow" id="app_window">
+    <property name="title" translatable="yes">Oggex</property>
     <property name="default-width">600</property>
-    <property name="default-height">300</property>
+    <property name="default-height">400</property>
+    <!--<property name="hide-on-close">True</property>-->
+    <!--<child>-->
+      <!--<object class="GtkBox" id="content_box">-->
+        <!--<property name="orientation">vertical</property>-->
+        <!--<child>-->
+          <!--<object class="GtkStack" id="stack"/>-->
+        <!--</child>-->
+      <!--</object>-->
+    <!--</child>-->
     <child type="titlebar">
       <object class="GtkHeaderBar" id="header_bar">
         <child type="end">
@@ -29,15 +39,15 @@
     <section>
       <item>
         <attribute name="label" translatable="yes">_Preferences</attribute>
-        <attribute name="action">app.preferences</attribute>
+        <!--<attribute name="action">app.preferences</attribute>-->
       </item>
       <item>
         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
-        <attribute name="action">win.show-help-overlay</attribute>
+        <!--<attribute name="action">win.show-help-overlay</attribute>-->
       </item>
       <item>
         <attribute name="label" translatable="yes">_About oggex</attribute>
-        <attribute name="action">app.about</attribute>
+        <!--<attribute name="action">app.about</attribute>-->
       </item>
     </section>
   </menu>

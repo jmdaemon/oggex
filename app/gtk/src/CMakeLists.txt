@@ -14,8 +14,8 @@ set(GTKMM4_DEPENDS ${GTKMM4_LIBRARIES})
 set(GR_C oggex-resources.c)
 set(GR_H oggex-resources.h)
 set(GR_XML oggex.gresource.xml)
-set(GR_C_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_C}) 
-set(GR_H_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GRESOURCE_H}) 
+set(GR_C_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GR_C}) 
+set(GR_H_OUT ${CMAKE_CURRENT_BINARY_DIR}/${GR_H}) 
 set(GR ${TARGET}-resources)
 
 make_gresource(

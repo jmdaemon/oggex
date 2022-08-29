@@ -5,8 +5,12 @@
 #include <gtkmm.h>
 
 class AppWindow : public Gtk::ApplicationWindow {
+protected:
+  Glib::RefPtr<Gtk::Builder> builder;
 public:
-  AppWindow();
+  AppWindow(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder);
+
+  static AppWindow* create();
 
   void open_file_view(const Glib::RefPtr<Gio::File>& file);
 };
