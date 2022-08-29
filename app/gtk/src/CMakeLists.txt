@@ -1,17 +1,13 @@
 set(TARGET oggex)
 
-# Find GTK sources
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(GTK4 REQUIRED gtk4)
-find_program(GLIB_COMPILE_RESOURCES NAMES glib-compile-resources REQUIRED)
+# Include gtk4 cmake module
+include(gtk4)
 
 # Add the rest of the GTK sources
 set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${PROJECT_SOURCE_DIR}/include/gtk ${PROJECT_SOURCE_DIR}/resources/gtk ${GTK4_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
 set(GTK4_DEPENDS ${GTK4_LIBRARIES})
 
-add_definitions(${GTK4_CFLAGS_OTHER})
-link_directories(${GTK4_LIBRARY_DIRS})
-
+# GResources
 set(GR_C oggex-resources.c)
 set(GR_H oggex-resources.h)
 set(GR_XML oggex.gresource.xml)
