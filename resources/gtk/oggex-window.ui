@@ -57,27 +57,6 @@
                 <property name="title">Home</property>
               </object>
             </child>
-            <child>
-              <object class="GtkStackPage" id="page1">
-                <!--<placeholder/>-->
-                <property name="child">
-                  <object class="GtkGrid" id="embed_grid"/>
-                  <!--<template class="EmbedWidget" id="embed_grid"/>-->
-                  <!--<template class="EmbedWidget"/>-->
-                  <!--<object class="EmbedWidget" id="embed_widget"/>-->
-                  <placeholder/>
-                </property>
-                <property name="title">Embed</property>
-              </object>
-            </child>
-            <child>
-              <object class="GtkStackPage" id="page2">
-                <property name="child">
-                  <object class="GtkGrid" id="extract_grid"/>
-                </property>
-                <property name="title">Extract</property>
-              </object>
-            </child>
           </object>
         </child>
       </object>
