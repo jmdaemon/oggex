@@ -26,7 +26,7 @@ make_gresource(
 
 # Build oggex-gtk
 set(GTK4_BIN_NAME ${TARGET}-gtk)
-add_executable(${GTK4_BIN_NAME} ${GR_C_OUT} oggex_defs.c oggex-window.c oggex-application.c main.c)
+add_executable(${GTK4_BIN_NAME} ${GR_C_OUT} oggex_defs.c embedwidget.c oggex-window.c oggex-application.c main.c)
 target_include_directories(${GTK4_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${GTK4_BIN_NAME} PRIVATE ${GTK4_DEPENDS})
 
