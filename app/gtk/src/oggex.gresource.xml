@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/io/github/com/jmdaemon/oggex">
-    <file>../../../resources/gtk/oggex-window.ui</file>
-    <file>../../../resources/gtk/embedwidget.ui</file>
-    <file>../../../resources/gtk/help-overlay.ui</file>
+    <file preprocess="xml-stripblanks">../../../resources/gtk/oggex-window.ui</file>
+    <file preprocess="xml-stripblanks">../../../resources/gtk/embedwidget.ui</file>
+    <file preprocess="xml-stripblanks">../../../resources/gtk/extractwidget.ui</file>
+    <file preprocess="xml-stripblanks">../../../resources/gtk/help-overlay.ui</file>
   </gresource>
 </gresources>

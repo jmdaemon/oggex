@@ -1,6 +1,4 @@
-#include "oggex-config.h"
 #include "oggex-window.h"
-#include "oggex_gtk_defs.h"
 
 struct _OggexWindow {
   GtkApplicationWindow  parent_instance;
@@ -17,6 +15,7 @@ struct _OggexWindow {
 
   /* Custom Widgets */
   EmbedWidget         *embed_widget;
+  ExtractWidget       *extract_widget;
 };
 
 G_DEFINE_TYPE (OggexWindow, oggex_window, GTK_TYPE_APPLICATION_WINDOW)
@@ -43,4 +42,8 @@ static void oggex_window_init (OggexWindow *self) {
   /* Add EmbedWidget to the main window */
   self->embed_widget = embed_widget_new();
   gtk_stack_add_titled(self->home_stack, GTK_WIDGET(self->embed_widget), "child", "Embed");
+
+  /* Add ExtractWidget to the main window */
+  self->extract_widget = extract_widget_new();
+  gtk_stack_add_titled(self->home_stack, GTK_WIDGET(self->extract_widget), "child", "Extract");
 }

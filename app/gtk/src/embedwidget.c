@@ -1,7 +1,7 @@
 #include "embedwidget.h"
 
 typedef struct {
-  const char* path;
+  const char* path; /* TODO: Replace with Media media struct */
 } EmbedWidgetPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (EmbedWidget, embed_widget, GTK_TYPE_GRID)
