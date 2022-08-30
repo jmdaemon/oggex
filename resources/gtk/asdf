@@ -1,9 +1,0 @@
-    <child>
-      <property name="name">Embed</property>
-      <property name="title">In the beginning…</property>
-      <property name="child">
-        <object class="GtkLabel">
-          <property name="label">It was dark</property>
-        </object>
-      </property>
-    </child>
