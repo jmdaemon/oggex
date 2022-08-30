@@ -15,12 +15,67 @@
       </object>
     </child>
     <child>
-      <object class="GtkLabel" id="label">
-        <property name="label">Hello, World!</property>
-        <attributes>
-          <attribute name="weight" value="bold"/>
-          <attribute name="scale" value="2"/>
-        </attributes>
+      <object class="GtkPaned" id="home_paned">
+        <property name="can-focus">True</property>
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkStackSidebar" id="home_stacksidebar">
+            <property name="halign">start</property>
+            <property name="hexpand">True</property>
+            <property name="hexpand-set">True</property>
+            <property name="stack">home_stack</property>
+            <property name="vexpand">True</property>
+            <property name="vexpand-set">True</property>
+            <property name="width-request">200</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkStack" id="home_stack">
+            <property name="transition-type">crossfade</property>
+            <child>
+              <object class="GtkStackPage" id="page0">
+                <property name="child">
+                  <object class="GtkGrid">
+                    <child>
+                      <object class="GtkLabel" id="lbl_title">
+                        <property name="label">Oggex</property>
+                        <layout>
+                          <property name="column">1</property>
+                          <property name="column-span">1</property>
+                          <property name="row">0</property>
+                          <property name="row-span">1</property>
+                        </layout>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                          <attribute name="scale" value="2"/>
+                        </attributes>
+                      </object>
+                    </child>
+                  </object>
+                </property>
+                <property name="name">home</property>
+                <property name="title">Home</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage" id="page1">
+                <!--<placeholder/>-->
+                <property name="child">
+                  <object class="GtkGrid" id="embed_grid"/>
+                </property>
+                <property name="title">Embed</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkStackPage" id="page2">
+                <property name="child">
+                  <object class="GtkGrid"/>
+                </property>
+                <property name="title">Extract</property>
+              </object>
+            </child>
+          </object>
+        </child>
       </object>
     </child>
   </template>
