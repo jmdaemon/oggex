@@ -1,6 +1,6 @@
 #include "app.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char** argv) {
   auto app = App::create();
 
   // Start the application, showing the initial window,
