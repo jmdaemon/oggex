@@ -31,7 +31,7 @@ make_gresource(
 set(GTKMM4_BIN_NAME ${TARGET}-gtk)
 #add_executable(${GTKMM4_BIN_NAME} ${GR_C_OUT} oggex_defs.c oggex-window.c oggex-application.c main.c)
 #add_executable(${GTKMM4_BIN_NAME} ${GR_C_OUT} oggex_defs.c oggexappwindow.cpp oggexapp.cpp oggex-gtk.cpp)
-add_executable(${GTKMM4_BIN_NAME} ${GR_C_OUT} oggex_defs.c appwindow.cpp app.cpp oggex-gtk.cpp)
+add_executable(${GTKMM4_BIN_NAME} ${GR_C_OUT} oggex_defs.c appwindow.cpp embedwidget.cpp app.cpp oggex-gtk.cpp)
 target_include_directories(${GTKMM4_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${GTKMM4_BIN_NAME} PRIVATE ${GTKMM4_DEPENDS})
 
