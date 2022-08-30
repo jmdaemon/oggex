@@ -3,7 +3,8 @@
 <interface>
   <!-- interface-name embedwindow.ui -->
   <requires lib="gtk" version="4.0"/>
-  <object class="GtkGrid" id="embed_grid">
+  <!--<object class="GtkGrid" id="embed_grid">-->
+  <template class="EmbedWidget" parent="GtkGrid">
     <child>
       <object class="GtkLabel" id="lbl_dest">
         <property name="label" translatable="yes">Output Filename:</property>
@@ -98,5 +99,5 @@
         </layout>
       </object>
     </child>
-  </object>
+  </template>
 </interface>

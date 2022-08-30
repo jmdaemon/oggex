@@ -35,7 +35,7 @@
             <child>
               <object class="GtkStackPage" id="page0">
                 <property name="child">
-                  <object class="GtkGrid">
+                  <object class="GtkGrid" id="home_grid">
                     <child>
                       <object class="GtkLabel" id="lbl_title">
                         <property name="label">Oggex</property>
@@ -62,6 +62,10 @@
                 <!--<placeholder/>-->
                 <property name="child">
                   <object class="GtkGrid" id="embed_grid"/>
+                  <!--<template class="EmbedWidget" id="embed_grid"/>-->
+                  <!--<template class="EmbedWidget"/>-->
+                  <!--<object class="EmbedWidget" id="embed_widget"/>-->
+                  <placeholder/>
                 </property>
                 <property name="title">Embed</property>
               </object>
@@ -69,7 +73,7 @@
             <child>
               <object class="GtkStackPage" id="page2">
                 <property name="child">
-                  <object class="GtkGrid"/>
+                  <object class="GtkGrid" id="extract_grid"/>
                 </property>
                 <property name="title">Extract</property>
               </object>

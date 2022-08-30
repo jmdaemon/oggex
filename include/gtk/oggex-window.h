@@ -2,6 +2,7 @@
 #ifndef OGGEX_GTK_WINDOW_H
 #define OGGEX_GTK_WINDOW_H
 
+#include "embedwidget.h"
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS
