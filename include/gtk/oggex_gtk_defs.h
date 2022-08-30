@@ -22,5 +22,6 @@ static const char* PROGRAM_NAME = "oggex";
 static const gchar *authors[] = {"Joseph Diza", NULL};
 
 const char* get_version();
+const char* get_ui_resource(const char* ui_file);
 
 #endif // OGGEX_GTK_DEFS_H

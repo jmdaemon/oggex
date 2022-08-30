@@ -2,14 +2,6 @@
 #include "oggex-window.h"
 #include "oggex_gtk_defs.h"
 
-const char* get_ui_resource(const char* ui_file) {
-  unsigned int fname_size = strlen(APP_ID) + strlen(RESOURCES_DIR) + strlen(RESOURCES_GTK_DIR) + 3;
-  char* result = malloc(fname_size);
-
-  sprintf(result, "%s/%s/%s/%s", APP_ID, RESOURCES_DIR, RESOURCES_GTK_DIR, ui_file);
-  return result;
-}
-
 struct _OggexWindow {
   GtkApplicationWindow  parent_instance;
 
