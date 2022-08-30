@@ -22,4 +22,5 @@ make_bin(
 install(TARGETS ${BIN_NAME} DESTINATION bin COMPONENT bin)
 
 add_subdirectory(qt)
-add_subdirectory(gtkmm)
+add_subdirectory(gtk)
+#add_subdirectory(gtkmm)

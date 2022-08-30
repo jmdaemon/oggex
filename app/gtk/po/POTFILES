@@ -1,0 +1,7 @@
+data/io.github.com.jmdaemon.oggex.desktop.in
+data/io.github.com.jmdaemon.oggex.appdata.xml.in
+data/io.github.com.jmdaemon.oggex.gschema.xml
+../../../resources/gtk/oggex-window.ui
+src/main.c
+src/oggex-window.c
+

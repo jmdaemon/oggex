@@ -1,0 +1,10 @@
+#pragma once
+
+// Project config header file required by CMake
+
+#define GETTEXT_PACKAGE "@GETTEXT_PACKAGE@"
+
+#define LOCALEDIR "@LOCALEDIR@"
+
+#define PACKAGE_VERSION "@PACKAGE_VERSION@"
+
