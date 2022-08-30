@@ -2,7 +2,6 @@
 <gresources>
   <gresource prefix="/io/github/com/jmdaemon/oggex">
     <file>../../../resources/gtk/oggex-window.ui</file>
-    <file>../../../resources/gtk/embedwidget.ui</file>
     <file>../../../resources/gtk/help-overlay.ui</file>
   </gresource>
 </gresources>
