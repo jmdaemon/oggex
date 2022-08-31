@@ -2,96 +2,9 @@
 <!DOCTYPE cambalache-project SYSTEM "cambalache-project.dtd">
 <cambalache-project version="0.10.3" target_tk="gtk-4.0">
   <ui>
-	(2,None,"embedwindow.ui","embedwidget.ui",None,None,None,None,None,None),
-	(3,None,None,"extractwidget.ui",None,None,None,None,None,None)
+	(4,1,None,"filechooserbutton.ui",None,None,None,None,None,None)
   </ui>
-  <ui_library>
-	(2,"gtk","4.0",None)
-  </ui_library>
   <object>
-	(2,1,"GtkGrid","embed_grid",None,None,None,None,None),
-	(2,2,"GtkLabel","lbl_dest",1,None,None,None,None),
-	(2,3,"GtkLabel","lbl_tag",1,None,None,None,1),
-	(2,4,"GtkButton",None,1,None,None,None,2),
-	(2,5,"GtkLabel","lbl_audio",1,None,None,None,3),
-	(2,6,"GtkButton",None,1,None,None,None,4),
-	(2,7,"GtkLabel","lbl_image",1,None,None,None,5),
-	(2,8,"GtkLabel","lbl_embed",1,None,None,None,6),
-	(2,9,"GtkEntry","e_tag",1,None,None,None,7),
-	(2,10,"GtkEntry","e_dest",1,None,None,None,8),
-	(2,11,"GtkButton","btn_embed",1,None,None,None,9),
-	(3,1,"GtkGrid",None,None,None,None,None,None),
-	(3,2,"GtkLabel","lbl_extract",1,None,None,None,None),
-	(3,3,"GtkLabel","lbl_embedded",1,None,None,None,None),
-	(3,4,"GtkLabel","lbl_dest",1,None,None,None,None),
-	(3,5,"GtkButton","fc_embedded",1,None,None,None,1),
-	(3,6,"GtkButton","fc_dest",1,None,None,None,2),
-	(3,7,"GtkButton","btn_extract",1,None,None,None,4)
+	(4,1,"GtkButton","FileChooserButton",None,None,None,None,None)
   </object>
-  <object_property>
-	(2,2,"GtkLabel","label","Output Filename:","yes",None,None,None,None),
-	(2,3,"GtkLabel","label","Sound Tag","yes",None,None,None,None),
-	(2,5,"GtkLabel","label","Audio Filename:","yes",None,None,None,None),
-	(2,7,"GtkLabel","label","Image Filename:","yes",None,None,None,None),
-	(2,8,"GtkLabel","label","Embed","yes",None,None,None,None),
-	(2,9,"GtkWidget","focusable","1",None,None,None,None,None),
-	(2,10,"GtkWidget","focusable","1",None,None,None,None,None),
-	(2,11,"GtkButton","label","Embed","yes",None,None,None,None),
-	(2,11,"GtkWidget","focusable","1",None,None,None,None,None),
-	(2,11,"GtkWidget","receives-default","1",None,None,None,None,None),
-	(3,2,"GtkLabel","label","Extract",None,None,None,None,None),
-	(3,3,"GtkLabel","label","Embedded File: ",None,None,None,None,None),
-	(3,4,"GtkLabel","label","Output Directory:",None,None,None,None,None),
-	(3,7,"GtkButton","label","Extract",None,None,None,None,None)
-  </object_property>
-  <object_layout_property>
-	(2,1,2,"GtkGridLayoutChild","column","0",None,None,None,None),
-	(2,1,2,"GtkGridLayoutChild","row","4",None,None,None,None),
-	(2,1,3,"GtkGridLayoutChild","column","0",None,None,None,None),
-	(2,1,3,"GtkGridLayoutChild","row","3",None,None,None,None),
-	(2,1,4,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(2,1,4,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(2,1,4,"GtkGridLayoutChild","row","1",None,None,None,None),
-	(2,1,4,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(2,1,5,"GtkGridLayoutChild","column","0",None,None,None,None),
-	(2,1,5,"GtkGridLayoutChild","row","2",None,None,None,None),
-	(2,1,6,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(2,1,6,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(2,1,6,"GtkGridLayoutChild","row","2",None,None,None,None),
-	(2,1,6,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(2,1,7,"GtkGridLayoutChild","column","0",None,None,None,None),
-	(2,1,7,"GtkGridLayoutChild","row","1",None,None,None,None),
-	(2,1,8,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(2,1,8,"GtkGridLayoutChild","row","0",None,None,None,None),
-	(2,1,9,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(2,1,9,"GtkGridLayoutChild","row","3",None,None,None,None),
-	(2,1,10,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(2,1,10,"GtkGridLayoutChild","row","4",None,None,None,None),
-	(2,1,11,"GtkGridLayoutChild","column","2",None,None,None,None),
-	(2,1,11,"GtkGridLayoutChild","row","4",None,None,None,None),
-	(3,1,2,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(3,1,2,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(3,1,2,"GtkGridLayoutChild","row","0",None,None,None,None),
-	(3,1,2,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(3,1,3,"GtkGridLayoutChild","column","0",None,None,None,None),
-	(3,1,3,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(3,1,3,"GtkGridLayoutChild","row","1",None,None,None,None),
-	(3,1,3,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(3,1,4,"GtkGridLayoutChild","column","0",None,None,None,None),
-	(3,1,4,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(3,1,4,"GtkGridLayoutChild","row","2",None,None,None,None),
-	(3,1,4,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(3,1,5,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(3,1,5,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(3,1,5,"GtkGridLayoutChild","row","1",None,None,None,None),
-	(3,1,5,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(3,1,6,"GtkGridLayoutChild","column","1",None,None,None,None),
-	(3,1,6,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(3,1,6,"GtkGridLayoutChild","row","2",None,None,None,None),
-	(3,1,6,"GtkGridLayoutChild","row-span","1",None,None,None,None),
-	(3,1,7,"GtkGridLayoutChild","column","2",None,None,None,None),
-	(3,1,7,"GtkGridLayoutChild","column-span","1",None,None,None,None),
-	(3,1,7,"GtkGridLayoutChild","row","2",None,None,None,None),
-	(3,1,7,"GtkGridLayoutChild","row-span","1",None,None,None,None)
-  </object_layout_property>
 </cambalache-project>
