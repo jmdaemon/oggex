@@ -74,14 +74,23 @@ static void filechooserbutton_set_action(FileChooserButton *self, GtkFileChooser
 
 /* Signal Handlers */
 static void filechooserbutton_browse(GtkNativeDialog *native, int response, gpointer user_data) {
+  puts("Browsing Files");
   if (response == GTK_RESPONSE_ACCEPT) {
     FileChooserButton *self = OGGEX_FILECHOOSER(user_data);
     g_return_if_fail(OGGEX_IS_FILECHOOSER(self));
 
     GtkFileChooser *chooser = GTK_FILE_CHOOSER (native);
+    g_return_if_fail(GTK_IS_FILE_CHOOSER(chooser));
     GFile *file = gtk_file_chooser_get_file (chooser);
 
-    gtk_file_chooser_set_file(chooser, file, NULL);
+    if (file != NULL) {
+      const char* path = g_file_get_path(file);
+      printf("Selected: %s\n", path);
+      gtk_file_chooser_set_file(chooser, file, NULL);
+
+      FileChooserButton* btn = self;
+      gtk_button_set_label(GTK_BUTTON(btn), path);
+    }
   }
 }
 
@@ -118,12 +127,12 @@ FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter,
   gtk_file_filter_add_pattern(file_filter, filter);
   priv->file_filter = file_filter;
 
+  /* Browse for files using the dialog */
+  puts("Setting dialog callback");
+  g_signal_connect(priv->fc, "response", G_CALLBACK (filechooserbutton_browse), G_OBJECT(fcb));
+
   /* Show the GTK dialog on button click */
   puts("Setting button callback");
   g_signal_connect(GTK_BUTTON(&fcb->parent_instance), "clicked", G_CALLBACK (filechooserbutton_show), G_OBJECT(fcb));
-
-  /* Browse for files using the dialog */
-  puts("Setting dialog callback");
-  g_signal_connect(GTK_WIDGET(&priv->fc), "response", G_CALLBACK (filechooserbutton_browse), G_OBJECT(fcb));
   return fcb;
 }
