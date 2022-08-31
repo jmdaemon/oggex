@@ -46,7 +46,7 @@ static void filechooserbutton_browse(GtkNativeDialog *native, int response, gpoi
 static void filechooserbutton_show(GtkButton* self, gpointer user_data);
 
 /* Class Constructor */
-FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter, GtkFileChooserAction action);
+FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter, bool shortpaths, GtkFileChooserAction action);
 
 G_END_DECLS
 
