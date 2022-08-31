@@ -32,6 +32,8 @@ struct _EmbedWidgetClass {
 };
 
 EmbedWidget* embed_widget_new (void);
+void embed_callback(GtkButton* self, gpointer user_data);
 
 G_END_DECLS
+
 #endif // OGGEX_EMBEDWIDGET_H
