@@ -47,21 +47,22 @@ EmbedWidget* embed_widget_new (void) {
 
   puts("Adding fcb_image to Grid");
 
-  GtkGrid* grid = &result->parent_instance;
+  /*EmbedWidget* grid = &result->parent_instance;*/
+  EmbedWidget* grid = result;
   if (!grid) {
     fprintf(stderr, "embed_grid is null. Exiting...");
     exit(2);
   }
   printf("grid %p\n", grid);
 
-  GtkButton* image = &widget_class->fcb_image->parent_instance;
+  FileChooserButton* image = widget_class->fcb_image;
   if (!image) {
     fprintf(stderr, "image widget is null. Exiting...");
     exit(4);
   }
   printf("image %p\n", image);
 
-  GtkButton* audio = &widget_class->fcb_audio->parent_instance;
+  FileChooserButton* audio = widget_class->fcb_audio;
   if (!audio) {
     fprintf(stderr, "audio widget is null. Exiting...");
     exit(4);
@@ -69,9 +70,9 @@ EmbedWidget* embed_widget_new (void) {
   printf("audio %p\n", audio);
 
   puts("Adding fcb_image to Grid");
-  gtk_grid_attach(grid, GTK_WIDGET(image), 1, 1, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), GTK_WIDGET(image), 1, 1, 1, 1);
 
   puts("Adding fcb_audio to Grid");
-  gtk_grid_attach(grid, GTK_WIDGET(audio), 1, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(grid), GTK_WIDGET(audio), 1, 2, 1, 1);
   return result;
 }
