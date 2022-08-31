@@ -3,6 +3,7 @@
 /* Private member variables */
 typedef struct {
   const char* prompt;
+  bool shortpaths;
   GFile *file;
   GtkFileChooserNative *fc;
   GtkFileFilter *file_filter; 
@@ -33,6 +34,12 @@ const char* filechooserbutton_get_prompt(FileChooserButton *self) {
   return priv->prompt;
 }
 
+bool filechooserbutton_get_shortpaths(FileChooserButton *self) {
+  FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
+  return priv->shortpaths;
+}
+
+
 GFile* filechooserbutton_get_file(FileChooserButton *self) {
   FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
   return priv->file;
@@ -54,6 +61,13 @@ static void filechooserbutton_set_prompt(FileChooserButton *self, const char* pr
   FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
   priv->prompt = prompt;
 }
+
+static void filechooserbutton_set_shortpaths(FileChooserButton *self, bool shortpaths) {
+  g_return_if_fail(OGGEX_IS_FILECHOOSER(self));
+  FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
+  priv->shortpaths = shortpaths;
+}
+
 
 static void filechooserbutton_set_file(FileChooserButton *self, GFile *file) {
   FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
@@ -88,8 +102,10 @@ static void filechooserbutton_browse(GtkNativeDialog *native, int response, gpoi
       printf("Selected: %s\n", path);
       gtk_file_chooser_set_file(chooser, file, NULL);
 
+      const char* shortpath = g_file_get_basename(file);
+
       FileChooserButton* btn = self;
-      gtk_button_set_label(GTK_BUTTON(btn), path);
+      gtk_button_set_label(GTK_BUTTON(btn), shortpath);
     }
   }
 }
@@ -103,7 +119,7 @@ static void filechooserbutton_show(GtkButton* self, gpointer user_data) {
 }
 
 /* Class Constructor */
-FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter, GtkFileChooserAction action) {
+FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter, bool shortpaths, GtkFileChooserAction action) {
   FileChooserButton* fcb = g_object_new (FILECHOOSER_BUTTON_TYPE_FILECHOOSER, NULL);
   puts("FileChooserButton initialized");
 
@@ -114,6 +130,7 @@ FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter,
   puts("Setting FileChooserButton fields");
   priv->prompt = malloc(strlen(prompt));
   priv->prompt = prompt;
+  priv->shortpaths = true;
   priv->action = action;
 
   /* Create the file chooser native widget */

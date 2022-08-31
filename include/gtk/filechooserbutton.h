@@ -29,11 +29,13 @@ struct _FileChooserButtonClass {
 
 /* Getters */
 const char* filechooserbutton_get_prompt(FileChooserButton *self);
+bool filechooserbutton_get_shortpaths(FileChooserButton *self);
 GFile* filechooserbutton_get_file(FileChooserButton *self);
 GtkFileChooserNative* filechooserbutton_get_fcn(FileChooserButton *self);
 GtkFileChooserAction filechooserbutton_get_action(FileChooserButton *self);
 
 /* Setters */
+static void filechooserbutton_set_prompt(FileChooserButton *self, const char* prompt);
 static void filechooserbutton_set_prompt(FileChooserButton *self, const char* prompt);
 static void filechooserbutton_set_file(FileChooserButton *self, GFile *file);
 static void filechooserbutton_set_fcn(FileChooserButton *self, GtkFileChooserNative* fcn);
