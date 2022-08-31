@@ -3,7 +3,16 @@
 #include "oggex-config.h"
 #include "oggex-application.h"
 
-int main (int   argc, char *argv[]) {
+//#include "cli.h"
+//#include "ogx.h"
+#include "oggex_gtk.h"
+
+int main (int argc, char **argv) {
+	args.args[0] = (char*) "";
+	args = set_default_args();
+	args.verbose = 1;
+	setup_logging(args);
+
 	g_autoptr(OggexApplication) app = NULL;
 	int ret;
 
