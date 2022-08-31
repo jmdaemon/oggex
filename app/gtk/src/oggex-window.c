@@ -41,9 +41,9 @@ static void oggex_window_init (OggexWindow *self) {
 
   /* Add EmbedWidget to the main window */
   self->embed_widget = embed_widget_new();
-  gtk_stack_add_titled(self->home_stack, GTK_WIDGET(self->embed_widget), "child", "Embed");
+  gtk_stack_add_titled(self->home_stack, GTK_WIDGET(self->embed_widget), "embed", "Embed");
 
   /* Add ExtractWidget to the main window */
   self->extract_widget = extract_widget_new();
-  gtk_stack_add_titled(self->home_stack, GTK_WIDGET(self->extract_widget), "child", "Extract");
+  gtk_stack_add_titled(self->home_stack, GTK_WIDGET(self->extract_widget), "extract", "Extract");
 }
