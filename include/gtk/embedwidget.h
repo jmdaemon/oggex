@@ -9,10 +9,12 @@
 G_BEGIN_DECLS
 
 #define EMBED_WIDGET_TYPE_WIDGET (embed_widget_get_type())
-G_DECLARE_DERIVABLE_TYPE(EmbedWidget, embed_widget, OGGEX, EMBED_WIDGET, GtkGrid)
+//G_DECLARE_DERIVABLE_TYPE(EmbedWidget, embed_widget, OGGEX, EMBED_WIDGET, GtkGrid)
+G_DECLARE_FINAL_TYPE(EmbedWidget, embed_widget, OGGEX, EMBED_WIDGET, GtkGrid)
   
-struct _EmbedWidgetClass {
-  GtkGridClass parent_instance;
+struct _EmbedWidget {
+  //GtkGridClass parent_instance;
+  GtkGrid parent_instance;
 
   /* Template widgets */
   GtkLabel              *lbl_dest;

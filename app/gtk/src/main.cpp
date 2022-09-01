@@ -42,8 +42,10 @@ static int command_line (GApplication *application, GApplicationCommandLine *cmd
 int main (int argc, char **argv) {
 	// Current arg parsing code
 	// Defaults the arguments and toggles logging by default
+
 	args.args[0] = (char*) "";
 	args = set_default_args();
+	args.nolimit = true;
 	args.verbose = 1;
 	setup_logging(args);
 

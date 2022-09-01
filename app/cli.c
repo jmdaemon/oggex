@@ -12,8 +12,10 @@ struct arguments set_default_args() {
   arguments.nolimit = false;
 
   /* Sound */
-  arguments.sound.temp = "temp.ogg";
-  arguments.sound.log = "log.txt";
+  /*arguments.sound.temp = "temp.ogg";*/
+  /*arguments.sound.log = "log.txt";*/
+  arguments.sound.temp = (char*) "temp.ogg";
+  arguments.sound.log = (char*) "log.txt";
 
   /* Settings */
   arguments.settings.quality = 10;

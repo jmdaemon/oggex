@@ -90,16 +90,20 @@ static void filechooserbutton_set_action(FileChooserButton *self, GtkFileChooser
 static void filechooserbutton_browse(GtkNativeDialog *native, int response, gpointer user_data) {
   puts("Browsing Files");
   if (response == GTK_RESPONSE_ACCEPT) {
+
     FileChooserButton *self = OGGEX_FILECHOOSER(user_data);
     g_return_if_fail(OGGEX_IS_FILECHOOSER(self));
 
     GtkFileChooser *chooser = GTK_FILE_CHOOSER (native);
     g_return_if_fail(GTK_IS_FILE_CHOOSER(chooser));
+
     GFile *file = gtk_file_chooser_get_file (chooser);
 
     if (file != NULL) {
       const char* path = g_file_get_path(file);
       printf("Selected: %s\n", path);
+
+      filechooserbutton_set_file(self, file);
       gtk_file_chooser_set_file(chooser, file, NULL);
 
       const char* shortpath = g_file_get_basename(file);
