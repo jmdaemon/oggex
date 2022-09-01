@@ -1,6 +1,11 @@
 #pragma once
+#ifndef OGGEX_GTK_DEFS_H
+#define OGGEX_GTK_DEFS_H
 
-// Project config header file required by CMake
+#include "Version.h"
+#include <gtk/gtk.h>
+
+// Project config header file
 
 #define GETTEXT_PACKAGE @GETTEXT_PACKAGE@
 
@@ -17,3 +22,7 @@
 #define UI_FILE_CHOOSER_BUTTON @UI_FILE_CHOOSER_BUTTON@
 #define UI_EMBED_WIDGET @UI_EMBED_WIDGET@
 #define UI_EXTRACT_WIDGET @UI_EXTRACT_WIDGET@
+
+static const gchar *authors[] = {"Joseph Diza", NULL};
+
+#endif // OGGEX_GTK_DEFS_H
