@@ -1,7 +1,7 @@
 oggex_sources = [
   'filechooserbutton.c',
   'embedwidget.cpp',
-  'extractwidget.c',
+  'extractwidget.cpp',
   'oggex-window.c',
   'oggex-application.c',
   'main.cpp',

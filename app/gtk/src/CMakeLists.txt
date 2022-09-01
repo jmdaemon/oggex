@@ -26,7 +26,7 @@ make_gresource(
 
 # Build oggex-gtk-widgets
 set(GTK4_WIDGETS ${TARGET}-gtk-widgets)
-add_library(${GTK4_WIDGETS} SHARED ${GR_C_OUT} filechooserbutton.c embedwidget.cpp extractwidget.c oggex-window.c oggex-application.c)
+add_library(${GTK4_WIDGETS} SHARED ${GR_C_OUT} filechooserbutton.c embedwidget.cpp extractwidget.cpp oggex-window.c oggex-application.c)
 target_include_directories(${GTK4_WIDGETS} PUBLIC ${HEADERS})
 target_link_libraries(${GTK4_WIDGETS} PRIVATE ${GTK4_DEPENDS} ${PKG_DEPENDS} oggex cli ogx)
 add_dependencies(${GTK4_WIDGETS} ${GR})
