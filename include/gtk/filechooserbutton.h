@@ -2,6 +2,7 @@
 #ifndef OGGEX_FILECHOOSER_BUTTON_H
 #define OGGEX_FILECHOOSER_BUTTON_H
 
+#include "oggex-config.h"
 #include <gtk/gtk.h>
 
 G_BEGIN_DECLS

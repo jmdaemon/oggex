@@ -3,8 +3,7 @@
 #define OGGEX_EMBEDWIDGET_H
 
 #include "filechooserbutton.h"
-
-#include <gtk/gtk.h>
+#include "cli.h"
 
 G_BEGIN_DECLS
 

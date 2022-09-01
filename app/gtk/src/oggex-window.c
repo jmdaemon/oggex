@@ -1,4 +1,5 @@
 #include "oggex-window.h"
+#include "oggex-config.h"
 
 struct _OggexWindow {
   GtkApplicationWindow  parent_instance;

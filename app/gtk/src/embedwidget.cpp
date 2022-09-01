@@ -1,7 +1,4 @@
 #include "embedwidget.h"
-#include "oggex-config.h"
-
-#include "cli.h"
 #include "oggex_gtk.h"
 
 typedef struct {
