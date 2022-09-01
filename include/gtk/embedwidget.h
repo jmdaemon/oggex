@@ -32,7 +32,24 @@ struct _EmbedWidgetClass {
 };
 
 EmbedWidget* embed_widget_new (void);
-void embed_callback(GtkButton* self, gpointer user_data);
+
+//extern "C" void test_callback(GtkButton* self, gpointer user_data);
+//extern "C" void embed_callback(GtkButton* self, gpointer user_data);
+//static void test_callback(GtkButton* self, gpointer user_data);
+//static void test_callback(GtkWidget* self, gpointer user_data);
+static void test_callback(GtkWidget* self);
+
+//#ifdef __cplusplus
+//extern "C"
+//{
+//#endif
+
+//void embed_callback(GtkButton* self, gpointer user_data);
+static void embed_callback(GtkButton* self, gpointer user_data);
+
+//#ifdef __cplusplus
+//}
+//#endif
 
 G_END_DECLS
 

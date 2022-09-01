@@ -4,7 +4,8 @@
 #include "oggex_gtk.h"
 
 typedef struct {
-  const char* path; /* TODO: Replace with Media media struct */
+  //const char* path; [> TODO: Replace with Media media struct <]
+  int thing;
 } EmbedWidgetPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (EmbedWidget, embed_widget, GTK_TYPE_GRID)
@@ -24,14 +25,38 @@ static void embed_widget_class_init (EmbedWidgetClass *klass) {
   gtk_widget_class_bind_template_child(widget_class, EmbedWidgetClass, e_tag);
   gtk_widget_class_bind_template_child(widget_class, EmbedWidgetClass, e_dest);
   gtk_widget_class_bind_template_child(widget_class, EmbedWidgetClass, btn_embed);
+  //gtk_widget_class_bind_template_child_full(widget_class, "btn_embed", false, G_STRUCT_OFFSET("btn_embed", GTK_TYPE_BUTTON));
+  //gtk_widget_class_bind_template_child_full(widget_class, "btn_embed", false, G_STRUCT_OFFSET(EmbedWidgetClass, btn_embed));
   /*free(resource);*/
+}
+
+//static void test_callback(GtkWidget *self, gpointer user_data) {
+static void test_callback(GtkWidget *self) {
+  //printf("%s\n", "Hello World");
+  puts("Hello World");
 }
 
 static void embed_widget_init (EmbedWidget *self) {
   gtk_widget_init_template (GTK_WIDGET (self));
+
+  //EmbedWidgetClass* widget_class = OGGEX_EMBED_WIDGET_GET_CLASS(self);
+  //widget_class->btn_embed = GTK_BUTTON(gtk_button_new());
+
+  //widget_class->btn_embed = (GtkButton*) gtk_button_new();
+  //gtk_widget_init_template(GTK_WIDGET(widget_class->btn_embed));
 }
 
-void embed_callback(GtkButton* self, gpointer user_data) {
+
+//static void test_callback(GtkButton* [> self */, gpointer /* user_data <]) {
+//extern "C" void test_callback(GtkButton* [> self */, gpointer /* user_data <]) {
+  //g_print("Hello World\n");
+//static void test_callback(GtkButton* [> self */, gpointer /* user_data <]) {
+
+//static void test_callback(GtkWidget *widget* [> self */, gpointer /* user_data <]) {
+
+//extern "C" static void embed_callback(GtkButton* self, gpointer user_data) {
+//extern "C" void embed_callback(GtkButton* self, gpointer user_data) {
+static void embed_callback(GtkButton* self, gpointer user_data) {
   EmbedWidget* embedwidget = OGGEX_EMBED_WIDGET(user_data);
   EmbedWidgetClass* widget_class = OGGEX_EMBED_WIDGET_GET_CLASS(embedwidget);
 
@@ -77,10 +102,10 @@ void embed_callback(GtkButton* self, gpointer user_data) {
   //struct arguments args = set_default_args();
   //SPDLOG_INFO("Setting arguments");
   puts("Setting arguments");
-  args.sound.image = (char*) image;
-  args.sound.src = (char*) audio;
-  args.sound.tag = (char*) tag;
-  args.sound.dest = (char*) dest;
+  //args.sound.image = (char*) image;
+  //args.sound.src = (char*) audio;
+  //args.sound.tag = (char*) tag;
+  //args.sound.dest = (char*) dest;
 
   Settings settings = { 10, false };
   Media media = {args.sound, settings, args};
@@ -122,7 +147,8 @@ EmbedWidget* embed_widget_new (void) {
   puts("Initializing fcb_audio");
   widget_class->fcb_audio = filechooserbutton_new("Open Audio", "Audio Files (*.ogg)", true, GTK_FILE_CHOOSER_ACTION_OPEN);
   //printf("fcb_audio %p\n", widget_class->fcb_audio);
-  printf("fcb_audio %p\n", (void*) (void*) (void*) (void*) (void*) (void*) (void*) (void*) (void*) widget_class->fcb_audio);
+  //printf("fcb_audio %p\n", (void*) (void*) (void*) (void*) (void*) (void*) (void*) (void*) (void*) widget_class->fcb_audio);
+  printf("fcb_audio %p\n", (void*) widget_class->fcb_audio);
 
   puts("Adding fcb_image to Grid");
 
@@ -160,16 +186,61 @@ EmbedWidget* embed_widget_new (void) {
   //GtkButton btn = GtkButton();
   //GtkButton btn = gtk_button_new();
   //widget_class->btn_embed = &btn;
-  widget_class->btn_embed = (GtkButton*) gtk_button_new();
-  GtkButton* btn_embed = widget_class->btn_embed;
+
+  //widget_class->btn_embed = (GtkButton*) gtk_button_new();
+
+  //GtkButton* btn_embed = widget_class->btn_embed;
+  //widget_class->btn_embed = (GtkButton*) g_object_new(GtkButton, NULL);
+  //widget_class->btn_embed = GTK_BUTTON(gtk_button_new());
+  //if (!btn_embed) {
+  //widget_class->btn_embed = (GtkButton*) g_object_new(GTK_TYPE_BUTTON, NULL);
+
+  //widget_class->btn_embed = (GtkButton*) gtk_button_new();
+  //if (!widget_class->btn_embed) {
+    //fprintf(stderr, "btn_embed widget is null. Exiting...");
+    //exit(5);
+  //}
+
+  //GtkButton* btn_embed = widget_class->btn_embed;
+  //GtkButton* btn_embed = (GtkButton*) gtk_button_new();
+  //widget_class->btn_embed = (GtkButton*) gtk_button_new();
+  //GtkButton* btn_embed = widget_class->btn_embed;
+  //widget_class->btn_embed = (GtkButton*) gtk_widget_get_template_child(GTK_WIDGET(widget_class->btn_embed), GTK_TYPE_BUTTON, "btn_embed");
+  //GtkButton* btn_embed = (GtkButton*) gtk_widget_get_template_child(GTK_WIDGET(widget_class->btn_embed), GTK_TYPE_BUTTON, "btn_embed");
+  //btn_embed = gtk_widget_get_template_child(&widget_class->btn_embed->parent_instance, GTK_TYPE_BUTTON, "btn_embed");
+  //btn_embed = (GtkButton*) gtk_widget_get_template_child(&widget_class->btn_embed->parent_instance, GTK_TYPE_BUTTON, "btn_embed");
+  //btn_embed = (GtkButton*) gtk_widget_get_template_child(GTK_WIDGET(&result->parent_instance.parent_instance), GTK_TYPE_BUTTON, "btn_embed");
+  //btn_embed = GTK_BUTTON(gtk_widget_get_template_child(GTK_WIDGET(&result->parent_instance.parent_instance), GTK_TYPE_BUTTON, "btn_embed"));
+  //btn_embed = GTK_BUTTON(gtk_widget_get_template_child(GTK_WIDGET(result), GTK_TYPE_BUTTON, "btn_embed"));
+  GtkButton* btn_embed;
+  btn_embed = GTK_BUTTON(gtk_widget_get_template_child(GTK_WIDGET(result), GTK_TYPE_BUTTON, "btn_embed"));
+  printf("btn_embed %p\n", (void*) btn_embed);
   if (!btn_embed) {
     fprintf(stderr, "btn_embed widget is null. Exiting...");
     exit(5);
   }
+  printf("btn_embed %p\n", (void*) btn_embed);
+
   
   // Hook the button up to embed
   puts("Setting btn_embed callback");
-  g_signal_connect(widget_class->btn_embed, "clicked", G_CALLBACK (embed_callback), G_OBJECT(result));
+  g_signal_connect(btn_embed, "clicked", G_CALLBACK(test_callback), NULL);
+  //g_signal_connect(G_OBJECT(btn_embed), "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(GTK_WIDGET(btn_embed), "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(btn_embed, "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(GTK_BUTTON(btn_embed), "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(widget_class->btn_embed, "clicked", G_CALLBACK (test_callback), NULL);
+
+  //g_signal_connect(btn_embed, "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(btn_embed, "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(widget_class->btn_embed, "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(GTK_BUTTON(widget_class->btn_embed), "clicked", G_CALLBACK (test_callback), NULL);
+  //g_signal_connect(GTK_BUTTON(widget_class->btn_embed), "clicked", G_CALLBACK (test_callback), NULL);
+
+  //g_signal_connect(widget_class->btn_embed, "clicked", G_CALLBACK (test_callback), NULL);
+
+  //g_signal_connect(widget_class->btn_embed, "clicked", G_CALLBACK (embed_callback), G_OBJECT(result));
+
   //g_signal_connect(&btn, "clicked", G_CALLBACK (embed_callback), G_OBJECT(result));
   //g_signal_connect(GTK_BUTTON(&btn_embed), "clicked", G_CALLBACK (embed_callback), G_OBJECT(result));
   //g_signal_connect(GTK_BUTTON(btn_embed), "clicked", G_CALLBACK (embed_callback), G_OBJECT(result));

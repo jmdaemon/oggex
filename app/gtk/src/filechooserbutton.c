@@ -128,7 +128,8 @@ FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter,
 
   /* Set the fields for the file chooser */
   puts("Setting FileChooserButton fields");
-  priv->prompt = malloc(strlen(prompt));
+  /*priv->prompt = malloc(strlen(prompt));*/
+  priv->prompt = malloc(strlen(prompt) + 1);
   priv->prompt = prompt;
   priv->shortpaths = true;
   priv->action = action;
