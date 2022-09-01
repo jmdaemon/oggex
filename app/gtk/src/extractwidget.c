@@ -1,19 +1,15 @@
 #include "extractwidget.h"
+#include "oggex-config.h"
 
 typedef struct {
-  const char* path; /* TODO: Replace with Media media struct */
+  int thing;
 } ExtractWidgetPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (ExtractWidget, extract_widget, GTK_TYPE_GRID)
 
 static void extract_widget_class_init (ExtractWidgetClass *klass) {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
-
-  /* TODO: Free resource in oggex window destructor */
-  const char* resource = "/io/github/com/jmdaemon/oggex/../../../resources/gtk/extractwidget.ui";
-  gtk_widget_class_set_template_from_resource (widget_class, resource);
-
-  /*free(resource);*/
+  gtk_widget_class_set_template_from_resource (widget_class, UI_EXTRACT_WIDGET);
 }
 
 static void extract_widget_init (ExtractWidget *self) {

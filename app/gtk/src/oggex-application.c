@@ -1,5 +1,6 @@
 #include "oggex-application.h"
 #include "oggex-window.h"
+#include "oggex-config.h"
 #include "oggex_gtk_defs.h"
 
 struct _OggexApplication {

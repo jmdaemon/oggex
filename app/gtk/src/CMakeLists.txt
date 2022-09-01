@@ -24,7 +24,6 @@ make_gresource(
     WD ${CMAKE_CURRENT_SOURCE_DIR}
     XML ${GR_XML})
 
-
 # Build oggex-gtk-widgets
 set(GTK4_WIDGETS ${TARGET}-gtk-widgets)
 add_library(${GTK4_WIDGETS} SHARED ${GR_C_OUT} filechooserbutton.c embedwidget.cpp extractwidget.c oggex-window.c oggex-application.c)
