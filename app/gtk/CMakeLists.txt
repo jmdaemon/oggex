@@ -14,7 +14,6 @@ string(REPLACE "." "/" APP_ID_UI ${APP_ID})
 string(PREPEND APP_ID_UI "/")
 set(RESOURCES_DIR "../../../resources/gtk" CACHE INTERNAL "")
 
-
 # UI Files
 quote(UI_OGGEX_WINDOW "${APP_ID_UI}/${RESOURCES_DIR}/oggex-window.ui")
 quote(UI_HELP_OVERLAY "${APP_ID_UI}/${RESOURCES_DIR}/help-overlay.ui")
