@@ -7,24 +7,10 @@
 G_BEGIN_DECLS
 
 #define FILECHOOSER_BUTTON_TYPE_FILECHOOSER (filechooserbutton_get_type())
-G_DECLARE_DERIVABLE_TYPE(FileChooserButton, filechooserbutton, OGGEX, FILECHOOSER, GtkButton)
+G_DECLARE_FINAL_TYPE(FileChooserButton, filechooserbutton, OGGEX, FILECHOOSER, GtkButton)
 
-struct _FileChooserButtonClass {
-  GtkButtonClass parent_instance;
-
-  /* Virtual Functions */
-
-  /* Getters */
-  //const char* (*get_prompt) (FileChooserButton *self);
-  //GFile* (*get_file) (FileChooserButton *self);
-  //GtkFileChooserNative* (*get_fcn)(FileChooserButton *self);
-  //GtkFileChooserAction (*get_action)(FileChooserButton *self);
-
-  //[> Setters <]
-  //void(*set_prompt) (FileChooserButton *self, const char* prompt);
-  //void(*set_file) (FileChooserButton *self, GFile *file);
-  //void(*set_fcn) (FileChooserButton *self, GtkFileChooserNative *fcn);
-  //void(*set_action) (FileChooserButton *self, GtkFileChooserAction action);
+struct _FileChooserButton {
+  GtkButton parent_instance;
 };
 
 /* Getters */

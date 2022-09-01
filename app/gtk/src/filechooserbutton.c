@@ -24,8 +24,6 @@ static void filechooserbutton_class_init (FileChooserButtonClass *klass) {
 
 static void filechooserbutton_init (FileChooserButton *self) {
   gtk_widget_init_template (GTK_WIDGET (self));
-
-  FileChooserButtonPrivate *priv = filechooserbutton_get_instance_private(self);
 }
 
 /* Getters */
@@ -38,7 +36,6 @@ bool filechooserbutton_get_shortpaths(FileChooserButton *self) {
   FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
   return priv->shortpaths;
 }
-
 
 GFile* filechooserbutton_get_file(FileChooserButton *self) {
   FileChooserButtonPrivate* priv = filechooserbutton_get_instance_private(self);
@@ -132,8 +129,7 @@ FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter,
 
   /* Set the fields for the file chooser */
   puts("Setting FileChooserButton fields");
-  /*priv->prompt = malloc(strlen(prompt));*/
-  priv->prompt = malloc(strlen(prompt) + 1);
+  /*priv->prompt = malloc(strlen(prompt) + 1);*/
   priv->prompt = prompt;
   priv->shortpaths = true;
   priv->action = action;
@@ -155,6 +151,6 @@ FileChooserButton* filechooserbutton_new(const char* prompt, const char* filter,
 
   /* Show the GTK dialog on button click */
   puts("Setting button callback");
-  g_signal_connect(GTK_BUTTON(&fcb->parent_instance), "clicked", G_CALLBACK (filechooserbutton_show), G_OBJECT(fcb));
+  g_signal_connect(&fcb->parent_instance, "clicked", G_CALLBACK (filechooserbutton_show), G_OBJECT(fcb));
   return fcb;
 }
