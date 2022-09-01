@@ -61,7 +61,7 @@ static void oggex_application_show_about (GSimpleAction *action, GVariant *param
   window = gtk_application_get_active_window (GTK_APPLICATION (self));
 
   gtk_show_about_dialog (window,
-      "program-name", PROGRAM_NAME, "authors", authors, "version", get_version(), NULL);
+      "program-name", PROGRAM_NAME, "authors", authors, "version", PACKAGE_VERSION, NULL);
 }
 
 static void oggex_application_init (OggexApplication *self) {

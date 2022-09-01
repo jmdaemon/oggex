@@ -24,7 +24,8 @@ static void oggex_window_class_init (OggexWindowClass *klass) {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
   /* TODO: Free resource in oggex window destructor */
-  const char* resource = get_ui_resource(UI_OGGEX_WINDOW);
+  /*const char* resource = get_ui_resource(UI_OGGEX_WINDOW);*/
+  const char* resource = "/io/github/com/jmdaemon/oggex/../../../resources/gtk/oggex-window.ui";
   gtk_widget_class_set_template_from_resource (widget_class, resource);
   gtk_widget_class_bind_template_child (widget_class, OggexWindow, header_bar);
   gtk_widget_class_bind_template_child (widget_class, OggexWindow, home_paned);

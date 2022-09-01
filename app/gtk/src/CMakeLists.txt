@@ -2,13 +2,6 @@ set(TARGET oggex)
 
 # Include gtk4 cmake module
 include(gtk4)
-#add_compile_options("-rdynamic -W1 --export-dynamic")
-#add_compile_options("-rdynamic -W1 --export-dynamic")
-#add_compile_options("--rdynamic -W1 --export-dynamic")
-#add_compile_options("--rdynamic" "-W1" "--export-dynamic")
-#add_compile_options("-rdynamic" "-Wl" "-export-dynamic")
-
-#add_compile_options("-rdynamic" "-W" "-export-dynamic")
 
 # Add the rest of the GTK sources
 set(HEADERS ${INCLUDES_DIR} ${HEADERS_VERSION} ${PROJECT_SOURCE_DIR}/include/gtk ${PROJECT_SOURCE_DIR}/resources/gtk ${GTK4_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
@@ -31,28 +24,19 @@ make_gresource(
     WD ${CMAKE_CURRENT_SOURCE_DIR}
     XML ${GR_XML})
 
-#pkg_check_modules(GMODULE_EXPORT REQUIRED gmodule-export-2.0)
 
 # Build oggex-gtk-widgets
 set(GTK4_WIDGETS ${TARGET}-gtk-widgets)
-#add_executable(${GTK4_BIN_NAME} ${GR_C_OUT} oggex_defs.c filechooserbutton.c embedwidget.c extractwidget.c oggex-window.c oggex-application.c main.c)
-add_library(${GTK4_WIDGETS} SHARED ${GR_C_OUT} oggex_defs.c filechooserbutton.c embedwidget.cpp extractwidget.c oggex-window.c oggex-application.c)
-#add_library(${GTK4_WIDGETS} STATIC ${GR_C_OUT} oggex_defs.c filechooserbutton.c embedwidget.cpp extractwidget.c oggex-window.c oggex-application.c)
+add_library(${GTK4_WIDGETS} SHARED ${GR_C_OUT} filechooserbutton.c embedwidget.cpp extractwidget.c oggex-window.c oggex-application.c)
 target_include_directories(${GTK4_WIDGETS} PUBLIC ${HEADERS})
-#target_link_libraries(${GTK4_WIDGETS} PRIVATE ${GTK4_DEPENDS} ${PKG_DEPENDS} oggex cli ogx)
-#target_link_libraries(${GTK4_WIDGETS} PRIVATE ${GTK4_DEPENDS} ${PKG_DEPENDS} oggex cli ogx ${GMODULE_EXPORT_LIBRARIES})
-#target_link_libraries(${GTK4_WIDGETS} PRIVATE ${GTK4_DEPENDS} ${PKG_DEPENDS} oggex cli ogx ${GMODULE_EXPORT_LIBRARIES})
 target_link_libraries(${GTK4_WIDGETS} PRIVATE ${GTK4_DEPENDS} ${PKG_DEPENDS} oggex cli ogx)
 add_dependencies(${GTK4_WIDGETS} ${GR})
 
 # Build oggex-gtk
 set(GTK4_BIN_NAME ${TARGET}-gtk)
-#add_executable(${GTK4_BIN_NAME} ${GR_C_OUT} oggex_defs.c filechooserbutton.c embedwidget.c extractwidget.c oggex-window.c oggex-application.c main.c)
-#add_executable(${GTK4_BIN_NAME} ${GR_C_OUT} main.cpp)
 add_executable(${GTK4_BIN_NAME} main.cpp)
 target_include_directories(${GTK4_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${GTK4_BIN_NAME} PRIVATE ${GTK4_DEPENDS} ${TARGET}-gtk-widgets ${PKG_DEPENDS} oggex cli ogx)
 
 # Specify generated resource files
-#add_dependencies(${GTK4_BIN_NAME} ${GR})
 add_dependencies(${GTK4_BIN_NAME} ${GR})
