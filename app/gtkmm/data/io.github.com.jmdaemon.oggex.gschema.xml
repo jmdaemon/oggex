@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="oggex">
+	<schema id="io.github.com.jmdaemon.oggex" path="/io/github/com/jmdaemon/oggex/">
+	</schema>
+</schemalist>

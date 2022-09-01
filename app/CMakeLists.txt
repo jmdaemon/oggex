@@ -21,5 +21,6 @@ make_bin(
 # Manual Installation
 install(TARGETS ${BIN_NAME} DESTINATION bin COMPONENT bin)
 
-# Compile experimental gui application
 add_subdirectory(qt)
+add_subdirectory(gtk)
+#add_subdirectory(gtkmm)

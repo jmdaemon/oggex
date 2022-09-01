@@ -56,7 +56,19 @@ cd build/gcc-release-unix-makefiles
 make
 ```
 
+To build with Meson:
+``` bash
+meson build/meson/release --buildtype release
+cd build/meson/release
+meson compile
+```
+
 ## Install
+There are three different exceutables that you can choose to install from: `oggex`, `oggex-qt`, `oggex-gtk`.
+
+`oggex`: Pure cli executable.
+`oggex-qt`: GUI version made with QT6.
+`oggex-gtk`: GUI version made with GTK4.
 
 To install:
 
@@ -64,6 +76,8 @@ To install:
 sudo ninja install
 # or
 sudo make install
+# or
+meson install
 ```
 
 ## Contribute
@@ -80,4 +94,14 @@ Potential features
 - Direct encoding/linking with ffmpeg.
 - Flag to toggle optional file masking.
 - Progress Bar during encoding
-- Graphical user interface
+
+### TODO:
+
+- Fix bugs with parsing CLI args for QT6, GTK4 binaries:
+    - Create custom argc_min, argc_max field in arguments that checks for different bounds for cli/gui bins.
+- Fix pathing output bugs when dest is specified/omitted.
+    - When path is omitted the current directory of the file inputs should be used.
+        - This will be sound.src on embed and sound.image on extract.
+    - When path is given, a file save dialog box should popup to set the full directory output path and filename.
+- Check binary installations.
+- Add unit tests

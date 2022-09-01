@@ -37,3 +37,4 @@ executable('oggex-bin',
         install: true)
 
 #subdir(qt)
+subdir('gtk')

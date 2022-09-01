@@ -1,7 +1,12 @@
 project('oggex', ['c', 'cpp'],
-version: '2.1.0',
+version: '2.2.0',
 subproject_dir: 'meson-subprojects',
 license: 'MIT')
+
+# Include project version
+add_project_arguments([
+  '-I' + meson.project_build_root(),
+], language: ['c', 'cpp'])
 
 # Include project headers
 inc = include_directories('include')
@@ -35,8 +40,10 @@ dep_jolly = proj_jolly.get_variable('dep_jolly')
 proj_spdlog = subproject('spdlog')
 spdlog_dep = proj_spdlog.get_variable('spdlog_dep')
 
+proj_doctest = subproject('doctest')
+
 deps = [ dep_m, dep_pcre, dep_utility, dep_jolly, spdlog_dep ]
 
 subdir('src')
 subdir('app')
-#subdir('test')
+subdir('test')
