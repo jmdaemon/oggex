@@ -1,9 +1,10 @@
 oggex_sources = [
-  'main.c',
-  'oggex_defs.c',
-  'embedwidget.c',
+  'filechooserbutton.c',
+  'embedwidget.cpp',
+  'extractwidget.c',
   'oggex-window.c',
   'oggex-application.c',
+  'main.cpp',
 ]
 
 oggex_sources += gnome.compile_resources('oggex-resources',
@@ -13,5 +14,5 @@ oggex_sources += gnome.compile_resources('oggex-resources',
 executable('oggex',
   oggex_sources,
   include_directories: incs,
-  dependencies: deps_gtk4,
+  dependencies: [deps_gtk4, dep_cli, dep_oggex, dep_ogx, deps],
   install: true)
