@@ -37,5 +37,8 @@ add_executable(${GTK4_BIN_NAME} main.cpp)
 target_include_directories(${GTK4_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${GTK4_BIN_NAME} PRIVATE ${GTK4_DEPENDS} ${TARGET}-gtk-widgets ${PKG_DEPENDS} oggex cli ogx)
 
+# Manual installation
+install(TARGETS ${GTK4_BIN_NAME} DESTINATION bin COMPONENT bin)
+
 # Specify generated resource files
 add_dependencies(${GTK4_BIN_NAME} ${GR})
