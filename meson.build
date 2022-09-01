@@ -40,8 +40,10 @@ dep_jolly = proj_jolly.get_variable('dep_jolly')
 proj_spdlog = subproject('spdlog')
 spdlog_dep = proj_spdlog.get_variable('spdlog_dep')
 
+proj_doctest = subproject('doctest')
+
 deps = [ dep_m, dep_pcre, dep_utility, dep_jolly, spdlog_dep ]
 
 subdir('src')
 subdir('app')
-#subdir('test')
+subdir('test')
