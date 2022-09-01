@@ -4,8 +4,9 @@ set(GETTEXT_PACKAGE ${PROJECT_NAME})
 set(PROGRAM_NAME ${PROJECT_NAME})
 set(LOCALEDIR "/usr/share/locale/")
 
-set(APP_ID "/io/github/com/jmdaemon/oggex")
-string(REPLACE "/" "." APP_ID_UI APP_ID)
+set(APP_ID "io.github.com.jmdaemon.oggex")
+string(REPLACE "." "/" APP_ID_UI ${APP_ID})
+string(PREPEND APP_ID_UI "/")
 set(RESOURCES_DIR "../../../resources/gtk")
 
 # UI Files
