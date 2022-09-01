@@ -41,17 +41,20 @@ uintmax_t embed_size(Sound& sound) {
   uintmax_t embed_size = temp + image + tag;
 
   if (temp <= 0) {
-    SPDLOG_ERROR("Error: encoding failed");
-    throw std::exception();
+    std::string message = "Error: encoding failed";
+    SPDLOG_ERROR(message);
+    throw std::runtime_error(message);
   } 
 
   return embed_size;
 }
 
 void encodeAudio(Media& media) {
+  SPDLOG_INFO("In encodeAudio");
   auto settings = media.settings;
 
   while (true) {
+    SPDLOG_INFO("Encoding File");
     encode(format_command(media), media); // Note that doing an initial direct copy in embed would be better
     auto fsize = embed_size(media.sound);
     // If we don't care about the limit
@@ -64,14 +67,16 @@ void encodeAudio(Media& media) {
     } else if (settings.quality > 0) {
         settings.quality -= 6; // Decrease sound quality if file size exceeds our limit
     } else {
-      SPDLOG_ERROR("Audio file is too big (>4MiB), try running with -f or --fast");
-      throw std::exception();
+      std::string message = "Audio file is too big (>4MiB), try running with -f or --fast";
+      SPDLOG_ERROR(message);
+      throw std::runtime_error(message);
     }
   }
   SPDLOG_INFO("Audio encoding completed.");
 }
 
 void encodeImage(Media& media) {
+  SPDLOG_INFO("In encodeImage");
   auto sound = media.sound;
   auto tag = fmt::format("[{}]", sound.tag);
 
@@ -95,7 +100,7 @@ int embed(Media& media) {
   try {
     encodeAudio(media);
     encodeImage(media);
-  } catch (std::exception e) {
+  } catch (std::exception& e) {
     SPDLOG_ERROR("An exception occurred: {}", e.what());
     remove(media.sound.temp);
   }
