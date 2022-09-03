@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 
 project(
     oggex 
-    VERSION 2.2.1
+    VERSION 2.2.2
     DESCRIPTION "Encode and decode ogg audio files in images" 
     LANGUAGES C CXX)
 
