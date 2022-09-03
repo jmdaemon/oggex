@@ -14,8 +14,6 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             ui->le_audio->browse("Open Audio", "Audio Files (*.ogg)", "", true);
         });
     connect(ui->btn_embed, &QPushButton::clicked, this, [this]() {
-            //struct arguments args = this->getArgs();
-
             SPDLOG_INFO("Reading embed form data");
             
             // Parse Fields
@@ -35,10 +33,6 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             args.sound.tag      = (char*) s_tag.c_str();
             args.sound.dest     = (char*) s_dest.c_str();
 
-            // Prepare data
-            Sound sound = args.sound;
-            Settings settings = { 10, false };
-            Media media = {sound, settings, args};
             SPDLOG_INFO("Embedding Files ...");
             embed(media);
     });

@@ -12,8 +12,7 @@ ExtractWidget::ExtractWidget(QWidget *parent)
         });
 
     connect(ui->btn_extract, &QPushButton::clicked, this, [this]() {
-
-            SPDLOG_INFO("Reading embed form data");
+            SPDLOG_INFO("Reading extract form data");
             
             // Parse Fields
             std::string s_embed     = ui->le_embedded->getPath().toStdString();
@@ -26,9 +25,7 @@ ExtractWidget::ExtractWidget(QWidget *parent)
             args.sound.image    = (char*) s_embed.c_str();
             args.sound.dest     = (char*) s_destdir.c_str();
 
-            // Prepare data
-            Media media = {args.sound, args.settings, args};
-            SPDLOG_INFO("Embedding Files ...");
+            SPDLOG_INFO("Extracting Files ...");
             extract(media);
         });
 }
