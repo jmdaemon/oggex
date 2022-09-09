@@ -1,11 +1,42 @@
 #include "embedwidget.h"
 
+/** Auto complete fields given from command line arguments */
+void EmbedWidget::autocomplete(struct arguments *args) {
+    Sound sound = args->sound;
+    if (sound.src != nullptr) {
+        printf("%s\n", sound.src);
+        this->ui->le_audio->savePath(true, QString::fromLocal8Bit(sound.src));
+    }
+    if (sound.image != nullptr) {
+        printf("%s\n", sound.image);
+        this->ui->le_image->savePath(true, QString::fromLocal8Bit(sound.image));
+    }
+    if (sound.dest != nullptr) {
+        printf("%s\n", sound.dest);
+        this->ui->le_dest->setText(QString::fromLocal8Bit(sound.image));
+    }
+    if (sound.tag != nullptr) {
+        printf("%s\n", sound.tag);
+        this->ui->le_tag->setText(QString::fromLocal8Bit(sound.tag));
+    }
+}
+
+void show_sound(struct arguments args) {
+    printf("Source  : %s\n", args.sound.src);
+    printf("Image   : %s\n", args.sound.image);
+    printf("Dest    : %s\n", args.sound.dest);
+    printf("Tag     : %s\n", args.sound.tag);
+}
+
 EmbedWidget::EmbedWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::EmbedWidget) {
 
     ui->setupUi(this);
 
     /* TODO: Autocomplete/set fields from cli arguments */
+    autocomplete(&args);
+    this->ui->le_audio->setText(tr("Test"));
+    show_sound(args);
 
     connect(ui->le_image, &FileChooser::clicked, this, [this]() {
             ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)", "", true);

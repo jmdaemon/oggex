@@ -1,5 +1,8 @@
 #include "ogx.h"
 
+// For GUI executables
+const char* COMMAND_PLACEHOLDER = "placeholder";
+
 /** Initializes the spdlog logger */
 std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks) {
   auto logger = spdlog::get(logger_name);
@@ -36,6 +39,20 @@ void setup_logging(arguments arguments) {
 }
 
 int oggex(const char* command, Media media) {
+  //if ((strcmp(command, "embed") != 0) || (strcmp(command, "extract") != 0)) {
+  //if ((command == nullptr)
+      //|| (command == NULL)
+      //|| (strcmp(command, COMMAND_PLACEHOLDER) == 0)
+      //|| (strcmp(command, "") == 0)) {
+  if (command == nullptr) {
+    //auto asdf = argp_state();
+    //struct argp_state state = argp_state();
+    //argp_usage(&state);
+    fmt::print("No command specified. Please specify either 'embed' or 'extract'.");
+    fmt::print("For more information see oggex --h");
+    exit(-1);
+  }
+
   if (media.sound.image == nullptr || !file_exists(media.sound.image)) {
     SPDLOG_ERROR("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
     exit(-1);
@@ -66,8 +83,6 @@ arguments init_args(int argc, char** argv) {
   return arguments;
 }
 
-// For GUI executables
-const char* COMMAND_PLACEHOLDER = "placeholder";
 
 /** Initializes the arguments struct for gui binaries
   * 
@@ -85,14 +100,14 @@ const char* COMMAND_PLACEHOLDER = "placeholder";
 arguments init_args_gui(int argc, char** argv) {
   struct arguments args;
   // Setup placeholder value
-	args.args[0] = (char*) COMMAND_PLACEHOLDER;
 	args = set_default_args();
+	args.args[0] = (char*) COMMAND_PLACEHOLDER;
 	argp_parse(&argp, argc, argv, 0, 0, &args);
   return args;
 }
 
 /* Determine if the command was the placeholder value, or real user input */
-bool cmd_specified(struct arguments args) {
-  bool cmd_was_given = (strcmp(args.args[0], COMMAND_PLACEHOLDER) != 0) ? true : false;
-  return cmd_was_given;
+bool cmd_specified(struct arguments& args) {
+  bool cmd_given = (strcmp(args.args[0], COMMAND_PLACEHOLDER) != 0) ? true : false;
+  return cmd_given;
 }

@@ -5,7 +5,7 @@
 #include "ogx.h"
 
 /* Arguments singleton */
-static struct arguments args;
+extern struct arguments args;
 static Media media;
 
 #endif // OGGEX_QT_H
