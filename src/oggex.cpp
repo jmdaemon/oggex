@@ -44,7 +44,7 @@ uintmax_t embed_size(Sound& sound) {
     std::string message = "Error: encoding failed";
     SPDLOG_ERROR(message);
     throw std::runtime_error(message);
-  } 
+  }
 
   return embed_size;
 }
