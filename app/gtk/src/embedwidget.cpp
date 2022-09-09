@@ -23,6 +23,7 @@ static void embed_widget_class_init (EmbedWidgetClass *klass) {
 
 static void embed_widget_init (EmbedWidget *self) {
   gtk_widget_init_template (GTK_WIDGET (self));
+
 }
 
 static void embed_callback(GtkButton* /* self */, gpointer user_data) {
@@ -91,5 +92,53 @@ EmbedWidget* embed_widget_new (void) {
 
   /* Setup embed callback */
   g_signal_connect(result->btn_embed, "clicked", G_CALLBACK(embed_callback), G_OBJECT(result));
+  
+  // Autocomplete fields
+  Sound sound = args.sound;
+  if (sound.src != nullptr) {
+    //GFile file = gtkArg
+      //g_file_new_for_path
+    GFile *file = g_file_new_for_path(sound.src);
+    const char* shortpath = g_file_get_basename(file);
+    //gtk_button_set_label(GTK_BUTTON(self->fcb_audio), shortpath);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_audio), shortpath);
+    //GtkButton btn = result->fcb_audio->parent_instance;
+    //gtk_button_set_label(GTK_BUTTON(&btn), shortpath);
+
+    //gtk_button_set_label(GTK_BUTTON(self->fcb_audio) ,"");
+    //self->fcb_audio
+  }
+
+  if (sound.image != nullptr) {
+    GFile *file = g_file_new_for_path(sound.image);
+    const char* shortpath = g_file_get_basename(file);
+    //FileChooserButton* btn = self->fcb_image;
+    //FileChooserButton* btn = self->fcb_image;
+    //gtk_button_set_label(GTK_BUTTON(btn), shortpath);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_image), shortpath);
+  }
+
+  if (sound.tag != nullptr) {
+    //GFile *file = g_file_new_for_path(sound.image);
+    //const char* shortpath = g_file_get_basename(file);
+    //gtk_button_set_label(GTK_BUTTON(self->fcb_audio), shortpath);
+    //self->e_tag
+
+    //gtk_entry_buffer_set_text(self->e_tag, (const char*) sound.tag, (int) strlen(sound.tag));
+    //GtkEntryBuffer* buffer = gtk_entry_buffer_new(sound.tag, strlen(sound.tag));
+    //gtk_entry_buffer_set_text(self->e_tag, (const char*) sound.tag, (int) strlen(sound.tag));
+    //gtk_entry_buffer_set_text(self->e_tag, (const char*) sound.tag, (int) strlen(sound.tag));
+    //GtkEntry* e_tag = self->e_tag;
+    GtkEntry* e_tag = result->e_tag;
+    GtkEntryBuffer* e_tag_buffer = gtk_entry_get_buffer(e_tag);
+    gtk_entry_buffer_set_text(e_tag_buffer, sound.tag, strlen(sound.tag));
+  }
+
+  if (sound.dest != nullptr) {
+    //GtkEntry* e_dest = self->e_dest;
+    GtkEntry* e_dest = result->e_dest;
+    GtkEntryBuffer* e_dest_buffer = gtk_entry_get_buffer(e_dest);
+    gtk_entry_buffer_set_text(e_dest_buffer, sound.dest, strlen(sound.dest));
+  }
   return result;
 }

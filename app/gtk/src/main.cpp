@@ -5,6 +5,8 @@
 #include "oggex-application.h"
 #include "oggex_gtk.h"
 
+struct arguments args;
+
 /* Disable command line parsing with glib */
 static int command_line(GApplication *application, GApplicationCommandLine /* *cmdline */) {
 	// Show gtk app
