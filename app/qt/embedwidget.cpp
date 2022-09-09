@@ -3,22 +3,14 @@
 /** Auto complete fields given from command line arguments */
 void EmbedWidget::autocomplete(struct arguments *args) {
     Sound sound = args->sound;
-    if (sound.src != nullptr) {
-        printf("%s\n", sound.src);
+    if (sound.src != nullptr)
         this->ui->le_audio->savePath(true, QString::fromLocal8Bit(sound.src));
-    }
-    if (sound.image != nullptr) {
-        printf("%s\n", sound.image);
+    if (sound.image != nullptr)
         this->ui->le_image->savePath(true, QString::fromLocal8Bit(sound.image));
-    }
-    if (sound.dest != nullptr) {
-        printf("%s\n", sound.dest);
+    if (sound.dest != nullptr)
         this->ui->le_dest->setText(QString::fromLocal8Bit(sound.image));
-    }
-    if (sound.tag != nullptr) {
-        printf("%s\n", sound.tag);
+    if (sound.tag != nullptr)
         this->ui->le_tag->setText(QString::fromLocal8Bit(sound.tag));
-    }
 }
 
 void show_sound(struct arguments args) {
@@ -33,10 +25,7 @@ EmbedWidget::EmbedWidget(QWidget *parent)
 
     ui->setupUi(this);
 
-    /* TODO: Autocomplete/set fields from cli arguments */
     autocomplete(&args);
-    this->ui->le_audio->setText(tr("Test"));
-    show_sound(args);
 
     connect(ui->le_image, &FileChooser::clicked, this, [this]() {
             ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)", "", true);
