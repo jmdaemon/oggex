@@ -14,11 +14,12 @@
   * -map_metadata -1  \ # Preserve file metadata in output. By default this will be all.
   * \"{}\"            \ # Output to file
   * >> \"{}\" 2>&1    \ # Log all output (stdout, stderr) to this file
+  * TODO: Add option to encode files beyond .ogg (.wav, .mp3)
   */
 std::string format_command(Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  auto mono_option = (media.settings.mono_channel) ? " -ac 1" : "";
+  auto mono_option = (settings.mono_channel) ? " -ac 1" : "";
   auto command = fmt::format(fmt::runtime(
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
