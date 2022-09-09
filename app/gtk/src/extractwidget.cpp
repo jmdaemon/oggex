@@ -76,5 +76,20 @@ ExtractWidget* extract_widget_new (void) {
   /* Set minimum sizes */
   gtk_widget_set_size_request(GTK_WIDGET(result->fcb_embedded), 400, 30);
   gtk_widget_set_size_request(GTK_WIDGET(result->fcb_dest), 400, 30);
+
+  // Autocomplete fields
+  Sound sound = args.sound;
+  if (sound.image != nullptr) {
+    GFile *file = g_file_new_for_path(sound.image);
+    const char* shortpath = g_file_get_basename(file);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_embedded), shortpath);
+  }
+
+  if (sound.dest != nullptr) {
+    GFile *file = g_file_new_for_path(sound.dest);
+    const char* shortpath = g_file_get_basename(file);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_dest), shortpath);
+  }
+
   return result;
 }
