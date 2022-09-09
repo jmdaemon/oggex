@@ -33,7 +33,7 @@ add_dependencies(${GTK4_WIDGETS} ${GR})
 
 # Build oggex-gtk
 set(GTK4_BIN_NAME ${TARGET}-gtk)
-add_executable(${GTK4_BIN_NAME} main.cpp)
+add_executable(${GTK4_BIN_NAME} oggex-gtk.cpp)
 target_include_directories(${GTK4_BIN_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${GTK4_BIN_NAME} PRIVATE ${GTK4_DEPENDS} ${TARGET}-gtk-widgets ${PKG_DEPENDS} oggex cli ogx)
 
