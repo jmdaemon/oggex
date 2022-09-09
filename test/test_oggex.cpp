@@ -5,7 +5,7 @@
 #include <limits.h>
 #include <cstdarg>
 //#include <pthread.h>
-#include <filesystem>
+//#include <filesystem>
 #include <thread>
 
 // Samples
@@ -33,14 +33,42 @@ void run_embed_test(std::string bin, std::string audio, std::string image, std::
     fmt::print("{}\n", command);
 
     system(command.c_str());
+    const char* file = embed.c_str();
+    CHECK(std::filesystem::exists(file) != false);
+    remove(file);
+}
+void run_extract_test(std::string bin, std::string audio, std::string image, std::string embed) {
+    auto command = fmtExtractCommand(bin, embed);
+    fmt::print("{}\n", command);
+    system(command.c_str());
+
+    //pthread_t thread_id;
+    //pthread_create(&thread_id, NULL, system, command.c_str());
     //std::thread run_cmd(system, command.c_str());
     //run_cmd.join();
+    //pthread_join(thread_id, NULL);
 
-    const char* embed_cstr = embed.c_str();
-    bool result = std::filesystem::exists(embed_cstr);
-    CHECK(result != false);
-    remove(embed_cstr);
+    //CHECK(file_exists(audio.c_str()));
+    //CHECK(file_exists(image.c_str()));
+    //clean_test(audio.c_str(), image.c_str());
+
+    CHECK(file_exists(audio.c_str()));
+    CHECK(file_exists(image.c_str()));
+    remove(audio.c_str());
+    remove(image.c_str());
+    //clean_test(audio.c_str(), image.c_str());
+    //clean_test(audio.c_str(), image.c_str());
 }
+
+//void cd(char* cwd, std::string msg, std::string dir) {
+  //fmt::print("{}\n", msg);
+  //getcwd(cwd, sizeof(cwd));
+  //fmt::print("Current Directory: {}\n", cwd);
+
+  //chdir(dir.c_str());
+  //getcwd(cwd, sizeof(cwd));
+  //fmt::print("Current Directory: {}\n", cwd);
+//}
 
 /** Clean the teest output files */
 void clean_test(const char* path, ...) {
@@ -54,12 +82,13 @@ void clean_test(const char* path, ...) {
 
 // Integration Tests
 TEST_CASE("Test File Embedding") {
-  fmt::print("Test File Embedding\n");
   char cwd[PATH_MAX];
+  //cd(cwd, "Test File Embedding", "./samples/embed");
+  fmt::print("Test File Embedding\n");
   getcwd(cwd, sizeof(cwd));
   fmt::print("Current Directory: {}\n", cwd);
 
-  chdir("./samples/embed");
+  chdir("samples/embed");
   getcwd(cwd, sizeof(cwd));
   fmt::print("Current Directory: {}\n", cwd);
   
@@ -90,11 +119,10 @@ TEST_CASE("Test File Embedding") {
 }
 
 TEST_CASE("File Extract Tests") {
-  // Working directory
-  //system("cd samples/extract");
   char cwd[PATH_MAX];
+  //cd(cwd, "Test File Extraction", "samples/extract");
+  //cd("Test File Extract\n");
   fmt::print("Test File Extract\n");
-
   getcwd(cwd, sizeof(cwd));
   fmt::print("Current Directory: {}\n", cwd);
 
@@ -105,27 +133,27 @@ TEST_CASE("File Extract Tests") {
   auto audio  = formatPath(cwd, AUDIO_FILE);
   auto image  = formatPath(cwd, IMAGE_FILE);
   auto embed  = formatPath(cwd, EMBED_FILE);
-  auto tag    = SOUND_TAG;
-  /*
-
+  //auto tag    = SOUND_TAG;
   SUBCASE("oggex extract") {
     auto bin = "../../app/oggex";
-    auto command = fmtExtractCommand(bin, embed);
-    fmt::print("{}", command);
+    run_extract_test(bin, audio, image, embed);
+  }
+    //run_extract_test(bin, audio, image, tag, embed);
+
+    //auto command = fmtExtractCommand(bin, embed);
+    //fmt::print("{}", command);
 
     //system(command.c_str());
 
     //pthread_t thread_id;
     //pthread_create(&thread_id, NULL, system, command.c_str());
-    std::thread run_cmd(system, command.c_str());
-    run_cmd.join();
+    //std::thread run_cmd(system, command.c_str());
+    //run_cmd.join();
     //pthread_join(thread_id, NULL);
 
-    CHECK(file_exists(audio.c_str()));
-    CHECK(file_exists(image.c_str()));
-    clean_test(audio.c_str(), image.c_str());
-  }
-  */
+    //CHECK(file_exists(audio.c_str()));
+    //CHECK(file_exists(image.c_str()));
+    //clean_test(audio.c_str(), image.c_str());
 
   /*
   SUBCASE("oggex-gtk extract") {
