@@ -28,6 +28,20 @@ std::string fmtExtractCommand(std::string command, std::string embed) {
   return fmt::format("{} extract -i {}", command, embed);
 }
 
+void run_embed_test(std::string bin, std::string audio, std::string image, std::string tag, std::string embed) {
+    auto command = fmtEmbedCommand(bin, audio, image, tag);
+    fmt::print("{}\n", command);
+
+    system(command.c_str());
+    //std::thread run_cmd(system, command.c_str());
+    //run_cmd.join();
+
+    const char* embed_cstr = embed.c_str();
+    bool result = std::filesystem::exists(embed_cstr);
+    CHECK(result != false);
+    remove(embed_cstr);
+}
+
 /** Clean the teest output files */
 void clean_test(const char* path, ...) {
     va_list args;
@@ -38,11 +52,10 @@ void clean_test(const char* path, ...) {
     va_end(args);
 }
 
+// Integration Tests
 TEST_CASE("Test File Embedding") {
   fmt::print("Test File Embedding\n");
   char cwd[PATH_MAX];
-  // Working directory
-  //system("cd samples/embed");
   getcwd(cwd, sizeof(cwd));
   fmt::print("Current Directory: {}\n", cwd);
 
@@ -60,50 +73,20 @@ TEST_CASE("Test File Embedding") {
     exit(-1);
   }
   
-  //SUBCASE("oggex embed") {
   SUBCASE("oggex embed") {
     auto bin = "../../app/oggex";
-    auto command = fmtEmbedCommand(bin, audio, image, tag);
-    fmt::print("{}\n", command);
-
-    //system(command.c_str());
-    std::thread run_cmd(system, command.c_str());
-    run_cmd.join();
-
-    const char* embed_cstr = embed.c_str();
-    bool result = std::filesystem::exists(embed_cstr);
-    CHECK(result != false);
-    remove(embed_cstr);
-    // We need to wait for this function to finish
-    //sleep(10);
-
-    //CHECK(file_exists(embed_cstr) != NULL);
-    //CHECK(file_exists(embed_cstr) != NULL);
-    //clean_test(embed.c_str());
+    run_embed_test(bin, audio, image, tag, embed);
   }
 
-    //clean_test(embed_cstr);
-  //}
-
-  /*
   SUBCASE("oggex-gtk embed") {
     auto bin = "../../app/gtk/src/oggex-gtk";
-    auto command = fmtEmbedCommand(bin, audio, image, tag);
-    fmt::print("{}", command);
-    system(command.c_str());
-    CHECK(file_exists(embed.c_str()));
-    clean_test(embed.c_str());
+    run_embed_test(bin, audio, image, tag, embed);
   }
 
   SUBCASE("oggex-qt embed") {
     auto bin = "../../app/qt/oggex-qt";
-    auto command = fmtEmbedCommand(bin, audio, image, tag);
-    fmt::print("{}", command);
-    system(command.c_str());
-    CHECK(file_exists(embed.c_str()));
-    clean_test(embed.c_str());
+    run_embed_test(bin, audio, image, tag, embed);
   }
-  */
 }
 
 TEST_CASE("File Extract Tests") {
