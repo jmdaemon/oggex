@@ -36,6 +36,7 @@
             <property name="margin-end">6</property>
             <property name="margin-start">6</property>
             <property name="margin-top">6</property>
+            <property name="hexpand">True</property>
             <child>
               <object class="GtkStackPage" id="page0">
                 <property name="child">
