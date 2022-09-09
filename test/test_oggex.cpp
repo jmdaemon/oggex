@@ -14,6 +14,11 @@ const static std::string EMBED_FILE = "835127a09fc542aeb3bfa99c9d91972d.png";
 const static std::string SOUND_TAG  = "audio02";
 
 // Helper Functions
+std::filesystem::path ls() {
+    auto path = std::filesystem::current_path();
+    fmt::print("Current Directory: {}\n", path.string());
+    return path;
+}
 
 TEST_CASE("[Test] find_sound_tag finds sound tag offsets") {
   SUBCASE("find_sound_tag can find sound tag embedded in string") {
@@ -28,44 +33,26 @@ TEST_CASE("[Test] find_sound_tag finds sound tag offsets") {
   
   SUBCASE("find_sound_tag can find sound tag embedded in file") {
     fmt::print("find_sound_tag\n");
-    auto path = std::filesystem::current_path();
-    fmt::print("Current Directory: {}\n", path.string());
+    auto path = ls();
     if (path.stem().string() != "extract") {
       chdir("samples/extract");
-      auto path = std::filesystem::current_path();
-      fmt::print("Current Directory: {}\n", path.string());
-      //chdir("../..");
+      ls();
     }
 
-
-    //char cwd[PATH_MAX];
-    //getcwd(cwd, sizeof(cwd));
-    //fmt::print("Current Directory: {}\n", cwd);
-
-    //std::string filename = fmt::format("{}/samples/extract/{}", cwd, EMBED_FILE);
-    //std::string filename = fmt::format("{}/samples/extract/{}", cwd, EMBED_FILE);
-    //std::string filename = EMBED_FILE;
-    //std::string filename = fmt::format("{}/samples/extract/{}", cwd, EMBED_FILE);
     std::string filename = EMBED_FILE;
-    fmt::print("{}\n", filename);
     auto embed_size = file_size(filename.c_str());
-    //auto s_pngs    = find_str_offset(filename.c_str(), PNG_ID_FOOTER);
     auto s_oggs    = find_str_offset(filename.c_str(), OGG_ID_HEADER);
 
     fmt::print("embed_size: {}\n", embed_size);
-    //fmt::print("s_pngs    : {}\n", s_pngs);
     fmt::print("s_oggs    : {}\n", s_oggs);
 
     const char* contents = read_file(filename.c_str());
     std::string conts(contents, embed_size);
 
-    //std::string output = find_sound_tag(conts.substr(s_pngs, s_oggs));
-    //std::string output = find_sound_tag(conts.substr(0, s_oggs));
     auto expect = SOUND_TAG;
-    std::string result = find_sound_tag(conts.substr(0, s_oggs));
-    //const char* result = output.c_str();
+    auto result = find_sound_tag(conts.substr(0, s_oggs));
+
     fmt::print("Expected: {}\n", expect);
-    //fmt::print("Output  : {}\n", output);
     fmt::print("Result  : {}\n", result);
     CHECK(expect == result);
   }
@@ -73,18 +60,11 @@ TEST_CASE("[Test] find_sound_tag finds sound tag offsets") {
 
 TEST_CASE("[Test] embed_size calculates final embedded file size") {
   fmt::print("embed_size\n");
-  auto path = std::filesystem::current_path();
-  //char cwd[PATH_MAX];
-  //getcwd(cwd, sizeof(cwd));
-  //chdir("../..");
-  fmt::print("Current Directory: {}\n", path.string());
+  auto path = ls();
   if (path.stem().string() == "extract") {
     chdir("../..");
-      auto path = std::filesystem::current_path();
-      fmt::print("Current Directory: {}\n", path.string());
+    ls();
   }
-  //fmt::print("Current Directory: {}\n", cwd);
-  //fmt::print("Current Directory: {}\n", path.string());
 
   // Initialize dummy sound struct
   Sound sound;
