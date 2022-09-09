@@ -8,7 +8,6 @@ struct arguments set_default_args() {
   arguments.verbose = 0;
   arguments.scale = 1000;
   arguments.readable = false;
-  arguments.mono_encoding = false;
   arguments.nolimit = false;
 
   /* Sound */
@@ -57,7 +56,7 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
       break;
 
     case 'm':
-      arguments->mono_encoding = true;
+      arguments->settings.mono_channel = true;
       break;
 
     case 'l':

@@ -86,9 +86,7 @@ TEST_CASE("[Test] format_command returns valid ffmpeg commands") {
     .tag = (char*) (char*) (char*) (char*) (char*) (char*) (char*) (char*) (char*) "cccc"
   };
   Settings settings = {10, false};
-  arguments args;
-  args.mono_encoding = false;
-  Media media = { sound, settings, args };
+  Media media = { sound, settings, {}};
   auto expect = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1", sound.src, settings.quality, "", sound.temp, sound.log);
   auto result = format_command(media);
   CHECK(expect == result);

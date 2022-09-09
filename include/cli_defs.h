@@ -13,7 +13,6 @@ extern "C" {
 struct arguments {
   char *args[1]; /** embed, extract */
   bool readable;
-  bool mono_encoding;
   bool nolimit;
   int verbose;
   int scale;

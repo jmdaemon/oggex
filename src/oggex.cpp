@@ -18,7 +18,7 @@
 std::string format_command(Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  auto mono_option = (media.args.mono_encoding) ? " -ac 1" : "";
+  auto mono_option = (media.settings.mono_channel) ? " -ac 1" : "";
   auto command = fmt::format(fmt::runtime(
         "ffmpeg -y -nostdin -i \"{0}\" -vn -codec:a libvorbis -ar 44100 -aq {1}{2} -map_metadata -1 \"{3}\" >> \"{4}\" 2>&1"
         ), sound.src, settings.quality, mono_option, sound.temp, sound.log);
@@ -29,7 +29,7 @@ std::string format_command(Media& media) {
 void encode(const std::string cmd, Media& media) {
   auto sound = media.sound;
   auto settings = media.settings;
-  auto use_mono_encoding = (media.args.mono_encoding) ? "In Mono Audio Channel" : "";
+  auto use_mono_encoding = (media.settings.mono_channel) ? "In Mono Audio Channel" : "";
   SPDLOG_INFO("Encoding \"{}\" at quality = {} {}", sound.src, settings.quality, use_mono_encoding);
   exec(cmd.c_str(), 4096);
 }
