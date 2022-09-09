@@ -13,13 +13,6 @@ void EmbedWidget::autocomplete(struct arguments *args) {
         this->ui->le_tag->setText(QString::fromLocal8Bit(sound.tag));
 }
 
-void show_sound(struct arguments args) {
-    printf("Source  : %s\n", args.sound.src);
-    printf("Image   : %s\n", args.sound.image);
-    printf("Dest    : %s\n", args.sound.dest);
-    printf("Tag     : %s\n", args.sound.tag);
-}
-
 EmbedWidget::EmbedWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::EmbedWidget) {
 

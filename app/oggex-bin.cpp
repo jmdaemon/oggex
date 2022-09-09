@@ -39,15 +39,7 @@ void setup_logging(arguments arguments) {
 }
 
 int oggex(const char* command, Media media) {
-  //if ((strcmp(command, "embed") != 0) || (strcmp(command, "extract") != 0)) {
-  //if ((command == nullptr)
-      //|| (command == NULL)
-      //|| (strcmp(command, COMMAND_PLACEHOLDER) == 0)
-      //|| (strcmp(command, "") == 0)) {
   if (command == nullptr) {
-    //auto asdf = argp_state();
-    //struct argp_state state = argp_state();
-    //argp_usage(&state);
     fmt::print("No command specified. Please specify either 'embed' or 'extract'.");
     fmt::print("For more information see oggex --h");
     exit(-1);
@@ -83,7 +75,6 @@ arguments init_args(int argc, char** argv) {
   return arguments;
 }
 
-
 /** Initializes the arguments struct for gui binaries
   * 
   * Argp will error out if args.args[0] is null.
@@ -111,3 +102,12 @@ bool cmd_specified(struct arguments& args) {
   bool cmd_given = (strcmp(args.args[0], COMMAND_PLACEHOLDER) != 0) ? true : false;
   return cmd_given;
 }
+
+/** Print the sound paths in args */
+void show_sound(struct arguments args) {
+    printf("Source  : %s\n", args.sound.src);
+    printf("Image   : %s\n", args.sound.image);
+    printf("Dest    : %s\n", args.sound.dest);
+    printf("Tag     : %s\n", args.sound.tag);
+}
+
