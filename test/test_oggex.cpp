@@ -20,12 +20,6 @@ std::filesystem::path ls() {
     return path;
 }
 
-//char* stoc(std::string s) {
-  //char* result = new char;
-  //result = (char*) s.c_str();
-  //return result;
-//}
-
 void show_sound(Sound sound) {
     printf("Source  : %s\n", sound.src);
     printf("Image   : %s\n", sound.image);
@@ -82,7 +76,6 @@ TEST_CASE("[Test] embed_size calculates final embedded file size") {
 
   // Initialize dummy sound struct
   auto file = "LICENSE";
-  //Sound sound = { .src = stoc(file), .image = stoc(file), .tag = stoc(SOUND_TAG) };
   Sound sound = { .src = (char*) file, .image = (char*) file, .tag = (char*)SOUND_TAG.c_str() };
   auto expect = file_size(sound.src) * 2 + SOUND_TAG.length() +1;
   auto result = embed_size(sound);
@@ -101,12 +94,6 @@ TEST_CASE("[Test] format_command returns valid ffmpeg commands") {
 
   auto result = format_command(media);
   CHECK(expect == result);
-
-  //delete sound.src;
-  //delete sound.image;
-  //delete sound.temp;
-  //delete sound.log;
-  //delete sound.tag;
 }
 
 TEST_CASE("[Test] encodeAudio runs ffmpeg command and generates temp.ogg, log.txt") {
@@ -139,39 +126,15 @@ TEST_CASE("[Test] encodeAudio runs ffmpeg command and generates temp.ogg, log.tx
   CHECK(file_size("temp.ogg") != 0);
   CHECK(file_exists("log.txt"));
   CHECK(file_size("log.txt") != 0);
-  remove("temp.ogg");
-  remove("log.txt");
 
-  //delete sound.src;
-  //delete sound.image;
-  //delete sound.temp;
-  //delete sound.log;
-  //delete sound.tag;
+  SUBCASE("encodeImage creates the embedded image") {
+    encodeImage(media);
+    CHECK(file_exists(EMBED_FILE.c_str()));
+    CHECK(file_size(EMBED_FILE.c_str()) != 0);
+    remove(EMBED_FILE.c_str());
+  }
 }
 
-//TEST_CASE("[Test] encodeAudio runs ffmpeg command and generates temp.ogg, log.txt") {
-  //Sound sound = {
-    //.src = ()
-
-  //};
-  ////Sound sound = {
-    ////.src = (char*) "aaaa", .image = (char*) "bbbb",
-    ////.temp = (char*) "temp.ogg", .log = (char*) "log.txt",
-    ////.tag = (char*) (char*) (char*) (char*) (char*) (char*) (char*) (char*) (char*) "cccc"
-  ////};
-  //Settings settings = {10, false};
-  //Media media = { sound, settings, {}};
-  //auto expect = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1", sound.src, settings.quality, "", sound.temp, sound.log);
-  //auto result = format_command(media);
-  //CHECK(expect == result);
-//}
-
-
-// Check encodeAudio, encodeImage, encode, extract
 /**
-  * TODO:
-  * Tests needing to be written:
-  * - encode/encodeAudio
-  * - encodeImage
   * - extract
   */
