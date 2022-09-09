@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <interface>
   <requires lib="gtk" version="4.0"/>
   <template class="OggexWindow" parent="GtkApplicationWindow">
@@ -32,23 +32,33 @@
         <child>
           <object class="GtkStack" id="home_stack">
             <property name="transition-type">crossfade</property>
+            <property name="margin-bottom">6</property>
+            <property name="margin-end">6</property>
+            <property name="margin-start">6</property>
+            <property name="margin-top">6</property>
             <child>
               <object class="GtkStackPage" id="page0">
                 <property name="child">
                   <object class="GtkGrid" id="home_grid">
                     <child>
                       <object class="GtkLabel" id="lbl_title">
+                        <property name="accessible-role">note</property>
+                        <property name="justify">center</property>
                         <property name="label">Oggex</property>
+                        <property name="margin-bottom">0</property>
+                        <property name="margin-end">0</property>
+                        <property name="margin-start">0</property>
+                        <property name="margin-top">0</property>
+                        <attributes>
+                          <attribute name="weight" value="bold"/>
+                          <attribute name="scale" value="2"/>
+                        </attributes>
                         <layout>
                           <property name="column">1</property>
                           <property name="column-span">1</property>
                           <property name="row">0</property>
                           <property name="row-span">1</property>
                         </layout>
-                        <attributes>
-                          <attribute name="weight" value="bold"/>
-                          <attribute name="scale" value="2"/>
-                        </attributes>
                       </object>
                     </child>
                   </object>
@@ -62,7 +72,6 @@
       </object>
     </child>
   </template>
-
   <menu id="primary_menu">
     <section>
       <item>
