@@ -19,10 +19,10 @@ set(TEST_NAME test-oggex-int)
 add_executable(${TEST_NAME} test_oggex_int.cpp)
 target_include_directories(${TEST_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${TEST_NAME} PRIVATE ${PKG_DEPENDS} doctest oggex cli)
-#add_test(
-    #NAME ${TEST_NAME}
-    #WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
-    #COMMAND ${TEST_NAME})
+add_test(
+    NAME ${TEST_NAME}
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    COMMAND ${TEST_NAME})
 
 if (DISCOVER_TESTS)
     # Include doctest cmake module
