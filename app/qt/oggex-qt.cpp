@@ -1,11 +1,15 @@
 #include "mainwindow.h"
 #include "oggex_qt.h"
 
+struct arguments args;
+
 int main(int argc, char **argv) {
-    args.args[0] = (char*) "";
-    args = set_default_args();
-    args.verbose = 1;
+    args = init_args_gui(argc, argv);
+    media = {args.sound, args.settings, args};
     setup_logging(args);
+    if (cmd_specified(args)) {
+        return oggex(args.args[0], media);
+    }
 
     QApplication app(argc, argv);
     MainWindow mainWindow;

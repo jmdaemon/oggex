@@ -1,6 +1,11 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 #include "oggex.h"
+#include <unistd.h>
+#include <limits.h>
+#include <cstdarg>
+#include "cli_defs.h"
+#include <filesystem>
 
 // Samples
 const static std::string AUDIO_FILE = "audio02.ogg";
@@ -8,142 +13,152 @@ const static std::string IMAGE_FILE = "835127a09fc542aeb3bfa99c9d91972d.png.png"
 const static std::string EMBED_FILE = "835127a09fc542aeb3bfa99c9d91972d.png";
 const static std::string SOUND_TAG  = "audio02";
 
-/**
-  * TODO:
-  * Tests needing to be written:
-  * - dataToString
-  * - format_command
-  * - embed_size
-  * - encode/encodeAudio
-  * - encodeImage
-  * - getOffset
-  * - findSoundTag
-  * - extract
-  */
+// Helper Functions
+std::filesystem::path ls() {
+    auto path = std::filesystem::current_path();
+    fmt::print("Current Directory: {}\n", path.string());
+    return path;
+}
 
-// Tests:
-//TEST_CASE("") { 
-//}
+void show_sound(Sound sound) {
+    printf("Source  : %s\n", sound.src);
+    printf("Image   : %s\n", sound.image);
+    printf("Dest    : %s\n", sound.dest);
+    printf("Tag     : %s\n", sound.tag);
+}
 
+TEST_CASE("[Test] find_sound_tag finds sound tag offsets") {
+  SUBCASE("find_sound_tag can find sound tag embedded in string") {
+    // Note that this function is unable to find sound tags embedded like so:
+    // ================[audio02]================
+    // The end of the tag must be calculated beforehand with s_oggs
+    std::string conts = std::string(50, '=') + '[' + SOUND_TAG + ']';
+    auto expect = SOUND_TAG;
+    auto result = find_sound_tag(conts);
+    CHECK(expect == result);
+  }
+  
+  SUBCASE("find_sound_tag can find sound tag embedded in file") {
+    fmt::print("find_sound_tag\n");
+    auto path = ls();
+    if (path.stem().string() != "extract") {
+      chdir("samples/extract");
+      ls();
+    }
 
-//const static struct Sample samples = {
-  //AUDIO_FILE, IMAGE_FILE, EMBED_FILE, SOUND_TAG
-//};
+    std::string filename = EMBED_FILE;
+    auto embed_size = file_size(filename.c_str());
+    auto s_oggs    = find_str_offset(filename.c_str(), OGG_ID_HEADER);
 
-//struct DataFixture {
-  //const std::string SOUND_TAG       = "audio02";
-  //const std::string AUDIO_FILENAME  = "../../outputFile1.audio02.ogg";
-  //const std::string IMAGE_FILENAME  = "../../inputFile2.png";
+    fmt::print("embed_size: {}\n", embed_size);
+    fmt::print("s_oggs    : {}\n", s_oggs);
 
-  //Audio::AudioData audio{};
-  ////Image::ImageData image{};
-  //const char* image{};
-  //Options options;
-  //Data data{};
+    const char* contents = read_file(filename.c_str());
+    std::string conts(contents, embed_size);
 
-  //DataFixture() : audio(createAudioData(SOUND_TAG, AUDIO_FILENAME)), 
-  ////image(Image::ImageData(IMAGE_FILENAME)), data(createEmbedData(audio, image, options)) { }
-  //image(IMAGE_FILENAME.c_str()), data(createEmbedData(audio, image, options)) { }
-//};
+    auto expect = SOUND_TAG;
+    auto result = find_sound_tag(conts.substr(0, s_oggs));
 
-//std::string formatCommand(Audio::AudioData& audio, bool enableMono) {
-  //std::string command = ((enableMono) ? 
-      //fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -ac 1 -map_metadata -1 \"{}\" >> \"{}\" 2>&1", 
-          //audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()) 
-  //: 
-    //fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {} -map_metadata -1 \"{}\" >> \"{}\" 2>&1", 
-          //audio.getAudio().string(), audio.getAudioQuality(), audio.getTempAudio().string(), audio.getTempLog().string()));
-  //return command;
-//}
+    fmt::print("Expected: {}\n", expect);
+    fmt::print("Result  : {}\n", result);
+    CHECK(expect == result);
+  }
+}
 
-//TEST_CASE("Clean should remove temporary files") { 
-  //std::ofstream testFile("Test.txt");
-  //testFile << "clean() should remove this file.";
-  //testFile.close();
+TEST_CASE("[Test] embed_size calculates final embedded file size") {
+  // TODO: Test for 'Error: encoding failed' exception
+  fmt::print("embed_size\n");
+  auto path = ls();
+  if (path.stem().string() == "extract") {
+    chdir("../..");
+    ls();
+  }
 
-  //REQUIRE(std::filesystem::exists("Test.txt"));
-  //clean({ "Test.txt" });
-  //REQUIRE(!std::filesystem::exists("Test.txt"));
-//}
+  // Initialize dummy sound struct
+  auto file = "LICENSE";
+  Sound sound = { .src = (char*) file, .image = (char*) file, .tag = (char*)SOUND_TAG.c_str() };
+  auto expect = file_size(sound.src) * 2 + SOUND_TAG.length() +1;
+  auto result = embed_size(sound);
+  CHECK(expect == result);
+}
 
-//TEST_CASE_FIXTURE(DataFixture, "Ffmpeg CLI commands are created and formatted correctly") {
-    ////string legacyCMDFormat  = "ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
-    ////string maskCMDFormat    = "ffmpeg -y -nostdin -i \"{}\" -vn acodec libvorbis -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1";
-    //data.options.enableMono(true);
-    //auto monoAudioCommand = createCommand(data);
-    //auto properMonoAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
+TEST_CASE("[Test] format_command returns valid ffmpeg commands") {
+  Sound sound = {
+    .src = (char*) "aaaa", .image = (char*) "bbbb",
+    .temp = (char*) "temp.ogg", .log = (char*) "log.txt", .tag = (char*) "cccc"
+  };
+  Settings settings = {10, false};
+  Media media = { sound, settings, {}};
+  auto expect = fmt::format("ffmpeg -y -nostdin -i \"{}\" -vn -codec:a libvorbis -ar 44100 -aq {}{} -map_metadata -1 \"{}\" >> \"{}\" 2>&1", sound.src, settings.quality, "", sound.temp, sound.log);
+  show_sound(sound);
 
-    //data.options.enableMono(false);
-    //auto dualAudioCommand = createCommand(data);
-    //auto properDualAudioCommand = formatCommand(audio, data.options.isMonoEnabled());
-    
-    //REQUIRE(monoAudioCommand == properMonoAudioCommand); 
-    //REQUIRE(properDualAudioCommand == properDualAudioCommand);
-//}
+  auto result = format_command(media);
+  CHECK(expect == result);
+}
 
-//TEST_CASE_FIXTURE(DataFixture, "Exec run and execute ffmpeg commands") { 
-  //const std::string command = formatCommand(audio, data.options.isMonoEnabled());
-  //std::string output = exec(command, data);
-  //REQUIRE(!output.empty());
-//} 
+TEST_CASE("[Test] encodeAudio runs ffmpeg command and generates temp.ogg, log.txt") {
+  // TODO: Test for exception thrown
+  // TODO: Test for audio limit
+  fmt::print("encodeAudio\n");
+  auto path = ls();
+  if(path.stem().string() == "extract") {
+    chdir("../..");
+    chdir("samples/embed");
+    path = ls();
+    if (path.stem().string() != "embed") {
+      fmt::print("Not in correct directory for encodeAudio test");
+      exit(1);
+    }
+  } else if (path.stem().string() != "embed") {
+    chdir("samples/embed");
+  }
 
-//TEST_CASE_FIXTURE(DataFixture, "Audio files can be embedded into image files") {
-  //// Encode Audio properly executes ffmpeg command and creates the "temp.ogg" intermediary file
+  Sound sound = {.src = (char*) AUDIO_FILE.c_str(), .image = (char*) IMAGE_FILE.c_str(),
+    .temp = (char*) "temp.ogg", .log = (char*) "log.txt", .tag = (char*) SOUND_TAG.c_str()
+  };
+  Settings settings = {10, false};
+  struct arguments args = { .nolimit = true };
+  Media media = { sound, settings, args};
+  show_sound(sound);
 
-  //INFO("EncodeAudio function should create a temp.ogg file");
-  //// Encode Audio with default settings
-  //data.options.enableMono(true);
-  //REQUIRE(!encodeAudio(data).empty());
-  //REQUIRE(std::filesystem::exists("temp.ogg"));
-  ////clean({"temp.ogg"});
-  //remove("temp.ogg");
+  encodeAudio(media);
+  CHECK(file_exists("temp.ogg"));
+  CHECK(file_size("temp.ogg") != 0);
+  CHECK(file_exists("log.txt"));
+  CHECK(file_size("log.txt") != 0);
 
-  //// Disable mono audio channel, and ignore the 4MiB Limit
-  //data.options.enableMono(false);
-  //data.options.ignoreLimit(true);
-  //REQUIRE(!encodeAudio(data).empty());
-  //REQUIRE(std::filesystem::exists(data.audio.getTempAudio()));
-  ////clean({data.audio.getTempAudio()});
-  //remove(data.audio.getTempAudio());
+  SUBCASE("encodeImage creates the embedded image") {
+    encodeImage(media);
+    CHECK(file_exists(EMBED_FILE.c_str()));
+    CHECK(file_size(EMBED_FILE.c_str()) != 0);
+    remove(EMBED_FILE.c_str());
+  }
+}
 
-  //INFO("EncodeImage function should create an [image]-embed.png file");
-  //// Ensure that the embedded output file is created
-  //CHECK_THROWS_AS(encodeImage(data), const std::exception&); 
-  //encodeAudio(data, data.options.isMonoEnabled());
-  //encodeImage(data);
-//} 
+TEST_CASE("[Test] extract ") {
+  fmt::print("extract\n");
+  auto path = ls();
+  if (path.stem().string() == "embed") {
+    chdir("../..");
+    chdir("samples/extract");
+    path = ls();
+    if (path.stem().string() != "extract") {
+      fmt::print("Not in correct directory for encodeAudio test");
+      exit(1);
+    }
+  } else if (path.stem().string() != "extract") {
+    chdir("samples/extract");
+  }
 
-// Oggex Extract Audio Tests
-//struct DataFixture {
-  //const std::string EMBEDDED_FILENAME  = "../../inputFile1.png";
+  Sound sound = { .image = (char*) EMBED_FILE.c_str() };
+  Settings settings = {10, false};
+  struct arguments args = { .nolimit = true };
+  Media media = { sound, settings, args};
+  
+  extract(media);
 
-  //Image::ImageData image{};
-  //Options options;
-  //Data data{};
-
-  //DataFixture() : image(Image::ImageData(EMBEDDED_FILENAME)), data(createExtractData(image, options)) { }
-//};
-
-
-//TEST_CASE_FIXTURE(DataFixture, "getOffset()") {
-  //size_t offset = getOffset(EMBEDDED_FILENAME);
-  //REQUIRE(offset != 0);
-
-  //offset = getOffset("SearchTermUnavailable");
-  //REQUIRE(offset == 0);
-//}
-
-//TEST_CASE_FIXTURE(DataFixture, "findSoundTag should return sound tag in embedded file") { 
-  //std::filesystem::path image = data.image.getImage();
-  //string embeddedFileData   = dataToString(image, 0);
-  //size_t audioOffset        = getOffset(image);
-  //std::string soundTag      = findSoundTag(data, embeddedFileData, audioOffset);
-  //REQUIRE(!soundTag.empty());
-  //embeddedFileData          = dataToString(image, sizeOf(image));
-  //soundTag                  = findSoundTag(data, embeddedFileData, sizeOf(image));
-  //REQUIRE(soundTag.empty());
-//}
-
-//TEST_CASE_FIXTURE(DataFixture, "extract()") { 
-  //REQUIRE(extract(data) == 0);
-//}
+  CHECK(file_exists(AUDIO_FILE.c_str()));
+  CHECK(file_exists(IMAGE_FILE.c_str()));
+  remove(AUDIO_FILE.c_str());
+  remove(IMAGE_FILE.c_str());
+}

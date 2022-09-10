@@ -83,7 +83,7 @@ static void embed_callback(GtkButton* /* self */, gpointer user_data) {
 EmbedWidget* embed_widget_new (void) {
   EmbedWidget* result = (EmbedWidget*) g_object_new (EMBED_WIDGET_TYPE_WIDGET, NULL);
 
-  /* Add file choosers to embed_widget */
+  /* Add file choosers to widget */
   result->fcb_image = filechooserbutton_new("Open Image", "Image Files (*.png *.jpg *.bmp)", true, GTK_FILE_CHOOSER_ACTION_OPEN);
   result->fcb_audio = filechooserbutton_new("Open Audio", "Audio Files (*.ogg)", true, GTK_FILE_CHOOSER_ACTION_OPEN);
   gtk_grid_attach(GTK_GRID(result), GTK_WIDGET(result->fcb_image), 1, 1, 1, 1);
@@ -91,5 +91,37 @@ EmbedWidget* embed_widget_new (void) {
 
   /* Setup embed callback */
   g_signal_connect(result->btn_embed, "clicked", G_CALLBACK(embed_callback), G_OBJECT(result));
+
+  /* Set minimum sizes */
+  gtk_widget_set_size_request(GTK_WIDGET(result->fcb_audio), 400, 30);
+  gtk_widget_set_size_request(GTK_WIDGET(result->fcb_image), 400, 30);
+  gtk_widget_set_size_request(GTK_WIDGET(result->e_tag), 400, 30);
+  gtk_widget_set_size_request(GTK_WIDGET(result->e_dest), 400, 30);
+  
+  // Autocomplete fields
+  Sound sound = args.sound;
+  if (sound.src != nullptr) {
+    GFile *file = g_file_new_for_path(sound.src);
+    const char* shortpath = g_file_get_basename(file);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_audio), shortpath);
+  }
+
+  if (sound.image != nullptr) {
+    GFile *file = g_file_new_for_path(sound.image);
+    const char* shortpath = g_file_get_basename(file);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_image), shortpath);
+  }
+
+  if (sound.tag != nullptr) {
+    GtkEntry* e_tag = result->e_tag;
+    GtkEntryBuffer* e_tag_buffer = gtk_entry_get_buffer(e_tag);
+    gtk_entry_buffer_set_text(e_tag_buffer, sound.tag, strlen(sound.tag));
+  }
+
+  if (sound.dest != nullptr) {
+    GtkEntry* e_dest = result->e_dest;
+    GtkEntryBuffer* e_dest_buffer = gtk_entry_get_buffer(e_dest);
+    gtk_entry_buffer_set_text(e_dest_buffer, sound.dest, strlen(sound.dest));
+  }
   return result;
 }

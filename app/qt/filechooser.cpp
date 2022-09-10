@@ -19,11 +19,16 @@ void FileChooser::setPath(QString path) {
 }
 
 // Truncate and display just the file name
-void FileChooser::shortenPaths(bool shortpaths, QString fileName) {
-    if (shortpaths) {
-        QFileInfo file(fileName);
-        qDebug() << "File: " << file.fileName();
-        this->setText(file.fileName());
+void FileChooser::savePath(bool shortpaths, QString path) {
+    if (!path.isEmpty()) {
+        qDebug() << "Selected: " << path;
+        this->setPath(path); // Save the full path for later
+        if (shortpaths) {
+            // Display a shortened version of the full path
+            QFileInfo file(path);
+            qDebug() << "File: " << file.fileName();
+            this->setText(file.fileName());
+        }
     }
 }
 
@@ -50,21 +55,11 @@ void FileChooser::mouseReleaseEvent(QMouseEvent *e) {
 void FileChooser::browse(QString prompt, QString filetypes, QString dir, bool shortpaths) {
     qDebug("Opening File Chooser Dialog");
     auto fileName = QFileDialog::getOpenFileName(this, prompt, dir, filetypes);
-
-    if (!fileName.isEmpty()) {
-        qDebug() << "Selected: " << fileName;
-        this->setPath(fileName); // Save the full path for later
-        this->shortenPaths(shortpaths, fileName);
-    }
+    savePath(shortpaths, fileName);
 }
 
 void FileChooser::browseDir(QString prompt, QString dir, bool shortpaths) {
     qDebug("Opening File Chooser Dialog");
     auto directory = QFileDialog::getExistingDirectory(this, prompt, dir, QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-
-    if (!directory.isEmpty()) {
-        qDebug() << "Selected: " << directory;
-        this->setPath(directory); // Save the full path for later
-        this->shortenPaths(shortpaths, directory);
-    }
+    savePath(shortpaths, directory);
 }

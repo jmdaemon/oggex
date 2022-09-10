@@ -32,6 +32,7 @@ static const char* PNG_ID_FOOTER = "IEND"; // Audio ID header present in .png fi
 
 // Embed
 std::string format_command(Media& media);
+uintmax_t embed_size(Sound& sound);
 void encode(const std::string cmd, Media& media);
 void encodeAudio(Media& media);
 void encodeImage(Media& media);

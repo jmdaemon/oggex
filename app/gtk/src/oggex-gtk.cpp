@@ -5,41 +5,28 @@
 #include "oggex-application.h"
 #include "oggex_gtk.h"
 
+struct arguments args;
+
 /* Disable command line parsing with glib */
-static int command_line (GApplication *application, GApplicationCommandLine /* *cmdline */) {
+static int command_line(GApplication *application, GApplicationCommandLine /* *cmdline */) {
 	// Show gtk app
 	g_application_activate(application);
   return 0;
 }
 
-int main (int argc, char **argv) {
-	// Current arg parsing code
-	// Defaults the arguments and toggles logging by default
-
-	args.args[0] = (char*) "";
-	args = set_default_args();
-	args.nolimit = true;
-	args.verbose = 1;
+int main(int argc, char **argv) {
+	args = init_args_gui(argc, argv);
 	setup_logging(args);
-	// TODO: Parse command line args here
-
-	// Ideal arg parsing setup code
-	//args.args[0] = (char*) "";
-	//args.verbose = 1;
-	//args = init_args(argc, argv);
-	//setup_logging(args);
-	////struct arguments arguments = init_args(argc, argv);
-	//char* command = args.args[0];
-	//Media media = {args.sound, args.settings, args};
-	//setup_logging(args);
+	Media media = {args.sound, args.settings, args};
+	if (cmd_specified(args))
+		return oggex(args.args[0], media);
 
 	g_autoptr(OggexApplication) app = NULL;
-	int ret;
 
 	/* Set up gettext translations */
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
+	bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
 
 	/*
 	 * Create a new GtkApplication. The application manages our main loop,
@@ -47,6 +34,8 @@ int main (int argc, char **argv) {
 	 * desktop features such as file opening and single-instance applications.
 	 */
 	app = oggex_application_new ((gchar*) APP_ID, G_APPLICATION_HANDLES_COMMAND_LINE);
+
+	// Prevent glib from parsing our arguments.
 	g_signal_connect (app, "command-line", G_CALLBACK (command_line), NULL);
 
 	/*
@@ -59,7 +48,5 @@ int main (int argc, char **argv) {
 	 * method "run". But we need to cast, which is what the "G_APPLICATION()"
 	 * macro does.
 	 */
-	ret = g_application_run (G_APPLICATION (app), NULL, NULL);
-
-	return ret;
+	return g_application_run (G_APPLICATION (app), NULL, NULL);
 }

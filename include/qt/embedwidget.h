@@ -24,5 +24,6 @@ private:
 public:
     explicit EmbedWidget(QWidget *parent = nullptr);
     ~EmbedWidget();
+    void autocomplete(struct arguments *args);
 };
 #endif // OGGEX_EMBEDWIDGET_H

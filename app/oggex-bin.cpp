@@ -1,5 +1,9 @@
 #include "ogx.h"
 
+// For GUI executables
+const char* COMMAND_PLACEHOLDER = "placeholder";
+
+/** Initializes the spdlog logger */
 std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks) {
   auto logger = spdlog::get(logger_name);
   if (!logger) {
@@ -13,6 +17,7 @@ std::shared_ptr<spdlog::logger> setup_logger(std::vector<spdlog::sink_ptr> sinks
   return logger;
 }
 
+/** Initializes spdlog logger, and toggles logging statements at runtime */
 void setup_logging(arguments arguments) {
   // Setup library logging
   std::vector<spdlog::sink_ptr> sinks;
@@ -34,6 +39,12 @@ void setup_logging(arguments arguments) {
 }
 
 int oggex(const char* command, Media media) {
+  if (command == nullptr) {
+    fmt::print("No command specified. Please specify either 'embed' or 'extract'.");
+    fmt::print("For more information see oggex --h");
+    exit(-1);
+  }
+
   if (media.sound.image == nullptr || !file_exists(media.sound.image)) {
     SPDLOG_ERROR("You must provide a valid image file. Supported image formats are: PNG, JPG, JPEG and GIF.");
     exit(-1);
@@ -57,9 +68,46 @@ int oggex(const char* command, Media media) {
   return 0;
 }
 
+/** Parses command line arguments */
 arguments init_args(int argc, char** argv) {
-  // Parse arguments
   struct arguments arguments = set_default_args();
   argp_parse (&argp, argc, argv, 0, 0, &arguments);
   return arguments;
 }
+
+/** Initializes the arguments struct for gui binaries
+  * 
+  * Argp will error out if args.args[0] is null.
+  * This is intended functionality for oggex but not for oggex-qt or oggex-gtk.
+  * This function allows us to skip this check for gui binaries by providing a dummy placeholder
+  * value for the necessary arguments.
+  *
+  * At runtime in oggex-gtk or oggex-qt, we check for this placeholder to determine if we should
+  * do the embed/extract the same as oggex cli would, or to display the gui.
+  *
+  * Note that we cannot setup the logger here, since it will be linked later in
+  * the gui executables and will cause problems otherwise.
+  */
+arguments init_args_gui(int argc, char** argv) {
+  struct arguments args;
+  // Setup placeholder value
+	args = set_default_args();
+	args.args[0] = (char*) COMMAND_PLACEHOLDER;
+	argp_parse(&argp, argc, argv, 0, 0, &args);
+  return args;
+}
+
+/* Determine if the command was the placeholder value, or real user input */
+bool cmd_specified(struct arguments& args) {
+  bool cmd_given = (strcmp(args.args[0], COMMAND_PLACEHOLDER) != 0) ? true : false;
+  return cmd_given;
+}
+
+/** Print the sound paths in args */
+void show_sound(struct arguments args) {
+    printf("Source  : %s\n", args.sound.src);
+    printf("Image   : %s\n", args.sound.image);
+    printf("Dest    : %s\n", args.sound.dest);
+    printf("Tag     : %s\n", args.sound.tag);
+}
+

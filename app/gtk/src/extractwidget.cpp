@@ -64,16 +64,32 @@ ExtractWidget* extract_widget_new (void) {
   ExtractWidget* result = (ExtractWidget*) g_object_new (EXTRACT_WIDGET_TYPE_WIDGET, NULL);
 
   /* Add file choosers to widget */
-  puts("Instantiating Extract Widgets");
   result->fcb_embedded = filechooserbutton_new("Open Image", "Image Files (*.png *.jpg *.bmp)", true, GTK_FILE_CHOOSER_ACTION_OPEN);
   result->fcb_dest = filechooserbutton_new("Select Folder", "Folders (*)", true, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
 
-  puts("Attaching Extract FileChooserButtons");
   gtk_grid_attach(GTK_GRID(result), GTK_WIDGET(result->fcb_embedded), 1, 1, 1, 1);
   gtk_grid_attach(GTK_GRID(result), GTK_WIDGET(result->fcb_dest), 1, 2, 1, 1);
 
   /* Setup callback */
-  puts("Setup Extract Callback");
   g_signal_connect(result->btn_extract, "clicked", G_CALLBACK(extract_callback), G_OBJECT(result));
+  
+  /* Set minimum sizes */
+  gtk_widget_set_size_request(GTK_WIDGET(result->fcb_embedded), 400, 30);
+  gtk_widget_set_size_request(GTK_WIDGET(result->fcb_dest), 400, 30);
+
+  // Autocomplete fields
+  Sound sound = args.sound;
+  if (sound.image != nullptr) {
+    GFile *file = g_file_new_for_path(sound.image);
+    const char* shortpath = g_file_get_basename(file);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_embedded), shortpath);
+  }
+
+  if (sound.dest != nullptr) {
+    GFile *file = g_file_new_for_path(sound.dest);
+    const char* shortpath = g_file_get_basename(file);
+    gtk_button_set_label(GTK_BUTTON(result->fcb_dest), shortpath);
+  }
+
   return result;
 }

@@ -31,7 +31,7 @@ public:
     // Setters
     void setPath(QString path);
 
-    void shortenPaths(bool shortpaths, QString fileName);
+    void savePath(bool shortpaths, QString fileName);
 
 signals:
     void clicked(bool wasClicked);

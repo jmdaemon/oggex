@@ -25,6 +25,7 @@ public:
 
 private:
     Ui::ExtractWidget *ui;
+    void autocomplete(struct arguments* args);
 };
 
 #endif // OGGEX_EXTRACTWIDGET_H

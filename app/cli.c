@@ -8,14 +8,13 @@ struct arguments set_default_args() {
   arguments.verbose = 0;
   arguments.scale = 1000;
   arguments.readable = false;
-  arguments.mono_encoding = false;
   arguments.nolimit = false;
 
   /* Sound */
-  /*arguments.sound.temp = "temp.ogg";*/
-  /*arguments.sound.log = "log.txt";*/
-  arguments.sound.temp = (char*) "temp.ogg";
-  arguments.sound.log = (char*) "log.txt";
+  arguments.sound.temp = "temp.ogg";
+  arguments.sound.log = "log.txt";
+  /*arguments.sound.temp = (char*) "temp.ogg";*/
+  /*arguments.sound.log = (char*) "log.txt";*/
 
   /* Settings */
   arguments.settings.quality = 10;
@@ -57,7 +56,7 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
       break;
 
     case 'm':
-      arguments->mono_encoding = true;
+      arguments->settings.mono_channel = true;
       break;
 
     case 'l':
@@ -70,17 +69,17 @@ error_t parse_opt (int key, char *arg, struct argp_state *state) {
       break;
 
     case ARGP_KEY_ARG:
-      if (state->arg_num > 1)
+      /*if (state->arg_num > 1)*/
         /* Too many arguments. */
-        argp_usage (state);
+        /*argp_usage (state);*/
       arguments->args[state->arg_num] = arg;
       break;
 
     case ARGP_KEY_END:
-      if (state->arg_num < 1) {
+      /*if (state->arg_num < 1) {*/
         /* Not enough arguments. */
-        argp_usage (state);
-      }
+        /*argp_usage (state);*/
+      /*}*/
       break;
 
     default:

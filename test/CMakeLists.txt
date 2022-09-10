@@ -2,9 +2,21 @@
 set(HEADERS ${INCLUDES_DIR} ${DOCTEST_INCLUDE_DIR} ${jolly_SOURCE_DIR}/include ${utility_SOURCE_DIR}/include)
 set(TARGET oggex)
 
+file(COPY ../LICENSE DESTINATION ${CMAKE_BINARY_DIR})
+
 # Add unit tests
 set(TEST_NAME test-${TARGET})
 add_executable(${TEST_NAME} test_oggex.cpp)
+target_include_directories(${TEST_NAME} PUBLIC ${HEADERS})
+target_link_libraries(${TEST_NAME} PRIVATE ${PKG_DEPENDS} doctest oggex cli)
+add_test(
+    NAME ${TEST_NAME}
+    WORKING_DIRECTORY ${PROJECT_BINARY_DIR}
+    COMMAND ${TEST_NAME})
+
+# Add integration tests
+set(TEST_NAME test-oggex-int)
+add_executable(${TEST_NAME} test_oggex_int.cpp)
 target_include_directories(${TEST_NAME} PUBLIC ${HEADERS})
 target_link_libraries(${TEST_NAME} PRIVATE ${PKG_DEPENDS} doctest oggex cli)
 add_test(

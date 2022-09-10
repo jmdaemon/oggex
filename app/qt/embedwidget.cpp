@@ -1,11 +1,24 @@
 #include "embedwidget.h"
 
+/** Auto complete fields given from command line arguments */
+void EmbedWidget::autocomplete(struct arguments *args) {
+    Sound sound = args->sound;
+    if (sound.src != nullptr)
+        this->ui->le_audio->savePath(true, QString::fromLocal8Bit(sound.src));
+    if (sound.image != nullptr)
+        this->ui->le_image->savePath(true, QString::fromLocal8Bit(sound.image));
+    if (sound.dest != nullptr)
+        this->ui->le_dest->setText(QString::fromLocal8Bit(sound.image));
+    if (sound.tag != nullptr)
+        this->ui->le_tag->setText(QString::fromLocal8Bit(sound.tag));
+}
+
 EmbedWidget::EmbedWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::EmbedWidget) {
 
     ui->setupUi(this);
 
-    /* TODO: Autocomplete/set fields from cli arguments */
+    autocomplete(&args);
 
     connect(ui->le_image, &FileChooser::clicked, this, [this]() {
             ui->le_image->browse("Open Image", "Image Files (*.png *.jpg *.bmp)", "", true);
@@ -14,8 +27,6 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             ui->le_audio->browse("Open Audio", "Audio Files (*.ogg)", "", true);
         });
     connect(ui->btn_embed, &QPushButton::clicked, this, [this]() {
-            //struct arguments args = this->getArgs();
-
             SPDLOG_INFO("Reading embed form data");
             
             // Parse Fields
@@ -35,10 +46,6 @@ EmbedWidget::EmbedWidget(QWidget *parent)
             args.sound.tag      = (char*) s_tag.c_str();
             args.sound.dest     = (char*) s_dest.c_str();
 
-            // Prepare data
-            Sound sound = args.sound;
-            Settings settings = { 10, false };
-            Media media = {sound, settings, args};
             SPDLOG_INFO("Embedding Files ...");
             embed(media);
     });

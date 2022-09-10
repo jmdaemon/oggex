@@ -4,7 +4,7 @@ oggex_sources = [
   'extractwidget.cpp',
   'oggex-window.c',
   'oggex-application.c',
-  'main.cpp',
+  'oggex-gtk.cpp',
 ]
 
 oggex_sources += gnome.compile_resources('oggex-resources',
