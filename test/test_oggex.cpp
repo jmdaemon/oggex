@@ -99,7 +99,7 @@ TEST_CASE("[Test] format_command returns valid ffmpeg commands") {
 TEST_CASE("[Test] encodeAudio runs ffmpeg command and generates temp.ogg, log.txt") {
   // TODO: Test for exception thrown
   // TODO: Test for audio limit
-  fmt::print("embed_size\n");
+  fmt::print("encodeAudio\n");
   auto path = ls();
   if(path.stem().string() == "extract") {
     chdir("../..");
@@ -135,6 +135,30 @@ TEST_CASE("[Test] encodeAudio runs ffmpeg command and generates temp.ogg, log.tx
   }
 }
 
-/**
-  * - extract
-  */
+TEST_CASE("[Test] extract ") {
+  fmt::print("extract\n");
+  auto path = ls();
+  if (path.stem().string() == "embed") {
+    chdir("../..");
+    chdir("samples/extract");
+    path = ls();
+    if (path.stem().string() != "extract") {
+      fmt::print("Not in correct directory for encodeAudio test");
+      exit(1);
+    }
+  } else if (path.stem().string() != "extract") {
+    chdir("samples/extract");
+  }
+
+  Sound sound = { .image = (char*) EMBED_FILE.c_str() };
+  Settings settings = {10, false};
+  struct arguments args = { .nolimit = true };
+  Media media = { sound, settings, args};
+  
+  extract(media);
+
+  CHECK(file_exists(AUDIO_FILE.c_str()));
+  CHECK(file_exists(IMAGE_FILE.c_str()));
+  remove(AUDIO_FILE.c_str());
+  remove(IMAGE_FILE.c_str());
+}
