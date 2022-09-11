@@ -1,6 +1,13 @@
 # Copy needed test files to build directory
 copy = find_program('copy.py')
 
+# Configure binary paths for oggex integration tests
+#oggex_int_hdr = configuration_data()
+#oggex_int_hdr.set('OGGEX_BIN', project_version[0])
+#configure_file(input : 'oggex_int.h.in',
+                        #output : 'oggex_int.h',
+                        #configuration : oggex_int_hdr)
+
 run_command(
     copy,
     '../LICENSE',

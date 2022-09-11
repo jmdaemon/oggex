@@ -36,5 +36,5 @@ executable('oggex-bin',
         dependencies: [dep_cli, dep_oggex, dep_ogx, deps],
         install: true)
 
-#subdir(qt)
+subdir('qt')
 subdir('gtk')
