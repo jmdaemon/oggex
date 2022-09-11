@@ -16,11 +16,6 @@ G_DEFINE_TYPE_WITH_PRIVATE(FileChooserButton, filechooserbutton, GTK_TYPE_BUTTON
 static void filechooserbutton_class_init (FileChooserButtonClass *klass) {
   GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
   gtk_widget_class_set_template_from_resource (widget_class, UI_FILE_CHOOSER_BUTTON);
-
-  /* TODO: Free resource in oggex window destructor */
-  /*const char* resource = "/io/github/com/jmdaemon/oggex/../../../resources/gtk/filechooserbutton.ui";*/
-
-  /*free(resource);*/
 }
 
 static void filechooserbutton_init (FileChooserButton *self) {
