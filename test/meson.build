@@ -3,14 +3,9 @@ copy = find_program('copy.py')
 
 # Configure binary paths for oggex integration tests
 oggex_int_hdr = configuration_data()
-
-#oggex_int_hdr.set('OGGEX_BIN', 'app/oggex-bin')
-#oggex_int_hdr.set('OGGEX_GTK', 'app/qt/oggex-gtk')
-#oggex_int_hdr.set('OGGEX_QT', 'app/qt/oggex-qt')
 oggex_int_hdr.set('OGGEX_BIN', '../../app/oggex-bin')
 oggex_int_hdr.set('OGGEX_GTK', '../../app/gtk/src/oggex-gtk')
 oggex_int_hdr.set('OGGEX_QT', '../../app/qt/oggex-qt')
-
 configure_file(
     input : 'oggex_int.h.in',
     output : 'oggex_int.h',

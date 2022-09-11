@@ -4,6 +4,15 @@ set(TARGET oggex)
 
 file(COPY ../LICENSE DESTINATION ${CMAKE_BINARY_DIR})
 
+# Configure binary paths for integration tests
+set(OGGEX_BIN ../../app/oggex)
+set(OGGEX_GTK ../../app/gtk/src/oggex-gtk)
+set(OGGEX_QT ../../app/qt/oggex-qt)
+configure_file(
+  "${PROJECT_SOURCE_DIR}/test/oggex_int.h.in"
+  "${PROJECT_BINARY_DIR}/test/oggex_int.h")
+set(HEADERS ${HEADERS} ${PROJECT_BINARY_DIR}/test)
+
 # Add unit tests
 set(TEST_NAME test-${TARGET})
 add_executable(${TEST_NAME} test_oggex.cpp)
