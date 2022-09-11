@@ -1,5 +1,5 @@
 project('oggex', ['c', 'cpp'],
-version: '2.2.2',
+version: '2.3.0',
 subproject_dir: 'meson-subprojects',
 license: 'MIT')
 

@@ -110,4 +110,3 @@ void show_sound(struct arguments args) {
     printf("Dest    : %s\n", args.sound.dest);
     printf("Tag     : %s\n", args.sound.tag);
 }
-
