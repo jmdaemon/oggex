@@ -41,6 +41,7 @@ proj_spdlog = subproject('spdlog')
 spdlog_dep = proj_spdlog.get_variable('spdlog_dep')
 
 proj_doctest = subproject('doctest')
+dep_doctest = proj_doctest.get_variable('doctest_dep')
 
 deps = [ dep_m, dep_pcre, dep_utility, dep_jolly, spdlog_dep ]
 
