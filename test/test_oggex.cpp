@@ -7,6 +7,10 @@
 #include "cli_defs.h"
 #include <filesystem>
 
+#define OGGEX_BIN 
+#define OGGEX_BIN_GTK 
+#define OGGEX_BIN_QT
+
 // Samples
 const static std::string AUDIO_FILE = "audio02.ogg";
 const static std::string IMAGE_FILE = "835127a09fc542aeb3bfa99c9d91972d.png.png";
