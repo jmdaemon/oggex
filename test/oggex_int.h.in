@@ -1,0 +1,12 @@
+#pragma once
+#ifndef OGGEX_INTEGRATION_TESTS_H
+#define OGGEX_INTEGRATION_TESTS_H
+
+#define OGGEX_BIN "@OGGEX_BIN@"
+#define OGGEX_GTK "@OGGEX_GTK@"
+#define OGGEX_QT "@OGGEX_QT@"
+
+//#define OGGEX_BIN_GTK "@OGGEX_BIN_GTK@"
+//#define OGGEX_BIN_QT "@OGGEX_BIN_QT@"
+
+#endif // OGGEX_INTEGRATION_TESTS_H

@@ -5,7 +5,7 @@
 #include <limits.h>
 #include <cstdarg>
 
-//#include "oggex_int.h"
+#include "oggex_int.h"
 
 // Samples
 const static std::string AUDIO_FILE = "audio02.ogg";
@@ -78,18 +78,21 @@ TEST_CASE("Test File Embedding") {
   }
   
   SUBCASE("oggex embed") {
-    auto bin = "../../app/oggex";
-    run_embed_test(bin, audio, image, tag, embed);
+    //auto bin = "../../app/oggex";
+    //run_embed_test(bin, audio, image, tag, embed);
+    run_embed_test(OGGEX_BIN, audio, image, tag, embed);
   }
 
   SUBCASE("oggex-gtk embed") {
-    auto bin = "../../app/gtk/src/oggex-gtk";
-    run_embed_test(bin, audio, image, tag, embed);
+    //auto bin = "../../app/gtk/src/oggex-gtk";
+    //run_embed_test(bin, audio, image, tag, embed);
+    run_embed_test(OGGEX_GTK, audio, image, tag, embed);
   }
 
   SUBCASE("oggex-qt embed") {
-    auto bin = "../../app/qt/oggex-qt";
-    run_embed_test(bin, audio, image, tag, embed);
+    //auto bin = "../../app/qt/oggex-qt";
+    //run_embed_test(bin, audio, image, tag, embed);
+    run_embed_test(OGGEX_QT, audio, image, tag, embed);
   }
 }
 
@@ -108,8 +111,9 @@ TEST_CASE("File Extract Tests") {
   auto embed  = formatPath(cwd, EMBED_FILE);
 
   SUBCASE("oggex extract") {
-    auto bin = "../../app/oggex";
-    run_extract_test(bin, audio, image, embed);
+    //auto bin = "../../app/oggex";
+    //run_extract_test(bin, audio, image, embed);
+    run_extract_test(OGGEX_BIN, audio, image, embed);
   }
 
   //SUBCASE("oggex-gtk extract") {
